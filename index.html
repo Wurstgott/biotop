@@ -1,0 +1,1101 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Biotop"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" sizes="180x180" href="https://wurstgott.github.io/biotop/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="https://wurstgott.github.io/biotop/icon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="https://wurstgott.github.io/biotop/icon-512.png">
+<meta name="theme-color" content="#F1F0EA" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#15161B" media="(prefers-color-scheme: dark)">
+<meta name="copyright" content="© 2026 Carlo Maximilian Engeländer. Alle Rechte vorbehalten.">
+<meta property="og:title" content="Biotop"><meta property="og:description" content="Stück für Stück nachhaltiger leben."><meta property="og:image" content="https://wurstgott.github.io/biotop/icon-512.png"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512"><meta property="og:url" content="https://wurstgott.github.io/biotop/"><meta property="og:type" content="website"><meta property="og:site_name" content="Biotop"><meta name="twitter:card" content="summary">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Biotop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Stück für Stück nachhaltiger leben.">
+<meta name="author" content="Carlo Maximilian Engeländer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ein Risodruck-Heft. Oben die Landschaft als Hauptfigur, darunter gestapelte Druckbögen, unten fünf Register. Farben überdrucken sich wie Riso-Tinten. */
+:root{
+  --paper:#F1F0EA;--sheet:#FBFAF6;--ink:#1D2230;--muted:#5D6270;--line:#D6D4CB;--wash:#E5E3DA;
+  --essen:#FF6C2F;--wohnen:#F2AE00;--wege:#0078BF;--dinge:#FF48B0;--wir:#00A95C;
+  --on:#15171E;--ok:#00875A;--warn:#D9412B;
+  --blend:multiply;--grain:.13;
+  --f-display:"Bricolage Grotesque","Arial Narrow",Impact,sans-serif;
+  --f-body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,sans-serif;
+  --f-mono:"DM Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15161B;--sheet:#1D1F26;--ink:#EDEBE4;--muted:#A2A5AF;--line:#30333D;--wash:#272A33;
+  --essen:#FF8452;--wohnen:#FFC52E;--wege:#3DA2EA;--dinge:#FF6EC4;--wir:#2CC77D;
+  --on:#15171E;--ok:#2CC77D;--warn:#FF7A62;--blend:screen;--grain:.07;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15161B;--sheet:#1D1F26;--ink:#EDEBE4;--muted:#A2A5AF;--line:#30333D;--wash:#272A33;
+  --essen:#FF8452;--wohnen:#FFC52E;--wege:#3DA2EA;--dinge:#FF6EC4;--wir:#2CC77D;
+  --on:#15171E;--ok:#2CC77D;--warn:#FF7A62;--blend:screen;--grain:.07;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:var(--grain);mix-blend-mode:var(--blend);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .35 0 0 0 0 .4 0 0 0 1.2 -.35'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+p{margin:0}
+:focus-visible{outline:2px solid var(--wege);outline-offset:2px}
+[data-a="essen"]{--c:var(--essen)}[data-a="wohnen"]{--c:var(--wohnen)}[data-a="wege"]{--c:var(--wege)}[data-a="dinge"]{--c:var(--dinge)}[data-a="wir"]{--c:var(--wir)}
+
+.app{max-width:600px;margin:0 auto;min-height:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px calc(100px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px}
+
+/* Kopf: Wortmarke im Überdruck */
+header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.wm{border:0;background:none;padding:0;position:relative;display:block;font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:46px;line-height:.82;letter-spacing:-.01em;text-transform:uppercase;cursor:pointer}
+.wm span{display:block;color:var(--wege);mix-blend-mode:var(--blend)}
+.wm span+span{position:absolute;inset:0;color:var(--dinge);transform:translate(3px,2px)}
+.tl{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35}
+.tl b{display:block;color:var(--ink);font-weight:500;font-size:12px}
+
+h2{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 80;font-size:26px;line-height:1.05;letter-spacing:-.005em;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:19px;line-height:1.15;margin:0;text-transform:uppercase;letter-spacing:.01em}
+.label{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.view{display:flex;flex-direction:column;gap:22px}
+.sec{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Landschaft */
+.land{position:relative;border:2px solid var(--ink);background:var(--sheet);box-shadow:6px 6px 0 var(--wir);border-radius:2px;overflow:hidden;cursor:pointer}
+.land canvas{display:block;width:100%;height:clamp(230px,62vw,320px)}
+.landcap{position:absolute;left:10px;top:10px;right:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;pointer-events:none}
+.stage{background:var(--ink);color:var(--paper);font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:20px;text-transform:uppercase;letter-spacing:.02em;padding:2px 9px 1px;line-height:1.1}
+.landcnt{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;background:color-mix(in srgb,var(--sheet) 80%,transparent);padding:3px 7px;text-align:right}
+.landempty{position:absolute;left:12px;right:12px;bottom:12px;font-size:15px;background:var(--sheet);border:1.5px solid var(--ink);padding:8px 11px;pointer-events:none}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);background:var(--sheet)}
+.kpi{padding:10px 10px 9px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.kpi+.kpi{border-left:2px solid var(--ink)}
+.kpi b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:28px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi b small{font-size:15px;font-weight:700;margin-left:2px}
+.kpi span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+
+/* Schnell eintragen */
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qa{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;border:2px solid var(--ink);background:var(--sheet);padding:10px 11px 9px;min-width:0;position:relative;transition:transform .15s cubic-bezier(.2,.7,.2,1),box-shadow .15s}
+.qa::before{content:"";position:absolute;left:-2px;top:-2px;bottom:-2px;width:7px;background:var(--c)}
+.qa{padding-left:16px}
+.qa b{font-weight:700;font-size:15px;line-height:1.25}
+.qa span{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.qa:active{transform:translate(2px,2px)}
+@media (hover:hover){.qa:hover{box-shadow:3px 3px 0 var(--c)}}
+
+/* Karten und Bögen */
+.card{background:var(--sheet);border:2px solid var(--ink);border-radius:2px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;box-shadow:6px 6px 0 var(--c,var(--wege))}
+.plain{background:var(--sheet);border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;mix-blend-mode:var(--blend)}
+.ev{display:inline-flex;gap:3px;align-items:center}
+.ev i{width:8px;height:8px;border:1.5px solid var(--ink);display:block}
+.ev i.on{background:var(--ink)}
+.ev em{font-style:normal;margin-left:5px}
+.bite h2{font-size:30px}
+.bite .body{font-size:18px;max-width:62ch}
+.caveat{font-family:var(--f-mono);font-size:12.5px;line-height:1.55;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.tip{background:color-mix(in srgb,var(--c) 22%,var(--sheet));padding:12px 14px;font-weight:600}
+.tip b{display:block;font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.src{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.src a{color:var(--ink);text-underline-offset:3px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.btn{border:2px solid var(--ink);background:transparent;padding:9px 15px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:16px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em;transition:transform .15s,box-shadow .15s,background-color .2s}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.go{background:var(--c,var(--wege));border-color:var(--ink);color:var(--on)}
+.btn:active:not(:disabled){transform:translate(2px,2px)}
+@media (hover:hover){.btn:hover:not(:disabled){box-shadow:3px 3px 0 var(--c,var(--dinge))}}
+.btn:disabled{opacity:.4;cursor:default}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.linkbtn{border:0;background:none;padding:0;font-size:14px;text-decoration:underline;text-underline-offset:3px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--ink);background:var(--sheet);padding:5px 11px;font-size:14px;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* Bereichswahl als Tintenfelder */
+.inks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.inks.six{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.inks.six .ink{font-size:11px}
+.ink{overflow-wrap:anywhere}
+.ink{border:2px solid var(--ink);background:var(--sheet);padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 75;font-size:12.5px;text-transform:uppercase;line-height:1.05;text-align:center;min-width:0}
+.ink i{width:22px;height:22px;border-radius:50%;background:var(--c,conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0));mix-blend-mode:var(--blend);transition:transform .35s cubic-bezier(.34,1.5,.5,1)}
+.ink[aria-pressed="true"]{background:var(--c,var(--ink));color:var(--on)}
+.ink[aria-pressed="true"]:not([data-a]){color:var(--paper)}
+.ink[aria-pressed="true"] i{background:var(--sheet);transform:scale(.7)}
+
+/* Eintragsliste */
+.acts{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.act{display:flex;align-items:center;gap:12px;padding:12px 2px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%;min-width:0}
+.act .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.act .tx b{font-weight:600;font-size:16px;line-height:1.3}
+.act .tx small{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.act .kg{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.act .plus{width:30px;height:30px;flex:none;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:20px;line-height:1;background:var(--sheet);position:relative}
+.act .plus::after{content:"";position:absolute;inset:3px;background:var(--c);mix-blend-mode:var(--blend);opacity:0;transition:opacity .2s}
+.act:active .plus::after{opacity:1}
+.act.on .plus{background:var(--c);color:var(--on)}
+.cnt{font-family:var(--f-mono);font-size:11px;background:var(--c);color:var(--on);padding:1px 6px}
+.state{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
+
+.entries{display:flex;flex-direction:column;gap:0}
+.en{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.en .tx{flex:1;min-width:0}
+.en small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.x{border:1.5px solid var(--line);background:none;width:28px;height:28px;flex:none;font-size:15px;color:var(--muted)}
+
+/* Aufklapper */
+.fold{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.fold summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 2px;cursor:pointer;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:17px;text-transform:uppercase}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary>span:first-child{flex:1}
+.fold summary::after{content:"+";font-family:var(--f-mono);font-size:20px;line-height:1;transition:transform .3s}
+.fold[open] summary::after{transform:rotate(45deg)}
+.fold>div{padding:4px 2px 16px}
+.list{display:flex;flex-direction:column}
+.li{display:flex;gap:10px;align-items:center;padding:11px 2px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%;min-width:0}
+.li .tx{flex:1;min-width:0}
+.li .tx b{font-weight:600;font-size:15.5px;display:block;line-height:1.3}
+.li .tx small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.li .aside{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* Register Wissen */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
+.seg button{border:0;background:var(--sheet);padding:9px 4px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 80;font-size:14px;text-transform:uppercase;line-height:1.1}
+.seg button+button{border-left:2px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pull{display:grid;place-items:center;gap:10px;padding:24px 10px;text-align:center}
+.stampbtn{width:150px;height:150px;border-radius:50%;border:0;position:relative;background:transparent;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:22px;text-transform:uppercase;line-height:1;color:var(--ink);isolation:isolate}
+.stampbtn::before,.stampbtn::after{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:var(--blend);z-index:-1}
+.stampbtn::before{background:var(--wohnen);transform:translate(-5px,-3px)}
+.stampbtn::after{background:radial-gradient(var(--dinge) 1.3px,transparent 1.6px) 0 0/6px 6px;transform:translate(5px,4px)}
+.stampbtn:active{transform:scale(.96)}
+.duel .opts{display:flex;flex-direction:column;gap:8px}
+.opt{border:2px solid var(--ink);background:var(--sheet);text-align:left;padding:12px 14px;font-size:16px;line-height:1.35;display:flex;flex-direction:column;gap:6px}
+.opt.eq{font-family:var(--f-mono);font-size:13px;text-align:center;align-items:center;padding:9px}
+.opt.right{border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)}
+.opt.wrong{border-color:var(--warn);opacity:.8}
+.bar{height:12px;background:var(--wash);position:relative}
+.bar span{position:absolute;left:0;top:0;bottom:0;background:var(--c,var(--wege));mix-blend-mode:var(--blend)}
+.fb{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 80;font-size:20px;text-transform:uppercase}
+.fb.ok{color:var(--ok)}.fb.no{color:var(--warn)}
+.boxes{display:inline-flex;gap:3px}
+.boxes b{width:6px;height:14px;background:var(--line)}
+.boxes b.on{background:var(--c)}
+.tdef{font-size:15.5px;padding:0 2px 12px 22px;display:flex;flex-direction:column;gap:4px}
+.tdef em{color:var(--muted)}
+.stufen{display:flex;height:12px;border:2px solid var(--ink)}
+.stufen span{display:block;height:100%}
+
+/* Missionen */
+.mis{border-left:8px solid var(--c)}
+.dur{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-size:16px}
+.days{display:flex;flex-wrap:wrap;gap:4px}
+.days i{width:14px;height:14px;border:1.5px solid var(--ink)}
+.days i.on{background:var(--c)}
+.days i.today{outline:2px solid var(--c);outline-offset:1px}
+.nudge{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:2px solid var(--ink);background:var(--sheet);padding:9px 12px;font-size:14.5px}
+.nudge>span:nth-child(2){flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nudge b{font-weight:700}
+
+/* Saison */
+.saison{display:flex;flex-wrap:wrap;gap:6px}
+.saison span{border:1.5px solid var(--ink);padding:3px 9px;font-size:14px;background:var(--sheet)}
+.saison span:nth-child(5n+1){box-shadow:3px 3px 0 var(--essen)}.saison span:nth-child(5n+2){box-shadow:3px 3px 0 var(--wir)}.saison span:nth-child(5n+3){box-shadow:3px 3px 0 var(--wohnen)}.saison span:nth-child(5n+4){box-shadow:3px 3px 0 var(--dinge)}.saison span:nth-child(5n){box-shadow:3px 3px 0 var(--wege)}
+
+/* Jahr */
+.fp{display:flex;flex-direction:column;gap:10px}
+.fprow{display:grid;grid-template-columns:108px 1fr 52px;gap:10px;align-items:center;font-size:14px}
+.fprow .track{height:16px;position:relative;background:var(--wash)}
+.fprow .track span{position:absolute;top:0;bottom:0;left:0;background:var(--c);mix-blend-mode:var(--blend)}
+.fprow .track i{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.fprow em{font-style:normal;font-family:var(--f-mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.bigt{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:64px;line-height:.9;font-variant-numeric:tabular-nums}
+.bigt small{font-size:24px;margin-left:4px}
+.cmp{display:flex;flex-direction:column;gap:6px;font-family:var(--f-mono);font-size:12px}
+.cmp div{display:grid;grid-template-columns:120px 1fr 44px;gap:8px;align-items:center}
+.cmp .t{height:10px;background:var(--ink)}
+.rings{display:grid;place-items:center}
+.rings svg{width:100%;max-width:330px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week div{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.week .col{width:100%;height:56px;background:var(--wash);display:flex;flex-direction:column-reverse}
+.week .col span{display:block;background:var(--c);mix-blend-mode:var(--blend)}
+textarea,input[type=text],input[type=number],input[type=time],select{width:100%;border:2px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);font:inherit;font-size:16px;padding:9px 11px}
+textarea{min-height:84px;resize:vertical}
+input[type=time]{width:auto;font-family:var(--f-mono)}
+.empty{font-size:15px;color:var(--muted);border:2px dashed var(--line);padding:14px}
+.moms{display:flex;flex-wrap:wrap;gap:8px}
+.mom{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);padding:5px 11px 5px 7px;font-size:13.5px;background:var(--sheet)}
+.mom i{width:14px;height:14px;border-radius:50%;background:conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0)}
+.about{display:flex;flex-direction:column;gap:10px;font-size:15.5px}
+.footcredit{text-align:center;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+
+/* Register */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--sheet);border-top:2px solid var(--ink);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
+nav.tabs .in{max-width:600px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.tabs button{border:0;background:none;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 75;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);position:relative}
+nav.tabs svg{width:22px;height:22px}
+nav.tabs button[aria-current="page"]{color:var(--ink)}
+nav.tabs button[aria-current="page"]::before{content:"";position:absolute;left:22%;right:22%;top:-2px;height:5px;background:var(--tc,var(--wege))}
+nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;height:16px;background:var(--dinge);color:var(--on);font-family:var(--f-mono);font-size:10px;line-height:16px;padding:0 4px}
+
+/* Blatt */
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(10,12,18,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet .panel{background:var(--sheet);width:100%;max-width:600px;max-height:90%;overflow:auto;border-top:3px solid var(--ink);padding:18px max(18px,env(safe-area-inset-left,0px)) calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
+.close{align-self:flex-end;border:1.5px solid var(--ink);background:none;padding:4px 10px;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.opts2{display:flex;flex-direction:column;gap:8px}
+.opts2 button{border:2px solid var(--ink);background:var(--sheet);text-align:left;padding:11px 13px;font-size:16px}
+.opts2 button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.qprog{height:6px;background:var(--wash)}
+.qprog span{display:block;height:100%;background:var(--dinge)}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--paper);padding:9px 10px 9px 14px;font-size:14.5px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px);width:max-content;box-shadow:4px 4px 0 var(--dinge)}
+.toast button{border:1.5px solid var(--paper);background:none;color:var(--paper);padding:3px 8px;font-family:var(--f-mono);font-size:12px;text-transform:uppercase}
+.moment{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:color-mix(in srgb,var(--paper) 70%,transparent)}
+.mcard{max-width:360px;width:100%;background:var(--sheet);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--dinge);padding:26px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.mseal{width:84px;height:84px;position:relative;isolation:isolate}
+.mseal::before,.mseal::after{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:var(--blend);z-index:-1}
+.mseal::before{background:var(--wohnen);transform:translate(-4px,-3px)}
+.mseal::after{background:radial-gradient(var(--wege) 1.3px,transparent 1.6px) 0 0/5px 5px;transform:translate(4px,3px)}
+.mok{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:var(--sheet);margin-top:6px;position:relative}
+.mok::after{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--wir);mix-blend-mode:var(--blend)}
+
+/* Stempel-Effekt */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:45;overflow:hidden}
+.stamp{position:fixed;border-radius:50%;mix-blend-mode:var(--blend)}
+
+@media (prefers-reduced-motion:no-preference){
+ #main.anim .view>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+ #main.anim .view>*:nth-child(2){animation-delay:.05s}#main.anim .view>*:nth-child(3){animation-delay:.1s}#main.anim .view>*:nth-child(4){animation-delay:.15s}#main.anim .view>*:nth-child(n+5){animation-delay:.2s}
+ .toast{animation:tin .3s cubic-bezier(.2,.8,.2,1) both}
+ .mcard{animation:mIn .55s cubic-bezier(.2,.9,.25,1.2) both}
+ .opt.right{animation:press .4s}
+ .wm span+span{animation:reg 1.4s cubic-bezier(.2,.8,.2,1) both}
+}
+@media (prefers-reduced-motion:reduce){.sheet .panel{animation:none}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes up{from{transform:translateY(40px);opacity:.5}}
+@keyframes tin{from{opacity:0;transform:translate(-50%,10px)}}
+@keyframes mIn{from{opacity:0;transform:scale(.88) rotate(-2deg)}}
+@keyframes press{40%{transform:translate(3px,3px)}}
+@keyframes reg{from{transform:translate(14px,9px);opacity:0}}
+@media (max-width:380px){.wm{font-size:40px}.kpi b{font-size:23px}.fprow{grid-template-columns:90px 1fr 46px}.cmp div{grid-template-columns:100px 1fr 40px}.ink{font-size:11px}}
+
+</style>
+</head><body>
+<div class="app" id="app">
+  <header class="top">
+    <button class="wm" id="home" aria-label="Biotop, zur Landschaft"><span>Biotop</span><span aria-hidden="true">Biotop</span></button>
+    <div class="tl" id="tl" aria-live="polite"></div>
+  </header>
+  <main id="main"></main>
+</div>
+<nav class="tabs" aria-label="Bereiche"><div class="in" id="tabs"></div></nav>
+<div id="layer"></div>
+<script>
+/* Inhalte von „Biotop“. Stand der Recherche: Oktober 2026.
+   Alle Kilogramm-Werte sind gerundete Richtwerte in CO₂-Äquivalenten. Sie sollen Größenordnungen zeigen, nicht auf das Gramm genau messen.
+   Grundlagen: Umweltbundesamt (CO₂-Rechner, Emissionsdaten Verkehr), ifeu (Lebensmittel 2020), Ivanova et al. 2020, Poore & Nemecek 2018.
+   ev: 3 = gut belegt, 2 = solide, 1 = vorläufig, 0 = Denkanstoß */
+const SCH=q=>"https://scholar.google.com/scholar?q="+encodeURIComponent(q);
+const AREAS={
+  essen:{n:"Essen",s:"Essen",d:"Was auf den Teller kommt und was übrig bleibt"},
+  wohnen:{n:"Wohnen & Energie",s:"Wohnen",d:"Heizen, Strom, Wohnfläche"},
+  wege:{n:"Unterwegs",s:"Wege",d:"Alltagswege, Reisen, Fliegen"},
+  dinge:{n:"Dinge",s:"Dinge",d:"Kaufen, Reparieren, Teilen"},
+  wir:{n:"Gemeinschaft",s:"Gemeinsam",d:"Nachbarschaft, Teilen, gemeinsam handeln"}
+};
+const EV=["Denkanstoß","Vorläufig","Solide","Gut belegt"];
+
+/* Einträge: k = kg pro Mal (kleine Schritte), y = kg pro Jahr (dauerhafte Änderungen), w = zählt als Begegnung */
+const ACTS=[
+{id:"veg_tag",a:"essen",t:"Ein Tag vegetarisch",k:2,n:"Verglichen mit einem Tag mit durchschnittlich viel Fleisch."},
+{id:"vegan_tag",a:"essen",t:"Ein Tag vegan",k:2.8,n:"Verglichen mit einem durchschnittlichen Tag."},
+{id:"linsen",a:"essen",t:"Hülsenfrüchte statt Rindfleisch",k:2.6,n:"200 g Rindfleisch verursachen rund 2,7 kg, eine Portion Linsen rund 0,1 kg."},
+{id:"hafer",a:"essen",t:"Pflanzendrink statt Kuhmilch, ein Glas",k:0.2,n:"Ein Liter Kuhmilch liegt bei rund 1,4 kg, Haferdrink bei rund 0,3 kg."},
+{id:"retten",a:"essen",t:"Rund 1 kg Lebensmittel gerettet",k:1.5,n:"Mittelwert über typische Lebensmittel. Bei Fleisch und Käse ist es deutlich mehr."},
+{id:"reste",a:"essen",t:"Aus Resten gekocht",k:0.8,n:"Eine Mahlzeit, für die nichts neu gekauft werden musste."},
+{id:"saison",a:"essen",t:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,n:"Grobe Schätzung pro Einkauf. Flugware und beheizte Gewächshäuser sind die großen Ausreißer."},
+{id:"leitung",a:"essen",t:"Leitungswasser statt Flaschenwasser, 1 Liter",k:0.2,n:"Flaschenwasser liegt je nach Transport bei rund 0,2 kg pro Liter, Leitungswasser fast bei null."},
+{id:"veg_dauer",a:"essen",g:1,t:"Dauerhaft vegetarisch",y:450,n:"Mittelwert aus mehreren Studien. Je nachdem, was das Fleisch ersetzt, sind es 300 bis 700 kg im Jahr."},
+{id:"vegan_dauer",a:"essen",g:1,t:"Dauerhaft vegan",y:800,n:"Rund 0,6 bis 1 Tonne im Jahr, je nach vorheriger Ernährung."},
+{id:"fleisch_halb",a:"essen",g:1,t:"Fleisch dauerhaft halbiert",y:250,n:"Etwa die Hälfte des Effekts einer vegetarischen Ernährung."},
+{id:"foodcoop",a:"essen",g:1,w:1,t:"Mitglied einer Solawi oder Foodcoop",y:60,n:"Der Klimaeffekt ist eher klein. Wichtiger sind weniger Verschwendung, Saisonalität und die Gemeinschaft."},
+
+{id:"leine",a:"wohnen",t:"Wäsche an der Luft getrocknet",k:1,n:"Ein Trocknergang braucht rund 2,5 kWh Strom."},
+{id:"kalt",a:"wohnen",t:"Bei 30 statt 60 Grad gewaschen",k:0.3,n:"Der größte Teil des Waschstroms geht ins Aufheizen."},
+{id:"dusche",a:"wohnen",t:"Kürzer oder kühler geduscht",k:0.3,n:"Zwei Minuten weniger heißes Wasser, mit Gas erwärmt."},
+{id:"lueften",a:"wohnen",t:"Stoßgelüftet statt gekippt, ein Heiztag",k:0.4,n:"Grobe Schätzung. Gekippte Fenster kühlen die Wände aus."},
+{id:"standby",a:"wohnen",t:"Geräte ganz ausgeschaltet, ein Tag",k:0.05,n:"Ein kleiner Schritt. Er zeigt, wie viel größer Heizen und Wohnfläche sind."},
+{id:"deckel",a:"wohnen",t:"Mit Deckel gekocht",k:0.05,n:"Spart rund ein Drittel der Energie beim Kochen, absolut aber wenig."},
+{id:"grad",a:"wohnen",g:1,t:"Raumtemperatur um 1 Grad gesenkt",y:110,n:"Ein Grad weniger spart rund 6 % Heizenergie."},
+{id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:300,n:"Gilt für Anbieter, die in neue Anlagen investieren. Bei reinen Zertifikaten ist der Effekt deutlich kleiner."},
+{id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:180,n:"Rund 500 kWh selbst erzeugter Strom im Jahr."},
+{id:"waermepumpe",a:"wohnen",g:1,t:"Heizung auf Wärmepumpe umgestellt",y:1000,n:"Anteil pro Person in einem durchschnittlichen Haushalt mit Gasheizung."},
+{id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
+{id:"kleiner",a:"wohnen",g:1,t:"Weniger Wohnfläche pro Person",y:600,n:"Etwa 20 m² weniger beheizte Fläche pro Person."},
+
+{id:"rad5",a:"wege",t:"5 km Rad oder zu Fuß statt Auto",k:0.85,n:"Ein durchschnittliches Auto verursacht rund 0,17 kg pro Kilometer und Person."},
+{id:"rad10",a:"wege",t:"10 km Rad statt Auto",k:1.7,n:"Rund 0,17 kg pro Kilometer."},
+{id:"oepnv",a:"wege",t:"Bus oder Bahn statt Auto, 10 km",k:1,n:"Der Nahverkehr liegt bei rund 0,07 kg pro Kilometer und Person."},
+{id:"bahn",a:"wege",t:"Bahn statt Auto, 300 km",k:37,n:"Der Fernzug liegt bei rund 0,05 kg pro Kilometer und Person."},
+{id:"bahnflug",a:"wege",t:"Bahn statt Inlandsflug, eine Strecke",k:80,n:"Gerechnet für rund 500 km. Beim Flug sind die Nicht-CO₂-Effekte mitgezählt."},
+{id:"mitfahren",a:"wege",w:1,t:"Fahrgemeinschaft statt allein, 50 km",k:4,n:"Die Hälfte der Fahrt geht auf die andere Person."},
+{id:"wegspar",a:"wege",t:"Eine Autofahrt von 20 km gespart",k:3.4,n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen."},
+{id:"autolos",a:"wege",g:1,t:"Auto abgeschafft",y:1500,n:"Mittelwert. Je nach Fahrleistung sind es 1 bis 3 Tonnen im Jahr."},
+{id:"eauto",a:"wege",g:1,t:"Verbrenner durch E-Auto ersetzt",y:900,n:"Mit heutigem Strommix und eingerechneter Batterieherstellung."},
+{id:"pendeln",a:"wege",g:1,t:"Pendeln mit Bus und Bahn statt Auto",y:600,n:"Gerechnet für rund 20 km Arbeitsweg an 200 Tagen."},
+{id:"keinflug",a:"wege",g:1,t:"Auf die jährliche Fernreise im Flugzeug verzichtet",y:2500,n:"Eine Langstrecke hin und zurück, mit Nicht-CO₂-Effekten."},
+{id:"lastenrad",a:"wege",g:1,t:"Lastenrad statt Zweitwagen",y:800,n:"Gerechnet für einen wenig gefahrenen Zweitwagen."},
+
+{id:"kleid",a:"dinge",t:"Ein Kleidungsstück gebraucht statt neu",k:10,n:"Ein T-Shirt liegt bei rund 5 kg, ein Pullover deutlich höher."},
+{id:"jeans",a:"dinge",t:"Eine Jeans gebraucht statt neu",k:25,n:"Herstellung einer Jeans rund 25 kg."},
+{id:"repariert",a:"dinge",t:"Etwas repariert statt ersetzt",k:15,n:"Mittelwert für kleinere Geräte und Gegenstände."},
+{id:"handyrep",a:"dinge",t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung."},
+{id:"laptop",a:"dinge",t:"Laptop gebraucht statt neu",k:200,n:"Herstellung eines Laptops rund 200 bis 300 kg."},
+{id:"geliehen",a:"dinge",w:1,t:"Gerät geliehen statt gekauft",k:15,n:"Grobe Schätzung für ein Werkzeug oder Küchengerät."},
+{id:"nichtgekauft",a:"dinge",t:"Einen Spontankauf gelassen",k:3,n:"Grober Mittelwert für kleine Spontankäufe."},
+{id:"weiter",a:"dinge",t:"Etwas weitergegeben statt weggeworfen",k:5,n:"Wenn jemand anderes dadurch nichts neu kaufen muss."},
+{id:"handylang",a:"dinge",g:1,t:"Smartphone mindestens ein Jahr länger nutzen",y:20,n:"Die Herstellung verteilt sich auf mehr Jahre."},
+{id:"nurgebraucht",a:"dinge",g:1,t:"Kleidung nur noch gebraucht",y:150,n:"Bei durchschnittlichem Kleidungskauf."},
+{id:"werbung",a:"dinge",g:1,t:"Werbung abbestellt, Briefkasten und Newsletter",y:10,n:"Der direkte Effekt ist klein. Der größere Effekt sind weniger geweckte Wünsche."},
+
+{id:"mahlzeit",a:"wir",w:1,t:"Gemeinsam gekocht oder gegessen",k:0.3,n:"Gemeinsames Kochen spart etwas Energie. Wichtiger ist die Gemeinschaft."},
+{id:"einsatz",a:"wir",w:1,t:"Bei einem Arbeitseinsatz mitgemacht",k:0,n:"Gemeinsam bauen, ernten, renovieren."},
+{id:"kreis",a:"wir",w:1,t:"Bei einem Plenum oder Gesprächskreis dabei gewesen",k:0,n:"Gemeinsam entscheiden ist eine Übung, die mit der Zeit leichter wird."},
+{id:"geteilt",a:"wir",w:1,t:"Etwas im Haus oder in der Gruppe geteilt",k:5,n:"Ein geteiltes Gerät muss nur einmal hergestellt werden."},
+{id:"verliehen",a:"wir",w:1,t:"Etwas verliehen",k:5,n:"Grobe Schätzung für einen vermiedenen Neukauf."},
+{id:"tausch",a:"wir",w:1,t:"Bei einer Tauschparty gewesen",k:15,n:"Gerechnet für ein bis zwei getauschte Kleidungsstücke."},
+{id:"geholfen",a:"wir",w:1,t:"Jemandem aus der Nachbarschaft geholfen",k:0,n:"Nachbarschaftshilfe ist die Grundlage jeder Gemeinschaft."},
+{id:"genossenschaft",a:"wir",g:1,w:1,t:"Mitglied einer Wohn- oder Energiegenossenschaft",y:100,n:"Der direkte Effekt hängt vom Projekt ab. Genossenschaften machen gemeinsames Eigentum möglich."},
+{id:"carsharing",a:"wir",g:1,w:1,t:"Auto mit anderen geteilt",y:700,n:"Ein geteiltes Auto ersetzt oft mehrere private Autos."},
+{id:"gemeinschaft",a:"wir",g:1,w:1,t:"In eine Gemeinschaft oder ein Wohnprojekt gezogen",y:2000,n:"Sehr unterschiedlich je nach Projekt. Gemeinsame Räume, Geräte und Mahlzeiten senken den Verbrauch oft deutlich."},
+];
+
+const BITES=[
+{id:"hebel",a:"wege",ev:3,t:"Die großen Hebel sind wenige",
+ x:"Eine Übersicht über Studien zu Konsumentscheidungen in Europa und Nordamerika fand: Die größten Einsparungen bringen ein Leben ohne Auto, weniger Langstreckenflüge, erneuerbare Energie zu Hause, bessere Dämmung und eine pflanzliche Ernährung. Jede dieser Änderungen spart rund eine halbe bis zwei Tonnen im Jahr.",
+ c:"Systematische Übersicht über 53 Studien. Die Werte gelten für Haushalte in reichen Ländern.",
+ src:"Ivanova et al. (2020), Environmental Research Letters",u:SCH("Ivanova Barrett Wiedenhofer Macura Callaghan Creutzig 2020 quantifying the potential for climate change mitigation of consumption options"),
+ tip:"Es lohnt sich, einmal die großen Brocken anzuschauen, bevor man an den kleinen feilt.",term:"co2e",mis:"hebelcheck"},
+{id:"unterschaetzt",a:"dinge",ev:2,t:"Wir verschätzen uns bei den Hebeln",
+ x:"In Befragungen überschätzen Menschen die Wirkung von Recycling, Plastiktüten und dem Ausschalten von Licht. Die Wirkung von Flügen, Fleisch und Autofahrten unterschätzen sie dagegen deutlich.",
+ c:"Mehrere Befragungsstudien in verschiedenen Ländern.",
+ src:"Wynes, Zhao & Donner (2020), Climatic Change",u:SCH("Wynes Zhao Donner 2020 how well do people understand the climate impact of individual actions"),
+ tip:"Darum gibt es hier das Quiz „Was spart mehr?“. Gefühle für Größenordnungen kann man üben.",term:"co2e"},
+{id:"teller",a:"essen",ev:3,t:"Was auf dem Teller liegt, zählt mehr als woher es kommt",
+ x:"Eine riesige Auswertung von rund 38.000 Höfen weltweit zeigt: Bei den meisten Lebensmitteln macht der Transport nur einen kleinen Teil der Emissionen aus. Entscheidend ist, was man isst. Rindfleisch verursacht pro Kilogramm Eiweiß ein Vielfaches von Erbsen oder Bohnen, selbst wenn es vom Hof nebenan kommt.",
+ c:"Die umfassendste Datensammlung zu Lebensmitteln, die es gibt. Ausnahme: Flugware hat einen großen Transportanteil.",
+ src:"Poore & Nemecek (2018), Science",u:SCH("Poore Nemecek 2018 reducing food's environmental impacts through producers and consumers"),
+ tip:"Regional ist schön. Wenig Fleisch und Milchprodukte sind aber meist der größere Schritt.",term:"lca",mis:"veg5"},
+{id:"flugware",a:"essen",ev:2,t:"Flugware ist der Ausreißer",
+ x:"Frische Ware, die per Flugzeug kommt, etwa Spargel aus Peru oder Beeren im Winter, hat einen vielfach höheren Fußabdruck als Ware per Schiff oder Lkw. Leider steht das selten auf der Verpackung.",
+ c:"Gut belegt in Ökobilanzen. Erkennen lässt es sich oft nur über die Saison und das Herkunftsland.",
+ src:"Poore & Nemecek (2018); ifeu (2020), Ökologische Fußabdrücke von Lebensmitteln",u:SCH("ifeu 2020 ökologische Fußabdrücke von Lebensmitteln und Gerichten in Deutschland"),
+ tip:"Frische, empfindliche Ware von weit her außerhalb der Saison ist meist geflogen.",term:"saison",mis:"saisonmonat"},
+{id:"gewaechshaus",a:"essen",ev:1,t:"Regional im Winter kann schlechter sein",
+ x:"Tomaten aus einem beheizten Gewächshaus in Deutschland können im Winter einen höheren Fußabdruck haben als Freilandtomaten aus Südeuropa, die per Lkw kommen. Auch Äpfel aus monatelangem Kühllager sind im Frühsommer nicht immer besser als Äpfel per Schiff.",
+ c:"Einzelne Ökobilanzen, die Ergebnisse hängen stark von Energiequelle und Lagerzeit ab.",
+ src:"ifeu (2020); Blanke & Burdick (2005)",u:SCH("Blanke Burdick 2005 food (miles) for thought energy balance for locally-grown versus imported apple fruit"),
+ tip:"Die einfachste Regel bleibt: essen, was gerade draußen wächst.",term:"saison",mis:"saisonmonat"},
+{id:"verschwendung",a:"essen",ev:2,t:"Ein Großteil der Verschwendung passiert zu Hause",
+ x:"In Deutschland landen jedes Jahr rund 11 Millionen Tonnen Lebensmittel im Müll. Knapp 60 % davon entfallen auf private Haushalte, im Schnitt rund 78 kg pro Person. Mit jedem weggeworfenen Lebensmittel waren auch Anbau, Transport und Kühlung umsonst.",
+ c:"Erhebung des Thünen-Instituts für das Jahr 2020, gemeldet an die EU.",
+ src:"Thünen-Institut / Destatis (2022)",u:SCH("Thünen Lebensmittelabfälle Deutschland Baseline 2020 private Haushalte 78 kg"),
+ tip:"Ein Blick in den Kühlschrank vor dem Einkauf ist eine der wirksamsten Klimahandlungen im Alltag.",mis:"restewoche"},
+{id:"milch",a:"essen",ev:2,t:"Käse ist ein unterschätzter Brocken",
+ x:"Käse braucht viel Milch: Für ein Kilogramm Hartkäse sind es rund zehn Liter. Deshalb liegt Käse pro Kilogramm in einer ähnlichen Größenordnung wie Schweinefleisch oder Geflügel. Wer Fleisch weglässt und dafür mehr Käse isst, spart weniger als gedacht.",
+ c:"Gut belegt in Ökobilanzen, die Werte schwanken je nach Herstellung.",
+ src:"ifeu (2020), Ökologische Fußabdrücke von Lebensmitteln",u:SCH("ifeu 2020 ökologische Fußabdrücke von Lebensmitteln Käse Treibhausgas"),
+ tip:"Hülsenfrüchte, Nüsse und Tofu sind gute Eiweißquellen mit kleinem Fußabdruck."},
+{id:"flug",a:"wege",ev:3,t:"Fliegen wirkt etwa dreimal stärker als sein CO₂",
+ x:"Flugzeuge erwärmen das Klima nicht nur durch CO₂. Kondensstreifen und Stickoxide in großer Höhe verstärken die Wirkung. Insgesamt ist die Erwärmung durch den Flugverkehr etwa dreimal so groß wie durch sein CO₂ allein.",
+ c:"Große Übersichtsarbeit in der Atmosphärenforschung. Die Nicht-CO₂-Effekte sind kurzlebig, aber stark.",
+ src:"Lee et al. (2021), Atmospheric Environment",u:SCH("Lee 2021 the contribution of global aviation to anthropogenic climate forcing for 2000 to 2018"),
+ tip:"Eine einzige Fernreise kann mehr ausmachen als ein ganzes Jahr sorgfältiger Alltagsentscheidungen.",term:"nonco2",mis:"bahnplan"},
+{id:"bahnvsflug",a:"wege",ev:3,t:"Der Fernzug liegt bei einem Bruchteil",
+ x:"Nach den Emissionsdaten des Umweltbundesamts verursacht der Fernzug in Deutschland pro Personenkilometer nur einen Bruchteil dessen, was ein Inlandsflug oder ein Auto mit einer Person verursacht.",
+ c:"Offizielle Durchschnittswerte, abhängig von Auslastung und Strommix.",
+ src:"Umweltbundesamt, Emissionsdaten Personenverkehr",u:"https://www.umweltbundesamt.de/themen/verkehr/emissionsdaten",
+ tip:"Für Strecken bis etwa 700 km ist der Zug oft kaum langsamer, wenn man An- und Abreise zum Flughafen mitrechnet.",mis:"bahnplan"},
+{id:"aktivwege",a:"wege",ev:2,t:"Wer aufs Rad umsteigt, fühlt sich besser",
+ x:"In britischen Langzeitdaten fühlten sich Menschen besser, nachdem sie vom Auto auf Fahrrad, Fußweg oder öffentliche Verkehrsmittel umgestiegen waren. Jede zusätzliche Minute im Auto ging mit etwas weniger Wohlbefinden einher.",
+ c:"Große Paneldaten über 18 Jahre, aber Beobachtung, kein Experiment.",
+ src:"Martin, Goryakin & Suhrcke (2014), Preventive Medicine",u:SCH("Martin Goryakin Suhrcke 2014 does active commuting improve psychological wellbeing British Household Panel Survey"),
+ tip:"Der Weg zur Arbeit kann der Teil des Tages sein, an dem man ankommt, bevor man ankommt.",term:"dividende",mis:"radwoche"},
+{id:"grad",a:"wohnen",ev:2,t:"Ein Grad macht sechs Prozent",
+ x:"Jedes Grad weniger Raumtemperatur spart rund 6 % Heizenergie. Heizen ist in deutschen Haushalten der größte Energieverbraucher, deutlich vor Strom.",
+ c:"Faustregel aus der Energieberatung, gut durch Messungen gestützt.",
+ src:"Umweltbundesamt, Energiesparen beim Heizen",u:"https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/heizen-bauen/heizen-raumtemperatur",
+ tip:"Im Schlafzimmer reichen oft 17 Grad. Ein Pullover ist die billigste Heizung.",mis:"eingrad"},
+{id:"wohnflaeche",a:"wohnen",ev:3,t:"Die Wohnfläche ist ein stiller Riese",
+ x:"Die Wohnfläche pro Person in Deutschland ist seit 1990 von rund 35 auf rund 47 m² gestiegen. Mehr Fläche heißt mehr Heizung, mehr Möbel und mehr Baumaterial. Effizientere Heizungen werden dadurch zum Teil wieder aufgefressen.",
+ c:"Amtliche Statistik, der Zusammenhang mit dem Energieverbrauch ist eindeutig.",
+ src:"Statistisches Bundesamt; Umweltbundesamt",u:"https://www.umweltbundesamt.de/daten/private-haushalte-konsum/wohnen/wohnflaeche",
+ tip:"Geteilte Räume wie ein Gästezimmer für das ganze Haus oder eine gemeinsame Werkstatt sind ein großer, leiser Hebel.",term:"suffizienz",mis:"teilenliste"},
+{id:"rebound",a:"wohnen",ev:2,t:"Der Rebound-Effekt frisst einen Teil der Einsparung",
+ x:"Wenn etwas effizienter wird, nutzen wir es oft mehr. Ein sparsameres Auto fährt man weiter, eine gedämmte Wohnung heizt man wärmer. Studien schätzen, dass dadurch ein Teil der möglichen Einsparung verloren geht, je nach Bereich von wenigen Prozent bis zur Hälfte.",
+ c:"Viele Studien mit großer Spannweite, je nach Bereich und Methode.",
+ src:"Sorrell, Gatersleben & Druckman (2020), Energy Research & Social Science",u:SCH("Sorrell Gatersleben Druckman 2020 the limits of energy sufficiency rebound effects"),
+ tip:"Effizienz wirkt am besten zusammen mit der Frage: Wie viel brauche ich eigentlich?",term:"rebound"},
+{id:"default",a:"wohnen",ev:2,t:"Voreinstellungen entscheiden mit",
+ x:"Als ein deutscher Stromanbieter Ökostrom als Standard einstellte, blieben die meisten Kundinnen und Kunden dabei. Wo sie aktiv wechseln mussten, taten es nur wenige. Die Voreinstellung wirkte stärker als jede Überzeugung.",
+ c:"Mehrere Feld- und Laborexperimente.",
+ src:"Ebeling & Lotz (2015), Nature Climate Change",u:SCH("Ebeling Lotz 2015 domestic uptake of green energy promoted by opt-out tariffs"),
+ tip:"Stell dir dein Leben so ein, dass das Gute der einfache Weg ist. Einmal wechseln wirkt jedes Jahr.",term:"default",mis:"stromcheck"},
+{id:"nachbarn_strom",a:"wohnen",ev:3,t:"Der Vergleich mit den Nachbarn spart Strom",
+ x:"Millionen US-Haushalte bekamen Briefe, die ihren Stromverbrauch mit ähnlichen Nachbarn verglichen. Im Schnitt sank ihr Verbrauch um rund 2 %. Das klingt wenig, entspricht aber dem Effekt einer kräftigen Preiserhöhung.",
+ c:"Riesige randomisierte Feldexperimente, oft wiederholt.",
+ src:"Allcott (2011), Journal of Public Economics",u:SCH("Allcott 2011 social norms and energy conservation"),
+ tip:"Was andere tun, prägt uns. Darum wirkt es auch, darüber zu reden, was man selbst ausprobiert.",term:"norm"},
+{id:"solar_ansteckung",a:"wohnen",ev:2,t:"Solaranlagen stecken an",
+ x:"In Kalifornien stieg die Wahrscheinlichkeit für eine neue Solaranlage deutlich, wenn in derselben Postleitzahl schon andere installiert waren. Sichtbare Beispiele in der Nachbarschaft machen Mut.",
+ c:"Große Registerdaten, später in anderen Ländern bestätigt.",
+ src:"Bollinger & Gillingham (2012), Marketing Science",u:SCH("Bollinger Gillingham 2012 peer effects in the diffusion of solar photovoltaic panels"),
+ tip:"Dein Balkonkraftwerk ist auch ein Gesprächsanlass für das ganze Haus.",term:"norm"},
+{id:"handy",a:"dinge",ev:2,t:"Ein Smartphone wird vor allem hergestellt",
+ x:"Bei Smartphones und Laptops entsteht der größte Teil des Fußabdrucks bei der Herstellung, oft rund 80 %. Das Laden über Jahre fällt dagegen kaum ins Gewicht. Jedes Jahr längere Nutzung zählt deshalb viel.",
+ c:"Ökobilanzen von Herstellern und Forschungsinstituten, Werte je nach Modell.",
+ src:"Fraunhofer IZM; Herstellerangaben zu Produkt-Ökobilanzen",u:SCH("smartphone life cycle assessment production share greenhouse gas emissions lifetime extension"),
+ tip:"Ein neuer Akku kostet wenig und kann einem Telefon zwei weitere Jahre schenken.",term:"grau",mis:"repariermonat"},
+{id:"kleidung",a:"dinge",ev:2,t:"Doppelt so viel Kleidung, halb so lang getragen",
+ x:"Weltweit hat sich die Herstellung von Kleidung zwischen 2000 und 2014 etwa verdoppelt. Gleichzeitig wird ein Kleidungsstück im Schnitt deutlich kürzer getragen als früher.",
+ c:"Branchenberichte auf Basis von Produktionsdaten.",
+ src:"Ellen MacArthur Foundation (2017), A New Textiles Economy",u:SCH("Ellen MacArthur Foundation 2017 a new textiles economy redesigning fashion's future"),
+ tip:"Das nachhaltigste Kleidungsstück ist das, das schon im Schrank hängt.",term:"kreislauf",mis:"gebrauchtzuerst"},
+{id:"tuete",a:"dinge",ev:2,t:"Die Baumwolltasche muss oft mit",
+ x:"Eine dänische Ökobilanz verglich Einkaufstaschen. Damit eine Baumwolltasche beim Klima besser abschneidet als eine dünne Plastiktüte, muss man sie dutzende Male benutzen. Beim gesamten Umwelteinfluss sind es noch viel mehr.",
+ c:"Eine gründliche Ökobilanz einer Umweltbehörde, ähnliche Ergebnisse in anderen Studien.",
+ src:"Danish EPA (2018), Life Cycle Assessment of grocery carrier bags",u:SCH("Danish Environmental Protection Agency 2018 life cycle assessment of grocery carrier bags"),
+ tip:"Die beste Tasche ist die, die du schon hast. Und Tüten sind ohnehin ein kleiner Hebel.",term:"lca"},
+{id:"materialismus",a:"dinge",ev:3,t:"Weniger Dinge, nicht weniger Glück",
+ x:"Eine Meta-Analyse über mehr als 250 Stichproben fand: Wer Besitz und Geld als zentrale Lebensziele sieht, ist im Schnitt etwas weniger zufrieden. Wer weniger kauft, verzichtet also oft auf weniger, als er denkt.",
+ c:"Kleiner, aber sehr robuster Zusammenhang.",
+ src:"Dittmar et al. (2014), Journal of Personality and Social Psychology",u:SCH("Dittmar Bond Hurst Kasser 2014 relationship between materialism and personal well-being meta-analysis"),
+ tip:"Frag bei einem Wunsch: Will ich das Ding, oder will ich das Gefühl, das ich mir davon verspreche?",term:"dividende",mis:"kaufpause"},
+{id:"licensing",a:"dinge",ev:1,t:"Ein gutes Gewissen kann nachlässig machen",
+ x:"Manchmal erlauben wir uns nach einer guten Tat eine weniger gute, etwa einen Flug nach dem Ökostrom-Wechsel. Eine Meta-Analyse fand diesen Effekt, aber in späteren Wiederholungen war er deutlich kleiner.",
+ c:"Umstrittener Befund. Der Effekt existiert wohl, ist aber klein und nicht immer da.",
+ src:"Blanken, van de Ven & Zeelenberg (2015), Personality and Social Psychology Bulletin",u:SCH("Blanken van de Ven Zeelenberg 2015 a meta-analytic review of moral licensing"),
+ tip:"Darum zählt dieses Logbuch Schritte, aber keine Ablassbriefe. Ein Baum hier ersetzt keinen Flug.",term:"licensing"},
+{id:"spillover",a:"dinge",ev:2,t:"Ein grüner Schritt führt nicht automatisch zum nächsten",
+ x:"Eine Meta-Analyse fand: Wer eine umweltfreundliche Gewohnheit annimmt, hat danach etwas mehr Absicht für weitere. Ob er sie auch umsetzt, ist weniger klar. Die Effekte waren klein und uneinheitlich.",
+ c:"Meta-Analyse über viele Studien, mit großer Streuung.",
+ src:"Maki et al. (2019), Nature Sustainability",u:SCH("Maki Carrico Raimi Truelove Araujo Yeung 2019 meta-analysis of pro-environmental behaviour spillover"),
+ tip:"Verlass dich nicht auf Schwung. Plane den nächsten Schritt bewusst.",term:"spillover"},
+{id:"einkommen",a:"dinge",ev:2,t:"Gute Absicht, großer Fußabdruck",
+ x:"In einer deutschen Befragung hatten Menschen mit starkem Umweltbewusstsein keinen kleineren Fußabdruck als andere. Entscheidend war vor allem das Einkommen: Wer mehr verdient, wohnt größer, fährt und fliegt mehr.",
+ c:"Eine große Befragung mit sorgfältig berechneten Fußabdrücken, Zusammenhänge.",
+ src:"Moser & Kleinhückelkotten (2018), Environment and Behavior",u:SCH("Moser Kleinhückelkotten 2018 good intents but low impacts diverging importance of motivational and socioeconomic determinants"),
+ tip:"Es geht nicht um ein grünes Selbstbild, sondern um die paar Entscheidungen mit großer Wirkung.",term:"co2e",mis:"hebelcheck"},
+{id:"zehnprozent",a:"wege",ev:2,t:"Die reichsten zehn Prozent",
+ x:"Nach Berechnungen des Stockholm Environment Institute verursachten die reichsten 10 % der Weltbevölkerung zwischen 1990 und 2015 rund die Hälfte der konsumbedingten Emissionen. Die ärmere Hälfte verursachte rund 7 %.",
+ c:"Modellrechnung auf Basis von Einkommens- und Konsumdaten.",
+ src:"Oxfam & SEI (2020), Confronting Carbon Inequality",u:SCH("Oxfam SEI 2020 confronting carbon inequality"),
+ tip:"Viele Menschen in Deutschland gehören weltweit zu den reichsten zehn Prozent. Das ist kein Vorwurf, sondern ein Hebel."},
+{id:"zufrieden",a:"wir",ev:3,t:"Nachhaltig handeln und zufrieden sein gehen zusammen",
+ x:"Eine Meta-Analyse über 78 Studien fand einen durchgehend positiven Zusammenhang zwischen umweltfreundlichem Verhalten und Wohlbefinden. Er war stärker, wenn Menschen bewusst und aus eigener Überzeugung handelten.",
+ c:"Zusammenhang, keine Kausalität. Vermutet wird ein Weg über Sinn und Stimmigkeit.",
+ src:"Zawadzki, Steg & Bouman (2020), Environmental Research Letters",u:SCH("Zawadzki Steg Bouman 2020 meta-analytic evidence for a robust and positive association between pro-environmental behaviors and subjective wellbeing"),
+ tip:"Nachhaltigkeit muss sich nicht nach Verzicht anfühlen. Für viele fühlt sie sich stimmig an.",term:"dividende"},
+{id:"zeitwohlstand",a:"wir",ev:1,t:"Zeit ist nachhaltiger als Geld",
+ x:"Menschen, die das Gefühl haben, genug Zeit zu haben, berichteten in Studien mehr Wohlbefinden und lebten zugleich umweltfreundlicher. Wer nicht hetzt, kocht eher selbst, fährt eher Rad und repariert eher.",
+ c:"Mehrere Befragungen, Zusammenhänge.",
+ src:"Kasser & Sheldon (2009), Journal of Business Ethics",u:SCH("Kasser Sheldon 2009 time affluence as a path toward personal happiness and ethical business practice"),
+ tip:"Die Frage „Was kostet mich das an Lebenszeit?“ ist auch eine Klimafrage.",term:"suffizienz"},
+{id:"kipppunkt",a:"wir",ev:2,t:"Ein Viertel kann reichen",
+ x:"In Experimenten mit Online-Gruppen kippte eine soziale Konvention, sobald etwa 25 % der Gruppe konsequent eine neue Regel vertraten. Darunter änderte sich fast nichts, darüber kippte die ganze Gruppe.",
+ c:"Laborexperimente, die Übertragung auf echte Gesellschaften ist offen.",
+ src:"Centola et al. (2018), Science",u:SCH("Centola Becker Brackbill Baronchelli 2018 experimental evidence for tipping points in social convention"),
+ tip:"Was du vorlebst, zählt mehr, als deine eigenen Kilogramm vermuten lassen.",term:"kipppunkt"},
+{id:"wirksamkeit",a:"wir",ev:1,t:"Gemeinsam statt allein gegen die Klimaangst",
+ x:"In einer Befragung junger Erwachsener ging Klimaangst seltener mit depressiven Symptomen einher, wenn Menschen sich gemeinsam mit anderen engagierten. Allein umgesetzte Maßnahmen zeigten diesen Schutz nicht.",
+ c:"Eine Querschnittsstudie, passt aber zu vielen Befunden über Gemeinschaft.",
+ src:"Schwartz et al. (2022), Current Psychology",u:SCH("Schwartz Benoit Clayton 2022 climate change anxiety and mental health environmental activism as buffer"),
+ tip:"Mit anderen etwas zu bewegen ist wirksam und tröstlich zugleich.",term:"wirksamkeit",mis:"gruppe"},
+{id:"oekodorf",a:"wir",ev:1,t:"Geteiltes Leben, kleinerer Fußabdruck",
+ x:"Für einige Ökodörfer und Lebensgemeinschaften wurden Fußabdrücke deutlich unter dem Landesdurchschnitt berechnet, teils bei der Hälfte oder darunter. Am niedrigsten liegen meist Wohnen, Ernährung und Konsum, also das, was sich teilen lässt. Beim Reisen sind die Unterschiede oft klein.",
+ c:"Einzelne Fallstudien. Wer so lebt, ist vermutlich auch vorher schon anders als der Durchschnitt.",
+ src:"Tinsley & George (2006), Findhorn; Heinrich-Böll-Stiftung (2018) zu Sieben Linden",u:SCH("Tinsley George 2006 ecological footprint of the Findhorn Foundation and community"),
+ tip:"Man muss nicht ins Ökodorf ziehen. Schon geteilte Geräte, Räume oder Autos nutzen dasselbe Prinzip.",term:"suffizienz",mis:"teilenliste"},
+{id:"soziokratie",a:"wir",ev:0,t:"Entscheiden, ohne dass jemand verliert",
+ x:"Viele Gemeinschaften entscheiden nach Konsens oder nach dem Konsent-Prinzip der Soziokratie. Beim Konsent wird nicht gefragt, ob alle begeistert sind, sondern ob jemand einen schwerwiegenden Einwand hat. Einwände werden in die Lösung eingebaut, statt überstimmt zu werden.",
+ c:"Praxiswissen aus Gemeinschaften und Organisationen, wenig systematische Forschung.",
+ src:"Sociocracy For All; eurotopia-Verzeichnis",u:SCH("sociocracy consent decision making intentional communities"),
+ tip:"Du kannst Konsent schon in der WG oder Familie ausprobieren: „Kannst du damit leben?“ statt „Bist du dafür?“.",term:"konsent",mis:"konsent"},
+{id:"teilen",a:"wir",ev:1,t:"Eine Bohrmaschine bohrt im Leben nur Minuten",
+ x:"Viele Geräte im Haushalt werden selten benutzt. Geteilt muss jedes Gerät nur einmal hergestellt werden. Den größten Nutzen hat Teilen, wenn es Neukäufe wirklich ersetzt und nicht neuen Konsum auslöst.",
+ c:"Viele Fallstudien, wenige harte Zahlen. Die Minuten-Angabe ist eine viel zitierte Schätzung.",
+ src:"Studien zu Leihläden und Bibliotheken der Dinge",u:SCH("library of things sharing economy environmental impact study"),
+ tip:"Eine Liste mit Dingen, die das ganze Haus teilt, ist ein einfacher Anfang für Gemeinschaft.",term:"suffizienz",mis:"teilenliste"},
+{id:"fussabdruck_bp",a:"wir",ev:0,t:"Woher der „CO₂-Fußabdruck“ kommt",
+ x:"Den persönlichen CO₂-Fußabdruck machte eine Werbekampagne des Ölkonzerns BP Anfang der 2000er-Jahre bekannt. Kritiker sagen, das lenke von der Verantwortung von Unternehmen und Politik ab. Deshalb gibt es auch den Begriff Handabdruck: Was bewirkst du, indem du Strukturen veränderst?",
+ c:"Historischer Hintergrund. Der Fußabdruck bleibt als Messgröße trotzdem nützlich.",
+ src:"Germanwatch, Handabdruck",u:"https://www.germanwatch.org/de/handabdruck",
+ tip:"Miss deinen Fußabdruck, aber vergiss den Handabdruck nicht.",term:"handabdruck"},
+{id:"ziel",a:"wir",ev:2,t:"Wohin die Reise geht",
+ x:"Der durchschnittliche Fußabdruck in Deutschland liegt bei rund 10 Tonnen pro Person und Jahr. Um die Klimaziele zu erreichen, müsste er langfristig auf unter eine Tonne sinken. Das schafft niemand allein. Ein Teil hängt an Strom, Gebäuden und Verkehr, die nur gemeinsam umgebaut werden.",
+ c:"Richtwerte des Umweltbundesamts, die Zielgröße ist eine Abschätzung.",
+ src:"Umweltbundesamt, CO₂-Rechner",u:"https://uba.co2-rechner.de/",
+ tip:"Halbieren ist für viele Haushalte möglich. Der Rest braucht Politik, Gemeinschaft und Zeit.",term:"co2e",mis:"hebelcheck"},
+{id:"streaming",a:"dinge",ev:2,t:"Streaming ist kleiner als gedacht",
+ x:"Eine Stunde Videostreaming verursacht nach Berechnungen der Internationalen Energieagentur rund 36 Gramm CO₂, ähnlich wie ein paar hundert Meter Autofahrt. Frühere, viel höhere Schätzungen beruhten auf veralteten Annahmen.",
+ c:"Gut nachgerechnet, die Werte hängen vom Gerät und vom Strommix ab.",
+ src:"Kamiya (2020), Internationale Energieagentur",u:"https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines",
+ tip:"Beim Digitalen zählt vor allem, wie oft du neue Geräte kaufst.",term:"grau"},
+{id:"natur",a:"wir",ev:2,t:"Wer sich mit der Natur verbunden fühlt, schützt sie eher",
+ x:"Eine Meta-Analyse über 75 Studien fand einen mittleren Zusammenhang zwischen Naturverbundenheit und umweltfreundlichem Verhalten. Naturerfahrung ist also nicht nur Erholung, sondern auch ein Weg zu mehr Engagement.",
+ c:"Meta-Analyse, vor allem Querschnittsdaten.",
+ src:"Mackay & Schmitt (2019), Journal of Environmental Psychology",u:SCH("Mackay Schmitt 2019 do people who feel connected to nature do more to protect it a meta-analysis"),
+ tip:"Ein gemeinsamer Garten verbindet Natur, Menschen und Essen.",term:"dividende"}
+];
+
+/* Quiz „Was spart mehr?“: Werte in kg CO₂e, gerundet */
+const DUELS=[
+{a:"Ein Jahr lang keine Plastiktüte",ak:3,b:"Einmal Bahn statt Auto auf 300 km",bk:37,x:"Plastiktüten sind ein sehr kleiner Hebel. Eine einzige lange Autofahrt wiegt schwerer als ein Jahr Tütenverzicht."},
+{a:"Ein Jahr Ökostrom",ak:300,b:"Ein Jahr lang einmal pro Woche vegetarisch statt Fleisch",bk:100,x:"Beides lohnt sich. Der Stromwechsel ist ein einziger Schritt mit großer Wirkung."},
+{a:"Eine Langstreckenreise im Flugzeug weniger",ak:2500,b:"Ein Jahr komplett vegan",bk:800,x:"Ein Langstreckenflug hin und zurück wiegt mit seinen Nicht-CO₂-Effekten mehr als ein ganzes Jahr pflanzliche Ernährung."},
+{a:"Eine Jeans gebraucht kaufen",ak:25,b:"100 Gläser Haferdrink statt Kuhmilch",bk:20,x:"Fast gleich. Die Herstellung von Kleidung ist aufwendiger, als man denkt.",eq:1},
+{a:"Ein Jahr jeden Tag eine Stunde weniger streamen",ak:13,b:"Einmal 10 km Rad statt Auto pro Woche, ein Jahr",bk:88,x:"Streaming liegt bei rund 36 Gramm pro Stunde. Das Rad gewinnt deutlich."},
+{a:"Heizung ein Jahr lang 1 Grad kühler",ak:110,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Heizen ist in deutschen Haushalten der größte Energieverbraucher. Standby ist dagegen klein."},
+{a:"Smartphone ein Jahr länger nutzen",ak:20,b:"Laptop gebraucht statt neu kaufen",bk:200,x:"Laptops sind in der Herstellung viel aufwendiger als Smartphones."},
+{a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Ein Kilo Tomaten aus der Region statt aus Spanien",bk:0.1,x:"Was man isst, zählt meist mehr als die Herkunft. Der Lkw-Transport von Tomaten ist klein."},
+{a:"Auto abschaffen",ak:1500,b:"Ein Jahr lang Wäsche an der Luft trocknen",bk:100,x:"Beides ist gut. Das Auto ist einer der größten Einzelhebel überhaupt."},
+{a:"Ein Inlandsflug weniger, eine Strecke",ak:80,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:70,x:"Erstaunlich nah beieinander. Flaschenwasser ist über ein Jahr kein kleiner Posten.",eq:1},
+{a:"Ein Jahr lang wöchentlich 1 kg Lebensmittel retten",ak:78,b:"Ein Jahr lang wöchentlich mit Deckel kochen",bk:3,x:"Lebensmittel tragen den ganzen Aufwand von Anbau, Transport und Kühlung in sich."},
+{a:"Raumtemperatur 1 Grad kühler",ak:110,b:"20 m² weniger Wohnfläche pro Person",bk:600,x:"Die Fläche ist der stille Riese. Was nicht beheizt wird, verbraucht gar nichts."},
+{a:"Käse statt Fleisch",ak:100,b:"Hülsenfrüchte statt Fleisch",bk:450,x:"Käse liegt pro Kilogramm in der Größenordnung von Schwein und Geflügel. Hülsenfrüchte sind viel kleiner. Werte für ein Jahr."},
+{a:"Ein Auto mit drei Haushalten teilen",ak:700,b:"Den Verbrenner durch ein E-Auto ersetzen",bk:900,x:"Beides ist ähnlich groß. Das geteilte Auto spart zusätzlich die Herstellung von zwei weiteren Autos.",eq:1},
+{a:"Eine Fernreise mit der Bahn statt mit dem Flugzeug, 1.000 km",ak:180,b:"Ein Jahr lang einmal pro Woche kürzer duschen",bk:16,x:"Fliegen ist pro Kilometer einer der klimaschädlichsten Wege, sich fortzubewegen."}
+];
+
+const TERMS=[
+{id:"co2e",a:"wir",n:"CO₂-Äquivalent",d:"Eine gemeinsame Maßeinheit für alle Treibhausgase. Methan oder Lachgas werden in die Menge CO₂ umgerechnet, die dieselbe Erwärmung bewirken würde.",e:"Ein Kilogramm Methan entspricht über 100 Jahre rund 28 kg CO₂-Äquivalent."},
+{id:"lca",a:"dinge",n:"Ökobilanz",d:"Eine Rechnung über das ganze Leben eines Produkts: Rohstoffe, Herstellung, Transport, Nutzung und Entsorgung.",e:"Die Ökobilanz einer Jeans schließt den Baumwollanbau und das Waschen ein."},
+{id:"grau",a:"dinge",n:"Graue Energie",d:"Die Energie, die in der Herstellung eines Produkts steckt, bevor man es überhaupt benutzt.",e:"Bei einem Smartphone steckt der größte Teil des Fußabdrucks in der grauen Energie."},
+{id:"suffizienz",a:"wohnen",n:"Suffizienz",d:"Das Prinzip des Genug: nicht effizienter mehr verbrauchen, sondern absolut weniger. Ergänzt Effizienz und Konsistenz.",e:"Eine Waschmaschine für das ganze Haus statt eine pro Wohnung."},
+{id:"effizienz",a:"wohnen",n:"Effizienz",d:"Dasselbe mit weniger Energie oder Material erreichen.",e:"Eine LED-Lampe gibt dasselbe Licht mit einem Bruchteil des Stroms."},
+{id:"konsistenz",a:"wohnen",n:"Konsistenz",d:"Stoffe und Energie so nutzen, dass sie in natürliche oder technische Kreisläufe passen, etwa durch erneuerbare Energie.",e:"Strom aus Sonne statt aus Kohle."},
+{id:"rebound",a:"wohnen",n:"Rebound-Effekt",d:"Wenn Einsparungen durch Effizienz teilweise wieder verloren gehen, weil man mehr verbraucht.",e:"Mit dem sparsameren Auto fährt man öfter in den Urlaub."},
+{id:"nonco2",a:"wege",n:"Nicht-CO₂-Effekte",d:"Die zusätzliche Klimawirkung von Flugzeugen durch Kondensstreifen und Stickoxide in großer Höhe.",e:"Durch sie ist die Wirkung eines Flugs etwa dreimal so groß wie die seines CO₂ allein."},
+{id:"saison",a:"essen",n:"Saisonalität",d:"Lebensmittel dann essen, wenn sie in der Region im Freien wachsen oder ohne viel Energie gelagert werden können.",e:"Kürbis im Oktober, Erdbeeren im Juni."},
+{id:"kreislauf",a:"dinge",n:"Kreislaufwirtschaft",d:"Ein Wirtschaften, bei dem Produkte möglichst lange genutzt, repariert, geteilt und am Ende wiederverwertet werden.",e:"Ein Handy mit austauschbarem Akku ist ein Schritt Richtung Kreislaufwirtschaft."},
+{id:"default",a:"wohnen",n:"Voreinstellung (Default)",d:"Die Option, die gilt, wenn man nichts tut. Menschen bleiben meist bei der Voreinstellung.",e:"Ökostrom als Standardtarif."},
+{id:"norm",a:"wir",n:"Soziale Norm",d:"Die Vorstellung davon, was andere tun oder für richtig halten. Sie beeinflusst unser Verhalten stark.",e:"Wenn alle im Haus den Müll trennen, trennt man selbst eher."},
+{id:"kipppunkt",a:"wir",n:"Sozialer Kipppunkt",d:"Der Punkt, ab dem sich eine neue Norm in einer Gruppe von selbst durchsetzt. In Experimenten lag er bei etwa einem Viertel.",e:"Ab einem gewissen Anteil wird das Rad zum normalen Weg zur Arbeit."},
+{id:"licensing",a:"dinge",n:"Moralische Lizenz",d:"Die Neigung, sich nach einer guten Tat eine weniger gute zu erlauben.",e:"Nach dem Ökostrom-Wechsel fühlt sich der Flug weniger schlimm an."},
+{id:"spillover",a:"dinge",n:"Spillover",d:"Wenn ein Verhalten ein anderes nach sich zieht, im Guten wie im Schlechten.",e:"Wer anfängt, Rad zu fahren, denkt vielleicht auch über das Auto nach."},
+{id:"dividende",a:"wir",n:"Doppelte Dividende",d:"Wenn eine Handlung zugleich dem eigenen Wohlbefinden und der Umwelt nützt.",e:"Mit dem Rad zur Arbeit: gut für das Klima und die Laune."},
+{id:"wirksamkeit",a:"wir",n:"Kollektive Wirksamkeit",d:"Der Glaube, dass eine Gruppe gemeinsam etwas bewirken kann. Er schützt eher vor Ohnmacht als individuelles Handeln allein.",e:"Eine Energiegenossenschaft, die ein Windrad baut."},
+{id:"handabdruck",a:"wir",n:"Handabdruck",d:"Die positive Wirkung, die man über den eigenen Konsum hinaus hat, etwa indem man Strukturen verändert oder andere ansteckt.",e:"Im Verein eine Fahrradstraße durchsetzen."},
+{id:"genossenschaft",a:"wir",n:"Genossenschaft",d:"Ein Zusammenschluss, bei dem die Mitglieder gemeinsam Eigentümer sind und jedes Mitglied eine Stimme hat, unabhängig von seinem Anteil.",e:"Viele Lebensgemeinschaften kaufen ihr Gelände über eine Genossenschaft."},
+{id:"konsent",a:"wir",n:"Konsent",d:"Ein Entscheidungsverfahren aus der Soziokratie: Ein Vorschlag gilt, wenn niemand einen schwerwiegenden, begründeten Einwand hat.",e:"„Kannst du damit leben?“ statt „Bist du dafür?“."},
+{id:"allmende",a:"wir",n:"Allmende",d:"Gemeinschaftlich genutzte und gepflegte Güter, die niemandem allein gehören.",e:"Ein Wald, den ein Dorf gemeinsam bewirtschaftet."},
+{id:"oekodorf",a:"wir",n:"Ökodorf",d:"Eine Gemeinschaft, die bewusst ökologisch, sozial und wirtschaftlich nachhaltig zusammenlebt, oft mit eigener Versorgung.",e:"Ein Dorf mit gemeinsamer Küche, Solaranlage und Gemüsegarten."}
+];
+
+/* Missionen */
+const MISS=[
+{id:"hebelcheck",a:"wohnen",d:1,t:"Deine großen Hebel finden",x:"Mach den Hebel-Check unter „Jahr“ und schau dir deine drei größten Quellen an. Such dir für eine davon einen Schritt aus.",s:["Hebel-Check ausfüllen, etwa fünf Minuten","Die drei größten Quellen notieren","Einen Schritt für die größte Quelle eintragen oder planen"],b:"hebel"},
+{id:"veg5",a:"essen",d:5,t:"Fünf Tage vegetarisch",x:"Iss fünf Tage lang kein Fleisch und keinen Fisch. Probier dabei mindestens zwei neue Gerichte mit Hülsenfrüchten.",s:["Zwei Rezepte mit Linsen, Bohnen oder Kichererbsen heraussuchen","Einkaufsliste für fünf Tage schreiben","Jeden Tag eintragen"],b:"teller"},
+{id:"restewoche",a:"essen",d:7,t:"Eine Woche ohne Wegwerfen",x:"Wirf eine Woche lang keine Lebensmittel weg. Plane Einkäufe, koche Reste und frier ein, was du nicht schaffst.",s:["Vor dem Einkauf in den Kühlschrank schauen","Ein Restegericht pro Woche fest einplanen","Notieren, was trotzdem fast im Müll gelandet wäre"],b:"verschwendung"},
+{id:"saisonmonat",a:"essen",d:30,t:"Ein Monat nach Saison",x:"Kauf einen Monat lang frisches Obst und Gemüse nur aus der aktuellen Saison. Der Saisonkalender auf der Startseite hilft.",s:["Saisonliste des Monats anschauen","Einen Markt oder eine Gemüsekiste ausprobieren","Ein Gericht kochen, das du noch nie gemacht hast"],b:"flugware"},
+{id:"wasser",a:"essen",d:14,t:"Zwei Wochen Leitungswasser",x:"Trink zwei Wochen lang nur Leitungswasser, unterwegs aus der eigenen Flasche.",s:["Eine Flasche für unterwegs bereitlegen","Wenn du Sprudel magst: einen Sprudler leihen statt kaufen","Notieren, wie viele Flaschen du sonst gekauft hättest"]},
+{id:"eingrad",a:"wohnen",d:14,t:"Ein Grad weniger",x:"Senke die Raumtemperatur zwei Wochen lang um ein Grad. Schau, ob du es überhaupt merkst.",s:["Thermostat um eine Stufe zurückdrehen","Im Schlafzimmer die Heizung ganz auslassen","Nach zwei Wochen entscheiden, ob es so bleibt"],b:"grad"},
+{id:"leinemonat",a:"wohnen",d:30,t:"Ein Monat Wäscheleine",x:"Lass den Trockner einen Monat lang aus und trockne alles an der Luft.",s:["Wäscheständer oder Leine einrichten","Bei 30 Grad waschen, wo es geht","Trocknergänge zählen, die du gespart hast"]},
+{id:"zaehler",a:"wohnen",d:7,t:"Die Stromzähler-Woche",x:"Lies eine Woche lang jeden Abend den Stromzähler ab. Finde heraus, welche Geräte am meisten verbrauchen.",s:["Zählerstand jeden Abend notieren","An einem Tag alle Standby-Geräte ausschalten und vergleichen","Den größten Verbraucher aufschreiben"],b:"nachbarn_strom"},
+{id:"stromcheck",a:"wohnen",d:7,t:"Der Ökostrom-Check",x:"Prüfe deinen Stromtarif. Wechsle zu einem Anbieter, der in neue Anlagen investiert, wenn du es noch nicht bist.",s:["Den aktuellen Tarif nachschauen","Auf ein anerkanntes Ökostrom-Siegel achten","Den Wechsel online abschließen, das dauert etwa zehn Minuten"],b:"default"},
+{id:"radwoche",a:"wege",d:7,t:"Die Rad-Woche",x:"Fahr eine Woche lang jeden Weg unter fünf Kilometern mit dem Rad oder zu Fuß.",s:["Rad prüfen: Luft, Licht, Bremsen","Wege unter fünf Kilometern auflisten","Jeden Weg eintragen"],b:"aktivwege"},
+{id:"autofasten",a:"wege",d:14,t:"Autofasten",x:"Lass das Auto zwei Wochen lang stehen. Organisiere die Wege mit Rad, Bahn, Fahrgemeinschaft oder geteiltem Auto.",s:["Die festen Wege der nächsten zwei Wochen planen","Für jeden Weg eine Alternative finden","Notieren, was gefehlt hat und was nicht"],b:"hebel"},
+{id:"bahnplan",a:"wege",d:30,t:"Die nächste Reise mit der Bahn",x:"Plane deine nächste längere Reise mit der Bahn statt mit dem Flugzeug oder Auto. Rechne die Reisezeit einmal ehrlich mit An- und Abfahrt.",s:["Ein Ziel wählen, das per Zug erreichbar ist","Früh buchen, oft ist es dann günstiger","Die Zugfahrt als Teil der Reise planen: Buch, Essen, Ausblick"],b:"flug"},
+{id:"kaufpause",a:"dinge",d:7,t:"Die Kaufpause",x:"Kauf eine Woche lang nichts außer Lebensmitteln und wirklich Notwendigem. Schreib jeden Kaufimpuls auf.",s:["Liste anlegen: Impuls, Situation, Gefühl","Nach einer Woche: Welche Impulse kamen aus Langeweile oder Vergleich?","Einen Impuls auswählen, den du künftig anders beantwortest"],b:"materialismus"},
+{id:"repariermonat",a:"dinge",d:30,t:"Der Repariermonat",x:"Repariere in diesem Monat einen Gegenstand, der kaputt in der Schublade liegt, selbst oder im Repair-Café.",s:["Etwas Kaputtes heraussuchen","Anleitung suchen oder Repair-Café-Termin finden","Ob es klappt oder nicht: eintragen, was du gelernt hast"],b:"handy"},
+{id:"gebrauchtzuerst",a:"dinge",d:30,t:"Gebraucht zuerst",x:"Suche einen Monat lang bei jedem Kauf zuerst gebraucht, im Freundeskreis oder im Haus, bevor du neu kaufst.",s:["Zwei Plattformen oder Läden für Gebrauchtes heraussuchen","In der Haus- oder Familiengruppe zuerst fragen","Zählen, wie oft es geklappt hat"],b:"kleidung"},
+{id:"genug",a:"dinge",d:3,t:"Dein Genug",x:"Leg für drei Dinge eine Zahl fest, die für dich genug ist, etwa Jacken, Tassen oder Kabel. Zähl dann nach, was du hast.",s:["Drei Bereiche wählen","Erst die Genug-Zahl aufschreiben, dann zählen","Den Überschuss weitergeben oder teilen"],b:"materialismus"},
+{id:"konsent",a:"wir",d:14,t:"Entscheiden wie eine Gemeinschaft",x:"Probier in deiner WG, Familie oder Gruppe zwei Wochen lang das Konsent-Prinzip bei einer gemeinsamen Entscheidung.",s:["Eine kleine Frage auswählen, etwa Putzplan oder Einkauf","Vorschlag machen, dann reihum: Gibt es einen schwerwiegenden Einwand?","Einwände in den Vorschlag einbauen, bis niemand mehr einen hat"],b:"soziokratie"},
+{id:"teilenliste",a:"wir",d:14,t:"Die Teilen-Liste im Haus",x:"Häng im Haus oder in der Nachbarschaftsgruppe eine Liste auf, was jede Partei verleihen würde: Bohrmaschine, Leiter, Raclette, Lastenrad.",s:["Zettel oder Nachricht vorbereiten","Selbst drei Dinge eintragen, um anzufangen","Nach zwei Wochen zählen, was ausgeliehen wurde"],b:"teilen"},
+{id:"tisch",a:"wir",d:10,t:"Der lange Tisch",x:"Organisiere ein gemeinsames Essen für das Haus oder die Nachbarschaft, bei dem jede Partei etwas mitbringt.",s:["Datum und Ort festlegen","Einladung aushängen oder verschicken","Am Ende fragen: Machen wir das wieder?"],b:"zufrieden"},
+{id:"gruppe",a:"wir",d:21,t:"Eine Initiative kennenlernen",x:"Geh einmal zu einer Gruppe, die gemeinsam etwas verändert: Energiegenossenschaft, Repair-Café, Foodsharing, Wohnprojekt-Gründung.",s:["Drei Gruppen in deiner Nähe heraussuchen","Einmal hingehen, nur zum Schauen","Notieren, wie sich Klimasorge danach anfühlt"],b:"wirksamkeit"}
+];
+
+/* Saisonkalender Deutschland (Freiland und Lager), grob */
+const SAISON=[
+["Grünkohl","Rosenkohl","Wirsing","Lauch","Pastinaken","Schwarzwurzeln","Feldsalat","Äpfel (Lager)","Möhren (Lager)","Rote Bete (Lager)"],
+["Grünkohl","Rosenkohl","Lauch","Chicorée","Feldsalat","Pastinaken","Äpfel (Lager)","Kartoffeln (Lager)","Zwiebeln (Lager)"],
+["Bärlauch","Feldsalat","Lauch","Spinat","Chicorée","Äpfel (Lager)","Möhren (Lager)","Rote Bete (Lager)"],
+["Bärlauch","Rhabarber","Radieschen","Spinat","Frühlingszwiebeln","Spargel (ab Mitte April)"],
+["Spargel","Rhabarber","Radieschen","Kohlrabi","Kopfsalat","Spinat","Erdbeeren (ab Ende Mai)"],
+["Erdbeeren","Kirschen","Spargel (bis 24. Juni)","Erbsen","Kohlrabi","Zucchini","Johannisbeeren","Salat"],
+["Himbeeren","Heidelbeeren","Kirschen","Bohnen","Gurken","Zucchini","Tomaten","Mangold"],
+["Tomaten","Paprika","Mais","Pflaumen","Brombeeren","Bohnen","Zucchini","Frühe Äpfel"],
+["Äpfel","Birnen","Zwetschgen","Trauben","Kürbis","Tomaten","Brokkoli","Lauch"],
+["Äpfel","Birnen","Quitten","Trauben","Kürbis","Rote Bete","Rotkohl","Pastinaken","Feldsalat"],
+["Grünkohl","Rosenkohl","Kürbis","Pastinaken","Rote Bete","Feldsalat","Steckrüben","Äpfel (Lager)"],
+["Grünkohl","Rosenkohl","Wirsing","Lauch","Feldsalat","Schwarzwurzeln","Äpfel (Lager)","Kartoffeln (Lager)"]
+];
+
+/* Hebel-Check: Werte in Tonnen pro Jahr, gerundete Richtwerte nach UBA-CO₂-Rechner */
+const CHECK=[
+{id:"ess",a:"essen",q:"Wie isst du meistens?",o:[["Fast täglich Fleisch",2.2],["Durchschnittlich, einige Male pro Woche Fleisch",1.75],["Selten Fleisch",1.4],["Vegetarisch",1.2],["Vegan",0.95]]},
+{id:"rest",a:"essen",q:"Wie oft wirfst du Lebensmittel weg?",o:[["Öfter",0.2],["Manchmal",0],["Fast nie",-0.1]]},
+{id:"flaeche",a:"wohnen",q:"Wie viel Wohnfläche hast du ungefähr, geteilt durch die Zahl der Bewohner?",o:[["Unter 30 m²",0.8],["30 bis 50 m²",1.3],["50 bis 80 m²",2.0],["Über 80 m²",2.8]]},
+{id:"heiz",a:"wohnen",q:"Womit wird geheizt?",o:[["Öl",1.2],["Gas",1],["Fernwärme",0.85],["Wärmepumpe",0.45],["Holz oder Pellets",0.3],["Weiß ich nicht",1]],mul:"flaeche"},
+{id:"strom",a:"wohnen",q:"Welchen Strom beziehst du?",o:[["Echten Ökostrom",0.15],["Normalen Strom",0.6],["Weiß ich nicht",0.6]]},
+{id:"auto",a:"wege",q:"Wie viele Kilometer fährst du selbst im Jahr mit dem Auto?",o:[["Kein Auto",0],["Unter 5.000 km",0.6],["5.000 bis 10.000 km",1.3],["10.000 bis 20.000 km",2.4],["Über 20.000 km",4]]},
+{id:"flug",a:"wege",q:"Wie oft fliegst du im Jahr?",o:[["Gar nicht",0],["Eine Kurzstrecke hin und zurück",0.4],["Mehrere Kurzstrecken",1.2],["Eine Fernreise",2.5],["Mehrere Fernreisen",5.5]]},
+{id:"konsum",a:"dinge",q:"Wie würdest du deinen sonstigen Konsum beschreiben, also Kleidung, Technik, Möbel, Freizeit?",o:[["Sparsam",2.2],["Durchschnittlich",3.4],["Ich kaufe gern und viel",5.2]]},
+{id:"gebraucht",a:"dinge",q:"Wie oft kaufst du gebraucht oder reparierst?",o:[["Oft",-0.4],["Manchmal",-0.15],["Selten",0]]},
+{id:"teilen",a:"wir",q:"Wie viel teilst du im Alltag mit anderen, etwa Räume, Geräte, Auto oder Mahlzeiten?",o:[["Kaum",0],["Einiges",-0.2],["Sehr viel, ich lebe gemeinschaftlich",-0.6]]}
+];
+const AVG={essen:1.7,wohnen:2.3,wege:2.0,dinge:3.4,oeff:0.9};
+
+</script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DAY=864e5,now=()=>Date.now();
+const KEY="biotop-v1";
+const BUILD="18.10.2026, 12:40";
+const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
+const AK=Object.keys(AREAS);
+let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const A=Object.fromEntries(ACTS.map(a=>[a.id,a])),B=Object.fromEntries(BITES.map(b=>[b.id,b])),T=Object.fromEntries(TERMS.map(t=>[t.id,t])),M=Object.fromEntries(MISS.map(m=>[m.id,m]));
+const uid=()=>now().toString(36)+Math.random().toString(36).slice(2,6);
+const da=a=>`data-a="${a}"`;
+const dot=a=>`<span class="dot" ${da(a)}></span>`;
+const nf=(v,d)=>v.toLocaleString("de-DE",{maximumFractionDigits:d,minimumFractionDigits:0});
+function kgTxt(v){v=Math.max(0,v);if(v>=1000)return nf(v/1000,v>=10000?0:1)+" t";if(v>=100)return nf(Math.round(v),0)+" kg";if(v>=10)return nf(v,0)+" kg";if(v>=1)return nf(v,1)+" kg";if(v>0)return nf(v*1000,0)+" g";return "0 kg"}
+const fmtDate=t=>new Date(t).toLocaleDateString("de-DE",{day:"numeric",month:"short"});
+const dayStart=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+const hashStr=s=>{let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
+
+/* ---------- Rechnen ---------- */
+function eKg(e,from,to){from=from||0;to=to||now();
+  if(e.g){const s=Math.max(e.ts,from),en=Math.min(e.end||now(),to);return en>s?(e.y||0)*(en-s)/DAY/365:0}
+  return e.ts>=from&&e.ts<to?(e.k||0):0}
+const sumKg=(from,to,a)=>S.log.reduce((s,e)=>s+(!a||e.a===a?eKg(e,from,to):0),0);
+const activeBig=()=>S.log.filter(e=>e.g&&!e.end);
+const perDay=()=>activeBig().reduce((s,e)=>s+(e.y||0)/365,0);
+const monthStart=(d=new Date())=>new Date(d.getFullYear(),d.getMonth(),1).getTime();
+const weekStart=(t=now())=>{const d=new Date(dayStart(t));const wd=(d.getDay()+6)%7;return d.getTime()-wd*DAY};
+const meets=()=>S.log.filter(e=>e.w).length;
+const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
+function growth(){const small=S.log.filter(e=>!e.g).length,big=S.log.filter(e=>e.g).length;return small+big*6+misDone()*4}
+const STAGES=[[0,"Brache"],[1,"Keimling"],[10,"Wiese"],[30,"Hecke"],[70,"Hain"],[150,"Wald"],[300,"Biotop"]];
+function stage(){const g=growth();let s=STAGES[0],nx=null;for(let i=0;i<STAGES.length;i++){if(g>=STAGES[i][0]){s=STAGES[i];nx=STAGES[i+1]||null}}return {n:s[1],g,next:nx}}
+
+/* ---------- Haptik und Stempel ---------- */
+let hapt=null;
+function haptic(){if(!hapt){const l=document.createElement("label");l.setAttribute("aria-hidden","true");l.style.cssText="position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none";const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.tabIndex=-1;l.appendChild(i);document.body.appendChild(l);hapt=l}try{hapt.click()}catch(e){}}
+function buzz(p){if(calm())return;if(navigator.vibrate){try{navigator.vibrate(p)}catch(e){}return}
+  const n=Array.isArray(p)?Math.ceil(p.length/2):1;haptic();for(let k=1;k<n;k++)setTimeout(haptic,k*90)}
+function fx(){let l=$("#fx");if(!l){l=document.createElement("div");l.id="fx";document.body.appendChild(l)}return l}
+/* Ein Riso-Stempel: zwei leicht versetzte Tintenflächen, eine davon gerastert */
+function stamp(e,el,col){if(calm())return;const r=el.getBoundingClientRect(),x=e&&e.clientX?e.clientX:r.left+r.width/2,y=e&&e.clientY?e.clientY:r.top+r.height/2,sz=Math.min(220,Math.max(90,r.height*2.2));
+  const mk=(bg,dx,dy,del)=>{const d=document.createElement("span");d.className="stamp";Object.assign(d.style,{left:(x-sz/2+dx)+"px",top:(y-sz/2+dy)+"px",width:sz+"px",height:sz+"px",background:bg});fx().appendChild(d);
+    d.animate([{transform:"scale(.15) rotate(-8deg)",opacity:0},{transform:"scale(.85) rotate(0)",opacity:.75,offset:.25},{transform:"scale(1.05)",opacity:0}],{duration:900,delay:del,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>d.remove()};
+  mk(col,-3,-2,0);mk(`radial-gradient(${col} 1.6px,transparent 2px) 0 0/7px 7px`,4,3,70)}
+function toast(msg,undo){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.innerHTML=`<span>${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
+  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(()=>t.remove(),undo?4200:2400)}
+
+/* ---------- Landschaft ---------- */
+let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0;
+const rnd=s=>{let h=hashStr(s);return ()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}};
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+let pal={};
+function readPal(){pal={paper:css("--paper"),sheet:css("--sheet"),ink:css("--ink"),blend:css("--blend")||"multiply"};AK.forEach(a=>pal[a]=css("--"+a))}
+const patCache={};
+function dots(col,step,r){const k=col+step+r;if(patCache[k])return patCache[k];const c=document.createElement("canvas");c.width=c.height=step;const g=c.getContext("2d");g.fillStyle=col;g.beginPath();g.arc(step/2,step/2,r,0,7);g.fill();return patCache[k]=cx.createPattern(c,"repeat")}
+function ground(x){return H*.66+Math.sin(x/W*Math.PI*1.6+.6)*H*.045+Math.sin(x/W*Math.PI*4.3)*H*.015}
+function landItems(){const items=[];const small=S.log.filter(e=>!e.g);const sm=small.slice(-260);
+  sm.forEach(e=>{const r=rnd(e.id);if(e.a==="wir")items.push({k:"light",e,x:.55+r()*.42,d:r(),r});else items.push({k:"flower",e,x:.03+r()*.94,d:r(),r})});
+  S.log.filter(e=>e.g).forEach(e=>{const r=rnd(e.id);if(e.a==="wir")items.push({k:"house",e,x:.62+r()*.33,d:.15+r()*.5,r});else items.push({k:"tree",e,x:.05+r()*.88,d:r()*.85,r})});
+  return items}
+function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio||1),bw=cv.clientWidth,bh=cv.clientHeight;
+  if(cv.width!==Math.round(bw*dpr)||cv.height!==Math.round(bh*dpr)){cv.width=Math.round(bw*dpr);cv.height=Math.round(bh*dpr)}
+  W=bw;H=bh;cx.setTransform(dpr,0,0,dpr,0,0);cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);
+  cx.globalCompositeOperation=pal.blend==="screen"?"screen":"multiply";
+  const dark=pal.blend==="screen",sec=t/1000,grow=e=>{if(!growStart||e.ts<=seenAt)return 1;const k=Math.min(1,(t-growStart)/1300);return 1-Math.pow(1-k,3)};
+  // Sonne oder Mond
+  const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.2+Math.abs(hr-13)*H*.012;
+  cx.fillStyle=dark?pal.wohnen:pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.11,0,7);cx.fill();cx.globalAlpha=1;
+  cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.11,0,7);cx.fill();
+  // ferne Hügel in Blau
+  cx.fillStyle=pal.wege;cx.globalAlpha=.42;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,H*.5+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  cx.fillStyle=dots(pal.wege,5,1.2);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,H*.5+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012+3);cx.lineTo(W,H);cx.fill();
+  // Wasser, sobald es Schritte im Wohnen gibt
+  const nW=S.log.filter(e=>e.a==="wohnen").length;if(nW>=3){cx.fillStyle=pal.wege;cx.globalAlpha=.5;cx.beginPath();cx.ellipse(W*.28,H*.72,W*(.08+Math.min(.1,nW*.006)),H*.05,0,0,7);cx.fill();cx.globalAlpha=1}
+  // nahe Hügel in Grün
+  cx.fillStyle=pal.wir;cx.globalAlpha=.5;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  cx.fillStyle=dots(pal.wir,6,1.6);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.06);cx.lineTo(W,H);cx.fill();
+  // Weg zum Dorf
+  const nMeet=meets();if(nMeet>0){cx.strokeStyle=pal.wohnen;cx.globalAlpha=.8;cx.lineWidth=Math.min(9,3+nMeet*.25);cx.lineCap="round";cx.setLineDash([2,7]);cx.beginPath();cx.moveTo(W*.18,H);cx.bezierCurveTo(W*.4,H*.84,W*.55,H*.9,W*.8,ground(W*.8)+H*.04);cx.stroke();cx.setLineDash([]);cx.globalAlpha=1}
+  const items=landItems().sort((a,b)=>a.d-b.d);
+  items.forEach(it=>{const g=grow(it.e);if(g<=0)return;const x=it.x*W,col=pal[it.e.a]||pal.ink;
+    if(it.k==="tree"){const y=ground(x)+it.d*H*.16,age=Math.min(1,.55+(now()-it.e.ts)/DAY/60),s=(11+it.d*9)*age*g,sw=calm()?0:Math.sin(sec*.7+it.r()*0+it.x*20)*1.4;
+      cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=2;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+sw*.4,y-s*1.5);cx.stroke();cx.globalAlpha=1;
+      cx.fillStyle=col;cx.globalAlpha=.88;cx.beginPath();cx.arc(x+sw,y-s*1.75,s,0,7);cx.fill();cx.globalAlpha=1;
+      cx.fillStyle=dots(it.e.a==="wir"?pal.wege:pal.wir,5,1.3);cx.beginPath();cx.arc(x+sw+3,y-s*1.75+2,s*.92,0,7);cx.fill()}
+    else if(it.k==="flower"){const y=H*.8+it.d*H*.18,sw=calm()?0:Math.sin(sec*1.2+it.x*31)*1.1,s=(2.4+it.d*1.6)*g;
+      cx.strokeStyle=pal.wir;cx.lineWidth=1.3;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+sw,y-6*g);cx.stroke();
+      cx.fillStyle=col;cx.beginPath();cx.arc(x+sw,y-6*g-s*.4,s,0,7);cx.fill()}
+    else if(it.k==="house"){const y=ground(x)+it.d*H*.12,s=(13+it.d*5)*g;
+      cx.fillStyle=pal.wohnen;cx.globalAlpha=.85;cx.fillRect(x-s*.6,y-s,s*1.2,s);cx.globalAlpha=1;
+      cx.fillStyle=pal.dinge;cx.beginPath();cx.moveTo(x-s*.8,y-s+1);cx.lineTo(x,y-s*1.75);cx.lineTo(x+s*.8,y-s+1);cx.fill();
+      cx.fillStyle=pal.ink;cx.globalAlpha=.7;cx.fillRect(x-s*.15,y-s*.5,s*.3,s*.5);cx.globalAlpha=1}
+    else if(it.k==="light"){const y=ground(x)+H*.05+it.d*H*.24,fl=calm()?1:.75+.25*Math.sin(sec*2+it.x*40),s=2.6*g;
+      cx.fillStyle=pal.wohnen;cx.globalAlpha=.35*fl;cx.beginPath();cx.arc(x,y,s*2.6,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=pal.essen;cx.beginPath();cx.arc(x,y,s,0,7);cx.fill()}});
+  // Vögel für abgeschlossene Missionen
+  const nb=Math.min(14,misDone());cx.strokeStyle=pal.ink;cx.lineWidth=1.6;cx.globalAlpha=.8;
+  for(let i=0;i<nb;i++){const r=rnd("bird"+i),bx=((r()*W)+(calm()?0:sec*(6+r()*6)))%(W+40)-20,by=H*(.08+r()*.28)+(calm()?0:Math.sin(sec+i)*2),s=4+r()*3,fl=calm()?0:Math.sin(sec*5+i)*1.5;
+    cx.beginPath();cx.moveTo(bx-s,by-fl);cx.quadraticCurveTo(bx-s*.4,by-s*.6,bx,by);cx.quadraticCurveTo(bx+s*.4,by-s*.6,bx+s,by-fl);cx.stroke()}
+  cx.globalAlpha=1;cx.globalCompositeOperation="source-over"}
+function loop(t){raf=0;if(!cv||!document.body.contains(cv))return;if(t-lastT>40){lastT=t;drawLand(t)}if(!calm()&&!document.hidden&&tab==="home")raf=requestAnimationFrame(loop)}
+function startLand(){cv=$("#land");if(!cv)return;cx=cv.getContext("2d");readPal();
+  const fresh=S.log.some(e=>e.ts>S.lastSeen);if(fresh){seenAt=S.lastSeen;growStart=performance.now()+250}else growStart=0;S.lastSeen=now();save();
+  if(raf)cancelAnimationFrame(raf);if(calm()){drawLand(performance.now()+5000)}else raf=requestAnimationFrame(loop)}
+addEventListener("resize",()=>{if(cv&&calm())drawLand(9e9)});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tab==="home"&&cv&&!raf&&!calm())raf=requestAnimationFrame(loop)});
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",()=>{for(const k in patCache)delete patCache[k];readPal()});
+
+/* ---------- Register ---------- */
+const TABS=[
+ ["home","Biotop","var(--wir)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2.5 19.5c3-5 6-7 9.5-7s6.5 2 9.5 7z"/><circle cx="16.5" cy="6.5" r="2.5"/></svg>'],
+ ["log","Eintragen","var(--essen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="4" y="4" width="16" height="16"/><path d="M12 8v8M8 12h8"/></svg>'],
+ ["know","Wissen","var(--wege)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>'],
+ ["mis","Missionen","var(--dinge)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6 21V4M6 4h12l-3 4 3 4H6"/></svg>'],
+ ["year","Jahr","var(--wohnen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>']
+];
+let tab="home",anim=true;
+function renderTabs(){const act=activeMis().length;$("#tabs").innerHTML=TABS.map(([id,n,c,ic])=>`<button data-tab="${id}" style="--tc:${c}" ${tab===id?'aria-current="page"':""}>${ic}<span>${n}</span>${id==="mis"&&act?`<span class="badge">${act}</span>`:""}</button>`).join("")}
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;const to=b.dataset.tab;if(to===tab){if(to==="know"){cur=null;Q=null}window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});if(to==="know")render();return}
+  tab=to;anim=true;cur=null;render();window.scrollTo(0,0);buzz(5)});
+
+/* ---------- Biotop ---------- */
+const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+function quickIds(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.act]=(c[e.act]||0)+1);
+  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const def=["rad5","veg_tag","leine","oepnv","mahlzeit","repariert"];
+  return [...new Set([...top,...def])].slice(0,6)}
+function dailyBite(){const list=BITES.filter(b=>b.ev>0);return list[hashStr("bt-"+todayKey())%list.length]}
+function viewHome(){const st=stage(),small=S.log.filter(e=>!e.g&&e.a!=="wir").length,trees=S.log.filter(e=>e.g&&e.a!=="wir").length,houses=S.log.filter(e=>e.g&&e.a==="wir").length,lights=S.log.filter(e=>!e.g&&e.a==="wir").length,birds=misDone();
+  const pl=(n,a,b)=>n?`${n} ${n===1?a:b}`:"";
+  const parts=[pl(small,"Blume","Blumen"),pl(trees,"Baum","Bäume"),pl(houses,"Haus","Häuser"),pl(lights,"Licht","Lichter"),pl(birds,"Vogel","Vögel")].filter(Boolean);
+  const m=monthStart(),act=activeMis()[0],db=dailyBite(),mo=new Date().getMonth();
+  const nudge=act?(()=>{const mm=M[act],v=S.mis[act],left=Math.max(0,mm.d-Math.floor((now()-v.start)/DAY));return `<button class="nudge" data-gotab="mis" ${da(mm.a)}>${dot(mm.a)}<span><b>${mm.t}</b> · ${left?`noch ${left} Tag${left>1?"e":""}`:"heute ist der letzte Tag"}</span><span class="label">Mission</span></button>`})():"";
+  return `<section class="view">
+   <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
+     <div class="landcap"><span class="stage">${st.n}</span>${parts.length?`<span class="landcnt">${parts.join(" · ")}</span>`:""}</div>
+     ${S.log.length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
+   <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(0))}</b><span>gespart insgesamt</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
+   ${nudge}
+   <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
+     <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):"Begegnung"}</span></button>`}).join("")}</div></div>
+   <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>
+   ${S.checks.length?"":`<div class="plain" ${da("dinge")}><h3>Wo sind deine großen Hebel?</h3><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen, wo sich ein Schritt am meisten lohnt.</p><div class="row"><button class="btn go" data-check="1" ${da("dinge")}>Hebel-Check starten</button></div></div>`}
+   <div class="sec"><div class="sec-h"><h3>Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div>
+  </section>`}
+const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"></i>`).join("")}<em>${EV[l]}</em></span>`;
+function landSheet(){const st=stage(),c=k=>S.log.filter(k).length;
+  sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>
+  <div class="list">${[["Blumen","kleine Schritte",c(e=>!e.g&&e.a!=="wir")],["Bäume","dauerhafte Änderungen",c(e=>e.g&&e.a!=="wir")],["Lichter","Begegnungen und Geteiltes",c(e=>!e.g&&e.a==="wir")],["Häuser","dauerhaft geteilt und gemeinsam",c(e=>e.g&&e.a==="wir")],["Vögel","abgeschlossene Missionen",misDone()]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
+  ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Ein kleiner Schritt zählt 1, eine dauerhafte Änderung 6, eine Mission 4.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
+
+/* ---------- Eintragen ---------- */
+function logAct(id,ev,el){const a=A[id];if(!a)return;
+  if(a.g){bigSheet(id);return}
+  const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;S.log.push(e);save();
+  if(el)stamp(ev,el,`var(--${a.a})`);buzz([8,40,8]);
+  render();toast(`Eingetragen${a.k?" · − "+kgTxt(a.k):""}`,()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()});checkMoments()}
+function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);
+  if(cur){sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhaft seit ${fmtDate(cur.ts)}</span></div><h2>${a.t}</h2><p>Diese Änderung wirkt seit ${Math.max(1,Math.round((now()-cur.ts)/DAY))} Tagen und hat bisher rund <b>${kgTxt(eKg(cur))}</b> gespart.</p><p class="caveat">${a.n}</p><div class="row"><button class="btn ghost" data-endbig="${cur.id}">Gilt nicht mehr</button></div><p class="muted" style="font-size:14px">Wenn du die Änderung zurücknimmst, bleibt die bisherige Einsparung im Logbuch. Der Baum bleibt stehen.</p>`);return}
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt(a.y)}`:""}.</p><p class="caveat">${a.n}</p>
+   <label class="label" for="bigdate">Seit wann?</label><input type="text" id="bigdate" inputmode="numeric" placeholder="Heute" value="">
+   <p class="muted" style="font-size:13.5px">Leer lassen für heute oder ein Datum wie 1.9.2026 eingeben.</p>
+   <div class="row"><button class="btn go" ${da(a.a)} data-addbig="${id}">Eintragen</button></div>`)}
+function parseDate(s){const m=String(s||"").trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})?$/);if(!m)return null;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],12);return isNaN(d)||d.getTime()>now()?null:d.getTime()}
+function customSheet(){sheet(`<div class="label">Eigener Schritt</div><h2>Was hast du gemacht?</h2>
+  <input type="text" id="ctext" maxlength="90" placeholder="Zum Beispiel: Kompost im Hof angelegt">
+  <div class="label">Bereich</div><div class="inks" id="carea">${AK.map((k,i)=>`<button class="ink" ${da(k)} data-carea="${k}" aria-pressed="${i===AK.indexOf(S.area)}"><i></i>${AREAS[k].s}</button>`).join("")}</div>
+  <div class="label">Art</div><div class="row" id="ckind"><button class="chip" data-ckind="0" aria-pressed="true">Kleiner Schritt</button><button class="chip" data-ckind="1" aria-pressed="false">Dauerhafte Änderung</button></div>
+  <label class="label" for="ckg">Geschätzte Einsparung in kg, wenn du es weißt</label><input type="number" id="ckg" min="0" step="0.1" inputmode="decimal" placeholder="Leer lassen, wenn unklar">
+  <p class="muted" style="font-size:13.5px">Bei einer dauerhaften Änderung gilt der Wert pro Jahr.</p>
+  <div class="row"><button class="btn primary" id="csave">Eintragen</button></div>`)}
+function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now());
+  const today=S.log.filter(e=>e.ts>=ts&&!e.g).slice().reverse();
+  const cntToday=id=>S.log.filter(e=>e.act===id&&e.ts>=ts).length;
+  const item=x=>{const big=x.g,cur=big&&activeBig().find(e=>e.act===x.id),c=!big&&cntToday(x.id);
+    return `<button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):"zählt als Begegnung")}</small>`}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button>`};
+  const hist=S.log.slice().reverse().slice(0,40);
+  return `<section class="view">
+   <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
+   <div class="sec"><div class="sec-h"><h3>Kleine Schritte</h3><span class="label">pro Mal</span></div><div class="acts">${acts.filter(x=>!x.g).map(item).join("")}</div></div>
+   <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g).map(item).join("")}</div></div>
+   <button class="btn" id="custom">Eigenen Schritt eintragen</button>
+   ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${e.k?"− "+kgTxt(e.k):""}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div>`:""}
+   ${hist.length?`<details class="fold" id="histfold"><summary><span>Logbuch</span><span class="label">${S.log.length} Einträge</span></summary><div><div class="entries">${hist.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${fmtDate(e.ts)}${e.g?(e.end?" bis "+fmtDate(e.end):" · dauerhaft"):""} · − ${kgTxt(eKg(e))}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div></details>`:""}
+  </section>`}
+
+/* ---------- Wissen ---------- */
+let ktab="bites",cur=null,Q=null,openTerm=null,duelAns=null;
+function pickBite(){const p=BITES.filter(b=>S.filter==="alle"||b.a===S.filter),un=p.filter(b=>!S.read[b.id]);const l=un.length?un:p;let c=l[Math.floor(Math.random()*l.length)];if(c&&c.id===cur&&l.length>1)c=l.find(b=>b.id!==cur);return c}
+function openBite(id){cur=id;if(!S.read[id])S.read[id]=now();save();tab="know";ktab="bites";anim=true;render();window.scrollTo(0,0);checkMoments()}
+function biteCard(b){const t=b.term&&T[b.term],m=b.mis&&M[b.mis];
+  return `<article class="card bite" ${da(b.a)}><div class="meta"><span class="tag">${dot(b.a)}${AREAS[b.a].n}</span>${evHTML(b.ev)}</div><h2>${b.t}</h2><p class="body">${b.x}</p><p class="caveat"><b>Wie sicher?</b> ${b.c}</p><div class="tip"><b>Was heißt das für dich?</b>${b.tip}</div><p class="src">Quelle: <a href="${esc(b.u)}" target="_blank" rel="noopener">${b.src} ↗</a></p>
+   ${t||m?`<div class="row">${t?`<button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button>`:""}</div>`:""}
+   <div class="row"><button class="btn primary" id="nextbite">Nächstes</button><button class="btn" id="savebite">${S.saved[b.id]?"Gemerkt ✓":"Merken"}</button><button class="btn" id="sharebite">Teilen</button><button class="linkbtn" id="backbite">Zur Übersicht</button></div></article>`}
+function filt(attr,cur0){return `<div class="inks six" role="group" aria-label="Bereich filtern"><button class="ink" data-${attr}="alle" aria-pressed="${cur0==="alle"}"><i></i>Alle</button>${AK.map(k=>`<button class="ink" ${da(k)} data-${attr}="${k}" aria-pressed="${cur0===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div>`}
+function viewKnow(){let h=`<section class="view"><div class="seg" role="group">${[["bites","Häppchen"],["duel","Was spart mehr?"],["terms","Begriffe"]].map(([k,n])=>`<button data-ktab="${k}" aria-pressed="${ktab===k}">${n}</button>`).join("")}</div>`;
+  if(ktab==="bites"){if(cur&&B[cur])return h+biteCard(B[cur])+`</section>`;
+    const n=Object.keys(S.read).length,saved=Object.keys(S.saved).filter(id=>B[id]);
+    h+=`<div class="pull"><button class="stampbtn" id="pull" aria-label="Häppchen ziehen">Häppchen<br>ziehen</button><p class="muted" style="font-size:15px;max-width:34ch">Kurze Erkenntnisse aus Forschung und Praxis, jeweils mit Quelle und Beweislage. ${n} von ${BITES.length} gelesen.</p></div>${filt("bfilter",S.filter)}`;
+    if(saved.length)h+=`<div class="sec"><h3>Gemerkt</h3><div class="list">${saved.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b><small>${B[id].src}</small></span></button>`).join("")}</div></div>`;
+    const read=Object.keys(S.read).filter(id=>B[id]).sort((a,b)=>S.read[b]-S.read[a]);
+    if(read.length)h+=`<details class="fold"><summary><span>Gelesen</span><span class="label">${read.length}</span></summary><div><div class="list">${read.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b></span><span class="aside">${fmtDate(S.read[id])}</span></button>`).join("")}</div></div></details>`;
+    return h+`</section>`}
+  if(ktab==="duel")return h+duelCard()+`</section>`;
+  return h+termsView()+`</section>`}
+function duelCard(){const i=S.duel.i%DUELS.length,d=DUELS[i],r=duelAns;
+  const mx=Math.max(d.ak,d.bk),pct=v=>Math.max(2,Math.round(v/mx*100));
+  const correct=d.eq?"eq":d.ak>d.bk?"a":"b";
+  const cls=k=>!r?"opt":k===correct?"opt right":k===r?"opt wrong":"opt";
+  return `<article class="card duel" ${da("wege")}><div class="sec-h"><span class="label">Frage ${i+1} von ${DUELS.length}</span><span class="label num">${S.duel.r} von ${S.duel.n} richtig</span></div><h2>Was spart mehr?</h2>
+   <div class="opts"><button class="${cls("a")}" data-duel="a" ${r?"disabled":""} ${da("essen")}><span>${d.a}</span>${r?`<span class="bar"><span style="width:${pct(d.ak)}%"></span></span><span class="label num">rund ${kgTxt(d.ak)}</span>`:""}</button>
+   <button class="${cls("b")}" data-duel="b" ${r?"disabled":""} ${da("wege")}><span>${d.b}</span>${r?`<span class="bar"><span style="width:${pct(d.bk)}%"></span></span><span class="label num">rund ${kgTxt(d.bk)}</span>`:""}</button>
+   <button class="${cls("eq")} eq" data-duel="eq" ${r?"disabled":""}>Etwa gleich viel</button></div>
+   ${r?`<p class="fb ${r===correct?"ok":"no"}">${r===correct?"Richtig.":"Nicht ganz."}</p><p>${d.x}</p><p class="caveat">Gerundete Richtwerte in CO₂-Äquivalenten.</p><div class="row"><button class="btn primary" id="duelnext">Nächste Frage</button></div>`:""}</article>`}
+/* Begriffe nach dem Karteikasten */
+const IV=[0,1,3,7,16,35],box=id=>(S.terms[id]||{}).box||0,learned=()=>TERMS.filter(t=>box(t.id)>=4).length;
+function dueTerms(){return TERMS.filter(t=>{const s=S.terms[t.id];return s&&s.next<=now()&&s.box<5})}
+function startQuiz(){let l=dueTerms();if(l.length<5)l=l.concat(TERMS.filter(t=>!S.terms[t.id]&&!l.includes(t)).sort(()=>Math.random()-.5).slice(0,6-l.length));if(l.length<5)l=l.concat(TERMS.filter(t=>!l.includes(t)).sort(()=>Math.random()-.5).slice(0,6-l.length));
+  Q={items:l.slice(0,8).map(t=>({id:t.id,mode:Math.random()<.6?"def":"term"})),i:0,right:0,ans:null};render()}
+function quizCard(){if(Q.i>=Q.items.length)return `<article class="card" ${da("wege")}><span class="label">Runde geschafft</span><h2>${Q.right} von ${Q.items.length} richtig</h2><p>Richtige Begriffe kommen in wachsenden Abständen wieder, falsche bald noch einmal.</p><div class="row"><button class="btn primary" id="qagain">Noch eine Runde</button><button class="btn" id="qend">Fertig</button></div></article>`;
+  const it=Q.items[Q.i],t=T[it.id];if(!it.opts){const o=TERMS.filter(x=>x.id!==t.id).sort(()=>Math.random()-.5).slice(0,3);it.opts=[t,...o].sort(()=>Math.random()-.5).map(x=>x.id)}
+  const a=Q.ans;return `<article class="card" ${da(t.a)}><div class="sec-h"><span class="label">Frage ${Q.i+1} von ${Q.items.length}</span><button class="linkbtn" id="qend">Abbrechen</button></div>
+   ${it.mode==="def"?`<span class="label">Welcher Begriff passt?</span><p style="font-size:18px">${t.d}</p>`:`<span class="label">Was bedeutet</span><h2>${t.n}?</h2>`}
+   <div class="opts2">${it.opts.map(id=>{const o=T[id];let st="";if(a){if(id===t.id)st='style="border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)"';else if(id===a)st='style="border-color:var(--warn);opacity:.75"'}return `<button data-ans="${id}" ${a?"disabled":""} ${st}>${it.mode==="def"?`<b>${o.n}</b>`:o.d}</button>`}).join("")}</div>
+   ${a?`<p class="fb ${a===t.id?"ok":"no"}">${a===t.id?"Richtig.":"Gemeint war: "+t.n+"."}</p><p class="muted" style="font-size:15px">Beispiel: ${t.e}</p><div class="row"><button class="btn primary" id="qnext">Weiter</button></div>`:""}</article>`}
+function termsView(){const F=[0,0,0];TERMS.forEach(t=>F[box(t.id)>=4?2:S.terms[t.id]?1:0]++);const due=dueTerms().length;
+  return `<div class="plain"><div class="sec-h"><h3>Deine Begriffe</h3><span class="label">${learned()} von ${TERMS.length} sitzen</span></div>
+   <div class="stufen">${F[2]?`<span style="flex:${F[2]};background:var(--wir)"></span>`:""}${F[1]?`<span style="flex:${F[1]};background:var(--wohnen)"></span>`:""}${F[0]?`<span style="flex:${F[0]};background:var(--wash)"></span>`:""}</div>
+   <p class="label" style="text-transform:none;letter-spacing:0">Sitzt ${F[2]} · Im Lernen ${F[1]} · Neu ${F[0]}</p>
+   ${Q?"":`<div class="row"><button class="btn go" ${da("wege")} id="quiz">${due?`Üben · ${Math.min(due,8)} fällig`:"Üben"}</button></div>`}</div>
+   ${Q?quizCard():""}
+   <div class="sec"><h3>Alle Begriffe</h3><div class="list">${TERMS.map(t=>`<div><button class="li" data-tt="${t.id}" ${da(t.a)} aria-expanded="${openTerm===t.id}">${dot(t.a)}<span class="tx"><b>${t.n}</b></span><span class="boxes">${[1,2,3,4,5].map(i=>`<b class="${box(t.id)>=i?"on":""}"></b>`).join("")}</span></button>${openTerm===t.id?`<div class="tdef"><p>${t.d}</p><em>Beispiel: ${t.e}</em></div>`:""}</div>`).join("")}</div></div>`}
+
+/* ---------- Missionen ---------- */
+const MAXM=3;
+const activeMis=()=>Object.entries(S.mis).filter(([id,v])=>v.status==="active"&&M[id]).map(([id])=>id);
+let misFilter="alle";
+function suggestMis(){const free=MISS.filter(m=>!S.mis[m.id]||S.mis[m.id].status==="dropped");if(!free.length)return null;
+  // passend zu den größten Hebeln, sonst nach Tag
+  const lastCheck=S.checks[S.checks.length-1];let pref=[];if(lastCheck)pref=lastCheck.top.map(q=>q[2]).filter(id=>free.some(m=>m.id===id));
+  const l=pref.length?free.filter(m=>pref.includes(m.id)):free;return l[(Math.floor(now()/DAY)+(S.skip||0))%l.length]}
+function misCard(m,mode){const v=S.mis[m.id];let extra="";
+  if(mode==="active"){const el=Math.min(m.d,Math.floor((dayStart(now())-dayStart(v.start))/DAY)),left=Math.max(0,m.d-el),di=el,ticks=v.days||{};
+    extra=`${m.d>1?`<div class="days" ${da(m.a)}>${Array.from({length:Math.min(m.d,30)},(_,i)=>`<i class="${ticks[i]?"on":""} ${i===di?"today":""}"></i>`).join("")}</div>`:""}<span class="dur">${left?`Noch ${left} Tag${left>1?"e":""} · bis ${fmtDate(v.start+m.d*DAY)}`:"Die Zeit ist um. Wie lief es?"}</span>
+     <div class="row">${m.d>1&&!ticks[di]?`<button class="btn go" ${da(m.a)} data-tick="${m.id}">Heute dran gewesen</button>`:""}<button class="btn primary" data-done="${m.id}">Geschafft</button><button class="btn" data-misopen="${m.id}">Anleitung</button><button class="linkbtn" data-drop="${m.id}">Abbrechen</button></div>`}
+  else extra=`<div class="row"><button class="btn go" ${da(m.a)} data-accept="${m.id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button><button class="btn" data-misopen="${m.id}">Mehr dazu</button>${mode==="suggest"?`<button class="linkbtn" id="other">Anderer Vorschlag</button>`:""}</div>${activeMis().length>=MAXM?`<p class="muted" style="font-size:14px">Drei Missionen laufen schon. Schließ zuerst eine ab.</p>`:""}`;
+  return `<article class="card mis" ${da(m.a)}><div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2 style="font-size:23px">${m.t}</h2><p style="font-size:16px">${m.x}</p>${extra}</article>`}
+function viewMis(){const act=activeMis(),sug=suggestMis(),list=MISS.filter(m=>misFilter==="alle"||m.a===misFilter);
+  return `<section class="view">
+   <div class="sec"><div class="sec-h"><h2>Läuft gerade</h2><span class="label">${act.length} von ${MAXM}</span></div>${act.length?act.map(id=>misCard(M[id],"active")).join(""):`<p class="empty">Missionen sind kleine Versuche für einen Tag bis einen Monat. Nichts davon muss perfekt gelingen.</p>`}</div>
+   ${sug?`<div class="sec"><h3>Vorschlag für dich</h3>${misCard(sug,"suggest")}</div>`:""}
+   <div class="sec"><h3>Alle Missionen</h3>${filt("mfilter",misFilter)}<div class="list">${list.map(m=>{const v=S.mis[m.id];const st=v?(v.status==="active"?"läuft":v.status==="done"?"geschafft ✓":"abgebrochen"):(m.d===1?"heute":m.d+" Tage");return `<button class="li" data-misopen="${m.id}" ${da(m.a)}>${dot(m.a)}<span class="tx"><b>${m.t}</b></span><span class="aside">${st}</span></button>`}).join("")}</div></div>
+  </section>`}
+function misSheet(id){const m=M[id],v=S.mis[id],b=m.b&&B[m.b];
+  sheet(`${invited===id?`<div class="plain"><b>Eine Einladung</b><span class="muted">Jemand möchte diese Mission gemeinsam mit dir machen. Sie stammt aus „Biotop“, einer kostenlosen App ohne Anmeldung.</span></div>`:""}<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2><p>${m.x}</p><h3>So gehst du vor</h3><ol class="steps">${m.s.map(s=>`<li>${s}</li>`).join("")}</ol>
+   ${b?`<div class="tip" ${da(b.a)}><b>Warum das?</b>${b.t}. <button class="linkbtn" data-bite="${b.id}">Häppchen lesen</button></div>`:""}
+   <div class="row">${!v||v.status==="dropped"?`<button class="btn go" ${da(m.a)} data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button>`:v.status==="active"?`<button class="btn primary" data-done="${id}">Geschafft</button>`:`<span class="label">Geschafft am ${fmtDate(v.end)}</span><button class="btn" data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Noch einmal</button>`}<button class="linkbtn" data-sharemis="${id}">Mit jemandem machen</button></div>`)}
+function doneSheet(id){const m=M[id];sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Geschafft</span><h2>${m.t}</h2><p>Wie war es? Deine Antwort bleibt auf diesem Gerät.</p><div class="row" id="moods">${[["gut","Hat mir gutgetan"],["mix","Gemischt"],["nein","Eher nicht"]].map(([k,n])=>`<button class="chip" data-mood="${k}" aria-pressed="false">${n}</button>`).join("")}</div><label class="label" for="note">Was nimmst du mit?</label><textarea id="note" placeholder="Ein, zwei Sätze reichen."></textarea><div class="row"><button class="btn primary" id="savedone" data-id="${id}">Speichern</button></div>`)}
+
+/* ---------- Jahr ---------- */
+let CK=null;
+function checkSheet(){if(!CK)CK={i:0,ans:{}};const q=CHECK[CK.i];
+  if(!q){const r=calcCheck(CK.ans);S.checks.push(r);save();CK=null;checkResultSheet(r);checkMoments();return}
+  sheet(`<span class="label">Hebel-Check · Frage ${CK.i+1} von ${CHECK.length}</span><div class="qprog"><span style="width:${CK.i/CHECK.length*100}%"></span></div><div class="meta"><span class="tag">${dot(q.a)}${AREAS[q.a].n}</span></div><h2>${q.q}</h2><div class="opts2">${q.o.map((o,k)=>`<button data-ck="${k}" aria-pressed="${CK.ans[q.id]===k}">${o[0]}</button>`).join("")}</div>${CK.i?`<button class="linkbtn" id="ckback">Zurück</button>`:""}`)}
+function calcCheck(ans){const v=id=>{const q=CHECK.find(x=>x.id===id);return q.o[ans[id]??0][1]};
+  const heat=v("flaeche")*v("heiz");
+  const area={essen:v("ess")+v("rest"),wohnen:heat+v("strom"),wege:v("auto")+v("flug"),dinge:Math.max(.8,v("konsum")+v("gebraucht"))};
+  const share=v("teilen");const total=Object.values(area).reduce((a,b)=>a+b,0)+AVG.oeff+share;
+  const src=[["Fliegen",v("flug"),"bahnplan"],["Heizen",heat,"eingrad"],["Auto",v("auto"),"autofasten"],["Ernährung",v("ess"),"veg5"],["Konsum",v("konsum"),"kaufpause"],["Strom",v("strom"),"stromcheck"]].sort((a,b)=>b[1]-a[1]).slice(0,3);
+  return {ts:now(),area,share,total,top:src,ans}}
+function fpBars(r){const mx=Math.max(...AK.filter(k=>k!=="wir").map(k=>Math.max(r.area[k],AVG[k])))*1.05;
+  return `<div class="fp">${AK.filter(k=>k!=="wir").map(k=>`<div class="fprow" ${da(k)}><span>${AREAS[k].n}</span><span class="track"><span style="width:${r.area[k]/mx*100}%"></span><i style="left:${AVG[k]/mx*100}%" title="Durchschnitt"></i></span><em>${nf(r.area[k],1)} t</em></div>`).join("")}
+   <div class="fprow"><span>Öffentlich</span><span class="track"><span style="width:${AVG.oeff/mx*100}%;background:var(--muted)"></span></span><em>${nf(AVG.oeff,1)} t</em></div>
+   ${r.share?`<div class="fprow" ${da("wir")}><span>Teilen</span><span class="track"></span><em>− ${nf(-r.share,1)} t</em></div>`:""}</div>
+   <p class="label" style="text-transform:none;letter-spacing:0">Der schwarze Strich zeigt den deutschen Durchschnitt.</p>`}
+function checkResultSheet(r){sheet(`<span class="label">Dein Ergebnis</span><div class="bigt num">${nf(r.total,1)}<small>t CO₂e im Jahr</small></div>
+  <div class="cmp"><div><span>Du</span><span class="t" style="width:${Math.min(100,r.total/14*100)}%;background:var(--dinge)"></span><span class="num">${nf(r.total,1)} t</span></div><div><span>Durchschnitt DE</span><span class="t" style="width:${10.3/14*100}%"></span><span>10,3 t</span></div><div><span>Ziel langfristig</span><span class="t" style="width:${1/14*100}%;background:var(--wir)"></span><span>1 t</span></div></div>
+  ${fpBars(r)}
+  <h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`).join("")}</div>
+  <p class="caveat">Eine grobe Schätzung mit gerundeten Richtwerten nach dem CO₂-Rechner des Umweltbundesamts. Für eine genaue Rechnung lohnt sich der Rechner selbst: uba.co2-rechner.de</p>`)}
+function ringsSVG(){if(!S.log.length)return "";const first=new Date(Math.min(...S.log.map(e=>e.ts)));const months=[];let d=new Date(first.getFullYear(),first.getMonth(),1);const end=new Date();
+  while(d<=end&&months.length<24){const a=d.getTime(),b=new Date(d.getFullYear(),d.getMonth()+1,1).getTime();const by={};AK.forEach(k=>by[k]=sumKg(a,Math.min(b,now()),k));months.push({a,by,sum:Object.values(by).reduce((x,y)=>x+y,0)});d=new Date(d.getFullYear(),d.getMonth()+1,1)}
+  const mx=Math.max(1,...months.map(m=>m.sum));let r=16,out="";const C=170;
+  months.forEach((m,i)=>{const w=3+12*Math.sqrt(m.sum/mx),rr=r+w/2;let ang=-Math.PI/2;
+    out+=`<circle cx="${C}" cy="${C}" r="${rr}" fill="none" stroke="var(--line)" stroke-width="${w}"/>`;
+    AK.forEach(k=>{const v=m.by[k];if(!v||!m.sum)return;const sw=v/m.sum*Math.PI*2,a2=ang+sw,large=sw>Math.PI?1:0;
+      const p=(t)=>[(C+rr*Math.cos(t)).toFixed(1),(C+rr*Math.sin(t)).toFixed(1)];const [x1,y1]=p(ang),[x2,y2]=p(a2-.0001);
+      out+=sw>6.28?`<circle cx="${C}" cy="${C}" r="${rr}" fill="none" stroke="var(--${k})" stroke-width="${w-1}" style="mix-blend-mode:var(--blend)"/>`:`<path d="M${x1} ${y1}A${rr} ${rr} 0 ${large} 1 ${x2} ${y2}" fill="none" stroke="var(--${k})" stroke-width="${w-1}" style="mix-blend-mode:var(--blend)"/>`;ang=a2});
+    r+=w+2});
+  const R=Math.max(r,40);
+  return `<svg viewBox="${C-R-6} ${C-R-6} ${2*R+12} ${2*R+12}" role="img" aria-label="Jahresringe: ${months.length} Monate"><circle cx="${C}" cy="${C}" r="5" fill="var(--ink)"/>${out}</svg>`}
+function weekView(){const ws=weekStart(),days=[...Array(7)].map((_,i)=>{const a=ws+i*DAY,b=a+DAY,by={};AK.forEach(k=>by[k]=S.log.filter(e=>!e.g&&e.a===k&&e.ts>=a&&e.ts<b).length);return {a,by,n:Object.values(by).reduce((x,y)=>x+y,0)}});
+  const mx=Math.max(3,...days.map(d=>d.n)),key="w"+ws,kg=sumKg(ws),n=days.reduce((s,d)=>s+d.n,0);
+  return `<div class="plain"><div class="sec-h"><h3>Diese Woche</h3><span class="label num">${n} Schritte · − ${kgTxt(kg)}</span></div>
+   <div class="week">${days.map((d,i)=>`<div><span class="col">${AK.map(k=>d.by[k]?`<span ${da(k)} style="height:${d.by[k]/mx*100}%"></span>`:"").join("")}</span>${["Mo","Di","Mi","Do","Fr","Sa","So"][i]}</div>`).join("")}</div>
+   <label class="label" for="weeknote">Was hat sich diese Woche gut angefühlt?</label><textarea id="weeknote" data-week="${key}" placeholder="Ein Satz reicht. Er bleibt auf diesem Gerät.">${esc(S.weeks[key]||"")}</textarea></div>`}
+function viewYear(){const last=S.checks[S.checks.length-1],y0=new Date(new Date().getFullYear(),0,1).getTime();
+  const got=MOMENTS.filter(m=>S.moments[m.id]);const prevWeeks=Object.entries(S.weeks).filter(([k,v])=>v&&k!=="w"+weekStart()).sort((a,b)=>b[0].slice(1)-a[0].slice(1));
+  return `<section class="view">
+   <div class="sec"><div class="sec-h"><h2>Dein Fußabdruck</h2>${last?`<span class="label">${fmtDate(last.ts)}</span>`:""}</div>
+    ${last?`<div class="plain" ${da("dinge")}><div class="bigt num">${nf(last.total,1)}<small>t im Jahr</small></div>${fpBars(last)}<div class="row"><button class="btn" data-checkres="1">Quellen ansehen</button><button class="btn go" ${da("dinge")} data-check="1">Neu messen</button></div>${S.checks.length>1?`<p class="muted" style="font-size:14.5px">Erste Messung am ${fmtDate(S.checks[0].ts)}: ${nf(S.checks[0].total,1)} t. Jetzt ${nf(last.total,1)} t.</p>`:""}</div>`
+    :`<div class="plain"><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen deine drei größten Quellen. Nach ein paar Monaten kannst du neu messen und vergleichen.</p><div class="row"><button class="btn go" ${da("dinge")} data-check="1">Hebel-Check starten</button></div></div>`}</div>
+   <div class="sec"><div class="sec-h"><h2>Jahresringe</h2><span class="label num">− ${kgTxt(sumKg(y0))} seit Januar</span></div>
+    ${S.log.length?`<div class="rings">${ringsSVG()}</div><p class="muted" style="font-size:14.5px">Jeder Ring ist ein Monat, innen der erste. Je breiter der Ring, desto mehr hast du in dem Monat eingespart. Die Farben zeigen die Bereiche.</p><div class="legend">${AK.map(k=>`<span ${da(k)}>${dot(k)}${AREAS[k].n}</span>`).join("")}</div>`:`<p class="empty">Wenn du Schritte einträgst, wächst hier jeden Monat ein Ring.</p>`}</div>
+   <div class="sec"><h2>Rückblick</h2>${weekView()}${prevWeeks.length?`<details class="fold"><summary><span>Frühere Wochen</span><span class="label">${prevWeeks.length}</span></summary><div><div class="entries">${prevWeeks.map(([k,v])=>`<div class="en"><span class="tx"><small>Woche ab ${fmtDate(+k.slice(1))}</small><br>${esc(v)}</span></div>`).join("")}</div></div></details>`:""}</div>
+   ${got.length?`<div class="sec"><div class="sec-h"><h3>Momente</h3><span class="label">${got.length} von ${MOMENTS.length}</span></div><div class="moms">${got.map(m=>`<span class="mom" title="${fmtDate(S.moments[m.id])}"><i></i>${m.t}</span>`).join("")}</div></div>`:""}
+   <details class="fold" id="setfold"><summary><span>Erinnerung</span><span class="label">Rückblick am Sonntag</span></summary><div class="sec">
+     <p style="font-size:15.5px">Die App schickt keine Nachrichten. Wenn du möchtest, legst du dir einen wöchentlichen Termin für den Rückblick in deinem Kalender an.</p>
+     <div class="row"><label class="label" for="rtime">Sonntags um</label><input type="time" id="rtime" value="${S.settings.remind}"></div>
+     <div class="row"><a class="btn" id="gcal" href="${gcal()}" target="_blank" rel="noopener">Google Kalender</a>${framed?"":`<button class="btn" id="ics">Apple- oder anderer Kalender</button>`}</div></div></details>
+   <details class="fold" id="aboutfold"><summary><span>Über diese App</span><span class="label">Haltung · Zahlen · Daten</span></summary><div class="about">
+     <p>Biotop hilft, Stück für Stück nachhaltiger zu leben, ohne Druck und ohne schlechtes Gewissen. Die Haltung dahinter: Ein gutes Leben und ein kleiner Fußabdruck gehen oft zusammen.</p>
+     <p>Alle Kilogramm-Werte sind gerundete Richtwerte in CO₂-Äquivalenten. Sie stützen sich vor allem auf Daten des Umweltbundesamts, des ifeu-Instituts und auf Übersichtsstudien. Sie sollen Größenordnungen zeigen und sind keine genaue Bilanz.</p>
+     <div class="sec">${[3,2,1,0].map(l=>`<div>${evHTML(l)} <span class="muted" style="font-size:14px">· ${["Beispiel, Praxiswissen oder Denkanstoß","eine einzelne Studie oder nur Zusammenhänge","mehrere Studien, aber mit Grenzen","Meta-Analysen, große Datensätze oder Experimente"][l]}</span></div>`).join("")}</div>
+     <p>Stand der Recherche: Oktober 2026. Version vom ${BUILD}.</p>
+     <p class="muted" style="font-size:14px">Alles, was du einträgst, bleibt nur in diesem Browser auf diesem Gerät. Es gibt keine Anmeldung und keine Auswertung.</p>
+     <div class="row"><button class="btn" id="shareapp">App weiterempfehlen</button></div>
+     <div class="row">${confirmReset?`<span>Wirklich alles löschen?</span><button class="btn primary" id="resetyes">Ja, löschen</button><button class="btn" id="resetno">Abbrechen</button>`:`<button class="linkbtn" id="reset">Alles zurücksetzen</button>`}</div>
+     <p class="muted" style="font-size:14px;border-top:1.5px dashed var(--line);padding-top:12px">Biotop ist ein privates Projekt von <b style="color:var(--ink)">Carlo Maximilian Engeländer</b>. © 2026 Carlo Maximilian Engeländer. Alle Rechte vorbehalten. Du darfst die App gern nutzen und den Link weitergeben. Inhalte, Texte und Gestaltung dürfen nicht ohne Erlaubnis kopiert oder anderswo veröffentlicht werden.</p>
+   </div></details>
+   <p class="footcredit">Biotop · © 2026 Carlo Maximilian Engeländer</p>
+  </section>`}
+let confirmReset=false;
+const framed=(()=>{try{return window.top!==window.self}catch(e){return true}})();
+const pad=n=>String(n).padStart(2,"0");
+const icsDate=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+function nextSunday(){const [h,mi]=(S.settings.remind||"19:00").split(":").map(Number);const d=new Date();d.setDate(d.getDate()+((7-d.getDay())%7));d.setHours(h,mi,0,0);if(d<new Date())d.setDate(d.getDate()+7);return d}
+function gcal(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4),tz=Intl.DateTimeFormat().resolvedOptions().timeZone;return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Biotop: Wochenrückblick")}&dates=${icsDate(s)}/${icsDate(e)}&ctz=${encodeURIComponent(tz)}&details=${encodeURIComponent("Fünf Minuten: Was hast du diese Woche getan, was hat sich gut angefühlt?\n\n"+appUrl())}&recur=${encodeURIComponent("RRULE:FREQ=WEEKLY")}`}
+function ics(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4);const t=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Biotop//DE","BEGIN:VEVENT",`UID:wr-${now()}@biotop`,`DTSTAMP:${icsDate(new Date())}`,`DTSTART:${icsDate(s)}`,`DTEND:${icsDate(e)}`,"RRULE:FREQ=WEEKLY","SUMMARY:Biotop: Wochenrückblick",`URL:${appUrl()}`,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Biotop: Wochenrückblick","TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const u=URL.createObjectURL(new Blob([t],{type:"text/calendar;charset=utf-8"})),l=document.createElement("a");l.href=u;l.download="biotop-rueckblick.ics";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("Kalenderdatei geöffnet. Füg den Termin nur noch hinzu.")}
+
+/* ---------- Momente ---------- */
+const MOMENTS=[
+ {id:"first",t:"Der erste Samen",x:"Dein erster Schritt steht im Logbuch. In der Landschaft keimt jetzt etwas.",ok:()=>S.log.length>=1},
+ {id:"tree",t:"Der erste Baum",x:"Eine dauerhafte Änderung wirkt ab jetzt jeden Tag weiter, ohne dass du etwas tun musst.",ok:()=>S.log.some(e=>e.g&&e.a!=="wir")},
+ {id:"ten",t:"Zehn Schritte",x:"Unter „Jahr“ wächst jetzt dein erster Jahresring.",ok:()=>S.log.length>=10},
+ {id:"five",t:"Alle fünf Bereiche",x:"Du hast in jedem Bereich mindestens einen Schritt eingetragen.",ok:()=>AK.every(k=>S.log.some(e=>e.a===k))},
+ {id:"kg100",t:"100 Kilogramm",x:"So viel CO₂ steckt etwa in 600 km Autofahrt.",ok:()=>sumKg(0)>=100},
+ {id:"t1",t:"Eine Tonne",x:"Eine Tonne entspricht etwa einem Zehntel des deutschen Durchschnitts im Jahr.",ok:()=>sumKg(0)>=1000},
+ {id:"check",t:"Die Hebel kennen",x:"Du kennst jetzt deine drei größten Quellen. Unter „Missionen“ gibt es passende Vorschläge.",ok:()=>S.checks.length>=1},
+ {id:"mis1",t:"Die erste Mission",x:"Über deiner Landschaft fliegt jetzt ein Vogel.",ok:()=>misDone()>=1},
+ {id:"meet25",t:"25 Begegnungen",x:"Zum Dorf in deiner Landschaft führt jetzt ein breiter Weg.",ok:()=>meets()>=25},
+ {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
+];
+let momentOpen=false;
+function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();
+  setTimeout(()=>{momentOpen=true;const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true"><div class="mseal" aria-hidden="true"></div><span class="label">Ein Moment</span><h2>${m.t}</h2><p>${m.x}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);buzz([10,60,10,60,20]);
+    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false}})},600)}
+
+/* ---------- Teilen ---------- */
+const appUrl=()=>location.href.split("#")[0];
+async function shareOut(title,text,url){const full=text+"\n\n"+url;
+  if(navigator.share){try{await navigator.share({title,text,url});return}catch(e){if(e&&e.name==="AbortError")return}}
+  try{await navigator.clipboard.writeText(full);toast("Text und Link kopiert.");return}catch(e){}
+  sheet(`<span class="label">Zum Verschicken</span><h2>Text kopieren</h2><textarea id="sharetext" readonly style="min-height:190px">${esc(full)}</textarea>`);const ta=$("#sharetext");ta.focus();ta.select()}
+let invited=null;
+
+/* ---------- Blatt ---------- */
+function sheet(html){$("#layer").innerHTML=`<div class="sheet" id="sh"><div class="panel" role="dialog" aria-modal="true"><button class="close" id="shx">Schließen</button>${html}</div></div>`;
+  $("#sh").addEventListener("click",e=>{if(e.target.id==="sh"||e.target.id==="shx")closeSheet()})}
+function closeSheet(){$("#layer").innerHTML="";CK=null}
+
+/* ---------- Rendern ---------- */
+function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,year:viewYear}[tab]();const Mn=$("#main");Mn.classList.remove("anim");Mn.innerHTML=v;void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
+  $("#tl").innerHTML=`<b class="num">− ${kgTxt(sumKg(0))}</b>${stage().n}`;
+  if(tab==="home")startLand();else if(raf){cancelAnimationFrame(raf);raf=0}}
+
+document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox");if(!t)return;const d=t.dataset;
+  if(t.id==="landbox"){landSheet();return}
+  if(t.id==="home"){tab="home";anim=true;render();window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});return}
+  if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
+  if(d.log){logAct(d.log,e,t);return}
+  if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();stamp(null,$(".stage")||document.body,`var(--${a.a})`);buzz([10,50,10,50,18]);toast("Eingetragen. Wirkt ab jetzt jeden Tag.");checkMoments();return}
+  if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
+  if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
+  if(d.area){S.area=d.area;save();buzz(5);render();return}
+  if(t.id==="custom"){customSheet();return}
+  if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
+  if(d.ckind){document.querySelectorAll("[data-ckind]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
+  if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=Math.max(0,parseFloat(String($("#ckg").value).replace(",","."))||0);
+    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=kg}else en.k=kg;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();buzz([8,40,8]);toast("Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()});checkMoments();return}
+  if(d.check){CK=null;checkSheet();return}
+  if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;buzz(5);checkSheet();return}
+  if(t.id==="ckback"&&CK){CK.i=Math.max(0,CK.i-1);checkSheet();return}
+  if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
+  if(d.ktab){ktab=d.ktab;cur=null;anim=true;render();return}
+  if(t.id==="pull"){const b=pickBite();if(!b)return;stamp(e,t,"var(--dinge)");buzz(10);setTimeout(()=>openBite(b.id),calm()?0:260);return}
+  if(d.bite){closeSheet();openBite(d.bite);return}
+  if(t.id==="nextbite"){const b=pickBite();if(b)openBite(b.id);return}
+  if(t.id==="backbite"){cur=null;anim=true;render();return}
+  if(t.id==="savebite"&&cur){if(S.saved[cur])delete S.saved[cur];else{S.saved[cur]=now();toast("Gemerkt.")}save();render();return}
+  if(t.id==="sharebite"&&cur){const b=B[cur];shareOut(b.t,`Das fand ich spannend: „${b.t}“. ${b.x.split(/(?<=\.)\s/)[0]}\n\nEs stammt aus Biotop, einer kleinen App, die hilft, Stück für Stück nachhaltiger zu leben.`,appUrl()+"#b-"+b.id);return}
+  if(d.bfilter){S.filter=d.bfilter;save();render();return}
+  if(d.duel&&!duelAns){duelAns=d.duel;const dd=DUELS[S.duel.i%DUELS.length],ok=d.duel===(dd.eq?"eq":dd.ak>dd.bk?"a":"b");S.duel.n++;if(ok)S.duel.r++;save();buzz(ok?[8,50,8]:30);render();checkMoments();return}
+  if(t.id==="duelnext"){S.duel.i++;duelAns=null;save();render();return}
+  if(t.id==="quiz"||t.id==="qagain"){startQuiz();return}
+  if(t.id==="qend"){Q=null;render();return}
+  if(d.ans&&Q&&!Q.ans){const it=Q.items[Q.i],ok=d.ans===it.id,s=S.terms[it.id]||{box:0,next:0};s.box=ok?Math.min(5,s.box+1):1;s.next=now()+IV[s.box]*DAY-(ok?0:DAY);S.terms[it.id]=s;if(ok)Q.right++;Q.ans=d.ans;save();buzz(ok?[8,50,8]:30);render();return}
+  if(t.id==="qnext"){Q.i++;Q.ans=null;render();return}
+  if(d.tt){openTerm=openTerm===d.tt?null:d.tt;render();return}
+  if(d.term){closeSheet();tab="know";ktab="terms";openTerm=d.term;cur=null;render();const el=document.querySelector(`[data-tt="${d.term}"]`);if(el)el.scrollIntoView({block:"center"});return}
+  if(d.misopen){misSheet(d.misopen);return}
+  if(d.mfilter){misFilter=d.mfilter;render();return}
+  if(d.accept){if(activeMis().length>=MAXM)return;S.mis[d.accept]={status:"active",start:now(),days:{}};save();closeSheet();tab="mis";anim=true;render();buzz([10,40,10]);toast("Mission angenommen.");return}
+  if(d.tick){const v=S.mis[d.tick];v.days=v.days||{};v.days[Math.floor((dayStart(now())-dayStart(v.start))/DAY)]=1;save();stamp(e,t,`var(--${M[d.tick].a})`);buzz([8,40,8]);render();return}
+  if(d.drop){S.mis[d.drop].status="dropped";save();render();return}
+  if(t.id==="other"){S.skip=(S.skip||0)+1;save();render();return}
+  if(d.done){doneSheet(d.done);return}
+  if(d.mood){document.querySelectorAll("[data-mood]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
+  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();buzz([12,60,12,60,20]);toast("Gespeichert. Ein Vogel mehr über deinem Biotop.");checkMoments();return}
+  if(d.sharemis){const m=M[d.sharemis];shareOut(m.t,`Hast du Lust, mit mir eine kleine Mission zu machen? Sie heißt „${m.t}“: ${m.x.split(/(?<=\.)\s/)[0]} Zu zweit fällt es leichter. Die Anleitung steht in Biotop, einer kostenlosen App ohne Anmeldung:`,appUrl()+"#m-"+m.id);return}
+  if(t.id==="ics"){ics();return}
+  if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
+  if(t.id==="reset"){confirmReset=true;render();return}
+  if(t.id==="resetno"){confirmReset=false;render();return}
+  if(t.id==="resetyes"){S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
+  if(t.id==="welcomecheck"){closeSheet();checkSheet();return}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
+document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week){S.weeks[e.target.dataset.week]=e.target.value;save()}});
+document.addEventListener("change",e=>{if(e.target.id==="rtime"){S.settings.remind=e.target.value||"19:00";save();const g=$("#gcal");if(g)g.href=gcal()}});
+
+function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();
+  sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p><div class="row"><button class="btn go" ${da("dinge")} id="welcomecheck">Mit dem Hebel-Check beginnen</button><button class="btn" id="shx">Erst umschauen</button></div>`);
+  $("#sh").querySelectorAll("#shx").forEach(b=>b.onclick=closeSheet)}
+function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis","year"].includes(h)){tab=h;return}
+  if(h.startsWith("b-")&&B[h.slice(2)]){cur=h.slice(2);if(!S.read[cur])S.read[cur]=now();tab="know";ktab="bites";return}
+  if(h.startsWith("m-")&&M[h.slice(2)]){invited=h.slice(2);tab="mis";setTimeout(()=>misSheet(invited),300)}}
+if(location.hash)fromHash();
+render();setTimeout(welcome,700);
+function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;fetch(location.pathname,{cache:"reload"}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD="([^"]+)"/);if(!m||m[1]===BUILD)return;let dn=null;try{dn=sessionStorage.getItem("bt-upd")}catch(e){}if(dn===m[1])return;const go=()=>{if($("#layer").innerHTML||momentOpen){setTimeout(go,4000);return}try{sessionStorage.setItem("bt-upd",m[1])}catch(e){}location.reload()};go()}).catch(()=>{})}
+setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")checkUpdate()});
+})();
+
+</script>
+
+</body></html>
