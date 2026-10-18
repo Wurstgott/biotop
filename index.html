@@ -352,6 +352,39 @@ button.card:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--c,var
 nav.tabs button span{white-space:nowrap}
 @media (max-width:370px){nav.tabs button{font-size:12px;letter-spacing:0}}
 
+/* --- Klickdesign nach Briefing: ruhig, matt, kurz. Keine Größensprünge, kein Glanz. --- */
+html,body,.app{overflow-x:clip}
+input.hap{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;z-index:6;border-radius:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
+button:disabled>input.hap{display:none}
+/* Aktion: Welle */
+.ripbox{position:fixed;overflow:hidden;pointer-events:none;z-index:46}
+.rip{position:absolute;border-radius:50%;opacity:0}
+/* Auswahl: Füllung läuft vom Fingerpunkt ein */
+@property --r{syntax:'<percentage>';inherits:false;initial-value:160%}
+.fill-in[aria-pressed="true"]{background-image:radial-gradient(circle at var(--fx,50%) var(--fy,50%),transparent 0 var(--r),var(--sheet) var(--r));animation:fillin .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fillin{from{--r:0%}to{--r:160%}}
+/* Erfolg: Haken zeichnet sich */
+.okmark{width:18px;height:18px;flex:none;fill:none;stroke:var(--wir);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;animation:drawok .42s .05s cubic-bezier(.3,.7,.2,1) forwards}
+.opt .okmark,.opts2 .okmark{display:inline-block;vertical-align:-3px;margin-right:7px;stroke:var(--ok)}
+@keyframes drawok{to{stroke-dashoffset:0}}
+/* Schalter: Knopf dehnt sich beim Drücken */
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.toggle{position:relative;width:52px;height:32px;border-radius:16px;border:2px solid var(--ink);background:var(--wash);flex:none;padding:0;transition:background-color .2s}
+.toggle::after{content:"";position:absolute;inset:-8px}
+.toggle .knob{position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:12px;background:var(--ink);transition:width .16s ease-out,left .24s cubic-bezier(.3,.7,.2,1)}
+.toggle[aria-checked="true"]{background:var(--wir)}
+.toggle[aria-checked="true"] .knob{left:calc(100% - 26px)}
+.toggle:active .knob{width:30px}
+.toggle[aria-checked="true"]:active .knob{left:calc(100% - 32px)}
+/* Reiterleiste: ein Punkt gleitet */
+nav.tabs button[aria-current="page"]::before{display:none}
+.tabdot{position:absolute;top:-5px;left:0;width:8px;height:8px;border-radius:50%;background:var(--wege);border:2px solid var(--ink);box-sizing:content-box;margin-left:-2px;pointer-events:none}
+.tabdot.ready{transition:transform .38s cubic-bezier(.3,.7,.2,1),background-color .38s}
+/* Navigation: kein Tick, nur leichtes Abdunkeln */
+.li:active,.linkbtn:active,.fold summary:active,.more:active,.seg button:active,nav.tabs button:active,.close:active,.nudge:active{background-color:color-mix(in srgb,var(--ink) 8%,transparent);transform:none;box-shadow:none}
+.toast{display:flex;align-items:center;gap:10px}
+@media (prefers-reduced-motion:reduce){.fill-in[aria-pressed="true"]{animation:none;background-image:none}.okmark{animation:none;stroke-dashoffset:0}.tabdot.ready,.toggle,.toggle .knob{transition:none}}
+
 </style>
 </head><body>
 <div class="app" id="app">
@@ -361,7 +394,7 @@ nav.tabs button span{white-space:nowrap}
   </header>
   <main id="main"></main>
 </div>
-<nav class="tabs" aria-label="Bereiche"><div class="in" id="tabs"></div></nav>
+<nav class="tabs" aria-label="Bereiche"><div class="in" id="tabs"></div><span class="tabdot" id="tabdot" aria-hidden="true"></span></nav>
 <div id="layer"></div>
 <div id="live" class="sr" aria-live="polite"></div>
 <script>
@@ -823,7 +856,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="18.10.2026, 17:35";
+const BUILD="18.10.2026, 17:39";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -876,22 +909,52 @@ function stageBar(st,withName){const nm=withName?`<span class="stage">${st.n}</s
   return `<div class="lprog">${nm}<span class="lbar"><i style="width:${old}%" data-to="${pct}"></i></span><span>Nächste Stufe <b>${st.next[1]}</b> <span class="num">${st.g}/${st.next[0]}</span></span></div>`}
 function fillBars(){requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll("[data-to]").forEach(i=>{i.style.width=i.dataset.to+"%";i.removeAttribute("data-to")})))}
 
-/* ---------- Haptik und Stempel ---------- */
-let hapt=null;
-function haptic(){if(!hapt){const l=document.createElement("label");l.setAttribute("aria-hidden","true");l.style.cssText="position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none";const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.tabIndex=-1;l.appendChild(i);document.body.appendChild(l);hapt=l}try{hapt.click()}catch(e){}}
-/* Haptik: Auswahl 10 ms, Eintrag ein Klick, Stufe ein kräftigeres Doppelmuster. Reiterwechsel ohne Haptik. Bei reduzierter Bewegung aus (Bauplan). */
-const HAP={sel:10,log:14,undo:10,big:[15,90,30],stage:[15,90,30],right:14,wrong:[20,60,20]};
-function buzz(p){if(calm())return;if(navigator.vibrate){try{navigator.vibrate(p)}catch(e){}return}
-  const n=Array.isArray(p)?Math.ceil(p.length/2):1;haptic();for(let k=1;k<n;k++)setTimeout(haptic,k*90)}
+/* ---------- Klickdesign und Vibration ----------
+   iPhone: Safari hat keine Vibrations-Schnittstelle. Jedes tickende Element bekommt einen unsichtbaren Schalter (input switch),
+   den der Finger selbst umlegt. Das gibt genau einen Tick, sofort. Programmatisch ausgelöste oder verzögerte Ticks spielt iOS nicht ab.
+   Android: navigator.vibrate mit einem Muster je Klickfamilie. Pro Tippen genau eine Rückmeldung. */
+const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const HAPSEL='.btn:not(a),.chip,.opt,.opts2>button,.ink,.qa,.act,.toggle,button.card,.stampbtn,.mok,.x';
+const SELSEL='.chip,.ink,.opts2>button';
+const OKSEL='[data-log],[data-addbig],[data-setbase],[data-start],#savedone,#csave,#invsave,[data-tick]';
+const VIB={sel:10,act:12,ok:[10,60,14],err:[24,60,24]};
+const hapOn=()=>S.settings.hap!==false&&!calm();
+function vib(p){if(!hapOn()||IOS||!navigator.vibrate)return;try{navigator.vibrate(p)}catch(e){}}
+function armHaptics(){const on=hapOn();document.querySelectorAll(HAPSEL).forEach(el=>{const has=el.querySelector(":scope>input.hap");
+  if(!on||el.tagName==="A"){if(has)has.remove();return}if(has)return;
+  if(getComputedStyle(el).position==="static")el.style.position="relative";
+  const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.className="hap";i.tabIndex=-1;i.setAttribute("aria-hidden","true");el.appendChild(i)});
+  if(!on)document.querySelectorAll("input.hap").forEach(i=>i.remove())}
+if(IOS){let q=false;new MutationObserver(()=>{if(!q){q=true;requestAnimationFrame(()=>{q=false;armHaptics()})}}).observe(document.body,{childList:true,subtree:true})}
+/* Android: ein Muster je Familie, sofort beim Tippen. Quiz-Antworten melden sich selbst (richtig oder falsch). */
+document.addEventListener("click",e=>{const el=e.target.closest(HAPSEL);if(!el||el.disabled||el.dataset.hap==="judge")return;vib(el.matches(OKSEL)?VIB.ok:el.matches(SELSEL)?VIB.sel:VIB.act)},true);
+/* Aktion: matte Welle in currentColor vom Berührungspunkt, 16 % Deckkraft, verblasst in 600 ms.
+   Sie liegt in einer eigenen Ebene über dem Element, damit sie ein Neuzeichnen übersteht. */
+const RIPSEL='.btn,.qa,.act,button.card,.mok,.x';
+document.addEventListener("pointerdown",e=>{if(calm()||e.button>0)return;const el=e.target.closest(RIPSEL);if(!el||el.disabled)return;const r=el.getBoundingClientRect(),cs=getComputedStyle(el);
+  const box=document.createElement("span");box.className="ripbox";Object.assign(box.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px",height:r.height+"px",borderRadius:cs.borderRadius});
+  const x=e.clientX-r.left,y=e.clientY-r.top,R=Math.hypot(Math.max(x,r.width-x),Math.max(y,r.height-y)),dot=document.createElement("span");dot.className="rip";
+  Object.assign(dot.style,{left:(x-R)+"px",top:(y-R)+"px",width:2*R+"px",height:2*R+"px",background:cs.color});box.appendChild(dot);fx().appendChild(box);
+  dot.animate([{transform:"scale(.08)",opacity:.16},{transform:"scale(1)",opacity:.1,offset:.45},{transform:"scale(1)",opacity:0}],{duration:600,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>box.remove()},{passive:true});
+/* Auswahl: die Füllung läuft vom Fingerpunkt aus ein. Der Punkt wird im pointerdown gemerkt, das Element nach dem Neuzeichnen über seine data-Attribute wiedergefunden. */
+let pick=null;
+document.addEventListener("pointerdown",e=>{const el=e.target.closest(SELSEL);if(!el)return;const r=el.getBoundingClientRect(),attrs=[...el.attributes].filter(a=>a.name.startsWith("data-")&&a.name!=="data-a");
+  pick={sel:attrs.length?attrs.map(a=>`[${a.name}="${CSS.escape(a.value)}"]`).join(""):null,fx:((e.clientX-r.left)/r.width*100).toFixed(1)+"%",fy:((e.clientY-r.top)/r.height*100).toFixed(1)+"%",t:performance.now()}},{passive:true});
+document.addEventListener("click",()=>{if(!pick||!pick.sel||calm()||performance.now()-pick.t>1500)return;const p0=pick;pick=null;setTimeout(()=>
+  document.querySelectorAll(p0.sel).forEach(el=>{if(el.getAttribute("aria-pressed")!=="true"&&el.getAttribute("aria-checked")!=="true")return;el.style.setProperty("--fx",p0.fx);el.style.setProperty("--fy",p0.fy);el.classList.remove("fill-in");void el.offsetWidth;el.classList.add("fill-in")}),0)});
+/* Fehler: einmalige kleine Seitwärtsbewegung von höchstens 5 px */
+function shake(el){if(!el||calm())return;el.animate([{transform:"translateX(0)"},{transform:"translateX(-5px)"},{transform:"translateX(4px)"},{transform:"translateX(-2px)"},{transform:"translateX(0)"}],{duration:320,easing:"ease-out"})}
+/* Erfolg: ein Haken zeichnet sich */
+const CHECK_SVG='<svg class="okmark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>';
 function fx(){let l=$("#fx");if(!l){l=document.createElement("div");l.id="fx";document.body.appendChild(l)}return l}
 /* Ein Riso-Stempel: zwei leicht versetzte Tintenflächen, eine davon gerastert */
 function stamp(e,el,col){if(calm())return;const r=el.getBoundingClientRect(),x=e&&e.clientX?e.clientX:r.left+r.width/2,y=e&&e.clientY?e.clientY:r.top+r.height/2,sz=Math.min(220,Math.max(90,r.height*2.2));
   const mk=(bg,dx,dy,del)=>{const d=document.createElement("span");d.className="stamp";Object.assign(d.style,{left:(x-sz/2+dx)+"px",top:(y-sz/2+dy)+"px",width:sz+"px",height:sz+"px",background:bg});fx().appendChild(d);
     d.animate([{transform:"scale(.15) rotate(-8deg)",opacity:0},{transform:"scale(.85) rotate(0)",opacity:.75,offset:.25},{transform:"scale(1.05)",opacity:0}],{duration:900,delay:del,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>d.remove()};
   mk(col,-3,-2,0);mk(`radial-gradient(${col} 1.6px,transparent 2px) 0 0/7px 7px`,4,3,70)}
-function toast(msg,undo){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.innerHTML=`<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
+function toast(msg,undo,ok){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.innerHTML=`${ok?CHECK_SVG:""}<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
   const out=()=>{if(!t.isConnected)return;if(momentOpen){setTimeout(out,1200);return}t.classList.add("out");setTimeout(()=>t.remove(),200)};
-  if(undo)t.querySelector("#undo").onclick=()=>{buzz(HAP.undo);undo();t.remove()};setTimeout(out,undo?4200:2600)}
+  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(out,undo?4200:2600)}
 
 /* ---------- Landschaft ---------- */
 let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0;
@@ -1101,7 +1164,9 @@ const TABS=[
  ["year","Dein Weg","var(--wohnen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>']
 ];
 let tab="home",anim=true;
-function renderTabs(){const act=activeMis().length;$("#tabs").innerHTML=TABS.map(([id,n,c,ic])=>`<button data-tab="${id}" style="--tc:${c}" ${tab===id?'aria-current="page"':""}>${ic}<span>${n}</span>${id==="mis"&&act?`<span class="badge">${act}</span>`:""}</button>`).join("")}
+function renderTabs(){const act=activeMis().length;$("#tabs").innerHTML=TABS.map(([id,n,c,ic])=>`<button data-tab="${id}" style="--tc:${c}" ${tab===id?'aria-current="page"':""}>${ic}<span>${n}</span>${id==="mis"&&act?`<span class="badge">${act}</span>`:""}</button>`).join("");placeDot()}
+function placeDot(){const d=$("#tabdot"),b=document.querySelector('#tabs [aria-current="page"]');if(!d||!b)return;const nb=d.parentElement.getBoundingClientRect(),r=b.getBoundingClientRect();d.style.transform=`translateX(${(r.left+r.width/2-nb.left-4).toFixed(1)}px)`;d.style.background=b.style.getPropertyValue("--tc");if(!d.classList.contains("ready"))requestAnimationFrame(()=>d.classList.add("ready"))}
+addEventListener("resize",placeDot);
 $("#tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;const to=b.dataset.tab;if(to===tab){if(to==="know"){cur=null;Q=null}window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});if(to==="know")render();return}
   tab=to;anim=true;cur=null;render();window.scrollTo(0,0)});
 
@@ -1163,8 +1228,8 @@ function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>
 function logAct(id,ev,el){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
   const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;S.log.push(e);save();
-  if(el)stamp(ev,el,`var(--${a.a})`);buzz(HAP.log);
-  const cb=coveredBy(e);render();toast(growMsg(e)+(cb?` · zählt schon über „${A[cb].t}“`:a.k?` · ${kgTxt(a.k)} gespart`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()});checkMoments(true)}
+  
+  const cb=coveredBy(e);render();toast(growMsg(e)+(cb?` · zählt schon über „${A[cb].t}“`:a.k?` · ${kgTxt(a.k)} gespart`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
 function growMsg(e){const k=clumpKey(e),c=landClumps().find(x=>x.k===k),n=c?c.n:1,sp=species(k,e.a),la=level(n),lb=level(n-1),st=stage();
   let head;if(n===1)head=`Neu in deinem Biotop: <b>${sp}</b>`;else if(la>lb)head=`<b>${sp}</b> wachsen auf Stufe ${la} von 6`;else if(la>=6)head=`<b>${sp}</b> in voller Pracht`;else{const r=nextLv(n)-n;head=`<b>${sp}</b> · noch ${r}× bis Stufe ${la+1}`}
   return head}
@@ -1232,11 +1297,11 @@ const DORD=DUELS.map((_,i)=>i).sort((a,b)=>hashStr("d"+a+"-"+S.duel.seed)-hashSt
 function duelCard(){const i=S.duel.i%DUELS.length,d=duelAt(),r=duelAns;
   const mx=Math.max(d.ak,d.bk),pct=v=>Math.max(2,Math.round(v/mx*100));
   const correct=d.eq?"eq":d.ak>d.bk?"a":"b";
-  const cls=k=>!r?"opt":k===correct?"opt right":k===r?"opt wrong":"opt";
+  const cls=k=>!r?"opt":k===correct?"opt right":k===r?"opt wrong":"opt";const ck=k=>r&&k===correct?CHECK_SVG:"";
   return `<article class="card duel" ${da("wege")}><div class="sec-h"><span class="label">Frage ${i+1} von ${DUELS.length}</span><span class="label num">${S.duel.r} von ${S.duel.n} richtig</span></div><h2>Was spart mehr?</h2>
-   <div class="opts"><button class="${cls("a")}" data-duel="a" ${r?"disabled":""} ${da("essen")}><span>${d.a}</span>${r?`<span class="bar"><span style="width:${pct(d.ak)}%"></span></span><span class="label num">rund ${kgTxt(d.ak)}</span>`:""}</button>
-   <button class="${cls("b")}" data-duel="b" ${r?"disabled":""} ${da("wege")}><span>${d.b}</span>${r?`<span class="bar"><span style="width:${pct(d.bk)}%"></span></span><span class="label num">rund ${kgTxt(d.bk)}</span>`:""}</button>
-   <button class="${cls("eq")} eq" data-duel="eq" ${r?"disabled":""}>Etwa gleich viel</button></div>
+   <div class="opts"><button class="${cls("a")}" data-hap="judge" data-duel="a" ${r?"disabled":""} ${da("essen")}><span>${ck("a")}${d.a}</span>${r?`<span class="bar"><span style="width:${pct(d.ak)}%"></span></span><span class="label num">rund ${kgTxt(d.ak)}</span>`:""}</button>
+   <button class="${cls("b")}" data-hap="judge" data-duel="b" ${r?"disabled":""} ${da("wege")}><span>${ck("b")}${d.b}</span>${r?`<span class="bar"><span style="width:${pct(d.bk)}%"></span></span><span class="label num">rund ${kgTxt(d.bk)}</span>`:""}</button>
+   <button class="${cls("eq")} eq" data-hap="judge" data-duel="eq" ${r?"disabled":""}>${ck("eq")}Etwa gleich viel</button></div>
    ${r?`<p class="fb ${r===correct?"ok":"no"}">${r===correct?"Richtig.":"Nicht ganz."}</p><p>${d.x}</p><p class="caveat">Gerundete Richtwerte in CO₂-Äquivalenten.</p><div class="row"><button class="btn primary" id="duelnext">Nächste Frage</button></div>`:""}</article>`}
 /* Begriffe nach dem Karteikasten */
 const IV=[0,1,3,7,16,35],box=id=>(S.terms[id]||{}).box||0,learned=()=>TERMS.filter(t=>box(t.id)>=4).length;
@@ -1247,7 +1312,7 @@ function quizCard(){if(Q.i>=Q.items.length)return `<article class="card" ${da("w
   const it=Q.items[Q.i],t=T[it.id];if(!it.opts){const o=TERMS.filter(x=>x.id!==t.id).sort(()=>Math.random()-.5).slice(0,3);it.opts=[t,...o].sort(()=>Math.random()-.5).map(x=>x.id)}
   const a=Q.ans;return `<article class="card" ${da(t.a)}><div class="sec-h"><span class="label">Frage ${Q.i+1} von ${Q.items.length}</span><button class="linkbtn" id="qend">Abbrechen</button></div>
    ${it.mode==="def"?`<span class="label">Welcher Begriff passt?</span><p style="font-size:18px">${t.d}</p>`:`<span class="label">Was bedeutet</span><h2>${t.n}?</h2>`}
-   <div class="opts2">${it.opts.map(id=>{const o=T[id];let st="";if(a){if(id===t.id)st='style="border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)"';else if(id===a)st='style="border-color:var(--warn);opacity:.75"'}return `<button data-ans="${id}" ${a?"disabled":""} ${st}>${it.mode==="def"?`<b>${o.n}</b>`:o.d}</button>`}).join("")}</div>
+   <div class="opts2">${it.opts.map(id=>{const o=T[id];let st="";if(a){if(id===t.id)st='style="border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)"';else if(id===a)st='style="border-color:var(--warn);opacity:.75"'}return `<button data-hap="judge" data-ans="${id}" ${a?"disabled":""} ${st}>${a&&id===t.id?CHECK_SVG:""}${it.mode==="def"?`<b>${o.n}</b>`:o.d}</button>`}).join("")}</div>
    ${a?`<p class="fb ${a===t.id?"ok":"no"}">${a===t.id?"Richtig.":"Gemeint war: "+t.n+"."}</p><p class="muted" style="font-size:15px">Beispiel: ${t.e}</p><div class="row"><button class="btn primary" id="qnext">Weiter</button></div>`:""}</article>`}
 function termsView(){const F=[0,0,0];TERMS.forEach(t=>F[box(t.id)>=4?2:S.terms[t.id]?1:0]++);const due=dueTerms().length;
   return `<div class="plain"><div class="sec-h"><h3>Deine Begriffe</h3><span class="label">${learned()} von ${TERMS.length} sitzen</span></div>
@@ -1346,6 +1411,8 @@ function viewYear(){const last=S.checks[S.checks.length-1],y0=new Date(new Date(
      <p style="font-size:15.5px">Die App schickt keine Nachrichten. Wenn du möchtest, legst du dir einen wöchentlichen Termin für den Rückblick in deinem Kalender an.</p>
      <div class="row"><label class="label" for="rtime">Sonntags um</label><input type="time" id="rtime" value="${S.settings.remind}"></div>
      <div class="row"><a class="btn" id="gcal" href="${gcal()}" target="_blank" rel="noopener">Google Kalender</a>${framed?"":`<button class="btn" id="ics">Apple- oder anderer Kalender</button>`}</div></div></details>
+   <details class="fold" id="setfold2"><summary><span>Einstellungen</span><span class="label">Vibration</span></summary><div class="sec">
+     <div class="setrow"><span><b>Vibration</b><br><span class="muted" style="font-size:14px">Ein kurzer Tick bei jedem Tippen. Bei „Bewegung reduzieren“ ist sie immer aus.</span></span><button class="toggle" role="switch" aria-checked="${S.settings.hap!==false}" id="haptgl" aria-label="Vibration"><span class="knob"></span></button></div></div></details>
    <details class="fold" id="aboutfold"><summary><span>Über diese App</span><span class="label">Haltung · Zahlen · Daten</span></summary><div class="about">
      <p>Biotop hilft, Stück für Stück nachhaltiger zu leben, ohne Druck und ohne schlechtes Gewissen. Die Haltung dahinter: Ein gutes Leben und ein kleiner Fußabdruck gehen oft zusammen.</p>
      <p>Alle Kilogramm-Werte sind gerundete Richtwerte in CO₂-Äquivalenten. Sie stützen sich vor allem auf Daten des Umweltbundesamts, des ifeu-Instituts und auf Übersichtsstudien. Sie sollen Größenordnungen zeigen und sind keine genaue Bilanz.</p>
@@ -1384,13 +1451,13 @@ let momentOpen=false,rbReplay=0;
 /* Höchstens ein Moment pro Aktion. Beim Stufenaufstieg zuerst die Landschaft: Stempel, Wachsen, das Neue kommt ins Bild, erst dann die Karte. */
 function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
   if(st.i>S.stageSeen){if(st.i>=9)rbReplay=1;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st.n;
-    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"center"});setTimeout(()=>buzz(HAP.stage),1700)}
+    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"center"})}
     SEAS=seasonNow();const note=st.i===2&&!SEAS.bugs?" Im Winter ruhen die Schmetterlinge, ab März sind sie zu sehen.":st.i===3&&!SEAS.bloom?" Im Winter blüht noch nichts, ab März schon.":st.i===6&&!SEAS.hog?" Gerade hält er Winterschlaf, ab April ist er wieder unterwegs.":"";
     showMoment("Neue Stufe",st.n,STAGES[st.i][2]+note+(st.next?` Als Nächstes: ${st.next[1]}.`:""),onHome?2600:600,!onHome);return}
   const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x,600,true)}
 let arrive=null;
 function showMoment(lab,ttl,txt,delay,hap){momentOpen=true;
-  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);if(hap)buzz(HAP.stage);const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
+  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
     const close=()=>{d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(rbReplay){rbStart=0;rbReplay=0}};
     d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d)close()});d.addEventListener("keydown",e=>{if(e.key==="Escape")close()})},delay||600)}
 
@@ -1424,52 +1491,53 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
   if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
   if(d.actmenu){actMenu(d.actmenu);return}
-  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();buzz(HAP.log);toast("Gehört jetzt zu deinem Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()});checkMoments();return}
+  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Gehört jetzt zu deinem Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
   if(d.inv){invSheet();return}
-  if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();buzz(HAP.sel);return}
+  if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();return}
   if(t.id==="invsave"){closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Sache gehört":"Dinge gehören"} schon zu deinem Alltag.`);checkMoments();return}
-  if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();stamp(null,$("#landbox")||$(".stage")||document.body,`var(--${a.a})`);buzz(HAP.big);toast("Eingetragen. Wirkt ab jetzt jeden Tag.");checkMoments();return}
+  if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();toast("Eingetragen. Wirkt ab jetzt jeden Tag.",null,true);checkMoments();return}
   if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
   if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
-  if(d.area){S.area=d.area;save();buzz(HAP.sel);render();return}
+  if(d.area){S.area=d.area;save();render();return}
   if(t.id==="custom"){customSheet();return}
   if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
   if(d.ckind){document.querySelectorAll("[data-ckind]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
   if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=Math.max(0,parseFloat(String($("#ckg").value).replace(",","."))||0);
-    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=kg}else en.k=kg;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();buzz(HAP.log);toast("Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()});checkMoments();return}
+    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=kg}else en.k=kg;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();toast("Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()},true);checkMoments();return}
   if(d.check){CK=null;checkSheet();return}
-  if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;buzz(HAP.sel);checkSheet();return}
+  if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;checkSheet();return}
   if(t.id==="ckback"&&CK){CK.i=Math.max(0,CK.i-1);checkSheet();return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
   if(d.ktab){ktab=d.ktab;cur=null;anim=true;render();return}
-  if(t.id==="pull"){const b=pickBite();if(!b)return;stamp(e,t,"var(--dinge)");buzz(HAP.sel);setTimeout(()=>openBite(b.id),calm()?0:260);return}
+  if(t.id==="pull"){const b=pickBite();if(!b)return;setTimeout(()=>openBite(b.id),calm()?0:260);return}
   if(d.bite){closeSheet();openBite(d.bite);return}
   if(t.id==="nextbite"){const b=pickBite();if(b)openBite(b.id);return}
   if(t.id==="backbite"){cur=null;anim=true;render();return}
   if(t.id==="savebite"&&cur){if(S.saved[cur])delete S.saved[cur];else{S.saved[cur]=now();toast("Gemerkt.")}save();render();return}
   if(t.id==="sharebite"&&cur){const b=B[cur];shareOut(b.t,`Das fand ich spannend: „${b.t}“. ${b.x.split(/(?<=\.)\s/)[0]}\n\nEs stammt aus Biotop, einer kleinen App, die hilft, Stück für Stück nachhaltiger zu leben.`,appUrl()+"#b-"+b.id);return}
   if(d.bfilter){S.filter=d.bfilter;save();render();return}
-  if(d.duel&&!duelAns){duelAns=d.duel;const dd=duelAt(),ok=d.duel===(dd.eq?"eq":dd.ak>dd.bk?"a":"b");S.duel.n++;if(ok)S.duel.r++;save();buzz(ok?HAP.right:HAP.wrong);render();checkMoments();return}
+  if(d.duel&&!duelAns){duelAns=d.duel;const dd=duelAt(),ok=d.duel===(dd.eq?"eq":dd.ak>dd.bk?"a":"b");S.duel.n++;if(ok)S.duel.r++;save();vib(ok?VIB.ok:VIB.err);render();if(!ok)shake(document.querySelector(".opt.wrong"));checkMoments();return}
   if(t.id==="duelnext"){S.duel.i++;duelAns=null;save();render();return}
   if(t.id==="quiz"||t.id==="qagain"){startQuiz();return}
   if(t.id==="qend"){Q=null;render();return}
-  if(d.ans&&Q&&!Q.ans){const it=Q.items[Q.i],ok=d.ans===it.id,s=S.terms[it.id]||{box:0,next:0};s.box=ok?Math.min(5,s.box+1):1;s.next=now()+IV[s.box]*DAY-(ok?0:DAY);S.terms[it.id]=s;if(ok)Q.right++;Q.ans=d.ans;save();buzz(ok?HAP.right:HAP.wrong);render();return}
+  if(d.ans&&Q&&!Q.ans){const it=Q.items[Q.i],ok=d.ans===it.id,s=S.terms[it.id]||{box:0,next:0};s.box=ok?Math.min(5,s.box+1):1;s.next=now()+IV[s.box]*DAY-(ok?0:DAY);S.terms[it.id]=s;if(ok)Q.right++;Q.ans=d.ans;save();vib(ok?VIB.ok:VIB.err);render();if(!ok)shake(document.querySelector(`[data-ans="${CSS.escape(d.ans)}"]`));return}
   if(t.id==="qnext"){Q.i++;Q.ans=null;render();return}
   if(d.tt){openTerm=openTerm===d.tt?null:d.tt;render();return}
   if(d.term){closeSheet();tab="know";ktab="terms";openTerm=d.term;cur=null;render();const el=document.querySelector(`[data-tt="${d.term}"]`);if(el)el.scrollIntoView({block:"center"});return}
   if(d.misopen){misSheet(d.misopen);return}
   if(d.mfilter){misFilter=d.mfilter;render();return}
   if(d.accept){if(activeMis().length>=MAXM)return;planSheet(d.accept);return}
-  if(d.start){if(activeMis().length>=MAXM)return;const pl=($("#mplan")||{}).value||"";S.mis[d.start]={status:"active",start:now(),days:{},plan:pl.trim()};save();closeSheet();tab="mis";anim=true;render();buzz(HAP.log);toast("Mission gestartet.");return}
-  if(d.plan){const nx="w"+weekStart(now()+DAY);S.plans[nx]=S.plans[nx]===d.plan?null:d.plan;save();buzz(HAP.sel);render();if(S.plans[nx])toast("Vorgenommen für nächste Woche.");return}
-  if(d.tick){const v=S.mis[d.tick];v.days=v.days||{};v.days[Math.floor((dayStart(now())-dayStart(v.start))/DAY)]=1;save();stamp(e,t,`var(--${M[d.tick].a})`);buzz(HAP.log);render();return}
+  if(d.start){if(activeMis().length>=MAXM)return;const pl=($("#mplan")||{}).value||"";S.mis[d.start]={status:"active",start:now(),days:{},plan:pl.trim()};save();closeSheet();tab="mis";anim=true;render();toast("Mission gestartet.",null,true);return}
+  if(d.plan){const nx="w"+weekStart(now()+DAY);S.plans[nx]=S.plans[nx]===d.plan?null:d.plan;save();render();if(S.plans[nx])toast("Vorgenommen für nächste Woche.");return}
+  if(d.tick){const v=S.mis[d.tick];v.days=v.days||{};v.days[Math.floor((dayStart(now())-dayStart(v.start))/DAY)]=1;save();render();return}
   if(d.drop){S.mis[d.drop].status="dropped";save();render();return}
   if(t.id==="other"){S.skip=(S.skip||0)+1;save();render();return}
   if(d.done){doneSheet(d.done);return}
   if(d.mood){document.querySelectorAll("[data-mood]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
-  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();buzz(HAP.big);toast("Gespeichert. Ein Vogel mehr über deinem Biotop.");checkMoments();return}
+  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();toast("Gespeichert. Ein Vogel mehr über deinem Biotop.",null,true);checkMoments();return}
   if(d.sharemis){const m=M[d.sharemis];shareOut(m.t,`Hast du Lust, mit mir eine kleine Mission zu machen? Sie heißt „${m.t}“: ${m.x.split(/(?<=\.)\s/)[0]} Zu zweit fällt es leichter. Die Anleitung steht in Biotop, einer kostenlosen App ohne Anmeldung:`,appUrl()+"#m-"+m.id);return}
+  if(t.id==="haptgl"){S.settings.hap=S.settings.hap===false;save();t.setAttribute("aria-checked",S.settings.hap!==false);armHaptics();return}
   if(t.id==="ics"){ics();return}
   if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
   if(t.id==="reset"){confirmReset=true;render();return}
@@ -1490,7 +1558,7 @@ function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis"
   if(h.startsWith("m-")&&M[h.slice(2)]){invited=h.slice(2);tab="mis";setTimeout(()=>misSheet(invited),300)}}
 if(S.stageSeen==null){S.stageSeen=stage().i;save()}
 if(location.hash)fromHash();
-render();setTimeout(welcome,700);
+render();setTimeout(welcome,700);if(IOS)armHaptics();
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;fetch(location.pathname,{cache:"reload"}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD="([^"]+)"/);if(!m||m[1]===BUILD)return;let dn=null;try{dn=sessionStorage.getItem("bt-upd")}catch(e){}if(dn===m[1])return;const go=()=>{if($("#layer").innerHTML||momentOpen){setTimeout(go,4000);return}try{sessionStorage.setItem("bt-upd",m[1])}catch(e){}location.reload()};go()}).catch(()=>{})}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")checkUpdate()});
 })();
