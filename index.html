@@ -695,7 +695,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="18.10.2026, 13:24";
+const BUILD="18.10.2026, 13:28";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -727,7 +727,7 @@ const meets=()=>S.log.filter(e=>e.w).length;
 const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
 function growth(){const small=S.log.filter(e=>!e.g).length,big=S.log.filter(e=>e.g).length;return small+big*6+misDone()*4+Object.keys(S.base||{}).length*3}
 /* Stufen der Landschaft: jede bringt etwas Neues ins Bild */
-const STAGES=[[0,"Brache","Noch ist fast alles kahl."],[1,"Keimling","Die ersten Gräser keimen."],[5,"Wiese","Ein erster Schmetterling ist da. Mit der Zeit werden es mehr."],[12,"Blumenwiese","Die ersten Wildblumen blühen. Mit jedem Schritt kommen welche dazu."],[22,"Hecke","Am Hang wachsen die ersten Sträucher. Nach und nach wird daraus eine Hecke."],[35,"Streuobst","Am Hügel entspringt eine Quelle. Mit der Zeit wird daraus ein Bach bis zum Teich."],[52,"Hain","Ab und zu schaut ein Igel vorbei. Wenn die Landschaft weiter wächst, bleibt er."],[75,"Auenwald","Ein Reiher besucht manchmal den Teich."],[105,"Wald","Am Waldrand zeigt sich hin und wieder ein Reh."],[145,"Biotop","Über deiner Landschaft zeichnet sich ein Regenbogen ab."]];
+const STAGES=[[0,"Brache","Noch ist fast alles kahl."],[1,"Keimling","Die ersten Gräser keimen."],[5,"Wiese","Ein erster Schmetterling ist da. Mit der Zeit werden es mehr."],[12,"Blumenwiese","Die ersten Wildblumen blühen. Mit jedem Schritt kommen welche dazu."],[22,"Hecke","Am Hang wachsen die ersten Sträucher. Nach und nach wird daraus eine Hecke."],[35,"Streuobst","Am Hügel entspringt eine Quelle. Mit der Zeit wird daraus ein Bach bis zum Teich."],[52,"Hain","Ab und zu schaut ein Igel vorbei. Wenn die Landschaft weiter wächst, bleibt er."],[75,"Auenwald","Ein Reiher besucht manchmal den Teich."],[105,"Wald","Am Waldrand zeigt sich hin und wieder ein Reh."],[145,"Biotop","Nach einem Schauer steht ein Regenbogen über deiner Landschaft. Du siehst ihn, wenn die Sonne tiefer als 42 Grad steht: morgens, abends und im Winterhalbjahr fast den ganzen Tag."]];
 function stage(){const g=growth();let i=0;STAGES.forEach((s,k)=>{if(g>=s[0])i=k});return {i,n:STAGES[i][1],g,from:STAGES[i][0],next:STAGES[i+1]||null}}
 /* Stufen pro Gewohnheit */
 const LV=[1,2,4,7,12,20],level=n=>LV.filter(v=>n>=v).length,nextLv=n=>LV.find(v=>v>n);
@@ -752,7 +752,10 @@ function toast(msg,undo,rich){document.querySelectorAll(".toast").forEach(x=>x.r
   if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(()=>t.remove(),rich?5200:undo?4200:2400)}
 
 /* ---------- Landschaft ---------- */
-let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0;
+let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0;
+/* Sonnenhöhe in Grad für Mitteldeutschland (51° N, 10° O), genau genug für den Regenbogen */
+function solarElev(d=new Date()){const lat=51*Math.PI/180,doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5),dec=23.44*Math.PI/180*Math.sin(2*Math.PI*(284+doy)/365),
+  h=d.getUTCHours()+d.getUTCMinutes()/60+10/15,ha=(h-12)*15*Math.PI/180;return Math.asin(Math.sin(lat)*Math.sin(dec)+Math.cos(lat)*Math.cos(dec)*Math.cos(ha))*180/Math.PI}
 const rnd=s=>{let h=hashStr(s);return ()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}};
 function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
 let pal={};
@@ -828,11 +831,23 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   const ff=i=>{const a=STAGES[i][0],b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.max(0,Math.min(1,(g-a)/(b-a)))};
   const visit=i=>{if(si<i)return 0;const f=ff(i);if(f>=1)return 1;const m=S.moments["st"+i];if(m&&now()-m<18e5)return 1;return (hashStr("v"+i+"-"+Math.floor(now()/3e5))%100)/100<.4+.6*f?1:0};
   const grow=it=>{if(!growStart||!(it.last>seenAt))return 1;return .35+.65*ease((t-growStart)/1400)};
-  // Sonne
-  const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
-  cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.1,0,7);cx.fill();
-  // Regenbogen (Stufe Biotop)
-  const fR=ff(9);if(fR>0){[pal.essen,pal.wohnen,pal.wir,pal.wege].forEach((c,i)=>{cx.strokeStyle=c;cx.globalAlpha=.2+.25*fR;cx.lineWidth=H*.03;cx.beginPath();cx.arc(W*.42,H*.62,W*.42-i*H*.03,Math.PI*1.05,Math.PI*(1.05+.9*Math.max(.2,fR)));cx.stroke()});cx.globalAlpha=1}
+  // Sonne und Regenbogen. Physik: Ein Regenbogen steht immer gegenüber der Sonne, sein Mittelpunkt liegt so weit unter dem Horizont,
+  // wie die Sonne darüber steht. Der Hauptbogen hat 42 Grad Radius (außen rot, innen violett), der Nebenbogen 51 Grad mit umgekehrten Farben.
+  // Er entsteht nur, wenn die Sonne höher als 0 und tiefer als 42 Grad steht. Während er zu sehen ist, steht die Sonne also hinter uns.
+  const elev=solarElev(),rbOn=si>=9&&elev>.5&&elev<42;
+  if(!rbOn){const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
+    cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.1,0,7);cx.fill()}
+  else{if(!rbStart)rbStart=t;const tt=calm()?99:(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
+    // Der Schauer zieht von links nach rechts durch, der Bogen erscheint dort, wo der Regen schon fällt
+    const cxp=-W*.25+(tt/7)*W*1.6,xr=cxp+W*.12,sweep=Math.min(1,Math.max(0,(xr+W*.2)/(W*1.3))),endA=R=>tt>8||calm()?2*Math.PI:2*Math.PI-Math.acos(Math.max(-1,Math.min(1,(xr-ccx)/R)));
+    const bow=(R,cols,bw,al)=>{cols.forEach((c,k)=>{cx.strokeStyle=c;cx.globalAlpha=al;cx.lineWidth=bw+.6;cx.beginPath();const e=endA(R);if(e>Math.PI)cx.arc(ccx,ccy,R-k*bw,Math.PI,e);cx.stroke()})};
+    if(sweep>0){const C=[pal.essen,pal.wohnen,pal.wir,pal.wege,pal.dinge];
+      cx.strokeStyle=pal.ink;cx.globalAlpha=dark?.05:.03;cx.lineWidth=7*K;cx.beginPath();cx.arc(ccx,ccy,46.5*K,Math.PI,Math.max(Math.PI+.001,endA(46.5*K)));cx.stroke();
+      bow(42*K,C,.45*K,dark?.6:.6);bow(51.6*K,C.slice().reverse(),.6*K,dark?.25:.22);cx.globalAlpha=1}
+    if(tt<7.5){const ca=Math.min(1,tt/.6)*Math.min(1,(7.5-tt)/1.2),cy=H*.16;
+      cx.strokeStyle=pal.wege;cx.lineWidth=1;cx.globalAlpha=.45*ca;cx.beginPath();for(let q=0;q<26;q++){const rx=cxp-W*.16+q*W*.013+((q*37)%7),ry=cy+H*.05+((q*53+Math.floor(t/90))%9)*2;cx.moveTo(rx,ry);cx.lineTo(rx-4,ry+H*.2)}cx.stroke();
+      cx.globalAlpha=.55*ca;[[0,0,.09],[-.08,.02,.07],[.08,.025,.075],[.15,.04,.05],[-.15,.045,.05]].forEach(([dx,dy,r])=>{cx.fillStyle=pal.wege;cx.beginPath();cx.arc(cxp+dx*W,cy+dy*H,r*W,0,7);cx.fill()});
+      cx.globalAlpha=.6*ca;cx.fillStyle=dots(pal.ink,5,1);cx.beginPath();cx.arc(cxp+2,cy+3,.085*W,0,7);cx.arc(cxp+.08*W+2,cy+.025*H+3,.07*W,0,7);cx.fill();cx.globalAlpha=1}}
   // ferne Hügel
   const far=x=>H*.47+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012;
   cx.fillStyle=pal.wege;cx.globalAlpha=.4;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
@@ -1153,13 +1168,13 @@ const MOMENTS=[
  {id:"meet25",t:"25 Begegnungen",x:"Zum Dorf in deiner Landschaft führt jetzt ein breiter Weg.",ok:()=>meets()>=25},
  {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
 ];
-let momentOpen=false;
+let momentOpen=false,rbReplay=0;
 function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
-  if(st.i>S.stageSeen){S.stageSeen=st.i;S.moments["st"+st.i]=now();save();showMoment("Neue Stufe",st.n,STAGES[st.i][2]+(st.next?` Als Nächstes: ${st.next[1]}.`:""));return}
+  if(st.i>S.stageSeen){if(st.i>=9)rbReplay=1;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();showMoment("Neue Stufe",st.n,STAGES[st.i][2]+(st.next?` Als Nächstes: ${st.next[1]}.`:""));return}
   const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x)}
 function showMoment(lab,ttl,txt){momentOpen=true;
   setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2>${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);buzz([10,60,10,60,20]);
-    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false;if(tab==="home"&&cv)readPal();setTimeout(checkMoments,400)}})},600)}
+    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false;if(rbReplay){rbStart=0;rbReplay=0}if(tab==="home"&&cv)readPal();setTimeout(checkMoments,400)}})},600)}
 
 /* ---------- Teilen ---------- */
 const appUrl=()=>location.href.split("#")[0];
