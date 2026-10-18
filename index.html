@@ -27,11 +27,11 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#15161B;--sheet:#1D1F26;--ink:#EDEBE4;--muted:#A2A5AF;--line:#30333D;--wash:#272A33;
-  --essen:#FF8452;--wohnen:#FFC52E;--wege:#3DA2EA;--dinge:#FF6EC4;--wir:#2CC77D;
+  --essen:#F08A5D;--wohnen:#EDBF45;--wege:#4A9BD6;--dinge:#EB7BBF;--wir:#3DB97E;
   --on:#15171E;--ok:#2CC77D;--warn:#FF7A62;--blend:screen;--grain:.07;color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#15161B;--sheet:#1D1F26;--ink:#EDEBE4;--muted:#A2A5AF;--line:#30333D;--wash:#272A33;
-  --essen:#FF8452;--wohnen:#FFC52E;--wege:#3DA2EA;--dinge:#FF6EC4;--wir:#2CC77D;
+  --essen:#F08A5D;--wohnen:#EDBF45;--wege:#4A9BD6;--dinge:#EB7BBF;--wir:#3DB97E;
   --on:#15171E;--ok:#2CC77D;--warn:#FF7A62;--blend:screen;--grain:.07;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -52,12 +52,12 @@ header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:1
 .wm{border:0;background:none;padding:0;position:relative;display:block;font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:46px;line-height:.82;letter-spacing:-.01em;text-transform:uppercase;cursor:pointer}
 .wm span{display:block;color:var(--wege);mix-blend-mode:var(--blend)}
 .wm span+span{position:absolute;inset:0;color:var(--dinge);transform:translate(3px,2px)}
-.tl{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35}
+.tl{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35}
 .tl b{display:block;color:var(--ink);font-weight:500;font-size:12px}
 
 h2{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 80;font-size:26px;line-height:1.05;letter-spacing:-.005em;margin:0;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:19px;line-height:1.15;margin:0;text-transform:uppercase;letter-spacing:.01em}
-.label{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .muted{color:var(--muted)}
 .view{display:flex;flex-direction:column;gap:22px}
 .sec{display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -69,15 +69,15 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 .land canvas{display:block;width:100%;height:clamp(230px,62vw,320px)}
 .landcap{position:absolute;left:10px;top:10px;right:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;pointer-events:none}
 .stage{background:var(--ink);color:var(--paper);font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:20px;text-transform:uppercase;letter-spacing:.02em;padding:2px 9px 1px;line-height:1.1}
-.landcnt{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;background:color-mix(in srgb,var(--sheet) 80%,transparent);padding:3px 7px;text-align:right}
-.landempty{position:absolute;left:12px;right:12px;bottom:12px;font-size:15px;background:var(--sheet);border:1.5px solid var(--ink);padding:8px 11px;pointer-events:none}
+.landcnt{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;background:color-mix(in srgb,var(--sheet) 80%,transparent);padding:3px 7px;text-align:right}
+.landempty{position:absolute;left:12px;right:12px;top:12px;font-size:15px;background:var(--sheet);border:1.5px solid var(--ink);padding:8px 11px;pointer-events:none}
 
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);background:var(--sheet)}
 .kpi{padding:10px 10px 9px;display:flex;flex-direction:column;gap:3px;min-width:0}
 .kpi+.kpi{border-left:2px solid var(--ink)}
 .kpi b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:28px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
 .kpi b small{font-size:15px;font-weight:700;margin-left:2px}
-.kpi span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+.kpi span{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3}
 
 /* Schnell eintragen */
 .quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -85,14 +85,14 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 .qa::before{content:"";position:absolute;left:-2px;top:-2px;bottom:-2px;width:7px;background:var(--c)}
 .qa{padding-left:16px}
 .qa b{font-weight:700;font-size:15px;line-height:1.25}
-.qa span{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.qa span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .qa:active{transform:translate(2px,2px)}
 @media (hover:hover){.qa:hover{box-shadow:3px 3px 0 var(--c)}}
 
 /* Karten und Bögen */
 .card{background:var(--sheet);border:2px solid var(--ink);border-radius:2px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;box-shadow:6px 6px 0 var(--c,var(--wege))}
 .plain{background:var(--sheet);border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .tag{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;mix-blend-mode:var(--blend)}
 .ev{display:inline-flex;gap:3px;align-items:center}
@@ -101,9 +101,9 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 .ev em{font-style:normal;margin-left:5px}
 .bite h2{font-size:30px}
 .bite .body{font-size:18px;max-width:62ch}
-.caveat{font-family:var(--f-mono);font-size:12.5px;line-height:1.55;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.caveat{font-family:var(--f-body);font-size:14px;line-height:1.55;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
 .tip{background:color-mix(in srgb,var(--c) 22%,var(--sheet));padding:12px 14px;font-weight:600}
-.tip b{display:block;font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.tip b{display:block;font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
 .src{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .src a{color:var(--ink);text-underline-offset:3px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -115,14 +115,15 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 @media (hover:hover){.btn:hover:not(:disabled){box-shadow:3px 3px 0 var(--c,var(--dinge))}}
 .btn:disabled{opacity:.4;cursor:default}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
-.linkbtn{border:0;background:none;padding:0;font-size:14px;text-decoration:underline;text-underline-offset:3px;color:var(--muted)}
+.linkbtn{border:0;background:none;padding:12px 0;margin-block:-12px;font-size:14px;text-decoration:underline;text-underline-offset:3px;color:var(--muted)}
 .chip{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--ink);background:var(--sheet);padding:5px 11px;font-size:14px;line-height:1.2}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 
 /* Bereichswahl als Tintenfelder */
 .inks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
-.inks.six{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
-.inks.six .ink{font-size:11px}
+.inks.six{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.inks.six .ink{font-size:12.5px;flex-direction:row;justify-content:flex-start;padding:9px 8px;gap:7px;text-align:left}
+.inks.six .ink i{width:14px;height:14px;flex:none}
 .ink{overflow-wrap:anywhere}
 .ink{border:2px solid var(--ink);background:var(--sheet);padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 75;font-size:12.5px;text-transform:uppercase;line-height:1.05;text-align:center;min-width:0}
 .ink i{width:22px;height:22px;border-radius:50%;background:var(--c,conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0));mix-blend-mode:var(--blend);transition:transform .35s cubic-bezier(.34,1.5,.5,1)}
@@ -135,20 +136,20 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .act{display:flex;align-items:center;gap:12px;padding:12px 2px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%;min-width:0}
 .act .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .act .tx b{font-weight:600;font-size:16px;line-height:1.3}
-.act .tx small{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.act .tx small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .act .kg{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .act .plus{width:30px;height:30px;flex:none;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:20px;line-height:1;background:var(--sheet);position:relative}
 .act .plus::after{content:"";position:absolute;inset:3px;background:var(--c);mix-blend-mode:var(--blend);opacity:0;transition:opacity .2s}
 .act:active .plus::after{opacity:1}
 .act.on .plus{background:var(--c);color:var(--on)}
-.cnt{font-family:var(--f-mono);font-size:11px;background:var(--c);color:var(--on);padding:1px 6px}
-.state{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
+.cnt{font-family:var(--f-mono);font-size:12px;background:var(--c);color:var(--on);padding:1px 6px}
+.state{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
 
 .entries{display:flex;flex-direction:column;gap:0}
 .en{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px}
 .en .tx{flex:1;min-width:0}
-.en small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
-.x{border:1.5px solid var(--line);background:none;width:28px;height:28px;flex:none;font-size:15px;color:var(--muted)}
+.en small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.x{border:1.5px solid var(--line);background:none;width:40px;height:40px;flex:none;font-size:15px;color:var(--muted)}
 
 /* Aufklapper */
 .fold{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
@@ -162,8 +163,8 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .li{display:flex;gap:10px;align-items:center;padding:11px 2px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%;min-width:0}
 .li .tx{flex:1;min-width:0}
 .li .tx b{font-weight:600;font-size:15.5px;display:block;line-height:1.3}
-.li .tx small{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
-.li .aside{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.li .tx small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.li .aside{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
 
 /* Register Wissen */
 .seg{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
@@ -195,7 +196,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 
 /* Missionen */
 .mis{border-left:8px solid var(--c)}
-.dur{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dur{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-size:16px}
 .days{display:flex;flex-wrap:wrap;gap:4px}
 .days i{width:14px;height:14px;border:1.5px solid var(--ink)}
@@ -227,7 +228,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.week div{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.week div{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .week .col{width:100%;height:56px;background:var(--wash);display:flex;flex-direction:column-reverse}
 .week .col span{display:block;background:var(--c);mix-blend-mode:var(--blend)}
 textarea,input[type=text],input[type=number],input[type=time],select{width:100%;border:2px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);font:inherit;font-size:16px;padding:9px 11px}
@@ -238,7 +239,7 @@ input[type=time]{width:auto;font-family:var(--f-mono)}
 .mom{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);padding:5px 11px 5px 7px;font-size:13.5px;background:var(--sheet)}
 .mom i{width:14px;height:14px;border-radius:50%;background:conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0)}
 .about{display:flex;flex-direction:column;gap:10px;font-size:15.5px}
-.footcredit{text-align:center;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.footcredit{text-align:center;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 
 /* Register */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--sheet);border-top:2px solid var(--ink);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
@@ -247,7 +248,7 @@ nav.tabs button{border:0;background:none;padding:9px 2px 8px;display:flex;flex-d
 nav.tabs svg{width:22px;height:22px}
 nav.tabs button[aria-current="page"]{color:var(--ink)}
 nav.tabs button[aria-current="page"]::before{content:"";position:absolute;left:22%;right:22%;top:-2px;height:5px;background:var(--tc,var(--wege))}
-nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;height:16px;background:var(--dinge);color:var(--on);font-family:var(--f-mono);font-size:10px;line-height:16px;padding:0 4px}
+nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;height:16px;background:var(--dinge);color:var(--on);font-family:var(--f-mono);font-size:12px;line-height:16px;padding:0 4px}
 
 /* Blatt */
 .sheet{position:fixed;inset:0;z-index:30;background:rgba(10,12,18,.5);display:flex;align-items:flex-end;justify-content:center}
@@ -258,7 +259,7 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .opts2 button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .qprog{height:6px;background:var(--wash)}
 .qprog span{display:block;height:100%;background:var(--dinge)}
-.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--paper);padding:9px 10px 9px 14px;font-size:14.5px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px);width:max-content;box-shadow:4px 4px 0 var(--dinge)}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:55;background:var(--ink);color:var(--paper);padding:9px 10px 9px 14px;font-size:14.5px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px);width:max-content;box-shadow:4px 4px 0 var(--dinge)}
 .toast button{border:1.5px solid var(--paper);background:none;color:var(--paper);padding:3px 8px;font-family:var(--f-mono);font-size:12px;text-transform:uppercase}
 .moment{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:color-mix(in srgb,var(--paper) 70%,transparent)}
 .mcard{max-width:360px;width:100%;background:var(--sheet);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--dinge);padding:26px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
@@ -288,7 +289,7 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 @keyframes mIn{from{opacity:0;transform:scale(.88) rotate(-2deg)}}
 @keyframes press{40%{transform:translate(3px,3px)}}
 @keyframes reg{from{transform:translate(14px,9px);opacity:0}}
-@media (max-width:380px){.wm{font-size:40px}.kpi b{font-size:23px}.fprow{grid-template-columns:90px 1fr 46px}.cmp div{grid-template-columns:100px 1fr 40px}.ink{font-size:11px}}
+@media (max-width:380px){.wm{font-size:40px}.kpi b{font-size:23px}.fprow{grid-template-columns:90px 1fr 46px}.cmp div{grid-template-columns:100px 1fr 40px}.ink{font-size:12px}}
 
 .actrow{display:flex;align-items:stretch;border-bottom:1px solid var(--line);min-width:0}
 .actrow .act{border-bottom:0;flex:1}
@@ -297,15 +298,15 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .chip.inv{font-size:14px;text-align:left}
 .chip.inv[aria-pressed="true"]{background:var(--c);color:var(--on);border-color:var(--ink)}
 .chip.inv[aria-pressed="true"]::before{content:"✓ ";font-weight:700}
-.landfoot{border-top:2px solid var(--ink);padding:6px 10px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--muted);background:var(--sheet)}
+.landfoot{border-top:2px solid var(--ink);padding:6px 10px;font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;color:var(--muted);background:var(--sheet)}
 .inks:not(.six) .ink{font-size:12px;overflow-wrap:normal;hyphens:manual}
 
-.lprog{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.02em;color:var(--muted)}
+.lprog{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
 .lprog b{color:var(--ink);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
 .lbar{flex:1;height:10px;border:1.5px solid var(--ink);background:var(--paper);position:relative;min-width:60px}
 .lbar i{position:absolute;inset:0 auto 0 0;background:var(--wir);background-image:radial-gradient(var(--wege) 1px,transparent 1.3px);background-size:4px 4px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
 .landfoot{display:flex;flex-direction:column;gap:5px}
-.lcnt{font-size:11px}
+.lcnt{font-size:12px}
 .lvl{display:inline-flex;gap:2px;margin-top:3px;align-self:flex-start}
 .lvl b{width:9px;height:5px;background:var(--line)}
 .lvl b.on{background:var(--c)}
@@ -316,21 +317,53 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .toast.rich{flex-wrap:wrap;max-width:min(420px,calc(100% - 32px))}
 .toast .tx{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
 .toast .tmain b{font-weight:700}
-.toast small{font-family:var(--f-mono);font-size:11.5px;opacity:.8}
+.toast small{font-family:var(--f-mono);font-size:12px;opacity:.8}
 .tbar{display:block;height:5px;background:color-mix(in srgb,var(--paper) 25%,transparent);position:relative}
 .tbar i{position:absolute;inset:0 auto 0 0;background:var(--wir)}
+
+/* --- Überarbeitung nach Prüfung --- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.landfoot .stage{font-size:16px;padding:2px 7px 1px;flex:none}
+.lprog{flex-wrap:wrap;row-gap:4px}
+.stampbtn{color:var(--on)}
+.qa,.btn,.card,.opt,.chip,.nudge,.act .plus{transition:transform .16s ease-out,box-shadow .16s ease-out,background-color .2s}
+.qa:active,.btn:active:not(:disabled),.opt:active:not(:disabled),.chip:active,.nudge:active{transform:translate(2px,2px);box-shadow:none;transition-duration:.08s}
+button.card:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--c,var(--wege));transition-duration:.08s}
+.toast.out{opacity:0;transform:translate(-50%,6px);transition:opacity .18s ease-in,transform .18s ease-in}
+.sheet.out{background:rgba(10,12,18,0);transition:background .2s;pointer-events:none}
+.sheet.out .panel{transform:translateY(40px);opacity:0;transition:transform .2s ease-in,opacity .2s ease-in}
+.sheet.swap .panel{animation:none}
+.sheet .panel{transition:transform .25s cubic-bezier(.2,.8,.2,1);outline:none}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--line);align-self:center;margin:-6px 0 -4px;flex:none}
+.moment.out{opacity:0;transition:opacity .2s ease-in}
+.hebel .li.hb{align-items:flex-start}
+.hebel .tx .row{margin-top:6px;gap:6px}
+.hebel .chip,.theme .chip,.week-card .chip{font-size:13.5px;text-align:left}
+.week-card .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.nudge.plan .chip{flex:none}
+.planline{font-size:15px;border-left:3px solid var(--c);padding-left:10px}
+.li .tx small{font-size:12px}
+.stg small{font-family:var(--f-body);font-size:13.5px}
+.lvl{padding-block:2px}
+@media (prefers-reduced-motion:reduce){.qa,.btn,.card,.opt,.chip,.nudge{transition:none}.sheet.out,.toast.out,.moment.out{transition:none}}
+.toast .tx{display:block;flex:1;min-width:0}
+.hebel .chip,.theme .chip,.week-card .chip,.nudge.plan .chip{min-height:44px}
+.x{width:44px;height:44px}
+nav.tabs button span{white-space:nowrap}
+@media (max-width:370px){nav.tabs button{font-size:12px;letter-spacing:0}}
 
 </style>
 </head><body>
 <div class="app" id="app">
   <header class="top">
     <button class="wm" id="home" aria-label="Biotop, zur Landschaft"><span>Biotop</span><span aria-hidden="true">Biotop</span></button>
-    <div class="tl" id="tl" aria-live="polite"></div>
+    <div class="tl" id="tl"></div>
   </header>
   <main id="main"></main>
 </div>
 <nav class="tabs" aria-label="Bereiche"><div class="in" id="tabs"></div></nav>
 <div id="layer"></div>
+<div id="live" class="sr" aria-live="polite"></div>
 <script>
 /* Inhalte von „Biotop“. Stand der Recherche: Oktober 2026.
    Alle Kilogramm-Werte sind gerundete Richtwerte in CO₂-Äquivalenten. Sie sollen Größenordnungen zeigen, nicht auf das Gramm genau messen.
@@ -348,17 +381,19 @@ const EV=["Denkanstoß","Vorläufig","Solide","Gut belegt"];
 
 /* Einträge: k = kg pro Mal (kleine Schritte), y = kg pro Jahr (dauerhafte Änderungen), w = zählt als Begegnung */
 const ACTS=[
-{id:"veg_tag",a:"essen",t:"Ein Tag vegetarisch",k:2,n:"Verglichen mit einem Tag mit durchschnittlich viel Fleisch."},
-{id:"vegan_tag",a:"essen",t:"Ein Tag vegan",k:2.8,n:"Verglichen mit einem durchschnittlichen Tag."},
+{id:"veg_tag",a:"essen",t:"Ein Tag vegetarisch",k:1.5,n:"Verglichen mit einem durchschnittlichen Tag mit Fleisch."},
+{id:"vegan_tag",a:"essen",t:"Ein Tag vegan",k:2.2,n:"Verglichen mit einem durchschnittlichen Tag."},
 {id:"linsen",a:"essen",t:"Hülsenfrüchte statt Rindfleisch",k:2.6,n:"200 g Rindfleisch verursachen rund 2,7 kg, eine Portion Linsen rund 0,1 kg."},
 {id:"hafer",a:"essen",t:"Pflanzendrink statt Kuhmilch, ein Glas",k:0.2,n:"Ein Liter Kuhmilch liegt bei rund 1,4 kg, Haferdrink bei rund 0,3 kg."},
 {id:"retten",a:"essen",t:"Rund 1 kg Lebensmittel gerettet",k:1.5,n:"Mittelwert über typische Lebensmittel. Bei Fleisch und Käse ist es deutlich mehr."},
 {id:"reste",a:"essen",t:"Aus Resten gekocht",k:0.8,n:"Eine Mahlzeit, für die nichts neu gekauft werden musste."},
 {id:"saison",a:"essen",t:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,n:"Grobe Schätzung pro Einkauf. Flugware und beheizte Gewächshäuser sind die großen Ausreißer."},
+{id:"milchfrei_tag",a:"essen",t:"Ein Tag ohne Milchprodukte und Käse",k:0.5,n:"Gerechnet mit pflanzlichem Ersatz. Käse und Butter sind die größten Posten."},
 {id:"leitung",a:"essen",t:"Leitungswasser statt Flaschenwasser, 1 Liter",k:0.2,n:"Flaschenwasser liegt je nach Transport bei rund 0,2 kg pro Liter, Leitungswasser fast bei null."},
 {id:"veg_dauer",a:"essen",g:1,t:"Dauerhaft vegetarisch",y:450,n:"Mittelwert aus mehreren Studien. Je nachdem, was das Fleisch ersetzt, sind es 300 bis 700 kg im Jahr."},
 {id:"vegan_dauer",a:"essen",g:1,t:"Dauerhaft vegan",y:800,n:"Rund 0,6 bis 1 Tonne im Jahr, je nach vorheriger Ernährung."},
 {id:"fleisch_halb",a:"essen",g:1,t:"Fleisch dauerhaft halbiert",y:250,n:"Etwa die Hälfte des Effekts einer vegetarischen Ernährung."},
+{id:"kaese_weniger",a:"essen",g:1,t:"Milchprodukte und Käse dauerhaft halbiert",y:150,n:"Milch, Käse und Butter verursachen zusammen rund 0,3 Tonnen im Jahr pro Person."},
 {id:"foodcoop",a:"essen",g:1,w:1,t:"Mitglied einer Solawi oder Foodcoop",y:60,n:"Der Klimaeffekt ist eher klein. Wichtiger sind weniger Verschwendung, Saisonalität und die Gemeinschaft."},
 
 {id:"leine",a:"wohnen",t:"Wäsche an der Luft getrocknet",k:1,n:"Ein Trocknergang braucht rund 2,5 kWh Strom."},
@@ -368,8 +403,9 @@ const ACTS=[
 {id:"standby",a:"wohnen",t:"Geräte ganz ausgeschaltet, ein Tag",k:0.05,n:"Ein kleiner Schritt. Er zeigt, wie viel größer Heizen und Wohnfläche sind."},
 {id:"deckel",a:"wohnen",t:"Mit Deckel gekocht",k:0.05,n:"Spart rund ein Drittel der Energie beim Kochen, absolut aber wenig."},
 {id:"grad",a:"wohnen",g:1,t:"Raumtemperatur um 1 Grad gesenkt",y:110,n:"Ein Grad weniger spart rund 6 % Heizenergie."},
-{id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:300,n:"Gilt für Anbieter, die in neue Anlagen investieren. Bei reinen Zertifikaten ist der Effekt deutlich kleiner."},
+{id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:300,n:"Gilt für Anbieter, die in neue Anlagen investieren. Bei reinen Herkunftsnachweisen ist der Effekt deutlich kleiner. Wie viel ein Wechsel wirklich zusätzlich bewirkt, ist unter Fachleuten umstritten."},
 {id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:180,n:"Rund 500 kWh selbst erzeugter Strom im Jahr."},
+{id:"pv",a:"wohnen",g:1,t:"Photovoltaik aufs Dach gebracht",y:1000,n:"Gerechnet für rund 8 kWp auf einem Haus mit drei Personen, Anteil pro Person. Der Solarstrom verdrängt Strom aus Kohle und Gas."},
 {id:"waermepumpe",a:"wohnen",g:1,t:"Heizung auf Wärmepumpe umgestellt",y:1000,n:"Anteil pro Person in einem durchschnittlichen Haushalt mit Gasheizung."},
 {id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
 {id:"kleiner",a:"wohnen",g:1,t:"Weniger Wohnfläche pro Person",y:600,n:"Etwa 20 m² weniger beheizte Fläche pro Person."},
@@ -379,19 +415,22 @@ const ACTS=[
 {id:"oepnv",a:"wege",t:"Bus oder Bahn statt Auto, 10 km",k:1,n:"Der Nahverkehr liegt bei rund 0,07 kg pro Kilometer und Person."},
 {id:"bahn",a:"wege",t:"Bahn statt Auto, 300 km",k:37,n:"Der Fernzug liegt bei rund 0,05 kg pro Kilometer und Person."},
 {id:"bahnflug",a:"wege",t:"Bahn statt Inlandsflug, eine Strecke",k:80,n:"Gerechnet für rund 500 km. Beim Flug sind die Nicht-CO₂-Effekte mitgezählt."},
+{id:"bahn_eu",a:"wege",t:"Bahn statt Flug in Europa, eine Strecke",k:160,n:"Gerechnet für rund 1.000 km. Beim Flug sind die Nicht-CO₂-Effekte mitgezählt."},
+{id:"tempo",a:"wege",t:"Auf der Autobahn 120 statt rund 140 gefahren, 100 km",k:2,n:"Bei 120 statt 140 km/h braucht ein Auto rund 10 bis 20 % weniger Sprit."},
 {id:"mitfahren",a:"wege",w:1,t:"Fahrgemeinschaft statt allein, 50 km",k:4,n:"Die Hälfte der Fahrt geht auf die andere Person."},
 {id:"wegspar",a:"wege",t:"Eine Autofahrt von 20 km gespart",k:3.4,n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen."},
+{id:"dticket",a:"wege",g:1,t:"Freizeit und Erledigungen mit Deutschlandticket statt Auto",y:200,n:"Gerechnet für rund 2.000 Autokilometer im Jahr, die du stattdessen mit Bus und Bahn fährst. Für den Arbeitsweg gibt es einen eigenen Eintrag."},
 {id:"autolos",a:"wege",g:1,t:"Auto abgeschafft",y:1500,n:"Mittelwert. Je nach Fahrleistung sind es 1 bis 3 Tonnen im Jahr."},
 {id:"eauto",a:"wege",g:1,t:"Verbrenner durch E-Auto ersetzt",y:900,n:"Mit heutigem Strommix und eingerechneter Batterieherstellung."},
 {id:"pendeln",a:"wege",g:1,t:"Pendeln mit Bus und Bahn statt Auto",y:600,n:"Gerechnet für rund 20 km Arbeitsweg an 200 Tagen."},
 {id:"keinflug",a:"wege",g:1,t:"Auf die jährliche Fernreise im Flugzeug verzichtet",y:2500,n:"Eine Langstrecke hin und zurück, mit Nicht-CO₂-Effekten."},
 {id:"lastenrad",a:"wege",g:1,t:"Lastenrad statt Zweitwagen",y:800,n:"Gerechnet für einen wenig gefahrenen Zweitwagen."},
 
-{id:"kleid",a:"dinge",t:"Ein Kleidungsstück gebraucht statt neu",k:10,n:"Ein T-Shirt liegt bei rund 5 kg, ein Pullover deutlich höher."},
-{id:"jeans",a:"dinge",t:"Eine Jeans gebraucht statt neu",k:25,n:"Herstellung einer Jeans rund 25 kg."},
+{id:"kleid",a:"dinge",t:"Ein Kleidungsstück gebraucht statt neu",k:10,n:"Ein T-Shirt liegt bei rund 5 kg, ein Pullover deutlich höher. Gerechnet, als ersetze der Gebrauchtkauf einen Neukauf. Das ist nicht immer so."},
+{id:"jeans",a:"dinge",t:"Eine Jeans gebraucht statt neu",k:25,n:"Herstellung einer Jeans rund 25 kg. Gerechnet, als ersetze der Gebrauchtkauf einen Neukauf."},
 {id:"repariert",a:"dinge",t:"Etwas repariert statt ersetzt",k:15,n:"Mittelwert für kleinere Geräte und Gegenstände."},
 {id:"handyrep",a:"dinge",t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung."},
-{id:"laptop",a:"dinge",t:"Laptop gebraucht statt neu",k:200,n:"Herstellung eines Laptops rund 200 bis 300 kg."},
+{id:"laptop",a:"dinge",t:"Laptop gebraucht statt neu",k:200,n:"Herstellung eines Laptops rund 200 bis 300 kg. Gerechnet, als ersetze der Gebrauchtkauf einen Neukauf."},
 {id:"geliehen",a:"dinge",w:1,t:"Gerät geliehen statt gekauft",k:15,n:"Grobe Schätzung für ein Werkzeug oder Küchengerät."},
 {id:"nichtgekauft",a:"dinge",t:"Einen Spontankauf gelassen",k:3,n:"Grober Mittelwert für kleine Spontankäufe."},
 {id:"weiter",a:"dinge",t:"Etwas weitergegeben statt weggeworfen",k:5,n:"Wenn jemand anderes dadurch nichts neu kaufen muss."},
@@ -408,11 +447,13 @@ const ACTS=[
 {id:"geholfen",a:"wir",w:1,t:"Jemandem aus der Nachbarschaft geholfen",k:0,n:"Nachbarschaftshilfe ist die Grundlage jeder Gemeinschaft."},
 {id:"genossenschaft",a:"wir",g:1,w:1,t:"Mitglied einer Wohn- oder Energiegenossenschaft",y:100,n:"Der direkte Effekt hängt vom Projekt ab. Genossenschaften machen gemeinsames Eigentum möglich."},
 {id:"carsharing",a:"wir",g:1,w:1,t:"Auto mit anderen geteilt",y:700,n:"Ein geteiltes Auto ersetzt oft mehrere private Autos."},
-{id:"gemeinschaft",a:"wir",g:1,w:1,t:"In eine Gemeinschaft oder ein Wohnprojekt gezogen",y:2000,n:"Sehr unterschiedlich je nach Projekt. Gemeinsame Räume, Geräte und Mahlzeiten senken den Verbrauch oft deutlich."},
+{id:"gemeinschaft",a:"wir",g:1,w:1,t:"In eine Gemeinschaft oder ein Wohnprojekt gezogen",y:1000,n:"Vorsichtiger Mittelwert, je nach Projekt 0,5 bis 3 Tonnen im Jahr. Gemeinsame Räume, Geräte und Mahlzeiten senken den Verbrauch oft deutlich. Die Studien dazu sind wenige Fallbeispiele."},
+{id:"beteiligung",a:"wir",w:1,t:"Bei einer Beteiligung oder Petition fürs Klima mitgemacht",k:0,n:"Ein Schritt für den Handabdruck: Er verändert Regeln, die für viele gelten."},
+{id:"kantine",a:"wir",w:1,t:"In Kantine, Schule oder Verein eine pflanzliche Option angestoßen",k:0,n:"Ein Schritt für den Handabdruck. Was als Standard auf dem Tisch steht, essen viele."},
 ];
 
 const BITES=[
-{id:"hebel",a:"wege",ev:3,t:"Die großen Hebel sind wenige",
+{id:"hebel",a:"wohnen",ev:3,t:"Die großen Hebel sind wenige",
  x:"Eine Übersicht über Studien zu Konsumentscheidungen in Europa und Nordamerika fand: Die größten Einsparungen bringen ein Leben ohne Auto, weniger Langstreckenflüge, erneuerbare Energie zu Hause, bessere Dämmung und eine pflanzliche Ernährung. Jede dieser Änderungen spart rund eine halbe bis zwei Tonnen im Jahr.",
  c:"Systematische Übersicht über 53 Studien. Die Werte gelten für Haushalte in reichen Ländern.",
  src:"Ivanova et al. (2020), Environmental Research Letters",u:SCH("Ivanova Barrett Wiedenhofer Macura Callaghan Creutzig 2020 quantifying the potential for climate change mitigation of consumption options"),
@@ -441,15 +482,15 @@ const BITES=[
  x:"In Deutschland landen jedes Jahr rund 11 Millionen Tonnen Lebensmittel im Müll. Knapp 60 % davon entfallen auf private Haushalte, im Schnitt rund 78 kg pro Person. Mit jedem weggeworfenen Lebensmittel waren auch Anbau, Transport und Kühlung umsonst.",
  c:"Erhebung des Thünen-Instituts für das Jahr 2020, gemeldet an die EU.",
  src:"Thünen-Institut / Destatis (2022)",u:SCH("Thünen Lebensmittelabfälle Deutschland Baseline 2020 private Haushalte 78 kg"),
- tip:"Ein Blick in den Kühlschrank vor dem Einkauf ist eine der wirksamsten Klimahandlungen im Alltag.",mis:"restewoche"},
+ tip:"Ein Blick in den Kühlschrank vor dem Einkauf ist ein einfacher Schritt. Er spart Geld und etwas CO₂, wiegt aber weniger als die Frage, was auf den Teller kommt.",mis:"restewoche"},
 {id:"milch",a:"essen",ev:2,t:"Käse ist ein unterschätzter Brocken",
  x:"Käse braucht viel Milch: Für ein Kilogramm Hartkäse sind es rund zehn Liter. Deshalb liegt Käse pro Kilogramm in einer ähnlichen Größenordnung wie Schweinefleisch oder Geflügel. Wer Fleisch weglässt und dafür mehr Käse isst, spart weniger als gedacht.",
  c:"Gut belegt in Ökobilanzen, die Werte schwanken je nach Herstellung.",
  src:"ifeu (2020), Ökologische Fußabdrücke von Lebensmitteln",u:SCH("ifeu 2020 ökologische Fußabdrücke von Lebensmitteln Käse Treibhausgas"),
  tip:"Hülsenfrüchte, Nüsse und Tofu sind gute Eiweißquellen mit kleinem Fußabdruck."},
-{id:"flug",a:"wege",ev:3,t:"Fliegen wirkt etwa dreimal stärker als sein CO₂",
- x:"Flugzeuge erwärmen das Klima nicht nur durch CO₂. Kondensstreifen und Stickoxide in großer Höhe verstärken die Wirkung. Insgesamt ist die Erwärmung durch den Flugverkehr etwa dreimal so groß wie durch sein CO₂ allein.",
- c:"Große Übersichtsarbeit in der Atmosphärenforschung. Die Nicht-CO₂-Effekte sind kurzlebig, aber stark.",
+{id:"flug",a:"wege",ev:2,t:"Fliegen wirkt zwei- bis dreimal stärker als sein CO₂",
+ x:"Flugzeuge erwärmen das Klima nicht nur durch CO₂. Kondensstreifen und Stickoxide in großer Höhe verstärken die Wirkung. Bisher hat der Flugverkehr das Klima etwa dreimal so stark erwärmt wie durch sein CO₂ allein. Rechnet man einen einzelnen Flug in CO₂-Äquivalente um, ergibt sich je nach Rechenweg etwa das Zwei- bis Dreifache.",
+ c:"Große Übersichtsarbeit in der Atmosphärenforschung. Die Nicht-CO₂-Effekte sind kurzlebig, aber stark, und vor allem bei den Kondensstreifen noch recht unsicher.",
  src:"Lee et al. (2021), Atmospheric Environment",u:SCH("Lee 2021 the contribution of global aviation to anthropogenic climate forcing for 2000 to 2018"),
  tip:"Eine einzige Fernreise kann mehr ausmachen als ein ganzes Jahr sorgfältiger Alltagsentscheidungen.",term:"nonco2",mis:"bahnplan"},
 {id:"bahnvsflug",a:"wege",ev:3,t:"Der Fernzug liegt bei einem Bruchteil",
@@ -483,7 +524,7 @@ const BITES=[
  src:"Ebeling & Lotz (2015), Nature Climate Change",u:SCH("Ebeling Lotz 2015 domestic uptake of green energy promoted by opt-out tariffs"),
  tip:"Stell dir dein Leben so ein, dass das Gute der einfache Weg ist. Einmal wechseln wirkt jedes Jahr.",term:"default",mis:"stromcheck"},
 {id:"nachbarn_strom",a:"wohnen",ev:3,t:"Der Vergleich mit den Nachbarn spart Strom",
- x:"Millionen US-Haushalte bekamen Briefe, die ihren Stromverbrauch mit ähnlichen Nachbarn verglichen. Im Schnitt sank ihr Verbrauch um rund 2 %. Das klingt wenig, entspricht aber dem Effekt einer kräftigen Preiserhöhung.",
+ x:"Hunderttausende US-Haushalte bekamen Briefe, die ihren Stromverbrauch mit ähnlichen Nachbarn verglichen. Im Schnitt sank ihr Verbrauch um rund 2 %. Das klingt wenig, entspricht aber dem Effekt einer kräftigen Preiserhöhung.",
  c:"Riesige randomisierte Feldexperimente, oft wiederholt.",
  src:"Allcott (2011), Journal of Public Economics",u:SCH("Allcott 2011 social norms and energy conservation"),
  tip:"Was andere tun, prägt uns. Darum wirkt es auch, darüber zu reden, was man selbst ausprobiert.",term:"norm"},
@@ -527,7 +568,7 @@ const BITES=[
  c:"Eine große Befragung mit sorgfältig berechneten Fußabdrücken, Zusammenhänge.",
  src:"Moser & Kleinhückelkotten (2018), Environment and Behavior",u:SCH("Moser Kleinhückelkotten 2018 good intents but low impacts diverging importance of motivational and socioeconomic determinants"),
  tip:"Es geht nicht um ein grünes Selbstbild, sondern um die paar Entscheidungen mit großer Wirkung.",term:"co2e",mis:"hebelcheck"},
-{id:"zehnprozent",a:"wege",ev:2,t:"Die reichsten zehn Prozent",
+{id:"zehnprozent",a:"dinge",ev:2,t:"Die reichsten zehn Prozent",
  x:"Nach Berechnungen des Stockholm Environment Institute verursachten die reichsten 10 % der Weltbevölkerung zwischen 1990 und 2015 rund die Hälfte der konsumbedingten Emissionen. Die ärmere Hälfte verursachte rund 7 %.",
  c:"Modellrechnung auf Basis von Einkommens- und Konsumdaten.",
  src:"Oxfam & SEI (2020), Confronting Carbon Inequality",u:SCH("Oxfam SEI 2020 confronting carbon inequality"),
@@ -586,45 +627,97 @@ const BITES=[
  x:"Eine Meta-Analyse über 75 Studien fand einen mittleren Zusammenhang zwischen Naturverbundenheit und umweltfreundlichem Verhalten. Naturerfahrung ist also nicht nur Erholung, sondern auch ein Weg zu mehr Engagement.",
  c:"Meta-Analyse, vor allem Querschnittsdaten.",
  src:"Mackay & Schmitt (2019), Journal of Environmental Psychology",u:SCH("Mackay Schmitt 2019 do people who feel connected to nature do more to protect it a meta-analysis"),
- tip:"Ein gemeinsamer Garten verbindet Natur, Menschen und Essen.",term:"dividende"}
+ tip:"Ein gemeinsamer Garten verbindet Natur, Menschen und Essen.",term:"dividende"},
+{id:"waermepumpe",a:"wohnen",ev:3,t:"Aus einer Kilowattstunde Strom werden drei bis vier Kilowattstunden Wärme",
+ x:"Eine Wärmepumpe holt den größten Teil der Wärme aus Luft, Erde oder Grundwasser. In Feldmessungen des Fraunhofer ISE in bestehenden Häusern erreichten Luft-Wärmepumpen im Mittel eine Jahresarbeitszahl von rund 3,1, Erdwärmepumpen rund 4,1. Deshalb verursacht eine Wärmepumpe schon mit dem heutigen Strommix deutlich weniger CO₂ als eine Gasheizung, und mit jedem neuen Windrad wird es weniger.",
+ c:"Große Feldmessung in Bestandsgebäuden über mehrere Jahre. Die Werte hängen vom Haus und von der nötigen Vorlauftemperatur ab.",
+ src:"Fraunhofer ISE (2020), WPsmart im Bestand",u:SCH("Fraunhofer ISE WPsmart im Bestand Feldmessung Wärmepumpen Bestandsgebäude Jahresarbeitszahl"),
+ tip:"Viele ältere Häuser brauchen dafür keine Komplettsanierung. Eine Energieberatung zeigt, was nötig ist.",term:"jaz",mis:"energieberatung"},
+{id:"pv",a:"wohnen",ev:2,t:"Eine Solaranlage spielt ihre Energie schnell wieder ein",
+ x:"Die Herstellung von Solarmodulen braucht Energie. Eine Photovoltaikanlage in Deutschland hat diese Energie nach Berechnungen des Fraunhofer ISE nach rund ein bis zwei Jahren wieder erzeugt. Danach läuft sie meist noch mehr als 20 Jahre weiter. Jede selbst erzeugte Kilowattstunde verdrängt Strom aus Kohle- und Gaskraftwerken.",
+ c:"Ökobilanzen mit einer Spanne je nach Modul, Herstellungsland und Standort.",
+ src:"Fraunhofer ISE, Aktuelle Fakten zur Photovoltaik in Deutschland",u:SCH("Fraunhofer ISE Aktuelle Fakten zur Photovoltaik in Deutschland energetische Amortisationszeit"),
+ tip:"Auch ohne eigenes Dach geht etwas: ein Balkonkraftwerk, Mieterstrom oder ein Anteil an einer Energiegenossenschaft.",term:"amort",mis:"stromcheck"},
+{id:"eauto",a:"wege",ev:3,t:"Das E-Auto holt seinen Rucksack schnell ein",
+ x:"Die Herstellung der Batterie verursacht zunächst mehr Emissionen als bei einem Verbrenner. Über die ganze Lebensdauer liegt ein in Europa gekauftes E-Auto nach einer Studie des ICCT aber rund zwei Drittel unter einem vergleichbaren Benziner. Den Mehraufwand der Herstellung holt es meist in den ersten ein bis zwei Jahren wieder ein.",
+ c:"Sorgfältige Lebenszyklus-Analyse mit dem erwarteten europäischen Strommix. Die Werte hängen von Fahrzeuggröße und Strom ab.",
+ src:"Bieker (2021), International Council on Clean Transportation",u:SCH("Bieker 2021 ICCT a global comparison of the life-cycle greenhouse gas emissions of combustion engine and electric passenger cars"),
+ tip:"Noch besser als ein neues Auto ist oft gar kein eigenes. Wenn doch eins nötig ist, dann lieber ein kleines.",term:"lca",mis:"autofasten"},
+{id:"tempolimit",a:"wege",ev:2,t:"Langsamer fahren spart sofort",
+ x:"Das Umweltbundesamt hat berechnet: Ein Tempolimit von 120 km/h auf Autobahnen würde in Deutschland rund 6,7 Millionen Tonnen CO₂-Äquivalente im Jahr sparen. Der Grund ist der Luftwiderstand, der mit der Geschwindigkeit stark wächst.",
+ c:"Modellrechnung des Umweltbundesamts auf Basis echter Fahrdaten, mit eingerechneten Ausweicheffekten.",
+ src:"Umweltbundesamt (2023), Klimaschutz durch Tempolimit",u:SCH("Umweltbundesamt 2023 Klimaschutz durch Tempolimit Wirkung eines generellen Tempolimits auf Bundesautobahnen"),
+ tip:"Das gilt auch ohne Gesetz: Wer 120 statt 140 fährt, braucht spürbar weniger Sprit und kommt kaum später an.",term:"effizienz",mis:"urlaubzug"},
+{id:"auto_steht",a:"wege",ev:2,t:"Ein Auto steht die meiste Zeit",
+ x:"Nach der großen Erhebung „Mobilität in Deutschland“ ist ein privates Auto im Schnitt nur rund 45 Minuten am Tag unterwegs. Die übrige Zeit steht es, und doch stecken in ihm Herstellung, Versicherung und Platz.",
+ c:"Große, repräsentative Erhebung im Auftrag des Bundesverkehrsministeriums.",
+ src:"infas (2019), Mobilität in Deutschland 2017",u:SCH("infas Mobilität in Deutschland 2017 Ergebnisbericht"),
+ tip:"Für seltene Fahrten ist ein geteiltes Auto oft günstiger und spart die Herstellung eines eigenen.",term:"suffizienz",mis:"autofasten"}
 ];
 
 /* Quiz „Was spart mehr?“: Werte in kg CO₂e, gerundet */
 const DUELS=[
 {a:"Ein Jahr lang keine Plastiktüte",ak:3,b:"Einmal Bahn statt Auto auf 300 km",bk:37,x:"Plastiktüten sind ein sehr kleiner Hebel. Eine einzige lange Autofahrt wiegt schwerer als ein Jahr Tütenverzicht."},
-{a:"Ein Jahr Ökostrom",ak:300,b:"Ein Jahr lang einmal pro Woche vegetarisch statt Fleisch",bk:100,x:"Beides lohnt sich. Der Stromwechsel ist ein einziger Schritt mit großer Wirkung."},
+{a:"Ein Jahr Ökostrom",ak:300,b:"Ein Jahr lang einmal pro Woche vegetarisch statt Fleisch",bk:80,x:"Beides lohnt sich. Der Stromwechsel ist ein einziger Schritt mit großer Wirkung."},
 {a:"Eine Langstreckenreise im Flugzeug weniger",ak:2500,b:"Ein Jahr komplett vegan",bk:800,x:"Ein Langstreckenflug hin und zurück wiegt mit seinen Nicht-CO₂-Effekten mehr als ein ganzes Jahr pflanzliche Ernährung."},
 {a:"Eine Jeans gebraucht kaufen",ak:25,b:"100 Gläser Haferdrink statt Kuhmilch",bk:20,x:"Fast gleich. Die Herstellung von Kleidung ist aufwendiger, als man denkt.",eq:1},
 {a:"Ein Jahr jeden Tag eine Stunde weniger streamen",ak:13,b:"Einmal 10 km Rad statt Auto pro Woche, ein Jahr",bk:88,x:"Streaming liegt bei rund 36 Gramm pro Stunde. Das Rad gewinnt deutlich."},
 {a:"Heizung ein Jahr lang 1 Grad kühler",ak:110,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Heizen ist in deutschen Haushalten der größte Energieverbraucher. Standby ist dagegen klein."},
 {a:"Smartphone ein Jahr länger nutzen",ak:20,b:"Laptop gebraucht statt neu kaufen",bk:200,x:"Laptops sind in der Herstellung viel aufwendiger als Smartphones."},
-{a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Ein Kilo Tomaten aus der Region statt aus Spanien",bk:0.1,x:"Was man isst, zählt meist mehr als die Herkunft. Der Lkw-Transport von Tomaten ist klein."},
+{a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Im Sommer ein Kilo Tomaten aus der Region statt aus Spanien",bk:0.1,x:"Was man isst, zählt meist mehr als die Herkunft. Der Lkw-Transport von Tomaten ist klein. Im Winter können regionale Tomaten aus dem beheizten Gewächshaus sogar schlechter abschneiden."},
 {a:"Auto abschaffen",ak:1500,b:"Ein Jahr lang Wäsche an der Luft trocknen",bk:100,x:"Beides ist gut. Das Auto ist einer der größten Einzelhebel überhaupt."},
 {a:"Ein Inlandsflug weniger, eine Strecke",ak:80,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:70,x:"Erstaunlich nah beieinander. Flaschenwasser ist über ein Jahr kein kleiner Posten.",eq:1},
 {a:"Ein Jahr lang wöchentlich 1 kg Lebensmittel retten",ak:78,b:"Ein Jahr lang wöchentlich mit Deckel kochen",bk:3,x:"Lebensmittel tragen den ganzen Aufwand von Anbau, Transport und Kühlung in sich."},
 {a:"Raumtemperatur 1 Grad kühler",ak:110,b:"20 m² weniger Wohnfläche pro Person",bk:600,x:"Die Fläche ist der stille Riese. Was nicht beheizt wird, verbraucht gar nichts."},
 {a:"Käse statt Fleisch",ak:100,b:"Hülsenfrüchte statt Fleisch",bk:450,x:"Käse liegt pro Kilogramm in der Größenordnung von Schwein und Geflügel. Hülsenfrüchte sind viel kleiner. Werte für ein Jahr."},
 {a:"Ein Auto mit drei Haushalten teilen",ak:700,b:"Den Verbrenner durch ein E-Auto ersetzen",bk:900,x:"Beides ist ähnlich groß. Das geteilte Auto spart zusätzlich die Herstellung von zwei weiteren Autos.",eq:1},
-{a:"Eine Fernreise mit der Bahn statt mit dem Flugzeug, 1.000 km",ak:180,b:"Ein Jahr lang einmal pro Woche kürzer duschen",bk:16,x:"Fliegen ist pro Kilometer einer der klimaschädlichsten Wege, sich fortzubewegen."}
+{a:"Eine Strecke von 1.000 km mit der Bahn statt mit dem Flugzeug",ak:160,b:"Ein Jahr lang einmal pro Woche kürzer duschen",bk:16,x:"Fliegen ist pro Kilometer einer der klimaschädlichsten Wege, sich fortzubewegen."},
+{a:"Photovoltaik aufs Dach, ein Jahr, Anteil pro Person",ak:1000,b:"Ein Jahr komplett vegetarisch",bk:450,x:"Eine Solaranlage auf dem Dach ist einer der größten Einzelschritte im Haushalt. Die vegetarische Ernährung ist trotzdem ein kräftiger Hebel."},
+{a:"Ein Jahr komplett vegetarisch",ak:450,b:"Eine Kurzstrecke hin und zurück weniger fliegen",bk:400,x:"Ein einziger kurzer Flug hin und zurück wiegt fast so viel wie ein ganzes Jahr ohne Fleisch.",eq:1},
+{a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Ein Jahr lang jeden Tag eine Stunde weniger streamen",bk:13,x:"Ein Jahr Streaming-Verzicht wiegt mehr als ein Steak. Aber ein Steak ist eine einzige Mahlzeit, Streaming ein ganzes Jahr."},
+{a:"Ein T-Shirt gebraucht statt neu",ak:5,b:"Einmal 50 km Bahn statt Auto",bk:6,x:"Fast gleich. In einem T-Shirt steckt etwa so viel wie in 50 km Autofahrt.",eq:1},
+{a:"Ein Smartphone reparieren statt neu kaufen",ak:60,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:70,x:"Erstaunlich nah beieinander. Beim Handy steckt fast alles in der Herstellung.",eq:1},
+{a:"Einen Winter lang stoßlüften statt Fenster kippen",ak:70,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Gekippte Fenster lassen über Stunden Wärme entweichen. Heizen ist der größere Posten."},
+{a:"Eine Fernreise im Flugzeug weniger",ak:2500,b:"Ein Jahr Wärmepumpe statt Gasheizung, Anteil pro Person",bk:1000,x:"Die Wärmepumpe ist ein großer Hebel. Eine einzige Fernreise wiegt trotzdem mehr als doppelt so viel."},
+{a:"1.000 km Autobahn mit 120 statt 140 km/h",ak:20,b:"Eine Jeans gebraucht statt neu",bk:25,x:"Fast gleich. Etwas langsamer zu fahren spart mehr, als viele denken.",eq:1},
+{a:"Ein Jahr Freizeitwege mit Deutschlandticket statt Auto",ak:200,b:"Ein Jahr lang Fleisch halbiert",bk:250,x:"Beides liegt in einer ähnlichen Größenordnung.",eq:1},
+{a:"Ein Jahr E-Auto statt Verbrenner",ak:900,b:"Ein Jahr komplett vegan",bk:800,x:"Beides ist ähnlich groß. Die vegane Ernährung braucht dafür kein neues Auto.",eq:1},
+{a:"20 m² weniger Wohnfläche pro Person",ak:600,b:"Ein Jahr Ökostrom",bk:300,x:"Die Fläche wirkt doppelt: weniger Heizung und weniger Material."},
+{a:"Ein Jahr lang Milchprodukte und Käse halbiert",ak:150,b:"Smartphone ein Jahr länger nutzen",bk:20,x:"Milchprodukte, vor allem Käse und Butter, sind ein unterschätzter Posten."},
+{a:"Ein Balkonkraftwerk, ein Jahr",ak:180,b:"Ein Jahr lang wöchentlich 1 kg Lebensmittel retten",bk:78,x:"Das Balkonkraftwerk spart mehr. Das Retten von Lebensmitteln spart dafür auch Geld."},
+{a:"Einmal 50 km Fahrgemeinschaft statt allein",ak:4,b:"Einen Monat lang jeden Tag mit Deckel kochen",bk:1.5,x:"Eine einzige geteilte Fahrt spart mehr als ein Monat Kochen mit Deckel."},
+{a:"Ein Kleidungsstück gebraucht statt neu",ak:10,b:"Ein Monat Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:6,x:"Kleidung ist in der Herstellung aufwendig. Beides lohnt sich."},
+{a:"Ein Jahr lang wöchentlich 10 km Bus statt Auto",ak:52,b:"Ein Jahr lang wöchentlich einmal aus Resten kochen",bk:42,x:"Fast gleich. Kleine Schritte summieren sich übers Jahr.",eq:1},
+{a:"Lastenrad statt Zweitwagen, ein Jahr",ak:800,b:"Ein Jahr Ökostrom",bk:300,x:"Ein Zweitwagen kostet nicht nur Sprit, sondern auch seine Herstellung."},
+{a:"Einen Laptop gebraucht statt neu kaufen",ak:200,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:70,x:"In einem Laptop steckt viel Herstellungsaufwand."},
+{a:"Einmal kürzer duschen",ak:0.3,b:"Einmal Wäsche an der Luft statt im Trockner",bk:1,x:"Der Trockner braucht viel Strom. Beim Duschen zählt vor allem, wie oft."},
+{a:"Ein Jahr lang täglich ein Glas Haferdrink statt Kuhmilch",ak:73,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Kuhmilch hat einen größeren Fußabdruck, als die meisten denken."},
+{a:"Ein Jahr Ökostrom",ak:300,b:"Ein Jahr lang Fleisch halbiert",bk:250,x:"Beides liegt nah beieinander. Der Stromwechsel ist ein einziger Schritt, das Essen eine tägliche Gewohnheit.",eq:1},
+{a:"Das Auto abschaffen",ak:1500,b:"Photovoltaik aufs Dach, Anteil pro Person",bk:1000,x:"Beides gehört zu den größten Hebeln. Das Auto liegt meist noch etwas höher."},
+{a:"Eine Stunde Videostreaming",ak:0.036,b:"Einen Kilometer allein Auto fahren",bk:0.17,x:"Ein Kilometer Autofahrt verursacht etwa so viel wie fünf Stunden Streaming."},
+{a:"Einmal Bahn statt Inlandsflug, 500 km",ak:80,b:"Ein Jahr lang einmal pro Woche vegetarisch",bk:80,x:"Gleich viel. Eine Flugstrecke wiegt so viel wie ein Jahr lang ein fleischfreier Tag pro Woche.",eq:1},
+{a:"Ein Jahr lang Wäsche bei 30 statt 60 Grad, 100 Ladungen",ak:30,b:"Eine Jeans gebraucht statt neu",bk:25,x:"Fast gleich. Beim Waschen geht der meiste Strom ins Aufheizen.",eq:1}
 ];
 
 const TERMS=[
-{id:"co2e",a:"wir",n:"CO₂-Äquivalent",d:"Eine gemeinsame Maßeinheit für alle Treibhausgase. Methan oder Lachgas werden in die Menge CO₂ umgerechnet, die dieselbe Erwärmung bewirken würde.",e:"Ein Kilogramm Methan entspricht über 100 Jahre rund 28 kg CO₂-Äquivalent."},
+{id:"co2e",a:"essen",n:"CO₂-Äquivalent",d:"Eine gemeinsame Maßeinheit für alle Treibhausgase. Methan oder Lachgas werden in die Menge CO₂ umgerechnet, die dieselbe Erwärmung bewirken würde.",e:"Ein Kilogramm Methan entspricht über 100 Jahre rund 27 bis 30 kg CO₂-Äquivalent."},
 {id:"lca",a:"dinge",n:"Ökobilanz",d:"Eine Rechnung über das ganze Leben eines Produkts: Rohstoffe, Herstellung, Transport, Nutzung und Entsorgung.",e:"Die Ökobilanz einer Jeans schließt den Baumwollanbau und das Waschen ein."},
 {id:"grau",a:"dinge",n:"Graue Energie",d:"Die Energie, die in der Herstellung eines Produkts steckt, bevor man es überhaupt benutzt.",e:"Bei einem Smartphone steckt der größte Teil des Fußabdrucks in der grauen Energie."},
 {id:"suffizienz",a:"wohnen",n:"Suffizienz",d:"Das Prinzip des Genug: nicht effizienter mehr verbrauchen, sondern absolut weniger. Ergänzt Effizienz und Konsistenz.",e:"Eine Waschmaschine für das ganze Haus statt eine pro Wohnung."},
 {id:"effizienz",a:"wohnen",n:"Effizienz",d:"Dasselbe mit weniger Energie oder Material erreichen.",e:"Eine LED-Lampe gibt dasselbe Licht mit einem Bruchteil des Stroms."},
 {id:"konsistenz",a:"wohnen",n:"Konsistenz",d:"Stoffe und Energie so nutzen, dass sie in natürliche oder technische Kreisläufe passen, etwa durch erneuerbare Energie.",e:"Strom aus Sonne statt aus Kohle."},
+{id:"jaz",a:"wohnen",n:"Jahresarbeitszahl",d:"Das Verhältnis von erzeugter Wärme zu eingesetztem Strom bei einer Wärmepumpe, gemessen über ein ganzes Jahr.",e:"Eine Jahresarbeitszahl von 3 heißt: Aus 1 kWh Strom werden 3 kWh Wärme."},
+{id:"amort",a:"wohnen",n:"Energetische Amortisation",d:"Die Zeit, die eine Anlage braucht, um die Energie wieder zu erzeugen, die ihre Herstellung gekostet hat.",e:"Eine Solaranlage in Deutschland hat ihre Herstellungsenergie nach rund ein bis zwei Jahren wieder eingespielt."},
 {id:"rebound",a:"wohnen",n:"Rebound-Effekt",d:"Wenn Einsparungen durch Effizienz teilweise wieder verloren gehen, weil man mehr verbraucht.",e:"Mit dem sparsameren Auto fährt man öfter in den Urlaub."},
-{id:"nonco2",a:"wege",n:"Nicht-CO₂-Effekte",d:"Die zusätzliche Klimawirkung von Flugzeugen durch Kondensstreifen und Stickoxide in großer Höhe.",e:"Durch sie ist die Wirkung eines Flugs etwa dreimal so groß wie die seines CO₂ allein."},
+{id:"nonco2",a:"wege",n:"Nicht-CO₂-Effekte",d:"Die zusätzliche Klimawirkung von Flugzeugen durch Kondensstreifen und Stickoxide in großer Höhe.",e:"Durch sie ist die Wirkung eines Flugs je nach Rechenweg etwa zwei- bis dreimal so groß wie die seines CO₂ allein."},
 {id:"saison",a:"essen",n:"Saisonalität",d:"Lebensmittel dann essen, wenn sie in der Region im Freien wachsen oder ohne viel Energie gelagert werden können.",e:"Kürbis im Oktober, Erdbeeren im Juni."},
 {id:"kreislauf",a:"dinge",n:"Kreislaufwirtschaft",d:"Ein Wirtschaften, bei dem Produkte möglichst lange genutzt, repariert, geteilt und am Ende wiederverwertet werden.",e:"Ein Handy mit austauschbarem Akku ist ein Schritt Richtung Kreislaufwirtschaft."},
 {id:"default",a:"wohnen",n:"Voreinstellung (Default)",d:"Die Option, die gilt, wenn man nichts tut. Menschen bleiben meist bei der Voreinstellung.",e:"Ökostrom als Standardtarif."},
-{id:"norm",a:"wir",n:"Soziale Norm",d:"Die Vorstellung davon, was andere tun oder für richtig halten. Sie beeinflusst unser Verhalten stark.",e:"Wenn alle im Haus den Müll trennen, trennt man selbst eher."},
+{id:"norm",a:"wohnen",n:"Soziale Norm",d:"Die Vorstellung davon, was andere tun oder für richtig halten. Sie beeinflusst unser Verhalten stark.",e:"Wenn alle im Haus den Müll trennen, trennt man selbst eher."},
 {id:"kipppunkt",a:"wir",n:"Sozialer Kipppunkt",d:"Der Punkt, ab dem sich eine neue Norm in einer Gruppe von selbst durchsetzt. In Experimenten lag er bei etwa einem Viertel.",e:"Ab einem gewissen Anteil wird das Rad zum normalen Weg zur Arbeit."},
 {id:"licensing",a:"dinge",n:"Moralische Lizenz",d:"Die Neigung, sich nach einer guten Tat eine weniger gute zu erlauben.",e:"Nach dem Ökostrom-Wechsel fühlt sich der Flug weniger schlimm an."},
 {id:"spillover",a:"dinge",n:"Spillover",d:"Wenn ein Verhalten ein anderes nach sich zieht, im Guten wie im Schlechten.",e:"Wer anfängt, Rad zu fahren, denkt vielleicht auch über das Auto nach."},
-{id:"dividende",a:"wir",n:"Doppelte Dividende",d:"Wenn eine Handlung zugleich dem eigenen Wohlbefinden und der Umwelt nützt.",e:"Mit dem Rad zur Arbeit: gut für das Klima und die Laune."},
+{id:"dividende",a:"wege",n:"Doppelte Dividende",d:"Wenn eine Handlung zugleich dem eigenen Wohlbefinden und der Umwelt nützt.",e:"Mit dem Rad zur Arbeit: gut für das Klima und die Laune."},
 {id:"wirksamkeit",a:"wir",n:"Kollektive Wirksamkeit",d:"Der Glaube, dass eine Gruppe gemeinsam etwas bewirken kann. Er schützt eher vor Ohnmacht als individuelles Handeln allein.",e:"Eine Energiegenossenschaft, die ein Windrad baut."},
 {id:"handabdruck",a:"wir",n:"Handabdruck",d:"Die positive Wirkung, die man über den eigenen Konsum hinaus hat, etwa indem man Strukturen verändert oder andere ansteckt.",e:"Im Verein eine Fahrradstraße durchsetzen."},
 {id:"genossenschaft",a:"wir",n:"Genossenschaft",d:"Ein Zusammenschluss, bei dem die Mitglieder gemeinsam Eigentümer sind und jedes Mitglied eine Stimme hat, unabhängig von seinem Anteil.",e:"Viele Lebensgemeinschaften kaufen ihr Gelände über eine Genossenschaft."},
@@ -644,9 +737,12 @@ const MISS=[
 {id:"leinemonat",a:"wohnen",d:30,t:"Ein Monat Wäscheleine",x:"Lass den Trockner einen Monat lang aus und trockne alles an der Luft.",s:["Wäscheständer oder Leine einrichten","Bei 30 Grad waschen, wo es geht","Trocknergänge zählen, die du gespart hast"]},
 {id:"zaehler",a:"wohnen",d:7,t:"Die Stromzähler-Woche",x:"Lies eine Woche lang jeden Abend den Stromzähler ab. Finde heraus, welche Geräte am meisten verbrauchen.",s:["Zählerstand jeden Abend notieren","An einem Tag alle Standby-Geräte ausschalten und vergleichen","Den größten Verbraucher aufschreiben"],b:"nachbarn_strom"},
 {id:"stromcheck",a:"wohnen",d:7,t:"Der Ökostrom-Check",x:"Prüfe deinen Stromtarif. Wechsle zu einem Anbieter, der in neue Anlagen investiert, wenn du es noch nicht bist.",s:["Den aktuellen Tarif nachschauen","Auf ein anerkanntes Ökostrom-Siegel achten","Den Wechsel online abschließen, das dauert etwa zehn Minuten"],b:"default"},
+{id:"energieberatung",a:"wohnen",d:21,t:"Eine Energieberatung buchen",x:"Lass dir von einer unabhängigen Energieberatung zeigen, wo dein Zuhause am meisten verbraucht und was sich lohnt. Bei der Verbraucherzentrale kostet das wenig oder nichts, auch für Mieterinnen und Mieter.",s:["Bei der Verbraucherzentrale oder einer Energieberatung in der Nähe einen Termin anfragen","Heizkosten- und Stromabrechnungen der letzten zwei Jahre heraussuchen","Nach der Beratung einen Schritt auswählen und eintragen"],b:"waermepumpe"},
+{id:"heizung",a:"wohnen",d:30,t:"Die Heizung einstellen lassen",x:"Viele Heizungen laufen mit zu hoher Vorlauftemperatur oder verteilen die Wärme ungleich. Ein hydraulischer Abgleich und eine passend eingestellte Heizkurve sparen oft spürbar Energie.",s:["Notieren, welche Räume zu warm werden und welche nie richtig warm","Beim Heizungsbetrieb oder der Hausverwaltung nach hydraulischem Abgleich und Heizkurve fragen","Heizzeiten und Nachtabsenkung einstellen, wo es eine Steuerung gibt"],b:"grad"},
 {id:"radwoche",a:"wege",d:7,t:"Die Rad-Woche",x:"Fahr eine Woche lang jeden Weg unter fünf Kilometern mit dem Rad oder zu Fuß.",s:["Rad prüfen: Luft, Licht, Bremsen","Wege unter fünf Kilometern auflisten","Jeden Weg eintragen"],b:"aktivwege"},
 {id:"autofasten",a:"wege",d:14,t:"Autofasten",x:"Lass das Auto zwei Wochen lang stehen. Organisiere die Wege mit Rad, Bahn, Fahrgemeinschaft oder geteiltem Auto.",s:["Die festen Wege der nächsten zwei Wochen planen","Für jeden Weg eine Alternative finden","Notieren, was gefehlt hat und was nicht"],b:"hebel"},
 {id:"bahnplan",a:"wege",d:30,t:"Die nächste Reise mit der Bahn",x:"Plane deine nächste längere Reise mit der Bahn statt mit dem Flugzeug oder Auto. Rechne die Reisezeit einmal ehrlich mit An- und Abfahrt.",s:["Ein Ziel wählen, das per Zug erreichbar ist","Früh buchen, oft ist es dann günstiger","Die Zugfahrt als Teil der Reise planen: Buch, Essen, Ausblick"],b:"flug"},
+{id:"urlaubzug",a:"wege",d:14,t:"Urlaub ohne Flug planen",x:"Plane deinen nächsten großen Urlaub so, dass du ohne Flugzeug hinkommst. Viele Ziele in Europa erreichst du mit Tag- oder Nachtzug in einem Reisetag.",s:["Drei Ziele sammeln, die per Zug, Nachtzug oder Fernbus erreichbar sind","Verbindungen und Preise vergleichen, früh gebucht ist es oft günstiger","Die Anreise als ersten Urlaubstag planen"],b:"flug"},
 {id:"kaufpause",a:"dinge",d:7,t:"Die Kaufpause",x:"Kauf eine Woche lang nichts außer Lebensmitteln und wirklich Notwendigem. Schreib jeden Kaufimpuls auf.",s:["Liste anlegen: Impuls, Situation, Gefühl","Nach einer Woche: Welche Impulse kamen aus Langeweile oder Vergleich?","Einen Impuls auswählen, den du künftig anders beantwortest"],b:"materialismus"},
 {id:"repariermonat",a:"dinge",d:30,t:"Der Repariermonat",x:"Repariere in diesem Monat einen Gegenstand, der kaputt in der Schublade liegt, selbst oder im Repair-Café.",s:["Etwas Kaputtes heraussuchen","Anleitung suchen oder Repair-Café-Termin finden","Ob es klappt oder nicht: eintragen, was du gelernt hast"],b:"handy"},
 {id:"gebrauchtzuerst",a:"dinge",d:30,t:"Gebraucht zuerst",x:"Suche einen Monat lang bei jedem Kauf zuerst gebraucht, im Freundeskreis oder im Haus, bevor du neu kaufst.",s:["Zwei Plattformen oder Läden für Gebrauchtes heraussuchen","In der Haus- oder Familiengruppe zuerst fragen","Zählen, wie oft es geklappt hat"],b:"kleidung"},
@@ -679,7 +775,7 @@ const CHECK=[
 {id:"rest",a:"essen",q:"Wie oft wirfst du Lebensmittel weg?",o:[["Öfter",0.2],["Manchmal",0],["Fast nie",-0.1]]},
 {id:"flaeche",a:"wohnen",q:"Wie viel Wohnfläche hast du ungefähr, geteilt durch die Zahl der Bewohner?",o:[["Unter 30 m²",0.8],["30 bis 50 m²",1.3],["50 bis 80 m²",2.0],["Über 80 m²",2.8]]},
 {id:"heiz",a:"wohnen",q:"Womit wird geheizt?",o:[["Öl",1.2],["Gas",1],["Fernwärme",0.85],["Wärmepumpe",0.45],["Holz oder Pellets",0.3],["Weiß ich nicht",1]],mul:"flaeche"},
-{id:"strom",a:"wohnen",q:"Welchen Strom beziehst du?",o:[["Echten Ökostrom",0.15],["Normalen Strom",0.6],["Weiß ich nicht",0.6]]},
+{id:"strom",a:"wohnen",q:"Welchen Strom beziehst du?",o:[["Echten Ökostrom",0.3],["Normalen Strom",0.6],["Weiß ich nicht",0.6]]},
 {id:"auto",a:"wege",q:"Wie viele Kilometer fährst du selbst im Jahr mit dem Auto?",o:[["Kein Auto",0],["Unter 5.000 km",0.6],["5.000 bis 10.000 km",1.3],["10.000 bis 20.000 km",2.4],["Über 20.000 km",4]]},
 {id:"flug",a:"wege",q:"Wie oft fliegst du im Jahr?",o:[["Gar nicht",0],["Eine Kurzstrecke hin und zurück",0.4],["Mehrere Kurzstrecken",1.2],["Eine Fernreise",2.5],["Mehrere Fernreisen",5.5]]},
 {id:"konsum",a:"dinge",q:"Wie würdest du deinen sonstigen Konsum beschreiben, also Kleidung, Technik, Möbel, Freizeit?",o:[["Sparsam",2.2],["Durchschnittlich",3.4],["Ich kaufe gern und viel",5.2]]},
@@ -688,6 +784,38 @@ const CHECK=[
 ];
 const AVG={essen:1.7,wohnen:2.3,wege:2.0,dinge:3.4,oeff:0.9};
 
+/* Themen im Jahreslauf: Index 0 = Januar. Jedes Thema passt zu einem Entscheidungsmoment im Jahr. */
+const THEMES=[
+{t:"Urlaub planen",x:"Im Januar werden viele Sommerreisen gebucht. Jetzt entscheidet sich, ob geflogen wird.",act:"bahn_eu",mis:"urlaubzug",bite:"flug"},
+{t:"Die Heizung prüfen",x:"Mitten im Winter merkst du am besten, welche Räume zu warm sind und wo die Wärme nicht ankommt.",act:"lueften",mis:"heizung",bite:"grad"},
+{t:"Ein Versuch beim Essen",x:"Viele nutzen die Fastenzeit für einen Versuch, zum Beispiel ein paar Tage ohne Fleisch.",act:"veg_tag",mis:"veg5",bite:"teller"},
+{t:"Das Rad startklar machen",x:"Die Tage werden länger und wärmer. Wer jetzt aufs Rad steigt, bleibt oft den ganzen Sommer dabei.",act:"rad5",mis:"radwoche",bite:"aktivwege"},
+{t:"Sanieren planen",x:"Handwerksbetriebe planen den Sommer früh. Eine Energieberatung jetzt hilft, vor dem nächsten Winter etwas zu verändern.",act:"daemmung",mis:"energieberatung",bite:"waermepumpe"},
+{t:"Sonne ernten",x:"Im Juni liefert eine Solaranlage am meisten Strom. Ein guter Moment, über eine eigene nachzudenken.",act:"balkon",mis:"stromcheck",bite:"pv"},
+{t:"Gelassen in die Ferien",x:"In den Ferien sind viele lange mit dem Auto unterwegs. Etwas langsamer spart spürbar Sprit.",act:"tempo",mis:"bahnplan",bite:"tempolimit"},
+{t:"Ernte und Reste",x:"Im Spätsommer gibt es von vielem zu viel. Einkochen, Einfrieren und Teilen retten die Ernte.",act:"retten",mis:"restewoche",bite:"verschwendung"},
+{t:"Das Auto stehen lassen",x:"Im September ist die Europäische Mobilitätswoche, und nach den Ferien beginnen die Wege des Alltags neu.",act:"dticket",mis:"autofasten",bite:"auto_steht"},
+{t:"Die Heizsaison beginnt",x:"Die Einstellung, mit der du jetzt in den Winter startest, gilt oft bis zum Frühjahr.",act:"grad",mis:"eingrad",bite:"wohnflaeche"},
+{t:"Weniger kaufen",x:"Rund um den Black Friday wird so viel gekauft wie sonst kaum im Jahr. Ein guter Moment für eine Pause.",act:"nichtgekauft",mis:"kaufpause",bite:"materialismus"},
+{t:"Zeit statt Zeug",x:"Im Dezember wird viel gekauft und verschenkt. Gemeinsame Zeit ist oft das schönere Geschenk.",act:"mahlzeit",mis:"tisch",bite:"zeitwohlstand"}
+];
+
+/* Dauerhafte Änderungen und die kleinen Schritte, deren Kilogramm sie schon enthalten.
+   Solange eine dieser Änderungen läuft, zählen die kleinen Schritte sichtbar, aber ohne Kilogramm. */
+const COVER={
+autolos:["rad5","rad10","oepnv","wegspar","mitfahren","tempo","bahn"],
+pendeln:["oepnv"],
+dticket:["oepnv"],
+veg_dauer:["veg_tag","linsen"],
+vegan_dauer:["veg_tag","vegan_tag","linsen","hafer","milchfrei_tag"],
+fleisch_halb:[],
+kaese_weniger:["milchfrei_tag","hafer"],
+nurgebraucht:["kleid","jeans"],
+handylang:["handyrep"],
+oekostrom:["leine","kalt","standby","deckel"],
+gemeinschaft:["mahlzeit","geteilt"]
+};
+
 </script>
 <script>
 (()=>{
@@ -695,12 +823,13 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="18.10.2026, 13:28";
+const BUILD="18.10.2026, 17:35";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
-S.base=S.base||{};
+S.base=S.base||{};S.plans=S.plans||{};
+if(S.gv!==2){S.gFloor=S.log.filter(e=>!e.g).length+S.log.filter(e=>e.g).length*6+Object.values(S.mis||{}).filter(v=>v.status==="done").length*4+Object.keys(S.base).length*3;S.gv=2}
 const isBase=id=>!!S.base[id];
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const A=Object.fromEntries(ACTS.map(a=>[a.id,a])),B=Object.fromEntries(BITES.map(b=>[b.id,b])),T=Object.fromEntries(TERMS.map(t=>[t.id,t])),M=Object.fromEntries(MISS.map(m=>[m.id,m]));
@@ -715,7 +844,11 @@ const hashStr=s=>{let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math
 const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
 
 /* ---------- Rechnen ---------- */
+/* Doppelzählung vermeiden: kleine Schritte, die eine laufende dauerhafte Änderung schon abdeckt, zählen sichtbar, aber nicht in kg */
+const COV=typeof COVER!=="undefined"?COVER:{},COVBY={};Object.entries(COV).forEach(([big,l])=>l.forEach(sm=>(COVBY[sm]=COVBY[sm]||[]).push(big)));
+function coveredBy(e){const l=COVBY[e.act];if(!l||e.g)return null;for(const big of l){if(isBase(big))return big;if(S.log.some(x=>x.g&&x.act===big&&x.ts<=e.ts&&(!x.end||x.end>e.ts)))return big}return null}
 function eKg(e,from,to){from=from||0;to=to||now();
+  if(!e.g&&coveredBy(e))return 0;
   if(e.g){const s=Math.max(e.ts,from),en=Math.min(e.end||now(),to);return en>s?(e.y||0)*(en-s)/DAY/365:0}
   return e.ts>=from&&e.ts<to?(e.k||0):0}
 const sumKg=(from,to,a)=>S.log.reduce((s,e)=>s+(!a||e.a===a?eKg(e,from,to):0),0);
@@ -725,7 +858,10 @@ const monthStart=(d=new Date())=>new Date(d.getFullYear(),d.getMonth(),1).getTim
 const weekStart=(t=now())=>{const d=new Date(dayStart(t));const wd=(d.getDay()+6)%7;return d.getTime()-wd*DAY};
 const meets=()=>S.log.filter(e=>e.w).length;
 const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
-function growth(){const small=S.log.filter(e=>!e.g).length,big=S.log.filter(e=>e.g).length;return small+big*6+misDone()*4+Object.keys(S.base||{}).length*3}
+/* Wachstum nach Wirkung: kleine Schritte 1 bis 3 Punkte je nach kg, dauerhafte Änderungen 6 oder 8. Wer schon länger dabei ist, verliert durch die neue Rechnung nichts. */
+function ptsOf(e){if(e.g)return (e.y||0)>=1000?8:6;const k=e.k||0;return k>20?3:k>=1?2:1}
+function growthRaw(){return S.log.reduce((s,e)=>s+ptsOf(e),0)+misDone()*4+Object.keys(S.base||{}).length*3}
+function growth(){return Math.max(growthRaw(),S.gFloor||0)}
 /* Stufen der Landschaft: jede bringt etwas Neues ins Bild */
 const STAGES=[[0,"Brache","Noch ist fast alles kahl."],[1,"Keimling","Die ersten Gräser keimen."],[5,"Wiese","Ein erster Schmetterling ist da. Mit der Zeit werden es mehr."],[12,"Blumenwiese","Die ersten Wildblumen blühen. Mit jedem Schritt kommen welche dazu."],[22,"Hecke","Am Hang wachsen die ersten Sträucher. Nach und nach wird daraus eine Hecke."],[35,"Streuobst","Am Hügel entspringt eine Quelle. Mit der Zeit wird daraus ein Bach bis zum Teich."],[52,"Hain","Ab und zu schaut ein Igel vorbei. Wenn die Landschaft weiter wächst, bleibt er."],[75,"Auenwald","Ein Reiher besucht manchmal den Teich."],[105,"Wald","Am Waldrand zeigt sich hin und wieder ein Reh."],[145,"Biotop","Nach einem Schauer steht ein Regenbogen über deiner Landschaft. Du siehst ihn, wenn die Sonne tiefer als 42 Grad steht: morgens, abends und im Winterhalbjahr fast den ganzen Tag."]];
 function stage(){const g=growth();let i=0;STAGES.forEach((s,k)=>{if(g>=s[0])i=k});return {i,n:STAGES[i][1],g,from:STAGES[i][0],next:STAGES[i+1]||null}}
@@ -734,12 +870,17 @@ const LV=[1,2,4,7,12,20],level=n=>LV.filter(v=>n>=v).length,nextLv=n=>LV.find(v=
 const SPEC={essen:k=>hashStr(k)%2?"Sonnenblumen":"Ähren",wohnen:()=>"Rohrkolben",wege:()=>"Lupinen",dinge:()=>"Pilze",wir:()=>"Laternen"};
 const species=(k,a)=>SPEC[a](k);
 function lvlBoxes(n,a){const l=level(n);return `<span class="lvl" ${da(a)} aria-label="Stufe ${l} von 6">${LV.map((_,i)=>`<b class="${i<l?"on":""}"></b>`).join("")}</span>`}
-function stageBar(st){if(!st.next)return `<div class="lprog"><span>Höchste Stufe erreicht. Deine Landschaft wächst trotzdem weiter.</span></div>`;const pct=Math.round((st.g-st.from)/(st.next[0]-st.from)*100);
-  return `<div class="lprog"><span class="lbar"><i style="width:${pct}%"></i></span><span>Nächste Stufe <b>${st.next[1]}</b> <span class="num">${st.g}/${st.next[0]}</span></span></div>`}
+let barMem=null;
+function stageBar(st,withName){const nm=withName?`<span class="stage">${st.n}</span>`:"";if(!st.next)return `<div class="lprog">${nm}<span>Höchste Stufe erreicht. Deine Landschaft wächst weiter.</span></div>`;const pct=Math.round((st.g-st.from)/(st.next[0]-st.from)*100);
+  const old=barMem&&barMem.i===st.i&&barMem.pct<=pct?barMem.pct:(barMem&&barMem.i<st.i?0:pct);if(withName)barMem={i:st.i,pct};
+  return `<div class="lprog">${nm}<span class="lbar"><i style="width:${old}%" data-to="${pct}"></i></span><span>Nächste Stufe <b>${st.next[1]}</b> <span class="num">${st.g}/${st.next[0]}</span></span></div>`}
+function fillBars(){requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll("[data-to]").forEach(i=>{i.style.width=i.dataset.to+"%";i.removeAttribute("data-to")})))}
 
 /* ---------- Haptik und Stempel ---------- */
 let hapt=null;
 function haptic(){if(!hapt){const l=document.createElement("label");l.setAttribute("aria-hidden","true");l.style.cssText="position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none";const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.tabIndex=-1;l.appendChild(i);document.body.appendChild(l);hapt=l}try{hapt.click()}catch(e){}}
+/* Haptik: Auswahl 10 ms, Eintrag ein Klick, Stufe ein kräftigeres Doppelmuster. Reiterwechsel ohne Haptik. Bei reduzierter Bewegung aus (Bauplan). */
+const HAP={sel:10,log:14,undo:10,big:[15,90,30],stage:[15,90,30],right:14,wrong:[20,60,20]};
 function buzz(p){if(calm())return;if(navigator.vibrate){try{navigator.vibrate(p)}catch(e){}return}
   const n=Array.isArray(p)?Math.ceil(p.length/2):1;haptic();for(let k=1;k<n;k++)setTimeout(haptic,k*90)}
 function fx(){let l=$("#fx");if(!l){l=document.createElement("div");l.id="fx";document.body.appendChild(l)}return l}
@@ -748,20 +889,28 @@ function stamp(e,el,col){if(calm())return;const r=el.getBoundingClientRect(),x=e
   const mk=(bg,dx,dy,del)=>{const d=document.createElement("span");d.className="stamp";Object.assign(d.style,{left:(x-sz/2+dx)+"px",top:(y-sz/2+dy)+"px",width:sz+"px",height:sz+"px",background:bg});fx().appendChild(d);
     d.animate([{transform:"scale(.15) rotate(-8deg)",opacity:0},{transform:"scale(.85) rotate(0)",opacity:.75,offset:.25},{transform:"scale(1.05)",opacity:0}],{duration:900,delay:del,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>d.remove()};
   mk(col,-3,-2,0);mk(`radial-gradient(${col} 1.6px,transparent 2px) 0 0/7px 7px`,4,3,70)}
-function toast(msg,undo,rich){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast"+(rich?" rich":"");t.innerHTML=`<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
-  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(()=>t.remove(),rich?5200:undo?4200:2400)}
+function toast(msg,undo){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.innerHTML=`<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
+  const out=()=>{if(!t.isConnected)return;if(momentOpen){setTimeout(out,1200);return}t.classList.add("out");setTimeout(()=>t.remove(),200)};
+  if(undo)t.querySelector("#undo").onclick=()=>{buzz(HAP.undo);undo();t.remove()};setTimeout(out,undo?4200:2600)}
 
 /* ---------- Landschaft ---------- */
 let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0;
 /* Sonnenhöhe in Grad für Mitteldeutschland (51° N, 10° O), genau genug für den Regenbogen */
 function solarElev(d=new Date()){const lat=51*Math.PI/180,doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5),dec=23.44*Math.PI/180*Math.sin(2*Math.PI*(284+doy)/365),
   h=d.getUTCHours()+d.getUTCMinutes()/60+10/15,ha=(h-12)*15*Math.PI/180;return Math.asin(Math.sin(lat)*Math.sin(dec)+Math.cos(lat)*Math.cos(dec)*Math.cos(ha))*180/Math.PI}
+/* Jahreszeiten: Herbstlaub ab Mitte Oktober, Winter kühler, Frühling mit Blüten. Schnee nur an einzelnen, festen Tagen im Januar und Februar. */
+function seasonNow(d=new Date()){const m=d.getMonth(),day=d.getDate();return {bugs:m>=2&&m<=9,bloom:m>=2&&m<=10,hog:m>=3&&m<=9,autumn:m===9?Math.max(0,Math.min(1,(day-12)/18)):m===10?1:0,winter:m===11||m<=1?1:0,spring:(m===2&&day>=15)||m===3?1:0,
+  snow:(m===0||m===1)&&hashStr("snow"+d.getFullYear()+"-"+m+"-"+day)%100<18}}
+let SEAS=seasonNow(),LC=null,landVis=true,io=null;const layers={};
+/* Unbewegte Ebenen (Hügel, Wald, Hecke) werden einmal gezeichnet und dann nur noch kopiert */
+function layer(name,key,dpr,mode,draw){let L=layers[name];if(!L||L.key!==key||L.c.width!==cv.width||L.c.height!==cv.height){const c=(L&&L.c)||document.createElement("canvas");c.width=cv.width;c.height=cv.height;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);const main=cx;cx=g;cx.globalCompositeOperation=mode;draw();cx.globalAlpha=1;cx.globalCompositeOperation="source-over";cx=main;L=layers[name]={key,c}}
+  const op=cx.globalCompositeOperation;cx.globalCompositeOperation=name==="near"?"source-over":op;cx.drawImage(L.c,0,0,W,H);cx.globalCompositeOperation=op}
 const rnd=s=>{let h=hashStr(s);return ()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}};
 function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
 let pal={};
 function readPal(){pal={paper:css("--paper"),sheet:css("--sheet"),ink:css("--ink"),blend:css("--blend")||"multiply"};AK.forEach(a=>pal[a]=css("--"+a))}
 const patCache={};
-function dots(col,step,r){const k=col+step+r;if(patCache[k])return patCache[k];const c=document.createElement("canvas");c.width=c.height=step;const g=c.getContext("2d");g.fillStyle=col;g.beginPath();g.arc(step/2,step/2,r,0,7);g.fill();return patCache[k]=cx.createPattern(c,"repeat")}
+function dots(col,step,r){if(!cx.__pid)cx.__pid=Math.random().toString(36).slice(2);const k=col+step+r+cx.__pid;if(patCache[k])return patCache[k];const c=document.createElement("canvas");c.width=c.height=step;const g=c.getContext("2d");g.fillStyle=col;g.beginPath();g.arc(step/2,step/2,r,0,7);g.fill();return patCache[k]=cx.createPattern(c,"repeat")}
 /* Landschaft: jede Art von Schritt wird zu einer eigenen Pflanzengruppe, die mit jeder Wiederholung dichter und größer wird.
    Essen = Sonnenblumen und Ähren im Feld, Wohnen = Rohrkolben am Teich, Unterwegs = Lupinen am Weg,
    Dinge = Pilze (die Recycler des Waldes), Gemeinschaft = Laternen und Häuser im Dorf.
@@ -802,42 +951,56 @@ function mushroom(x,y,h,u,sw){const w=(5+h*.12)*u*.9,sh=h*.55;cx.fillStyle=pal.s
 function lantern(x,y,h,u,sec,seed){const fl=calm()?1:.78+.22*Math.sin(sec*2.2+seed*9);cx.strokeStyle=pal.ink;cx.globalAlpha=.7;cx.lineWidth=1.3*u;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x,y-h);cx.lineTo(x+4*u,y-h);cx.stroke();cx.globalAlpha=1;
   cx.fillStyle=pal.wohnen;cx.globalAlpha=.32*fl;cx.beginPath();cx.arc(x+4*u,y-h+5*u,9*u,0,7);cx.fill();cx.globalAlpha=1;inkFill(()=>cx.ellipse(x+4*u,y-h+4.5*u,2.4*u,3.2*u,0,0,7),pal.essen,null)}
 /* Bäume */
+function tint(path){if(SEAS.autumn>0){cx.fillStyle=pal.essen;cx.globalAlpha=.5*SEAS.autumn;cx.beginPath();path();cx.fill();cx.globalAlpha=1}
+  if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.22;cx.beginPath();path();cx.fill();cx.globalAlpha=1}}
+/* Laubbäume sind im Winter kahl: nur ein Hauch der Krone, dazu Äste. Nadelwald (ever) bleibt grün. */
+function crown(path,col,dot,dx,dy,ever){if(SEAS.winter&&!ever){const a=cx.globalAlpha;cx.globalAlpha=a*.22;inkFill(path,col,null);cx.globalAlpha=a;return}inkFill(path,col,dot,dx,dy);tint(path)}
+function snowCap(path,w){if(!SEAS.snow)return;cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.blend==="screen"?"#DCE3EA":"#FFFFFF";cx.globalAlpha=.95;cx.lineWidth=w;cx.lineCap="round";cx.beginPath();path();cx.stroke();cx.restore()}
 function tree(a,x,y,s,u,sw,seed){const r=s*u;
   if(a==="wir"){const hs=r*1.15;inkFill(()=>cx.rect(x-hs*.62,y-hs,hs*1.24,hs),pal.wohnen,pal.essen,1.5,1);
-    cx.fillStyle=pal.dinge;cx.beginPath();cx.moveTo(x-hs*.82,y-hs+1);cx.lineTo(x,y-hs*1.75);cx.lineTo(x+hs*.82,y-hs+1);cx.fill();
+    cx.fillStyle=pal.dinge;cx.beginPath();cx.moveTo(x-hs*.82,y-hs+1);cx.lineTo(x,y-hs*1.75);cx.lineTo(x+hs*.82,y-hs+1);cx.fill();snowCap(()=>{cx.moveTo(x-hs*.7,y-hs*1.05);cx.lineTo(x,y-hs*1.68);cx.lineTo(x+hs*.7,y-hs*1.05)},2.2*u);
     cx.fillStyle=pal.ink;cx.globalAlpha=.75;cx.fillRect(x-hs*.14,y-hs*.48,hs*.28,hs*.48);cx.globalAlpha=1;
     cx.fillStyle=pal.wege;cx.globalAlpha=.8;cx.fillRect(x+hs*.24,y-hs*.78,hs*.22,hs*.2);cx.globalAlpha=1;return}
   const trunkH={essen:1.4,wohnen:1.6,wege:.9,dinge:1.3}[a];stem(x,y,x+sw*.3,y-r*trunkH,Math.max(2,r*.16));
   const tx=x+sw,ty=y-r*trunkH;
-  if(a==="essen"){inkFill(()=>cx.arc(tx,ty-r*.75,r,0,7),pal.wir,pal.wege,2,1.5);for(let i=0;i<6;i++){const ang=seed*7+i*1.1,rr=r*(.35+((i*37)%10)/16);cx.fillStyle=pal.essen;cx.beginPath();cx.arc(tx+Math.cos(ang)*rr,ty-r*.75+Math.sin(ang)*rr,Math.max(1.6,r*.13),0,7);cx.fill()}}
-  else if(a==="wohnen"){inkFill(()=>cx.ellipse(tx,ty-r*.4,r*1.35,r*.62,0,0,7),pal.wohnen,pal.wir,2,1.5)}
-  else if(a==="wege"){inkFill(()=>cx.ellipse(tx,ty-r*1.3,r*.5,r*1.5,sw*.01,0,7),pal.wege,pal.wir,1.5,1.5)}
-  else{const pts=[[0,-.9],[-.65,-.45],[.65,-.5],[-.3,-1.35],[.38,-1.25]];pts.forEach(([px,py])=>inkFill(()=>cx.arc(tx+px*r,ty+py*r*.8,r*.52,0,7),pal.dinge,null));cx.fillStyle=dots(pal.wohnen,5,1.1);cx.beginPath();cx.arc(tx+1.5,ty-r*.75,r*.85,0,7);cx.fill()}}
-function landLayout(){const cl=landClumps().map(c=>{const r=rnd("cl"+c.k);let x,y;
+  if(SEAS.winter){cx.strokeStyle=pal.ink;cx.globalAlpha=.6;cx.lineWidth=Math.max(1,r*.07);cx.lineCap="round";const rb=rnd("br"+seed);for(let i=0;i<6;i++){const ang=-Math.PI/2+(rb()-.5)*2.2,len=r*(.6+rb()*.7),mx=tx+Math.cos(ang)*len*.5,my=ty-r*.3+Math.sin(ang)*len*.5;cx.beginPath();cx.moveTo(tx,ty);cx.quadraticCurveTo(mx,my,tx+Math.cos(ang)*len,ty-r*.4+Math.sin(ang)*len);cx.stroke()}cx.globalAlpha=1}
+  if(a==="essen"){crown(()=>cx.arc(tx,ty-r*.75,r,0,7),pal.wir,pal.wege,2,1.5);for(let i=0;i<6;i++){const ang=seed*7+i*1.1,rr=r*(.35+((i*37)%10)/16);cx.fillStyle=pal.essen;cx.beginPath();cx.arc(tx+Math.cos(ang)*rr,ty-r*.75+Math.sin(ang)*rr,Math.max(1.6,r*.13),0,7);cx.fill()}}
+  else if(a==="wohnen"){crown(()=>cx.ellipse(tx,ty-r*.4,r*1.35,r*.62,0,0,7),pal.wohnen,pal.wir,2,1.5)}
+  else if(a==="wege"){crown(()=>cx.ellipse(tx,ty-r*1.3,r*.5,r*1.5,sw*.01,0,7),pal.wege,pal.wir,1.5,1.5)}
+  else{const pts=[[0,-.9],[-.65,-.45],[.65,-.5],[-.3,-1.35],[.38,-1.25]];pts.forEach(([px,py])=>crown(()=>cx.arc(tx+px*r,ty+py*r*.8,r*.52,0,7),pal.dinge,null));cx.fillStyle=dots(pal.wohnen,5,1.1);cx.beginPath();cx.arc(tx+1.5,ty-r*.75,r*.85,0,7);cx.fill()}
+  if(SEAS.spring&&a!=="wege"){const rb=rnd("bl"+seed);for(let i=0;i<7;i++){cx.fillStyle=i%2?pal.dinge:pal.sheet;cx.beginPath();cx.arc(tx+(rb()-.5)*r*1.6,ty-r*(.4+rb()*.9),Math.max(1.2,r*.08),0,7);cx.fill()}}}
+function landLayout(){const cl=(LC?LC.cl:landClumps()).map(c=>{const r=rnd("cl"+c.k);let x,y;
     if(c.a==="wohnen"){const [px,py,rx,ry]=POND(),ang=Math.PI*(.05+r()*.9);x=px+Math.cos(ang)*rx*(1.05+r()*.3)*(r()<.5?-1:1);y=py+Math.sin(ang)*ry*1.2+H*.01}
     else if(c.a==="wege"){const t=.12+r()*.8,[px,py]=pathPt(t),side=r()<.5?-1:1;x=px+side*W*(.035+r()*.03);y=py+side*H*.005}
     else if(c.a==="wir"){x=W*(ZONE.wir[0]+r()*(ZONE.wir[1]-ZONE.wir[0]));y=ground(x)+H*(.07+r()*.16)}
     else{const z=ZONE[c.a];x=W*(z[0]+r()*(z[1]-z[0]));y=H*(.8+r()*.17)}
     return {...c,x,y,r,kind:"clump"}});
-  const tr=landTrees().map(t=>{const r=rnd("tr"+t.k);const z=t.a==="wir"?[.64,.95]:t.a==="essen"?[.04,.36]:t.a==="wohnen"?[.08,.46]:t.a==="wege"?[.3,.66]:[.4,.64];
-    const x=W*(z[0]+r()*(z[1]-z[0]));return {...t,x,y:ground(x)+H*(.01+r()*.08),r,kind:"tree"}});
-  return cl.concat(tr).sort((a,b)=>a.y-b.y)}
-function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio||1),bw=cv.clientWidth,bh=cv.clientHeight;
+  const placed=[],tr=[];let forest=0;
+  (LC?LC.tr:landTrees()).slice().sort((a,b)=>(a.ts||0)-(b.ts||0)).forEach(t=>{if(tr.length>=12&&t.a!=="wir"){forest++;return}
+    const r=rnd("tr"+t.k),z=t.a==="wir"?[.64,.95]:t.a==="essen"?[.04,.36]:t.a==="wohnen"?[.08,.46]:t.a==="wege"?[.3,.66]:[.4,.64];let best=0,bd=-1;
+    for(let q=0;q<10;q++){const c=W*(z[0]+r()*(z[1]-z[0])),dd=placed.length?Math.min(...placed.map(v=>Math.abs(v-c))):1e9;if(dd>bd){bd=dd;best=c}if(dd>W*.075)break}
+    placed.push(best);const band=tr.length%3;tr.push({...t,x:best,y:ground(best)+H*(.004+.042*band),band,r,kind:"tree"})});
+  const out=cl.concat(tr).sort((a,b)=>a.y-b.y);out.forest=forest;return out}
+function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio||1),bw=cv.clientWidth,bh=cv.clientHeight;if(!bw||!bh)return;
   if(cv.width!==Math.round(bw*dpr)||cv.height!==Math.round(bh*dpr)){cv.width=Math.round(bw*dpr);cv.height=Math.round(bh*dpr)}
   W=bw;H=bh;const u=H/245;cx.setTransform(dpr,0,0,dpr,0,0);cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);
-  cx.globalCompositeOperation=pal.blend==="screen"?"screen":"multiply";
-  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=growth(),lush=Math.min(1,g/45),si=stage().i;
+  /* Dunkelmodus: Flächen normal drucken statt per screen überstrahlen */
+  const BL=pal.blend==="screen"?"source-over":"multiply";cx.globalCompositeOperation=BL;
+  if(!LC)LC={cl:landClumps(),tr:landTrees(),g:growth(),st:stage(),meet:meets(),key:""};
+  if(LC.key!==W+"x"+H){LC.key=W+"x"+H;LC.lay=landLayout()}
+  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=LC.g,lush=Math.min(1,g/45),si=LC.st.i;
   /* Alles Neue kommt allmählich: ff(i) wächst von 0 (Stufe i erreicht) bis 1 (zwei Stufen später). Tiere sind anfangs nur manchmal zu Besuch. */
-  const ff=i=>{const a=STAGES[i][0],b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.max(0,Math.min(1,(g-a)/(b-a)))};
-  const visit=i=>{if(si<i)return 0;const f=ff(i);if(f>=1)return 1;const m=S.moments["st"+i];if(m&&now()-m<18e5)return 1;return (hashStr("v"+i+"-"+Math.floor(now()/3e5))%100)/100<.4+.6*f?1:0};
+  const arr=i=>arrive&&arrive.i===i&&!calm()?ease((t-arrive.t)/1200):1;
+  const ff=i=>{const a=STAGES[i][0];if(g<a)return 0;const b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.max(.15,Math.min(1,(g-a)/(b-a)))*arr(i)};
+  const visit=i=>{if(si<i)return 0;if(arrive&&arrive.i===i&&!calm())return t>arrive.t+700?1:0;const f=ff(i);if(f>=1)return 1;const m=S.moments["st"+i];if(m&&now()-m<18e5)return 1;return (hashStr("v"+i+"-"+Math.floor(now()/3e5))%100)/100<.4+.6*f?1:0};
   const grow=it=>{if(!growStart||!(it.last>seenAt))return 1;return .35+.65*ease((t-growStart)/1400)};
   // Sonne und Regenbogen. Physik: Ein Regenbogen steht immer gegenüber der Sonne, sein Mittelpunkt liegt so weit unter dem Horizont,
   // wie die Sonne darüber steht. Der Hauptbogen hat 42 Grad Radius (außen rot, innen violett), der Nebenbogen 51 Grad mit umgekehrten Farben.
   // Er entsteht nur, wenn die Sonne höher als 0 und tiefer als 42 Grad steht. Während er zu sehen ist, steht die Sonne also hinter uns.
-  const elev=solarElev(),rbOn=si>=9&&elev>.5&&elev<42;
+  const elev=solarElev(),rbOn=si>=9&&elev>.5&&elev<42&&!SEAS.snow;
   if(!rbOn){const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
     cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.1,0,7);cx.fill()}
-  else{if(!rbStart)rbStart=t;const tt=calm()?99:(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
+  else if(rbStart||!(momentOpen||$("#layer").innerHTML)){if(!rbStart)rbStart=t;const tt=calm()?99:(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
     // Der Schauer zieht von links nach rechts durch, der Bogen erscheint dort, wo der Regen schon fällt
     const cxp=-W*.25+(tt/7)*W*1.6,xr=cxp+W*.12,sweep=Math.min(1,Math.max(0,(xr+W*.2)/(W*1.3))),endA=R=>tt>8||calm()?2*Math.PI:2*Math.PI-Math.acos(Math.max(-1,Math.min(1,(xr-ccx)/R)));
     const bow=(R,cols,bw,al)=>{cols.forEach((c,k)=>{cx.strokeStyle=c;cx.globalAlpha=al;cx.lineWidth=bw+.6;cx.beginPath();const e=endA(R);if(e>Math.PI)cx.arc(ccx,ccy,R-k*bw,Math.PI,e);cx.stroke()})};
@@ -850,42 +1013,53 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
       cx.globalAlpha=.6*ca;cx.fillStyle=dots(pal.ink,5,1);cx.beginPath();cx.arc(cxp+2,cy+3,.085*W,0,7);cx.arc(cxp+.08*W+2,cy+.025*H+3,.07*W,0,7);cx.fill();cx.globalAlpha=1}}
   // ferne Hügel
   const far=x=>H*.47+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012;
+  const fN=Math.min(44,(LC.lay.forest||0)+Math.max(0,Math.floor((g-145)/5)));
+  layer("far",[W,H,dpr,BL,fN,SEAS.snow,SEAS.winter].join(),dpr,BL,()=>{
   cx.fillStyle=pal.wege;cx.globalAlpha=.4;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   cx.globalAlpha=.55;cx.fillStyle=dots(pal.wege,6,1.2);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x)+3);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  // Wald auf dem fernen Hügel: ab zwölf Bäumen und nach der Stufe Biotop
+  const fN0=fN;if(fN0){const rf=rnd("forest");cx.globalAlpha=.45;for(let i=0;i<fN0;i++){const x=W*(.03+rf()*.94),y=far(x)+H*(.025+rf()*.035),h=H*(.045+rf()*.03);crown(()=>cx.ellipse(x,y-h*.55,h*.26,h*.55,0,0,7),pal.wir,null,0,0,true)}cx.globalAlpha=1}
+  snowCap(()=>{for(let x=0;x<=W;x+=6)x?cx.lineTo(x,far(x)+1.5):cx.moveTo(x,far(x)+1.5)},3*u);
+  });
   // Reh am Waldrand (Stufe Wald)
   if(visit(8)){const x=W*.13,y=far(W*.13)+H*.04,k=u*.85;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1.4*k;[-5,-3,3,5].forEach(dx=>{cx.beginPath();cx.moveTo(x+dx*k,y-7*k);cx.lineTo(x+dx*k*1.1,y);cx.stroke()});cx.globalAlpha=1;
     inkFill(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.8,.6);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
     inkFill(()=>cx.ellipse(x-8.5*k,y-20*k,2.8*k,1.9*k,-.3,0,7),pal.essen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.ellipse(x-8*k,y-23*k,.9*k,2.2*k,-.3,0,7);cx.fill()}
   // naher Hügel: wird mit dem Wachstum grüner
-  cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalCompositeOperation=dark?"screen":"multiply";
+  const fH=ff(4);
+  layer("near",[W,H,dpr,BL,lush.toFixed(3),SEAS.winter,SEAS.snow,fH.toFixed(3)].join(),dpr,BL,()=>{
+  cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalCompositeOperation=BL;
   cx.fillStyle=pal.wohnen;cx.globalAlpha=.3*(1-lush);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();
   cx.fillStyle=pal.wir;cx.globalAlpha=.12+.2*lush;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.09;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill()}
+  snowCap(()=>{for(let x=0;x<=W;x+=5)x?cx.lineTo(x,ground(x)+1.5):cx.moveTo(x,ground(x)+1.5)},3.5*u);
   cx.globalAlpha=.25+.35*lush;cx.fillStyle=dots(pal.wir,7,1.3);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.05);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   // Hecke am Hang (Stufe Hecke)
-  const fH=ff(4);if(fH>0){const xe=W*(.01+.45*Math.max(.1,fH)),rh=rnd("hedge");cx.globalAlpha=.7;for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012,r=H*(.022+rh()*.014);inkFill(()=>cx.arc(x,y-r*.6,r,0,7),pal.wir,null)}cx.globalAlpha=1;
+  if(fH>0){const xe=W*(.01+.45*Math.max(.1,fH)),rh=rnd("hedge");cx.globalAlpha=.7;for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012,r=H*(.022+rh()*.014);inkFill(()=>cx.arc(x,y-r*.6,r,0,7),pal.wir,null)}cx.globalAlpha=1;
     cx.fillStyle=dots(pal.wege,5,1.1);cx.beginPath();for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012;cx.moveTo(x+H*.03,y-H*.01);cx.arc(x,y-H*.01,H*.03,0,7)}cx.fill()}
+  });
   // Bach (Stufe Streuobst)
   const fB=ff(5);if(fB>0){const [px,py]=POND(),P=[[W*.02,far(W*.02)+H*.04],[W*.16,H*.58],[W*.06,H*.68],[px-W*.06,py]],fr=Math.max(.12,fB),bz=t=>{const v=1-t;return [0,1].map(k=>v*v*v*P[0][k]+3*v*v*t*P[1][k]+3*v*t*t*P[2][k]+t*t*t*P[3][k])},seg=()=>{cx.beginPath();for(let q=0;q<=40;q++){const [x,y]=bz(q/40*fr);q?cx.lineTo(x,y):cx.moveTo(x,y)}};
     cx.strokeStyle=pal.wege;cx.globalAlpha=.85;cx.lineWidth=(1.4+1.8*fB)*u;cx.lineCap="round";seg();cx.stroke();cx.globalAlpha=1;
     if(!calm()){cx.strokeStyle=pal.sheet;cx.lineWidth=1;cx.setLineDash([2,9]);cx.lineDashOffset=-sec*12;seg();cx.stroke();cx.setLineDash([]);cx.lineDashOffset=0}}
   // Teich, sobald es etwas im Bereich Wohnen gibt
-  const nW=landClumps().filter(c=>c.a==="wohnen").reduce((s,c)=>s+c.n,0)+landTrees().filter(c=>c.a==="wohnen").length*4;
+  const nW=LC.cl.filter(c=>c.a==="wohnen").reduce((s,c)=>s+c.n,0)+LC.tr.filter(c=>c.a==="wohnen").length*4;
   if(nW||ff(5)>=1){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+(nW||10)*.03);inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5);
     if(!calm()){cx.strokeStyle=pal.sheet;cx.globalAlpha=.6;cx.lineWidth=1;for(let i=0;i<3;i++){const ph=(sec*.25+i/3)%1;cx.beginPath();cx.ellipse(px+rx*.2*f,py,rx*f*ph*.6,ry*f*ph*.6,0,0,7);cx.stroke()}cx.globalAlpha=1}}
   // Weg zum Dorf, breiter mit jeder Begegnung
-  const nMeet=meets()+Object.keys(S.base||{}).filter(id=>A[id]&&A[id].a==="wir").length*3;
+  const nMeet=LC.meet+Object.keys(S.base||{}).filter(id=>A[id]&&A[id].a==="wir").length*3;
   if(nMeet){const lw=Math.min(11,3+nMeet*.25)*u,tr=()=>{cx.beginPath();for(let i=0;i<=30;i++){const [x,y]=pathPt(i/30);i?cx.lineTo(x,y):cx.moveTo(x,y)}};cx.lineCap="round";
-    cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.sheet;cx.lineWidth=lw;tr();cx.stroke();cx.globalCompositeOperation=dark?"screen":"multiply";
+    cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.sheet;cx.lineWidth=lw;tr();cx.stroke();cx.globalCompositeOperation=BL;
     cx.strokeStyle=pal.wohnen;cx.globalAlpha=.9;cx.lineWidth=Math.max(1.5,lw*.28);cx.setLineDash([2*u,5*u]);tr();cx.stroke();cx.setLineDash([]);cx.globalAlpha=1}
   // Gräser
   const nG=Math.round(8+lush*70),rg=rnd("grass");cx.strokeStyle=pal.wir;cx.lineWidth=1*u;cx.globalAlpha=.85;
   for(let i=0;i<nG;i++){const x=rg()*W,y=Math.max(ground(x)+H*.02,H*(.66+rg()*.32)),h=(3+rg()*5)*u*(.6+lush*.6),sw=calm()?0:Math.sin(sec*1.3+x*.05)*1.2;cx.beginPath();cx.moveTo(x-2*u,y);cx.quadraticCurveTo(x-1,y-h*.6,x-2*u+sw,y-h);cx.moveTo(x,y);cx.quadraticCurveTo(x+1,y-h*.6,x+1.5*u+sw,y-h*1.1);cx.stroke()}
   cx.globalAlpha=1;
   // Wildblumen am Boden (Stufe Blumenwiese)
-  const fF=ff(3);if(fF>0){const rf=rnd("flowers"),cols=[pal.essen,pal.dinge,pal.wohnen,pal.sheet,pal.wege];for(let i=0;i<Math.round(5+41*fF);i++){const x=rf()*W,y=Math.max(ground(x)+H*.04,H*(.68+rf()*.3));cx.fillStyle=cols[i%5];cx.beginPath();cx.arc(x,y,(1.3+rf()*1.1)*u,0,7);cx.fill()}}
+  const fF=SEAS.bloom?ff(3):0;if(fF>0){const rf=rnd("flowers"),cols=[pal.essen,pal.dinge,pal.wohnen,pal.sheet,pal.wege];for(let i=0;i<Math.round(5+41*fF);i++){const x=rf()*W,y=Math.max(ground(x)+H*.04,H*(.68+rf()*.3));cx.fillStyle=cols[i%5];cx.beginPath();cx.arc(x,y,(1.3+rf()*1.1)*u,0,7);cx.fill()}}
   // Pflanzen und Bäume, von hinten nach vorn
-  landLayout().forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=it.r();
-    if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth,sw=calm()?0:Math.sin(sec*.6+seed*20)*1.2;tree(it.a,it.x,it.y,s,u,sw,seed);return}
+  LC.lay.forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=rnd("sd"+it.k)();
+    if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth*[.72,.86,1][it.band||0],sw=calm()?0:Math.sin(sec*.6+seed*20)*1.2;tree(it.a,it.x,it.y,s,u,sw,seed);return}
     const lv=level(it.n),cnt=[1,1,2,3,5,7,9][lv],sz=[.5,.55,.68,.82,.95,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
     const kind=it.a==="essen"?(hashStr(it.k)%2?"sun":"wheat"):it.a;
     for(let i=0;i<cnt;i++){const ox=(r()-.5)*(10+cnt*4)*u,oy=(r()-.5)*5*u,x=it.x+ox,y=it.y+oy,hv=.75+r()*.5,sw=calm()?0:Math.sin(sec*1.1+x*.07)*1.6;
@@ -893,7 +1067,7 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
       else if(kind==="wohnen")cattail(x,y,22*u*sz*hv,u*sz,sw);else if(kind==="wege")lupine(x,y,24*u*sz*hv,u*sz,sw);
       else if(kind==="dinge")mushroom(x,y,19*u*sz*hv,u*sz*1.25,sw*.2);else lantern(x,y,18*u*sz*hv,u*sz,sec,r())}});
   // Igel (Stufe Hain)
-  if(visit(6)){const x=W*.56+(calm()?0:Math.sin(sec*.15)*W*.03),y=H*.95,k=u*1.15;cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
+  if(SEAS.hog&&visit(6)){const x=W*.56+(calm()?0:Math.sin(sec*.15)*W*.03),y=H*.95,k=u*1.15;cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
     inkFill(()=>cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0),pal.essen,pal.ink,.6,.6);inkFill(()=>{cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath()},pal.wohnen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
   // Reiher am Teich (Stufe Auenwald)
   if(visit(7)){const [px,py,rx]=POND(),x=px+rx*.55,y=py+H*.01,k=u*1.1;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1*k;cx.beginPath();cx.moveTo(x-1*k,y-10*k);cx.lineTo(x-1.5*k,y);cx.moveTo(x+1*k,y-10*k);cx.lineTo(x+1.6*k,y);cx.stroke();
@@ -904,16 +1078,19 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   for(let i=0;i<nb;i++){const r=rnd("bird"+i),bx=((r()*W)+sec*(6+r()*6))%(W+40)-20,by=H*(.08+r()*.26)+Math.sin(sec+i)*2,s=4+r()*3,fl=calm()?0:Math.sin(sec*5+i)*1.5;
     cx.beginPath();cx.moveTo(bx-s,by-fl);cx.quadraticCurveTo(bx-s*.4,by-s*.6,bx,by);cx.quadraticCurveTo(bx+s*.4,by-s*.6,bx+s,by-fl);cx.stroke()}
   // Schmetterlinge (Stufe Wiese)
-  const fS=ff(2);if(fS>0){const nbf=1+Math.floor(fS*3.99)+(ff(6)>=1?1:0);for(let i=0;i<nbf;i++){const r=rnd("bf"+i),bx=W*(.1+r()*.8)+(calm()?0:Math.sin(sec*.4+i*2)*W*.06),by=H*(.62+r()*.22)+(calm()?0:Math.sin(sec*.9+i)*H*.03),fl=calm()?.8:.35+.65*Math.abs(Math.sin(sec*7+i*3)),k=u*1.2,c=[pal.dinge,pal.wege,pal.essen][i%3];
+  const fS=SEAS.bugs?ff(2):0;if(fS>0){const nbf=1+Math.floor(fS*3.99)+(ff(6)>=1?1:0);for(let i=0;i<nbf;i++){const r=rnd("bf"+i),ak=arr(2),bx0=W*(.1+r()*.8)+(calm()?0:Math.sin(sec*.4+i*2)*W*.06),bx=ak<1?-W*.12+(bx0+W*.12)*ak:bx0,by=H*(.62+r()*.22)+(calm()?0:Math.sin(sec*.9+i)*H*.03),fl=calm()?.8:.35+.65*Math.abs(Math.sin(sec*7+i*3)),k=u*1.2,c=[pal.dinge,pal.wege,pal.essen][i%3];
     cx.fillStyle=c;cx.beginPath();cx.ellipse(bx-2.6*k*fl,by,2.8*k*fl,3.6*k,-.4,0,7);cx.ellipse(bx+2.6*k*fl,by,2.8*k*fl,3.6*k,.4,0,7);cx.fill();cx.fillStyle=pal.ink;cx.fillRect(bx-.5*k,by-2.5*k,1*k,5*k)}}
+  if(SEAS.autumn>.3&&!calm()){for(let i=0;i<5;i++){const r=rnd("lf"+i),x=(r()*W+sec*(9+r()*6))%W,y=H*.3+((r()*H*.6)+sec*(14+r()*8))%(H*.62),a=sec*2+i;cx.fillStyle=i%2?pal.essen:pal.wohnen;cx.beginPath();cx.ellipse(x,y,2.6*u,1.3*u*Math.abs(Math.cos(a)),a,0,7);cx.fill()}}
+  if(SEAS.snow&&!calm()){cx.save();cx.globalCompositeOperation="source-over";cx.fillStyle=dark?"#DCE3EA":"#FFFFFF";for(let i=0;i<34;i++){const r=rnd("sn"+i),x=(r()*W+Math.sin(sec*.8+i)*6)%W,y=((r()*H)+sec*(12+r()*10))%H;cx.globalAlpha=.85;cx.beginPath();cx.arc(x,y,(.8+r()*1.2)*u,0,7);cx.fill()}cx.restore()}
   cx.globalAlpha=1;cx.globalCompositeOperation="source-over"}
-function loop(t){raf=0;if(!cv||!document.body.contains(cv))return;if(t-lastT>40){lastT=t;drawLand(t)}if(!calm()&&!document.hidden&&tab==="home")raf=requestAnimationFrame(loop)}
-function startLand(){cv=$("#land");if(!cv)return;cx=cv.getContext("2d");readPal();
+function loop(t){raf=0;if(!cv||!document.body.contains(cv)||!landVis)return;if(t-lastT>32){lastT=t;drawLand(t)}if(!calm()&&!document.hidden&&tab==="home")raf=requestAnimationFrame(loop)}
+function startLand(){cv=$("#land");if(!cv)return;cx=cv.getContext("2d");readPal();SEAS=seasonNow();LC={cl:landClumps(),tr:landTrees(),g:growth(),st:stage(),meet:meets(),key:""};
+  if("IntersectionObserver" in window){if(io)io.disconnect();io=new IntersectionObserver(es=>{landVis=es[0].isIntersecting;if(landVis&&!raf&&tab==="home"&&!calm()&&cv)raf=requestAnimationFrame(loop)});io.observe(cv)}
   const fresh=S.log.some(e=>e.ts>S.lastSeen);if(fresh){seenAt=S.lastSeen;growStart=performance.now()+250}else growStart=0;S.lastSeen=now();save();
   if(raf)cancelAnimationFrame(raf);if(calm()){drawLand(performance.now()+5000)}else raf=requestAnimationFrame(loop)}
 addEventListener("resize",()=>{if(cv&&calm())drawLand(9e9)});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tab==="home"&&cv&&!raf&&!calm())raf=requestAnimationFrame(loop)});
-matchMedia("(prefers-color-scheme:dark)").addEventListener("change",()=>{for(const k in patCache)delete patCache[k];readPal()});
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",()=>{for(const k in patCache)delete patCache[k];readPal();if(cv&&calm())drawLand(9e9)});
 
 /* ---------- Register ---------- */
 const TABS=[
@@ -921,20 +1098,41 @@ const TABS=[
  ["log","Eintragen","var(--essen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="4" y="4" width="16" height="16"/><path d="M12 8v8M8 12h8"/></svg>'],
  ["know","Wissen","var(--wege)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>'],
  ["mis","Missionen","var(--dinge)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6 21V4M6 4h12l-3 4 3 4H6"/></svg>'],
- ["year","Jahr","var(--wohnen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>']
+ ["year","Dein Weg","var(--wohnen)",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>']
 ];
 let tab="home",anim=true;
 function renderTabs(){const act=activeMis().length;$("#tabs").innerHTML=TABS.map(([id,n,c,ic])=>`<button data-tab="${id}" style="--tc:${c}" ${tab===id?'aria-current="page"':""}>${ic}<span>${n}</span>${id==="mis"&&act?`<span class="badge">${act}</span>`:""}</button>`).join("")}
 $("#tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;const to=b.dataset.tab;if(to===tab){if(to==="know"){cur=null;Q=null}window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});if(to==="know")render();return}
-  tab=to;anim=true;cur=null;render();window.scrollTo(0,0);buzz(5)});
+  tab=to;anim=true;cur=null;render();window.scrollTo(0,0)});
 
 /* ---------- Biotop ---------- */
 const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+/* Hebel aus dem Check: Quelle → Bereich, passende dauerhafte Änderungen und kleine Schritte */
+const HEBEL={"Fliegen":{a:"wege",big:["keinflug"],small:["bahnflug","bahn"]},"Heizen":{a:"wohnen",big:["grad","daemmung","waermepumpe","kleiner"],small:["lueften","dusche"]},"Auto":{a:"wege",big:["autolos","pendeln","carsharing","lastenrad"],small:["rad5","oepnv","rad10"]},
+  "Ernährung":{a:"essen",big:["fleisch_halb","veg_dauer"],small:["veg_tag","linsen"]},"Konsum":{a:"dinge",big:["nurgebraucht","handylang"],small:["nichtgekauft","kleid","repariert"]},"Strom":{a:"wohnen",big:["oekostrom","balkon"],small:["leine","kalt"]}};
+const lastCheck=()=>S.checks[S.checks.length-1];
+const free=id=>A[id]&&!isBase(id)&&!activeBig().some(e=>e.act===id);
 function quickIds(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.act]=(c[e.act]||0)+1);
-  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const def=["rad5","veg_tag","leine","oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste"];
+  const lc=lastCheck(),hb=lc?lc.top.flatMap(t=>(HEBEL[t[0]]||{small:[]}).small):[];
+  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const def=[...hb,"rad5","veg_tag","leine","oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste"].filter(id=>A[id]);
   return [...new Set([...top,...def])].filter(id=>!isBase(id)).slice(0,6)}
+function hebelCard(){const lc=lastCheck();if(!lc)return "";
+  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),done=h.big.find(id=>!free(id)&&A[id]);
+    return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}</button>`:done?`<span class="state">✓ ${A[done].t}</span>`:""}${M[mid]?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div></div>`}
+function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const a=A[th.act],m=M[th.mis],b=B[th.bite];
+  return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}</p><div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}</div></div>`}
+function weekCard(){const wk="w"+weekStart(),plan=S.plans[wk];let h="";
+  if(plan&&A[plan]){const a=A[plan],n=S.log.filter(e=>e.act===plan&&e.ts>=weekStart()).length;h+=`<div class="nudge plan" ${da(a.a)}>${dot(a.a)}<span><b>Dein Schritt diese Woche:</b> ${a.t}${n?` · ${n}× geschafft`:""}</span><button class="chip" data-log="${plan}">Eintragen</button></div>`}
+  return h}
+/* Höchstens eine Hinweiskarte am Tag: sonntags die Woche, sonst abwechselnd Hebel und Monatsthema */
+function hintCard(mo){if(new Date().getDay()===0)return sundayCard();const hb=hebelCard(),th=themeCard(mo);if(hb&&th)return Math.floor(now()/DAY)%2?th:hb;return hb||th}
+function sundayCard(){let h="";{const ws=weekStart(),n=S.log.filter(e=>!e.g&&e.ts>=ws).length,nx="w"+weekStart(now()+DAY),pick=S.plans[nx],sug=quickIds().slice(0,4);
+    h+=`<div class="plain week-card"><span class="label">Sonntag · Deine Woche</span><h3>${n} Schritt${n===1?"":"e"}, ${kgTxt(sumKg(ws))} gespart</h3><p style="font-size:15px">Ein Schritt für nächste Woche: Was möchtest du dir vornehmen?</p><div class="row">${sug.map(id=>`<button class="chip" data-plan="${id}" aria-pressed="${pick===id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div><button class="linkbtn" data-gotab="year">Rückblick schreiben</button></div>`}
+  return h}
 function dailyBite(){const list=BITES.filter(b=>b.ev>0);return list[hashStr("bt-"+todayKey())%list.length]}
 function landCounts(){const cl=landClumps(),tr=landTrees();return {plants:cl.filter(c=>c.a!=="wir").length,lights:cl.filter(c=>c.a==="wir").length,trees:tr.filter(t=>t.a!=="wir").length,houses:tr.filter(t=>t.a==="wir").length,birds:misDone()}}
+/* Einsparung im Verhältnis zum eigenen Jahr, gegen das Gefühl, schon genug getan zu haben */
+function share(){const lc=lastCheck();if(!lc)return null;const v=sumKg(now()-365*DAY)/(lc.total*1000)*100;if(v<.05)return null;return v<1?nf(v,1):nf(v,0)}
 function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=landCounts();
   const pl=(n,a,b)=>n?`${n} ${n===1?a:b}`:"";
   const parts=[pl(small,"Pflanzengruppe","Pflanzengruppen"),pl(trees,"Baum","Bäume"),pl(houses,"Haus","Häuser"),pl(lights,"Laterne","Laternen"),pl(birds,"Vogel","Vögel")].filter(Boolean);
@@ -942,12 +1140,12 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
   const nudge=act?(()=>{const mm=M[act],v=S.mis[act],left=Math.max(0,mm.d-Math.floor((now()-v.start)/DAY));return `<button class="nudge" data-gotab="mis" ${da(mm.a)}>${dot(mm.a)}<span><b>${mm.t}</b> · ${left?`noch ${left} Tag${left>1?"e":""}`:"heute ist der letzte Tag"}</span><span class="label">Mission</span></button>`})():"";
   return `<section class="view">
    <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
-     <div class="landcap"><span class="stage">${st.n}</span></div>
-     <div class="landfoot">${stageBar(st)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
-   <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(0))}</b><span>gespart insgesamt</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
-   ${nudge}
+     <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
+   <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${share()!=null?`12 Monate · ${share()} % deines Jahres`:"in 12 Monaten"}</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
+   ${weekCard()}${nudge}
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
      <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):"Begegnung"}</span></button>`}).join("")}</div></div>
+   ${hintCard(mo)}
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>
    ${Object.keys(S.base).length||S.invDone?"":`<div class="plain" ${da("wir")}><h3>Was machst du schon?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon dazugehört</button></div></div>`}
    ${S.checks.length?"":`<div class="plain" ${da("dinge")}><h3>Wo sind deine großen Hebel?</h3><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen, wo sich ein Schritt am meisten lohnt.</p><div class="row"><button class="btn go" data-check="1" ${da("dinge")}>Hebel-Check starten</button></div></div>`}
@@ -959,17 +1157,17 @@ function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>
   <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?x[2]:"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
   ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"gehört schon dazu":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
-  ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte: ein kleiner Schritt 1, eine dauerhafte Änderung 6, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
+  ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt 1 bis 3, eine dauerhafte Änderung 6 oder ab einer Tonne im Jahr 8, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
 
 /* ---------- Eintragen ---------- */
 function logAct(id,ev,el){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
   const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;S.log.push(e);save();
-  if(el)stamp(ev,el,`var(--${a.a})`);buzz([8,40,8]);
-  render();toast(growMsg(e)+(a.k?`<small>Gespart: ${kgTxt(a.k)} CO₂e</small>`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments()}
+  if(el)stamp(ev,el,`var(--${a.a})`);buzz(HAP.log);
+  const cb=coveredBy(e);render();toast(growMsg(e)+(cb?` · zählt schon über „${A[cb].t}“`:a.k?` · ${kgTxt(a.k)} gespart`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()});checkMoments(true)}
 function growMsg(e){const k=clumpKey(e),c=landClumps().find(x=>x.k===k),n=c?c.n:1,sp=species(k,e.a),la=level(n),lb=level(n-1),st=stage();
   let head;if(n===1)head=`Neu in deinem Biotop: <b>${sp}</b>`;else if(la>lb)head=`<b>${sp}</b> wachsen auf Stufe ${la} von 6`;else if(la>=6)head=`<b>${sp}</b> in voller Pracht`;else{const r=nextLv(n)-n;head=`<b>${sp}</b> · noch ${r}× bis Stufe ${la+1}`}
-  return `<span class="tmain">${head}</span>${st.next?`<span class="tbar"><i style="width:${Math.round((st.g-st.from)/(st.next[0]-st.from)*100)}%"></i></span><small>Bis ${st.next[1]}: ${st.g}/${st.next[0]}</small>`:""}`}
+  return head}
 function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);
   if(cur){sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhaft seit ${fmtDate(cur.ts)}</span></div><h2>${a.t}</h2><p>Diese Änderung wirkt seit ${Math.max(1,Math.round((now()-cur.ts)/DAY))} Tagen und hat bisher rund <b>${kgTxt(eKg(cur))}</b> gespart.</p><p class="caveat">${a.n}</p><div class="row"><button class="btn ghost" data-endbig="${cur.id}">Gilt nicht mehr</button></div><p class="muted" style="font-size:14px">Wenn du die Änderung zurücknimmst, bleibt die bisherige Einsparung im Logbuch. Der Baum bleibt stehen.</p>`);return}
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt(a.y)}`:""}.</p><p class="caveat">${a.n}</p>
@@ -1029,7 +1227,9 @@ function viewKnow(){let h=`<section class="view"><div class="seg" role="group">$
     return h+`</section>`}
   if(ktab==="duel")return h+duelCard()+`</section>`;
   return h+termsView()+`</section>`}
-function duelCard(){const i=S.duel.i%DUELS.length,d=DUELS[i],r=duelAns;
+if(!S.duel.seed){S.duel.seed=1+Math.floor(Math.random()*1e6)}
+const DORD=DUELS.map((_,i)=>i).sort((a,b)=>hashStr("d"+a+"-"+S.duel.seed)-hashStr("d"+b+"-"+S.duel.seed)),duelAt=()=>DUELS[DORD[S.duel.i%DUELS.length]];
+function duelCard(){const i=S.duel.i%DUELS.length,d=duelAt(),r=duelAns;
   const mx=Math.max(d.ak,d.bk),pct=v=>Math.max(2,Math.round(v/mx*100));
   const correct=d.eq?"eq":d.ak>d.bk?"a":"b";
   const cls=k=>!r?"opt":k===correct?"opt right":k===r?"opt wrong":"opt";
@@ -1068,7 +1268,9 @@ function suggestMis(){const free=MISS.filter(m=>!S.mis[m.id]||S.mis[m.id].status
 function misCard(m,mode){const v=S.mis[m.id];let extra="";
   if(mode==="active"){const el=Math.min(m.d,Math.floor((dayStart(now())-dayStart(v.start))/DAY)),left=Math.max(0,m.d-el),di=el,ticks=v.days||{};
     extra=`${m.d>1?`<div class="days" ${da(m.a)}>${Array.from({length:Math.min(m.d,30)},(_,i)=>`<i class="${ticks[i]?"on":""} ${i===di?"today":""}"></i>`).join("")}</div>`:""}<span class="dur">${left?`Noch ${left} Tag${left>1?"e":""} · bis ${fmtDate(v.start+m.d*DAY)}`:"Die Zeit ist um. Wie lief es?"}</span>
-     <div class="row">${m.d>1&&!ticks[di]?`<button class="btn go" ${da(m.a)} data-tick="${m.id}">Heute dran gewesen</button>`:""}<button class="btn primary" data-done="${m.id}">Geschafft</button><button class="btn" data-misopen="${m.id}">Anleitung</button><button class="linkbtn" data-drop="${m.id}">Abbrechen</button></div>`}
+     ${v.plan?`<p class="planline"><b>Wann und wo:</b> ${esc(v.plan)}</p>`:""}
+     <div class="row">${m.d>1&&!ticks[di]?`<button class="btn go" ${da(m.a)} data-tick="${m.id}">Heute dran gewesen</button>`:""}<button class="btn primary" data-done="${m.id}">Geschafft</button><button class="btn" data-misopen="${m.id}">Anleitung</button></div>
+     <div class="row"><a class="linkbtn" href="${gcalLink("Biotop: "+m.t+" abschließen",at19(v.start+(m.d-1)*DAY),15,m.x)}" target="_blank" rel="noopener">Ende in den Kalender</a><button class="linkbtn" data-drop="${m.id}">Abbrechen</button></div>`}
   else extra=`<div class="row"><button class="btn go" ${da(m.a)} data-accept="${m.id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button><button class="btn" data-misopen="${m.id}">Mehr dazu</button>${mode==="suggest"?`<button class="linkbtn" id="other">Anderer Vorschlag</button>`:""}</div>${activeMis().length>=MAXM?`<p class="muted" style="font-size:14px">Drei Missionen laufen schon. Schließ zuerst eine ab.</p>`:""}`;
   return `<article class="card mis" ${da(m.a)}><div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2 style="font-size:23px">${m.t}</h2><p style="font-size:16px">${m.x}</p>${extra}</article>`}
 function viewMis(){const act=activeMis(),sug=suggestMis(),list=MISS.filter(m=>misFilter==="alle"||m.a===misFilter);
@@ -1081,12 +1283,17 @@ function misSheet(id){const m=M[id],v=S.mis[id],b=m.b&&B[m.b];
   sheet(`${invited===id?`<div class="plain"><b>Eine Einladung</b><span class="muted">Jemand möchte diese Mission gemeinsam mit dir machen. Sie stammt aus „Biotop“, einer kostenlosen App ohne Anmeldung.</span></div>`:""}<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2><p>${m.x}</p><h3>So gehst du vor</h3><ol class="steps">${m.s.map(s=>`<li>${s}</li>`).join("")}</ol>
    ${b?`<div class="tip" ${da(b.a)}><b>Warum das?</b>${b.t}. <button class="linkbtn" data-bite="${b.id}">Häppchen lesen</button></div>`:""}
    <div class="row">${!v||v.status==="dropped"?`<button class="btn go" ${da(m.a)} data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button>`:v.status==="active"?`<button class="btn primary" data-done="${id}">Geschafft</button>`:`<span class="label">Geschafft am ${fmtDate(v.end)}</span><button class="btn" data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Noch einmal</button>`}<button class="linkbtn" data-sharemis="${id}">Mit jemandem machen</button></div>`)}
+function planSheet(id){const m=M[id];sheet(`<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2>
+  <p>Ein fester Plan hilft: Menschen, die vorher festlegen, wann und wo sie etwas tun, setzen es deutlich häufiger um.</p>
+  <label class="label" for="mplan">Wann und wo?</label><input type="text" id="mplan" maxlength="120" placeholder="Zum Beispiel: Montags nach dem Frühstück, in der Küche">
+  <div class="row"><button class="btn go" ${da(m.a)} data-start="${id}">Mission starten</button></div>
+  <p class="muted" style="font-size:14px">Nach dem Start kannst du dir das Ende als Termin in den Kalender legen.</p>`)}
 function doneSheet(id){const m=M[id];sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Geschafft</span><h2>${m.t}</h2><p>Wie war es? Deine Antwort bleibt auf diesem Gerät.</p><div class="row" id="moods">${[["gut","Hat mir gutgetan"],["mix","Gemischt"],["nein","Eher nicht"]].map(([k,n])=>`<button class="chip" data-mood="${k}" aria-pressed="false">${n}</button>`).join("")}</div><label class="label" for="note">Was nimmst du mit?</label><textarea id="note" placeholder="Ein, zwei Sätze reichen."></textarea><div class="row"><button class="btn primary" id="savedone" data-id="${id}">Speichern</button></div>`)}
 
 /* ---------- Jahr ---------- */
 let CK=null;
 function checkSheet(){if(!CK)CK={i:0,ans:{}};const q=CHECK[CK.i];
-  if(!q){const r=calcCheck(CK.ans);S.checks.push(r);save();CK=null;checkResultSheet(r);checkMoments();return}
+  if(!q){const r=calcCheck(CK.ans);S.checks.push(r);save();CK=null;render();checkResultSheet(r);return}
   sheet(`<span class="label">Hebel-Check · Frage ${CK.i+1} von ${CHECK.length}</span><div class="qprog"><span style="width:${CK.i/CHECK.length*100}%"></span></div><div class="meta"><span class="tag">${dot(q.a)}${AREAS[q.a].n}</span></div><h2>${q.q}</h2><div class="opts2">${q.o.map((o,k)=>`<button data-ck="${k}" aria-pressed="${CK.ans[q.id]===k}">${o[0]}</button>`).join("")}</div>${CK.i?`<button class="linkbtn" id="ckback">Zurück</button>`:""}`)}
 function calcCheck(ans){const v=id=>{const q=CHECK.find(x=>x.id===id);return q.o[ans[id]??0][1]};
   const heat=v("flaeche")*v("heiz");
@@ -1094,6 +1301,10 @@ function calcCheck(ans){const v=id=>{const q=CHECK.find(x=>x.id===id);return q.o
   const share=v("teilen");const total=Object.values(area).reduce((a,b)=>a+b,0)+AVG.oeff+share;
   const src=[["Fliegen",v("flug"),"bahnplan"],["Heizen",heat,"eingrad"],["Auto",v("auto"),"autofasten"],["Ernährung",v("ess"),"veg5"],["Konsum",v("konsum"),"kaufpause"],["Strom",v("strom"),"stromcheck"]].sort((a,b)=>b[1]-a[1]).slice(0,3);
   return {ts:now(),area,share,total,top:src,ans}}
+const sinceCheck=()=>{const lc=lastCheck();return lc?activeBig().filter(e=>e.ts>lc.ts).reduce((s,e)=>s+(e.y||0)/1000,0):0};
+const nowTotal=()=>Math.max(.5,lastCheck().total-sinceCheck());
+function gcalLink(title,start,mins,details){const e=new Date(start.getTime()+(mins||15)*6e4),tz=Intl.DateTimeFormat().resolvedOptions().timeZone;return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${icsDate(start)}/${icsDate(e)}&ctz=${encodeURIComponent(tz)}&details=${encodeURIComponent((details||"")+"\n\n"+appUrl())}`}
+const at19=t=>{const d=new Date(t);d.setHours(19,0,0,0);return d};
 function fpBars(r){const mx=Math.max(...AK.filter(k=>k!=="wir").map(k=>Math.max(r.area[k],AVG[k])))*1.05;
   return `<div class="fp">${AK.filter(k=>k!=="wir").map(k=>`<div class="fprow" ${da(k)}><span>${AREAS[k].n}</span><span class="track"><span style="width:${r.area[k]/mx*100}%"></span><i style="left:${AVG[k]/mx*100}%" title="Durchschnitt"></i></span><em>${nf(r.area[k],1)} t</em></div>`).join("")}
    <div class="fprow"><span>Öffentlich</span><span class="track"><span style="width:${AVG.oeff/mx*100}%;background:var(--muted)"></span></span><em>${nf(AVG.oeff,1)} t</em></div>
@@ -1103,6 +1314,7 @@ function checkResultSheet(r){sheet(`<span class="label">Dein Ergebnis</span><div
   <div class="cmp"><div><span>Du</span><span class="t" style="width:${Math.min(100,r.total/14*100)}%;background:var(--dinge)"></span><span class="num">${nf(r.total,1)} t</span></div><div><span>Durchschnitt DE</span><span class="t" style="width:${10.3/14*100}%"></span><span>10,3 t</span></div><div><span>Ziel langfristig</span><span class="t" style="width:${1/14*100}%;background:var(--wir)"></span><span>1 t</span></div></div>
   ${fpBars(r)}
   <h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`).join("")}</div>
+  <div class="row"><a class="btn" href="${gcalLink("Biotop: Hebel-Check neu messen",at19(now()+90*DAY),15,"Fünf Minuten: Wie hat sich dein Fußabdruck verändert?")}" target="_blank" rel="noopener">In drei Monaten neu messen</a></div>
   <p class="caveat">Eine grobe Schätzung mit gerundeten Richtwerten nach dem CO₂-Rechner des Umweltbundesamts. Für eine genaue Rechnung lohnt sich der Rechner selbst: uba.co2-rechner.de</p>`)}
 function ringsSVG(){if(!S.log.length)return "";const first=new Date(Math.min(...S.log.map(e=>e.ts)));const months=[];let d=new Date(first.getFullYear(),first.getMonth(),1);const end=new Date();
   while(d<=end&&months.length<24){const a=d.getTime(),b=new Date(d.getFullYear(),d.getMonth()+1,1).getTime();const by={};AK.forEach(k=>by[k]=sumKg(a,Math.min(b,now()),k));months.push({a,by,sum:Object.values(by).reduce((x,y)=>x+y,0)});d=new Date(d.getFullYear(),d.getMonth()+1,1)}
@@ -1124,7 +1336,7 @@ function viewYear(){const last=S.checks[S.checks.length-1],y0=new Date(new Date(
   const got=MOMENTS.filter(m=>S.moments[m.id]);const prevWeeks=Object.entries(S.weeks).filter(([k,v])=>v&&k!=="w"+weekStart()).sort((a,b)=>b[0].slice(1)-a[0].slice(1));
   return `<section class="view">
    <div class="sec"><div class="sec-h"><h2>Dein Fußabdruck</h2>${last?`<span class="label">${fmtDate(last.ts)}</span>`:""}</div>
-    ${last?`<div class="plain" ${da("dinge")}><div class="bigt num">${nf(last.total,1)}<small>t im Jahr</small></div>${fpBars(last)}<div class="row"><button class="btn" data-checkres="1">Quellen ansehen</button><button class="btn go" ${da("dinge")} data-check="1">Neu messen</button></div>${S.checks.length>1?`<p class="muted" style="font-size:14.5px">Erste Messung am ${fmtDate(S.checks[0].ts)}: ${nf(S.checks[0].total,1)} t. Jetzt ${nf(last.total,1)} t.</p>`:""}</div>`
+    ${last?`<div class="plain" ${da("dinge")}><div class="bigt num">${nf(nowTotal(),1)}<small>t im Jahr</small></div>${sinceCheck()>0?`<p style="font-size:15px">Gemessen ${nf(last.total,1)} t. Seit der Messung wirken dauerhafte Änderungen mit <b>${nf(sinceCheck(),1)} t</b> pro Jahr, also heute etwa ${nf(nowTotal(),1)} t.</p>`:""}${share()!=null?`<p style="font-size:15px">In den letzten 12 Monaten hast du ${kgTxt(sumKg(now()-365*DAY))} eingespart, das sind ${share()} % deines Jahres.</p>`:""}${now()-last.ts>90*DAY?`<p class="tip" ${da("dinge")}><b>Zeit für eine neue Messung</b>Dein letzter Check ist über drei Monate her.</p>`:""}${fpBars(last)}<div class="row"><button class="btn" data-checkres="1">Quellen ansehen</button><button class="btn go" ${da("dinge")} data-check="1">Neu messen</button></div>${S.checks.length>1?`<p class="muted" style="font-size:14.5px">Erste Messung am ${fmtDate(S.checks[0].ts)}: ${nf(S.checks[0].total,1)} t. Jetzt ${nf(last.total,1)} t.</p>`:""}</div>`
     :`<div class="plain"><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen deine drei größten Quellen. Nach ein paar Monaten kannst du neu messen und vergleichen.</p><div class="row"><button class="btn go" ${da("dinge")} data-check="1">Hebel-Check starten</button></div></div>`}</div>
    <div class="sec"><div class="sec-h"><h2>Jahresringe</h2><span class="label num">− ${kgTxt(sumKg(y0))} seit Januar</span></div>
     ${S.log.length?`<div class="rings">${ringsSVG()}</div><p class="muted" style="font-size:14.5px">Jeder Ring ist ein Monat, innen der erste. Je breiter der Ring, desto mehr hast du in dem Monat eingespart. Die Farben zeigen die Bereiche.</p><div class="legend">${AK.map(k=>`<span ${da(k)}>${dot(k)}${AREAS[k].n}</span>`).join("")}</div>`:`<p class="empty">Wenn du Schritte einträgst, wächst hier jeden Monat ein Ring.</p>`}</div>
@@ -1159,7 +1371,7 @@ function ics(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4);const t=["BEG
 const MOMENTS=[
  {id:"first",t:"Der erste Samen",x:"Dein erster Schritt steht im Logbuch. In der Landschaft keimt jetzt etwas.",ok:()=>S.log.length>=1},
  {id:"tree",t:"Der erste Baum",x:"Eine dauerhafte Änderung wirkt ab jetzt jeden Tag weiter, ohne dass du etwas tun musst.",ok:()=>S.log.some(e=>e.g&&e.a!=="wir")},
- {id:"ten",t:"Zehn Schritte",x:"Unter „Jahr“ wächst jetzt dein erster Jahresring.",ok:()=>S.log.length>=10},
+ {id:"ten",t:"Zehn Schritte",x:"Unter „Dein Weg“ wächst jetzt dein erster Jahresring.",ok:()=>S.log.length>=10},
  {id:"five",t:"Alle fünf Bereiche",x:"Du hast in jedem Bereich mindestens einen Schritt eingetragen.",ok:()=>AK.every(k=>S.log.some(e=>e.a===k))},
  {id:"kg100",t:"100 Kilogramm",x:"So viel CO₂ steckt etwa in 600 km Autofahrt.",ok:()=>sumKg(0)>=100},
  {id:"t1",t:"Eine Tonne",x:"Eine Tonne entspricht etwa einem Zehntel des deutschen Durchschnitts im Jahr.",ok:()=>sumKg(0)>=1000},
@@ -1169,12 +1381,18 @@ const MOMENTS=[
  {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
 ];
 let momentOpen=false,rbReplay=0;
+/* Höchstens ein Moment pro Aktion. Beim Stufenaufstieg zuerst die Landschaft: Stempel, Wachsen, das Neue kommt ins Bild, erst dann die Karte. */
 function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
-  if(st.i>S.stageSeen){if(st.i>=9)rbReplay=1;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();showMoment("Neue Stufe",st.n,STAGES[st.i][2]+(st.next?` Als Nächstes: ${st.next[1]}.`:""));return}
-  const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x)}
-function showMoment(lab,ttl,txt){momentOpen=true;
-  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2>${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);buzz([10,60,10,60,20]);
-    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false;if(rbReplay){rbStart=0;rbReplay=0}if(tab==="home"&&cv)readPal();setTimeout(checkMoments,400)}})},600)}
+  if(st.i>S.stageSeen){if(st.i>=9)rbReplay=1;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st.n;
+    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"center"});setTimeout(()=>buzz(HAP.stage),1700)}
+    SEAS=seasonNow();const note=st.i===2&&!SEAS.bugs?" Im Winter ruhen die Schmetterlinge, ab März sind sie zu sehen.":st.i===3&&!SEAS.bloom?" Im Winter blüht noch nichts, ab März schon.":st.i===6&&!SEAS.hog?" Gerade hält er Winterschlaf, ab April ist er wieder unterwegs.":"";
+    showMoment("Neue Stufe",st.n,STAGES[st.i][2]+note+(st.next?` Als Nächstes: ${st.next[1]}.`:""),onHome?2600:600,!onHome);return}
+  const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x,600,true)}
+let arrive=null;
+function showMoment(lab,ttl,txt,delay,hap){momentOpen=true;
+  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);if(hap)buzz(HAP.stage);const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
+    const close=()=>{d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(rbReplay){rbStart=0;rbReplay=0}};
+    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d)close()});d.addEventListener("keydown",e=>{if(e.key==="Escape")close()})},delay||600)}
 
 /* ---------- Teilen ---------- */
 const appUrl=()=>location.href.split("#")[0];
@@ -1185,13 +1403,19 @@ async function shareOut(title,text,url){const full=text+"\n\n"+url;
 let invited=null;
 
 /* ---------- Blatt ---------- */
-function sheet(html){$("#layer").innerHTML=`<div class="sheet" id="sh"><div class="panel" role="dialog" aria-modal="true"><button class="close" id="shx">Schließen</button>${html}</div></div>`;
-  $("#sh").addEventListener("click",e=>{if(e.target.id==="sh"||e.target.id==="shx")closeSheet()})}
-function closeSheet(){$("#layer").innerHTML="";CK=null}
+let lastFocus=null;
+function sheet(html){const had=!!$("#sh");if(!had)lastFocus=document.activeElement;$("#layer").innerHTML=`<div class="sheet${had?" swap":""}" id="sh"><div class="panel" role="dialog" aria-modal="true" tabindex="-1"><div class="grab" aria-hidden="true"></div><button class="close" id="shx">Schließen</button>${html}</div></div>`;
+  const sh=$("#sh"),pn=sh.querySelector(".panel");sh.addEventListener("click",e=>{if(e.target===sh||e.target.id==="shx")closeSheet()});try{pn.focus({preventScroll:true})}catch(e){}fillBars();
+  /* nach unten wischen schließt das Blatt */
+  let y0=null,t0=0,dy=0;pn.addEventListener("touchstart",e=>{if(pn.scrollTop<=0){y0=e.touches[0].clientY;t0=performance.now();dy=0;pn.style.transition="none"}},{passive:true});
+  pn.addEventListener("touchmove",e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0)pn.style.transform=`translateY(${dy}px)`;else{pn.style.transform="";}},{passive:true});
+  pn.addEventListener("touchend",()=>{if(y0==null)return;const v=dy/Math.max(1,performance.now()-t0);pn.style.transition="";if(dy>80||(dy>24&&v>.6))closeSheet();else pn.style.transform="";y0=null},{passive:true})}
+function closeSheet(){CK=null;const sh=$("#sh");$("#layer").innerHTML="";if(sh){sh.removeAttribute("id");if(!calm()){document.body.appendChild(sh);sh.classList.add("out");setTimeout(()=>sh.remove(),200)}}
+  if(lastFocus&&lastFocus.isConnected){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null}
 
 /* ---------- Rendern ---------- */
 function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,year:viewYear}[tab]();const Mn=$("#main");Mn.classList.remove("anim");Mn.innerHTML=v;void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
-  $("#tl").innerHTML=`<b class="num">− ${kgTxt(sumKg(0))}</b>${stage().n}`;
+  $("#tl").innerHTML=`<b>${stage().n}</b>Stufe ${stage().i+1} von ${STAGES.length}`;fillBars();
   if(tab==="home")startLand();else if(raf){cancelAnimationFrame(raf);raf=0}}
 
 document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox");if(!t)return;const d=t.dataset;
@@ -1200,58 +1424,61 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
   if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
   if(d.actmenu){actMenu(d.actmenu);return}
-  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();buzz([8,40,8]);toast("Gehört jetzt zu deinem Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()});checkMoments();return}
+  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();buzz(HAP.log);toast("Gehört jetzt zu deinem Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()});checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
   if(d.inv){invSheet();return}
-  if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();buzz(5);return}
+  if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();buzz(HAP.sel);return}
   if(t.id==="invsave"){closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Sache gehört":"Dinge gehören"} schon zu deinem Alltag.`);checkMoments();return}
-  if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();stamp(null,$(".stage")||document.body,`var(--${a.a})`);buzz([10,50,10,50,18]);toast("Eingetragen. Wirkt ab jetzt jeden Tag.");checkMoments();return}
+  if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();stamp(null,$("#landbox")||$(".stage")||document.body,`var(--${a.a})`);buzz(HAP.big);toast("Eingetragen. Wirkt ab jetzt jeden Tag.");checkMoments();return}
   if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
   if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
-  if(d.area){S.area=d.area;save();buzz(5);render();return}
+  if(d.area){S.area=d.area;save();buzz(HAP.sel);render();return}
   if(t.id==="custom"){customSheet();return}
   if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
   if(d.ckind){document.querySelectorAll("[data-ckind]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
   if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=Math.max(0,parseFloat(String($("#ckg").value).replace(",","."))||0);
-    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=kg}else en.k=kg;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();buzz([8,40,8]);toast("Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()});checkMoments();return}
+    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=kg}else en.k=kg;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();buzz(HAP.log);toast("Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()});checkMoments();return}
   if(d.check){CK=null;checkSheet();return}
-  if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;buzz(5);checkSheet();return}
+  if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;buzz(HAP.sel);checkSheet();return}
   if(t.id==="ckback"&&CK){CK.i=Math.max(0,CK.i-1);checkSheet();return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
   if(d.ktab){ktab=d.ktab;cur=null;anim=true;render();return}
-  if(t.id==="pull"){const b=pickBite();if(!b)return;stamp(e,t,"var(--dinge)");buzz(10);setTimeout(()=>openBite(b.id),calm()?0:260);return}
+  if(t.id==="pull"){const b=pickBite();if(!b)return;stamp(e,t,"var(--dinge)");buzz(HAP.sel);setTimeout(()=>openBite(b.id),calm()?0:260);return}
   if(d.bite){closeSheet();openBite(d.bite);return}
   if(t.id==="nextbite"){const b=pickBite();if(b)openBite(b.id);return}
   if(t.id==="backbite"){cur=null;anim=true;render();return}
   if(t.id==="savebite"&&cur){if(S.saved[cur])delete S.saved[cur];else{S.saved[cur]=now();toast("Gemerkt.")}save();render();return}
   if(t.id==="sharebite"&&cur){const b=B[cur];shareOut(b.t,`Das fand ich spannend: „${b.t}“. ${b.x.split(/(?<=\.)\s/)[0]}\n\nEs stammt aus Biotop, einer kleinen App, die hilft, Stück für Stück nachhaltiger zu leben.`,appUrl()+"#b-"+b.id);return}
   if(d.bfilter){S.filter=d.bfilter;save();render();return}
-  if(d.duel&&!duelAns){duelAns=d.duel;const dd=DUELS[S.duel.i%DUELS.length],ok=d.duel===(dd.eq?"eq":dd.ak>dd.bk?"a":"b");S.duel.n++;if(ok)S.duel.r++;save();buzz(ok?[8,50,8]:30);render();checkMoments();return}
+  if(d.duel&&!duelAns){duelAns=d.duel;const dd=duelAt(),ok=d.duel===(dd.eq?"eq":dd.ak>dd.bk?"a":"b");S.duel.n++;if(ok)S.duel.r++;save();buzz(ok?HAP.right:HAP.wrong);render();checkMoments();return}
   if(t.id==="duelnext"){S.duel.i++;duelAns=null;save();render();return}
   if(t.id==="quiz"||t.id==="qagain"){startQuiz();return}
   if(t.id==="qend"){Q=null;render();return}
-  if(d.ans&&Q&&!Q.ans){const it=Q.items[Q.i],ok=d.ans===it.id,s=S.terms[it.id]||{box:0,next:0};s.box=ok?Math.min(5,s.box+1):1;s.next=now()+IV[s.box]*DAY-(ok?0:DAY);S.terms[it.id]=s;if(ok)Q.right++;Q.ans=d.ans;save();buzz(ok?[8,50,8]:30);render();return}
+  if(d.ans&&Q&&!Q.ans){const it=Q.items[Q.i],ok=d.ans===it.id,s=S.terms[it.id]||{box:0,next:0};s.box=ok?Math.min(5,s.box+1):1;s.next=now()+IV[s.box]*DAY-(ok?0:DAY);S.terms[it.id]=s;if(ok)Q.right++;Q.ans=d.ans;save();buzz(ok?HAP.right:HAP.wrong);render();return}
   if(t.id==="qnext"){Q.i++;Q.ans=null;render();return}
   if(d.tt){openTerm=openTerm===d.tt?null:d.tt;render();return}
   if(d.term){closeSheet();tab="know";ktab="terms";openTerm=d.term;cur=null;render();const el=document.querySelector(`[data-tt="${d.term}"]`);if(el)el.scrollIntoView({block:"center"});return}
   if(d.misopen){misSheet(d.misopen);return}
   if(d.mfilter){misFilter=d.mfilter;render();return}
-  if(d.accept){if(activeMis().length>=MAXM)return;S.mis[d.accept]={status:"active",start:now(),days:{}};save();closeSheet();tab="mis";anim=true;render();buzz([10,40,10]);toast("Mission angenommen.");return}
-  if(d.tick){const v=S.mis[d.tick];v.days=v.days||{};v.days[Math.floor((dayStart(now())-dayStart(v.start))/DAY)]=1;save();stamp(e,t,`var(--${M[d.tick].a})`);buzz([8,40,8]);render();return}
+  if(d.accept){if(activeMis().length>=MAXM)return;planSheet(d.accept);return}
+  if(d.start){if(activeMis().length>=MAXM)return;const pl=($("#mplan")||{}).value||"";S.mis[d.start]={status:"active",start:now(),days:{},plan:pl.trim()};save();closeSheet();tab="mis";anim=true;render();buzz(HAP.log);toast("Mission gestartet.");return}
+  if(d.plan){const nx="w"+weekStart(now()+DAY);S.plans[nx]=S.plans[nx]===d.plan?null:d.plan;save();buzz(HAP.sel);render();if(S.plans[nx])toast("Vorgenommen für nächste Woche.");return}
+  if(d.tick){const v=S.mis[d.tick];v.days=v.days||{};v.days[Math.floor((dayStart(now())-dayStart(v.start))/DAY)]=1;save();stamp(e,t,`var(--${M[d.tick].a})`);buzz(HAP.log);render();return}
   if(d.drop){S.mis[d.drop].status="dropped";save();render();return}
   if(t.id==="other"){S.skip=(S.skip||0)+1;save();render();return}
   if(d.done){doneSheet(d.done);return}
   if(d.mood){document.querySelectorAll("[data-mood]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
-  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();buzz([12,60,12,60,20]);toast("Gespeichert. Ein Vogel mehr über deinem Biotop.");checkMoments();return}
+  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();buzz(HAP.big);toast("Gespeichert. Ein Vogel mehr über deinem Biotop.");checkMoments();return}
   if(d.sharemis){const m=M[d.sharemis];shareOut(m.t,`Hast du Lust, mit mir eine kleine Mission zu machen? Sie heißt „${m.t}“: ${m.x.split(/(?<=\.)\s/)[0]} Zu zweit fällt es leichter. Die Anleitung steht in Biotop, einer kostenlosen App ohne Anmeldung:`,appUrl()+"#m-"+m.id);return}
   if(t.id==="ics"){ics();return}
   if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
   if(t.id==="reset"){confirmReset=true;render();return}
   if(t.id==="resetno"){confirmReset=false;render();return}
-  if(t.id==="resetyes"){S={stageSeen:0,log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
+  if(t.id==="resetyes"){S={stageSeen:0,plans:{},gv:2,gFloor:0,log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
   if(t.id==="welcomecheck"){closeSheet();checkSheet();return}
 });
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
+document.addEventListener("touchstart",()=>{},{passive:true});
+document.addEventListener("keydown",e=>{const mo=document.querySelector(".moment:not(.out) #mok");if(e.key==="Escape"&&mo){mo.click();return}if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
 document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week){S.weeks[e.target.dataset.week]=e.target.value;save()}});
 document.addEventListener("change",e=>{if(e.target.id==="rtime"){S.settings.remind=e.target.value||"19:00";save();const g=$("#gcal");if(g)g.href=gcal()}});
 
