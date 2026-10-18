@@ -384,6 +384,7 @@ nav.tabs button[aria-current="page"]::before{display:none}
 .li:active,.linkbtn:active,.fold summary:active,.more:active,.seg button:active,nav.tabs button:active,.close:active,.nudge:active{background-color:color-mix(in srgb,var(--ink) 8%,transparent);transform:none;box-shadow:none}
 .toast{display:flex;align-items:center;gap:10px}
 @media (prefers-reduced-motion:reduce){.fill-in[aria-pressed="true"]{animation:none;background-image:none}.okmark{animation:none;stroke-dashoffset:0}.tabdot.ready,.toggle,.toggle .knob{transition:none}}
+input.hap{touch-action:pan-y}
 
 </style>
 </head><body>
@@ -856,7 +857,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 01:10";
+const BUILD="19.10.2026, 01:22";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -926,6 +927,14 @@ function armHaptics(){const on=hapOn();document.querySelectorAll(HAPSEL).forEach
   const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.className="hap";i.tabIndex=-1;i.setAttribute("aria-hidden","true");el.appendChild(i)});
   if(!on)document.querySelectorAll("input.hap").forEach(i=>i.remove())}
 if(IOS){let q=false;new MutationObserver(()=>{if(!q){q=true;requestAnimationFrame(()=>{q=false;armHaptics()})}}).observe(document.body,{childList:true,subtree:true})}
+/* Wegwischen bricht ab: Bewegt sich der Finger mehr als 10 px oder wird er außerhalb des Elements losgelassen, zählt das Tippen nicht.
+   Wichtig auf dem iPhone, wo der unsichtbare Schalter sonst auch beim Wischen umschaltet. Läuft vor allen anderen Klick-Handlern. */
+let tg=null,cancelUntil=0;
+document.addEventListener("touchstart",e=>{cancelUntil=0;const t=e.touches[0],el=e.target.closest&&e.target.closest("button,a,[data-gotab],#landbox");tg=el?{el,x:t.clientX,y:t.clientY,moved:false}:null},{passive:true,capture:true});
+document.addEventListener("touchmove",e=>{if(!tg)return;const t=e.touches[0];if(Math.hypot(t.clientX-tg.x,t.clientY-tg.y)>10)tg.moved=true},{passive:true,capture:true});
+document.addEventListener("touchend",e=>{if(!tg)return;const t=e.changedTouches[0],r=tg.el.getBoundingClientRect(),out=t.clientX<r.left||t.clientX>r.right||t.clientY<r.top||t.clientY>r.bottom;if(tg.moved||out)cancelUntil=performance.now()+600;tg=null},{passive:true,capture:true});
+document.addEventListener("touchcancel",()=>{if(tg)cancelUntil=performance.now()+600;tg=null},{passive:true,capture:true});
+document.addEventListener("click",e=>{if(performance.now()<cancelUntil){cancelUntil=0;e.preventDefault();e.stopImmediatePropagation()}},true);
 /* Android: ein Muster je Familie, sofort beim Tippen. Quiz-Antworten melden sich selbst (richtig oder falsch). */
 document.addEventListener("click",e=>{const el=e.target.closest(HAPSEL);if(!el||el.disabled||el.dataset.hap==="judge")return;vib(el.matches(OKSEL)?VIB.ok:el.matches(SELSEL)?VIB.sel:VIB.act)},true);
 /* Aktion: matte Welle in currentColor vom Berührungspunkt, 16 % Deckkraft, verblasst in 600 ms.
