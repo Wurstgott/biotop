@@ -856,7 +856,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 00:57";
+const BUILD="19.10.2026, 01:10";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -974,7 +974,18 @@ function css(v){return getComputedStyle(document.documentElement).getPropertyVal
 let pal={};
 function readPal(){pal={paper:css("--paper"),sheet:css("--sheet"),ink:css("--ink"),blend:css("--blend")||"multiply"};AK.forEach(a=>pal[a]=css("--"+a))}
 const patCache={};
-function dots(col,step,r){if(!cx.__pid)cx.__pid=Math.random().toString(36).slice(2);const k=col+step+r+cx.__pid;if(patCache[k])return patCache[k];const c=document.createElement("canvas");c.width=c.height=step;const g=c.getContext("2d");g.fillStyle=col;g.beginPath();g.arc(step/2,step/2,r,0,7);g.fill();return patCache[k]=cx.createPattern(c,"repeat")}
+/* Raster wie im Riso: eine Weite (5 px) für alle Tinten, alle Punkte sitzen auf EINEM Raster der Leinwand (in Gerätepixeln, daher scharf).
+   Tiefe über die Punktgröße (hinten r 0,8, vorne r 1,2). Der Passerversatz verschiebt nur die Form, nicht das Raster.
+   Raster nur auf ruhenden Flächen ab 15 px; im Dunkelmodus nur auf Hügeln und Sonne, dort mit 40 % Deckkraft. */
+let DPR=1,DARK=false,RA=1,DEP=1.1;
+function dots(col,r,local){if(!cx.__pid)cx.__pid=Math.random().toString(36).slice(2);const k=col+"|"+r+"|"+DPR+"|"+cx.__pid;let p=patCache[k];
+  if(!p){const s=Math.round(5*DPR),c=document.createElement("canvas");c.width=c.height=s;const g=c.getContext("2d");g.fillStyle=col;g.beginPath();g.arc(s/2,s/2,r*DPR,0,7);g.fill();p=patCache[k]=cx.createPattern(c,"repeat")}
+  if(p.setTransform){if(local)p.setTransform(new DOMMatrix().scale(1/DPR));else{const ph=PHASE[INKOF(col)]||[0,0];p.setTransform(cx.getTransform().inverse().translate(Math.round(ph[0]*DPR),Math.round(ph[1]*DPR)))}}return p}
+/* Jede Tinte hat ihre eigene Trommel: gleiche Weite, aber ein fester Versatz des Rasters, damit Punkte verschiedener Tinten nicht aufeinander fallen */
+const PHASE={wege:[0,0],wir:[2.5,2.5],essen:[2.5,0],ink:[0,2.5],wohnen:[1.5,3.5],dinge:[3.5,1.5]};
+const INKOF=col=>{for(const k in PHASE)if(pal[k]===col)return k;return ""};
+function screen(path,col,r,a,always,local){if(DARK&&!always)return;const ga=cx.globalAlpha;cx.globalAlpha=ga*(a==null?1:a)*RA*(DARK?.5:1);if(cx.globalAlpha>.004){cx.fillStyle=dots(col,r,local);cx.beginPath();path();cx.fill()}cx.globalAlpha=ga}
+const dR=y=>.8+.4*Math.min(1,Math.max(0,(y/H-.45)/.5));
 /* Landschaft: jede Art von Schritt wird zu einer eigenen Pflanzengruppe, die mit jeder Wiederholung dichter und größer wird.
    Essen = Sonnenblumen und Ähren im Feld, Wohnen = Rohrkolben am Teich, Unterwegs = Lupinen am Weg,
    Dinge = Pilze (die Recycler des Waldes), Gemeinschaft = Laternen und Häuser im Dorf.
@@ -993,45 +1004,46 @@ function pathPt(t){const p0=[W*.16,H*1.02],p1=[W*.4,H*.84],p2=[W*.56,H*.9],p3=[W
   return [0,1].map(i=>u*u*u*p0[i]+3*u*u*t*p1[i]+3*u*t*t*p2[i]+t*t*t*p3[i])}
 const POND=()=>[W*.27,H*.74,W*.11,H*.045];
 function ease(k){return 1-Math.pow(1-Math.min(1,Math.max(0,k)),3)}
-function inkFill(path,col,dotCol,dx,dy){cx.fillStyle=col;cx.beginPath();path();cx.fill();if(dotCol){cx.save();cx.translate(dx||2,dy||1.5);cx.fillStyle=dots(dotCol,5,1.15);cx.beginPath();path();cx.fill();cx.restore()}}
+function inkFill(path,col,dotCol,dx,dy,r){cx.fillStyle=col;cx.beginPath();path();cx.fill();if(dotCol){cx.save();cx.translate(dx||2,dy||1.5);screen(path,dotCol,r||DEP);cx.restore()}}
+/* Kleine Formen: Vollton, dazu eine zweite Tinte 0,6 px versetzt darunter */
+function twoInk(path,col,col2,a2){const ga=cx.globalAlpha;cx.save();cx.translate(.6,.6);cx.globalAlpha=ga*a2;cx.fillStyle=col2;cx.beginPath();path();cx.fill();cx.restore();cx.globalAlpha=ga;cx.fillStyle=col;cx.beginPath();path();cx.fill()}
 function stem(x,y,x2,y2,w,col,a){cx.strokeStyle=col||pal.ink;cx.globalAlpha=a==null?.75:a;cx.lineWidth=w;cx.lineCap="round";cx.beginPath();cx.moveTo(x,y);cx.quadraticCurveTo(x+(x2-x)*.2,y+(y2-y)*.55,x2,y2);cx.stroke();cx.globalAlpha=1}
 /* Pflanzen */
 function sunflower(x,y,h,u,sw){const tx=x+sw,ty=y-h;stem(x,y,tx,ty,1.6*u);
   cx.fillStyle=pal.wir;cx.globalAlpha=.85;cx.beginPath();cx.ellipse(x+(tx-x)*.4+4*u,y-h*.45,4.5*u,2*u,-.5,0,7);cx.fill();cx.beginPath();cx.ellipse(x+(tx-x)*.4-4*u,y-h*.3,4*u,1.8*u,.5,0,7);cx.fill();cx.globalAlpha=1;
   const r=5.2*u;for(let i=0;i<10;i++){const a=i/10*Math.PI*2;cx.fillStyle=pal.wohnen;cx.beginPath();cx.ellipse(tx+Math.cos(a)*r*.85,ty+Math.sin(a)*r*.85,r*.55,r*.24,a,0,7);cx.fill()}
-  inkFill(()=>cx.arc(tx,ty,r*.62,0,7),pal.essen,pal.ink,.8,.6)}
+  twoInk(()=>cx.arc(tx,ty,r*.62,0,7),pal.essen,pal.ink,.35)}
 function wheat(x,y,h,u,sw){const tx=x+sw,ty=y-h;stem(x,y,tx,ty,1.2*u,pal.essen,.85);
   for(let i=0;i<6;i++){const k=i/6,px=x+(tx-x)*(.62+k*.38),py=y-h*(.62+k*.38),s=i%2?1:-1;cx.fillStyle=pal.essen;cx.beginPath();cx.ellipse(px+s*1.6*u,py,1.5*u,3*u,s*.5,0,7);cx.fill()}
   cx.strokeStyle=pal.essen;cx.lineWidth=.8*u;cx.beginPath();cx.moveTo(tx,ty-2*u);cx.lineTo(tx+sw*.4,ty-9*u);cx.stroke()}
 function cattail(x,y,h,u,sw){cx.strokeStyle=pal.wir;cx.globalAlpha=.85;cx.lineWidth=1.3*u;cx.lineCap="round";
   [[-1,.75],[1,.6]].forEach(([s,f])=>{cx.beginPath();cx.moveTo(x,y);cx.quadraticCurveTo(x+s*3*u,y-h*f*.6,x+s*7*u+sw*.6,y-h*f);cx.stroke()});cx.globalAlpha=1;
-  const tx=x+sw,ty=y-h;stem(x,y,tx,ty-4*u,1.1*u);inkFill(()=>cx.ellipse(tx,ty+3*u,2.4*u,6*u,sw*.02,0,7),pal.wohnen,pal.essen,1,1)}
+  const tx=x+sw,ty=y-h;stem(x,y,tx,ty-4*u,1.1*u);cx.fillStyle=pal.wohnen;cx.beginPath();cx.ellipse(tx,ty+3*u,2.4*u,6*u,sw*.02,0,7);cx.fill()}
 function lupine(x,y,h,u,sw){const tx=x+sw,ty=y-h;stem(x,y,tx,ty,1.2*u,pal.wir,.9);
   cx.fillStyle=pal.wir;cx.globalAlpha=.8;for(let i=-2;i<=2;i++){cx.beginPath();cx.ellipse(x+i*2.3*u,y-2*u,3*u,1.1*u,i*.5,0,7);cx.fill()}cx.globalAlpha=1;
-  const n=7;for(let i=0;i<n;i++){const k=i/(n-1),px=x+(tx-x)*(.45+k*.55),py=y-h*(.45+k*.55),r=(2.9-k*1.9)*u;cx.fillStyle=pal.wege;cx.beginPath();cx.arc(px,py,r,0,7);cx.fill()}
-  cx.fillStyle=dots(pal.dinge,4,.8);cx.beginPath();cx.ellipse(x+(tx-x)*.72+1,y-h*.72,2.2*u,h*.26,0,0,7);cx.fill()}
+  const n=7;for(let i=0;i<n;i++){const k=i/(n-1),px=x+(tx-x)*(.45+k*.55),py=y-h*(.45+k*.55),r=(2.9-k*1.9)*u;cx.fillStyle=pal.wege;cx.beginPath();cx.arc(px,py,r,0,7);cx.fill()}}
 function mushroom(x,y,h,u,sw){const w=(5+h*.12)*u*.9,sh=h*.55;cx.fillStyle=pal.sheet;cx.strokeStyle=pal.ink;cx.globalAlpha=1;cx.lineWidth=1;cx.beginPath();cx.roundRect?cx.roundRect(x-w*.28,y-sh,w*.56,sh,2):cx.rect(x-w*.28,y-sh,w*.56,sh);cx.fill();cx.globalAlpha=.6;cx.stroke();cx.globalAlpha=1;
-  const cyy=y-sh+1;inkFill(()=>{cx.moveTo(x-w+sw*.2,cyy);cx.quadraticCurveTo(x+sw*.2,cyy-w*1.5,x+w+sw*.2,cyy);cx.closePath()},pal.dinge,pal.wohnen,1,1)}
+  const cyy=y-sh+1;twoInk(()=>{cx.moveTo(x-w+sw*.2,cyy);cx.quadraticCurveTo(x+sw*.2,cyy-w*1.5,x+w+sw*.2,cyy);cx.closePath()},pal.dinge,pal.wohnen,.55)}
 function lantern(x,y,h,u,sec,seed){const fl=calm()?1:.78+.22*Math.sin(sec*2.2+seed*9);cx.strokeStyle=pal.ink;cx.globalAlpha=.7;cx.lineWidth=1.3*u;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x,y-h);cx.lineTo(x+4*u,y-h);cx.stroke();cx.globalAlpha=1;
   cx.fillStyle=pal.wohnen;cx.globalAlpha=.32*fl;cx.beginPath();cx.arc(x+4*u,y-h+5*u,9*u,0,7);cx.fill();cx.globalAlpha=1;inkFill(()=>cx.ellipse(x+4*u,y-h+4.5*u,2.4*u,3.2*u,0,0,7),pal.essen,null)}
 /* Bäume */
 function tint(path){if(SEAS.autumn>0){cx.fillStyle=pal.essen;cx.globalAlpha=.5*SEAS.autumn;cx.beginPath();path();cx.fill();cx.globalAlpha=1}
   if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.22;cx.beginPath();path();cx.fill();cx.globalAlpha=1}}
 /* Laubbäume sind im Winter kahl: nur ein Hauch der Krone, dazu Äste. Nadelwald (ever) bleibt grün. */
-function crown(path,col,dot,dx,dy,ever){if(SEAS.winter&&!ever){const a=cx.globalAlpha;cx.globalAlpha=a*.22;inkFill(path,col,null);cx.globalAlpha=a;return}inkFill(path,col,dot,dx,dy);tint(path)}
+function crown(path,col,dot,dx,dy,ever,md){if(SEAS.winter&&!ever){const a=cx.globalAlpha;cx.globalAlpha=a*.22;inkFill(path,col,null);cx.globalAlpha=a;return}inkFill(path,col,md>=15?dot:null,dx,dy);tint(path)}
 function snowCap(path,w){if(!SEAS.snow)return;cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.blend==="screen"?"#DCE3EA":"#FFFFFF";cx.globalAlpha=.95;cx.lineWidth=w;cx.lineCap="round";cx.beginPath();path();cx.stroke();cx.restore()}
 function tree(a,x,y,s,u,sw,seed){const r=s*u;
-  if(a==="wir"){const hs=r*1.15;inkFill(()=>cx.rect(x-hs*.62,y-hs,hs*1.24,hs),pal.wohnen,pal.essen,1.5,1);
+  if(a==="wir"){const hs=r*1.15;inkFill(()=>cx.rect(x-hs*.62,y-hs,hs*1.24,hs),pal.wohnen,hs>=15?pal.essen:null,1.5,1);
     cx.fillStyle=pal.dinge;cx.beginPath();cx.moveTo(x-hs*.82,y-hs+1);cx.lineTo(x,y-hs*1.75);cx.lineTo(x+hs*.82,y-hs+1);cx.fill();snowCap(()=>{cx.moveTo(x-hs*.7,y-hs*1.05);cx.lineTo(x,y-hs*1.68);cx.lineTo(x+hs*.7,y-hs*1.05)},2.2*u);
     cx.fillStyle=pal.ink;cx.globalAlpha=.75;cx.fillRect(x-hs*.14,y-hs*.48,hs*.28,hs*.48);cx.globalAlpha=1;
     cx.fillStyle=pal.wege;cx.globalAlpha=.8;cx.fillRect(x+hs*.24,y-hs*.78,hs*.22,hs*.2);cx.globalAlpha=1;return}
   const trunkH={essen:1.4,wohnen:1.6,wege:.9,dinge:1.3}[a];stem(x,y,x+sw*.3,y-r*trunkH,Math.max(2,r*.16));
   const tx=x+sw,ty=y-r*trunkH;
   if(SEAS.winter){cx.strokeStyle=pal.ink;cx.globalAlpha=.6;cx.lineWidth=Math.max(1,r*.07);cx.lineCap="round";const rb=rnd("br"+seed);for(let i=0;i<6;i++){const ang=-Math.PI/2+(rb()-.5)*2.2,len=r*(.6+rb()*.7),mx=tx+Math.cos(ang)*len*.5,my=ty-r*.3+Math.sin(ang)*len*.5;cx.beginPath();cx.moveTo(tx,ty);cx.quadraticCurveTo(mx,my,tx+Math.cos(ang)*len,ty-r*.4+Math.sin(ang)*len);cx.stroke()}cx.globalAlpha=1}
-  if(a==="essen"){crown(()=>cx.arc(tx,ty-r*.75,r,0,7),pal.wir,pal.wege,2,1.5);for(let i=0;i<6;i++){const ang=seed*7+i*1.1,rr=r*(.35+((i*37)%10)/16);cx.fillStyle=pal.essen;cx.beginPath();cx.arc(tx+Math.cos(ang)*rr,ty-r*.75+Math.sin(ang)*rr,Math.max(1.6,r*.13),0,7);cx.fill()}}
-  else if(a==="wohnen"){crown(()=>cx.ellipse(tx,ty-r*.4,r*1.35,r*.62,0,0,7),pal.wohnen,pal.wir,2,1.5)}
-  else if(a==="wege"){crown(()=>cx.ellipse(tx,ty-r*1.3,r*.5,r*1.5,sw*.01,0,7),pal.wege,pal.wir,1.5,1.5)}
-  else{const pts=[[0,-.9],[-.65,-.45],[.65,-.5],[-.3,-1.35],[.38,-1.25]];pts.forEach(([px,py])=>crown(()=>cx.arc(tx+px*r,ty+py*r*.8,r*.52,0,7),pal.dinge,null));cx.fillStyle=dots(pal.wohnen,5,1.1);cx.beginPath();cx.arc(tx+1.5,ty-r*.75,r*.85,0,7);cx.fill()}
+  if(a==="essen"){crown(()=>cx.arc(tx,ty-r*.75,r,0,7),pal.wir,pal.wege,2,1.5,0,2*r);for(let i=0;i<6;i++){const ang=seed*7+i*1.1,rr=r*(.35+((i*37)%10)/16);cx.fillStyle=pal.essen;cx.beginPath();cx.arc(tx+Math.cos(ang)*rr,ty-r*.75+Math.sin(ang)*rr,Math.max(1.6,r*.13),0,7);cx.fill()}}
+  else if(a==="wohnen"){crown(()=>cx.ellipse(tx,ty-r*.4,r*1.35,r*.62,0,0,7),pal.wohnen,pal.wir,2,1.5,0,1.24*r)}
+  else if(a==="wege"){crown(()=>cx.ellipse(tx,ty-r*1.3,r*.5,r*1.5,sw*.01,0,7),pal.wege,pal.wir,1.5,1.5,0,r)}
+  else{const pts=[[0,-.9],[-.65,-.45],[.65,-.5],[-.3,-1.35],[.38,-1.25]];pts.forEach(([px,py])=>crown(()=>cx.arc(tx+px*r,ty+py*r*.8,r*.52,0,7),pal.dinge,null));if(!SEAS.winter&&1.7*r>=15)screen(()=>cx.arc(tx+1.5,ty-r*.75,r*.85,0,7),pal.wohnen,DEP)}
   if(SEAS.spring&&a!=="wege"){const rb=rnd("bl"+seed);for(let i=0;i<7;i++){cx.fillStyle=i%2?pal.dinge:pal.sheet;cx.beginPath();cx.arc(tx+(rb()-.5)*r*1.6,ty-r*(.4+rb()*.9),Math.max(1.2,r*.08),0,7);cx.fill()}}}
 function landLayout(){const cl=(LC?LC.cl:landClumps()).map(c=>{const r=rnd("cl"+c.k);let x,y;
     if(c.a==="wohnen"){const [px,py,rx,ry]=POND(),ang=Math.PI*(.05+r()*.9);x=px+Math.cos(ang)*rx*(1.05+r()*.3)*(r()<.5?-1:1);y=py+Math.sin(ang)*ry*1.2+H*.01}
@@ -1045,9 +1057,9 @@ function landLayout(){const cl=(LC?LC.cl:landClumps()).map(c=>{const r=rnd("cl"+
     for(let q=0;q<10;q++){const c=W*(z[0]+r()*(z[1]-z[0])),dd=placed.length?Math.min(...placed.map(v=>Math.abs(v-c))):1e9;if(dd>bd){bd=dd;best=c}if(dd>W*.075)break}
     placed.push(best);const band=tr.length%3;tr.push({...t,x:best,y:ground(best)+H*(.004+.042*band),band,r,kind:"tree"})});
   const out=cl.concat(tr).sort((a,b)=>a.y-b.y);out.forest=forest;return out}
-function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio||1),bw=cv.clientWidth,bh=cv.clientHeight;if(!bw||!bh)return;
+function drawLand(t){if(!cx)return;const dpr=Math.min(3,window.devicePixelRatio||1),bw=cv.clientWidth,bh=cv.clientHeight;if(!bw||!bh)return;
   if(cv.width!==Math.round(bw*dpr)||cv.height!==Math.round(bh*dpr)){cv.width=Math.round(bw*dpr);cv.height=Math.round(bh*dpr)}
-  W=bw;H=bh;const u=H/245;cx.setTransform(dpr,0,0,dpr,0,0);cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);
+  W=bw;H=bh;DPR=dpr;DARK=pal.blend==="screen";RA=1;DEP=1.1;const u=H/245;cx.setTransform(dpr,0,0,dpr,0,0);cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);
   /* Dunkelmodus: Flächen normal drucken statt per screen überstrahlen */
   const BL=pal.blend==="screen"?"source-over":"multiply";cx.globalCompositeOperation=BL;
   if(!LC)LC={cl:landClumps(),tr:landTrees(),g:growth(),st:stage(),meet:meets(),key:""};
@@ -1064,8 +1076,9 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   // wie die Sonne darüber steht. Der Hauptbogen hat 42 Grad Radius (außen rot, innen violett), der Nebenbogen 51 Grad mit umgekehrten Farben.
   // Er entsteht nur, wenn die Sonne höher als 0 und tiefer als 42 Grad steht. Während er zu sehen ist, steht die Sonne also hinter uns.
   const elev=solarElev(),rbOn=si>=9&&elev>.5&&elev<42&&!SEAS.snow;
-  if(!rbOn){const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
-    cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.1,0,7);cx.fill()}
+  /* Bei starkem Zoom blickt die Kamera auf den Boden, die Sonne liegt dann außerhalb des Bildes */
+  if(!rbOn&&ZOOM<1.2){cx.save();cx.setTransform(dpr,0,0,dpr,0,0);const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
+    cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;screen(()=>cx.arc(sx+4,sy+3,H*.1,0,7),pal.essen,1.2,1,true);cx.restore()}
   else if(rbStart||!(momentOpen||$("#layer").innerHTML)){if(!rbStart)rbStart=t;const tt=calm()?99:(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
     // Der Schauer zieht von links nach rechts durch, der Bogen erscheint dort, wo der Regen schon fällt
     const cxp=-W*.25+(tt/7)*W*1.6,xr=cxp+W*.12,sweep=Math.min(1,Math.max(0,(xr+W*.2)/(W*1.3))),endA=R=>tt>8||calm()?2*Math.PI:2*Math.PI-Math.acos(Math.max(-1,Math.min(1,(xr-ccx)/R)));
@@ -1076,20 +1089,22 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
     if(tt<7.5){const ca=Math.min(1,tt/.6)*Math.min(1,(7.5-tt)/1.2),cy=H*.16;
       cx.strokeStyle=pal.wege;cx.lineWidth=1;cx.globalAlpha=.45*ca;cx.beginPath();for(let q=0;q<26;q++){const rx=cxp-W*.16+q*W*.013+((q*37)%7),ry=cy+H*.05+((q*53+Math.floor(t/90))%9)*2;cx.moveTo(rx,ry);cx.lineTo(rx-4,ry+H*.2)}cx.stroke();
       cx.globalAlpha=.55*ca;[[0,0,.09],[-.08,.02,.07],[.08,.025,.075],[.15,.04,.05],[-.15,.045,.05]].forEach(([dx,dy,r])=>{cx.fillStyle=pal.wege;cx.beginPath();cx.arc(cxp+dx*W,cy+dy*H,r*W,0,7);cx.fill()});
-      cx.globalAlpha=.6*ca;cx.fillStyle=dots(pal.ink,5,1);cx.beginPath();cx.arc(cxp+2,cy+3,.085*W,0,7);cx.arc(cxp+.08*W+2,cy+.025*H+3,.07*W,0,7);cx.fill();cx.globalAlpha=1}}
+      cx.globalAlpha=.1*ca;cx.fillStyle=pal.ink;cx.beginPath();cx.arc(cxp+2,cy+3,.085*W,0,7);cx.arc(cxp+.08*W+2,cy+.025*H+3,.07*W,0,7);cx.fill();cx.globalAlpha=1}}
   // ferne Hügel
   const far=x=>H*.47+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012;
   const fN=Math.min(44,(LC.lay.forest||0)+Math.max(0,Math.floor((g-145)/5)));
   layer("far",[W,H,dpr,BL,fN,SEAS.snow,SEAS.winter].join(),dpr,BL,()=>{
   cx.fillStyle=pal.wege;cx.globalAlpha=.4;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
-  cx.globalAlpha=.55;cx.fillStyle=dots(pal.wege,6,1.2);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x)+3);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  screen(()=>{cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x)+3);cx.lineTo(W,H)},pal.wege,.85,.6,true);
   // Wald auf dem fernen Hügel: ab zwölf Bäumen und nach der Stufe Biotop
-  const fN0=fN;if(fN0){const rf=rnd("forest");cx.globalAlpha=.45;for(let i=0;i<fN0;i++){const x=W*(.03+rf()*.94),y=far(x)+H*(.025+rf()*.035),h=H*(.045+rf()*.03);crown(()=>cx.ellipse(x,y-h*.55,h*.26,h*.55,0,0,7),pal.wir,null,0,0,true)}cx.globalAlpha=1}
+  const fN0=fN;if(fN0){const rf=rnd("forest");cx.globalAlpha=.45;for(let i=0;i<fN0;i++){const x=W*(.03+rf()*.94),y=far(x)+H*(.025+rf()*.035),h=H*(.045+rf()*.03);crown(()=>cx.ellipse(x,y-h*.55,h*.26,h*.55,0,0,7),pal.wir,null,0,0,true)}cx.globalAlpha=1;
+    // Raster über dem ganzen Waldsaum (als eine Fläche), wird mit der Zahl der Bäume dichter
+    const rf2=rnd("forest");RA=Math.min(1,fN0/18);screen(()=>{for(let i=0;i<fN0;i++){const x=W*(.03+rf2()*.94),y=far(x)+H*(.025+rf2()*.035),h=H*(.045+rf2()*.03);cx.moveTo(x+1+h*.3,y-h*.45);cx.ellipse(x+1,y-h*.45,h*.3,h*.55,0,0,7)}},pal.ink,.75,.45);RA=1}
   snowCap(()=>{for(let x=0;x<=W;x+=6)x?cx.lineTo(x,far(x)+1.5):cx.moveTo(x,far(x)+1.5)},3*u);
   });
   // Reh am Waldrand (Stufe Wald)
   if(visit(8)){const x=W*.13,y=far(W*.13)+H*.04,k=u*.85;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1.4*k;[-5,-3,3,5].forEach(dx=>{cx.beginPath();cx.moveTo(x+dx*k,y-7*k);cx.lineTo(x+dx*k*1.1,y);cx.stroke()});cx.globalAlpha=1;
-    inkFill(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.8,.6);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
+    twoInk(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.3);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
     inkFill(()=>cx.ellipse(x-8.5*k,y-20*k,2.8*k,1.9*k,-.3,0,7),pal.essen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.ellipse(x-8*k,y-23*k,.9*k,2.2*k,-.3,0,7);cx.fill()}
   // naher Hügel: wird mit dem Wachstum grüner
   const fH=ff(4);
@@ -1099,10 +1114,10 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   cx.fillStyle=pal.wir;cx.globalAlpha=.12+.2*lush;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.09;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill()}
   snowCap(()=>{for(let x=0;x<=W;x+=5)x?cx.lineTo(x,ground(x)+1.5):cx.moveTo(x,ground(x)+1.5)},3.5*u);
-  cx.globalAlpha=.25+.35*lush;cx.fillStyle=dots(pal.wir,7,1.3);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.05);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  screen(()=>{cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.05);cx.lineTo(W,H)},pal.wir,1,(.25+.35*lush)*.8,true);
   // Hecke am Hang (Stufe Hecke)
   if(fH>0){const xe=W*(.01+.45*Math.max(.1,fH)),rh=rnd("hedge");cx.globalAlpha=.7;for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012,r=H*(.022+rh()*.014);inkFill(()=>cx.arc(x,y-r*.6,r,0,7),pal.wir,null)}cx.globalAlpha=1;
-    cx.fillStyle=dots(pal.wege,5,1.1);cx.beginPath();for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012;cx.moveTo(x+H*.03,y-H*.01);cx.arc(x,y-H*.01,H*.03,0,7)}cx.fill()}
+    RA=fH;screen(()=>{for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012;cx.moveTo(x+H*.03,y-H*.01);cx.arc(x,y-H*.01,H*.03,0,7)}},pal.wege,.95);RA=1}
   });
   // Bach (Stufe Streuobst)
   const fB=ff(5);if(fB>0){const [px,py]=POND(),P=[[W*.02,far(W*.02)+H*.04],[W*.16,H*.58],[W*.06,H*.68],[px-W*.06,py]],fr=Math.max(.12,fB),bz=t=>{const v=1-t;return [0,1].map(k=>v*v*v*P[0][k]+3*v*v*t*P[1][k]+3*v*t*t*P[2][k]+t*t*t*P[3][k])},seg=()=>{cx.beginPath();for(let q=0;q<=40;q++){const [x,y]=bz(q/40*fr);q?cx.lineTo(x,y):cx.moveTo(x,y)}};
@@ -1110,7 +1125,7 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
     if(!calm()){cx.strokeStyle=pal.sheet;cx.lineWidth=1;cx.setLineDash([2,9]);cx.lineDashOffset=-sec*12;seg();cx.stroke();cx.setLineDash([]);cx.lineDashOffset=0}}
   // Teich, sobald es etwas im Bereich Wohnen gibt
   const nW=LC.cl.filter(c=>c.a==="wohnen").reduce((s,c)=>s+c.n,0)+LC.tr.filter(c=>c.a==="wohnen").length*4;
-  if(nW||ff(5)>=1){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+(nW||10)*.03);inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5);
+  if(nW||ff(5)>=1){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+(nW||10)*.03);RA=Math.max(.15,Math.min(1,(f-.55)/.45));inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5,dR(py));RA=1;
     if(!calm()){cx.strokeStyle=pal.sheet;cx.globalAlpha=.6;cx.lineWidth=1;for(let i=0;i<3;i++){const ph=(sec*.25+i/3)%1;cx.beginPath();cx.ellipse(px+rx*.2*f,py,rx*f*ph*.6,ry*f*ph*.6,0,0,7);cx.stroke()}cx.globalAlpha=1}}
   // Weg zum Dorf, breiter mit jeder Begegnung
   const nMeet=LC.meet+Object.keys(S.base||{}).filter(id=>A[id]&&A[id].a==="wir").length*3;
@@ -1125,7 +1140,9 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   const fF=SEAS.bloom?ff(3):0;if(fF>0){const rf=rnd("flowers"),cols=[pal.essen,pal.dinge,pal.wohnen,pal.sheet,pal.wege];for(let i=0;i<Math.round(5+41*fF);i++){const x=rf()*W,y=Math.max(ground(x)+H*.04,H*(.68+rf()*.3));cx.fillStyle=cols[i%5];cx.beginPath();cx.arc(x,y,(1.3+rf()*1.1)*u,0,7);cx.fill()}}
   // Pflanzen und Bäume, von hinten nach vorn
   LC.lay.forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=rnd("sd"+it.k)();
-    if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth*[.72,.86,1][it.band||0],sw=calm()?0:Math.sin(sec*.6+seed*20)*1.2;tree(it.a,it.x,it.y,s,u,sw,seed);return}
+    if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth*[.72,.86,1][it.band||0];
+      /* Bäume wiegen sich nicht: unter einer bewegten Krone würde das feste Raster schwimmen. Ihr Raster kommt langsam (Wachstum, erste Wochen). */
+      RA=Math.max(.2,Math.min(1,(age-.6)/.25))*Math.max(0,(gr-.35)/.65);DEP=dR(it.y);tree(it.a,it.x,it.y,s,u,0,seed);RA=1;DEP=1.1;return}
     const lv=level(it.n),cnt=[1,2,3,4,5,7,9][lv],sz=[.6,.72,.8,.88,.96,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
     const kind=it.a==="essen"?(hashStr(it.k)%2?"sun":"wheat"):it.a;
     for(let i=0;i<cnt;i++){const ox=(r()-.5)*(10+cnt*4)*u,oy=(r()-.5)*5*u,x=it.x+ox,y=it.y+oy,hv=.75+r()*.5,sw=calm()?0:Math.sin(sec*1.1+x*.07)*1.6;
@@ -1134,11 +1151,12 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
       else if(kind==="dinge")mushroom(x,y,19*u*sz*hv,u*sz*1.25,sw*.2);else lantern(x,y,18*u*sz*hv,u*sz,sec,r())}});
   // Igel (Stufe Hain)
   if(SEAS.hog&&visit(6)){const x=W*.56+(calm()?0:Math.sin(sec*.15)*W*.03),y=H*.95,k=u*1.15;cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
-    inkFill(()=>cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0),pal.essen,pal.ink,.6,.6);inkFill(()=>{cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath()},pal.wohnen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
+    /* Igel: Punkte als Stacheln, wandern mit ihm (eigene Textur, kein Druckraster) */
+    cx.fillStyle=pal.essen;cx.beginPath();cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0);cx.fill();cx.save();cx.translate(x+.6,y+.6);screen(()=>cx.ellipse(0,0,8*k,5.5*k,0,Math.PI,0),pal.ink,1.15,1,false,true);cx.restore();inkFill(()=>{cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath()},pal.wohnen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
   // Reiher am Teich (Stufe Auenwald)
   if(visit(7)){const [px,py,rx]=POND(),x=px+rx*.55,y=py+H*.01,k=u*1.1;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1*k;cx.beginPath();cx.moveTo(x-1*k,y-10*k);cx.lineTo(x-1.5*k,y);cx.moveTo(x+1*k,y-10*k);cx.lineTo(x+1.6*k,y);cx.stroke();
     cx.lineWidth=1.6*k;cx.beginPath();cx.moveTo(x+4*k,y-14*k);cx.quadraticCurveTo(x+9*k,y-18*k,x+5*k,y-22*k);cx.stroke();cx.globalAlpha=1;
-    inkFill(()=>cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7),pal.wege,pal.wege,.8,.6);cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+5*k,y-23*k);cx.lineTo(x+11*k,y-21.5*k);cx.lineTo(x+5*k,y-21*k);cx.fill()}
+    twoInk(()=>cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7),pal.wege,pal.ink,.25);cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+5*k,y-23*k);cx.lineTo(x+11*k,y-21.5*k);cx.lineTo(x+5*k,y-21*k);cx.fill()}
   // Vögel für abgeschlossene Missionen
   const nb=Math.min(14,misDone());cx.strokeStyle=pal.ink;cx.lineWidth=1.6;cx.globalAlpha=.8;
   for(let i=0;i<nb;i++){const r=rnd("bird"+i),bx=((r()*W)+sec*(6+r()*6))%(W+40)-20,by=H*(.08+r()*.26)+Math.sin(sec+i)*2,s=4+r()*3,fl=calm()?0:Math.sin(sec*5+i)*1.5;
