@@ -856,7 +856,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="18.10.2026, 17:39";
+const BUILD="19.10.2026, 00:57";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -966,7 +966,8 @@ function seasonNow(d=new Date()){const m=d.getMonth(),day=d.getDate();return {bu
   snow:(m===0||m===1)&&hashStr("snow"+d.getFullYear()+"-"+m+"-"+day)%100<18}}
 let SEAS=seasonNow(),LC=null,landVis=true,io=null;const layers={};
 /* Unbewegte Ebenen (Hügel, Wald, Hecke) werden einmal gezeichnet und dann nur noch kopiert */
-function layer(name,key,dpr,mode,draw){let L=layers[name];if(!L||L.key!==key||L.c.width!==cv.width||L.c.height!==cv.height){const c=(L&&L.c)||document.createElement("canvas");c.width=cv.width;c.height=cv.height;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);const main=cx;cx=g;cx.globalCompositeOperation=mode;draw();cx.globalAlpha=1;cx.globalCompositeOperation="source-over";cx=main;L=layers[name]={key,c}}
+let ZOOM=1;
+function layer(name,key,dpr,mode,draw){if(ZOOM>1.001){const op=cx.globalCompositeOperation;cx.globalCompositeOperation=mode;draw();cx.globalAlpha=1;cx.globalCompositeOperation=op;return}let L=layers[name];if(!L||L.key!==key||L.c.width!==cv.width||L.c.height!==cv.height){const c=(L&&L.c)||document.createElement("canvas");c.width=cv.width;c.height=cv.height;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);const main=cx;cx=g;cx.globalCompositeOperation=mode;draw();cx.globalAlpha=1;cx.globalCompositeOperation="source-over";cx=main;L=layers[name]={key,c}}
   const op=cx.globalCompositeOperation;cx.globalCompositeOperation=name==="near"?"source-over":op;cx.drawImage(L.c,0,0,W,H);cx.globalCompositeOperation=op}
 const rnd=s=>{let h=hashStr(s);return ()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}};
 function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
@@ -1051,7 +1052,9 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   const BL=pal.blend==="screen"?"source-over":"multiply";cx.globalCompositeOperation=BL;
   if(!LC)LC={cl:landClumps(),tr:landTrees(),g:growth(),st:stage(),meet:meets(),key:""};
   if(LC.key!==W+"x"+H){LC.key=W+"x"+H;LC.lay=landLayout()}
-  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=LC.g,lush=Math.min(1,g/45),si=LC.st.i;
+  /* Kamera: am Anfang nah an den ersten Pflanzen, mit dem Wachstum fährt sie zurück, bis bei 30 Punkten die ganze Landschaft zu sehen ist */
+  ZOOM=1+.9*Math.max(0,1-LC.g/30);if(ZOOM>1.001){const cl=LC.lay.filter(i=>i.kind==="clump"),ax=cl.length?Math.min(W*.78,Math.max(W*.22,cl.reduce((q,i)=>q+i.x,0)/cl.length)):W*.5;cx.setTransform(dpr*ZOOM,0,0,dpr*ZOOM,dpr*ax*(1-ZOOM),dpr*H*(1-ZOOM))}
+  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=LC.g,lush=Math.min(1,Math.sqrt(g/40)),si=LC.st.i;
   /* Alles Neue kommt allmählich: ff(i) wächst von 0 (Stufe i erreicht) bis 1 (zwei Stufen später). Tiere sind anfangs nur manchmal zu Besuch. */
   const arr=i=>arrive&&arrive.i===i&&!calm()?ease((t-arrive.t)/1200):1;
   const ff=i=>{const a=STAGES[i][0];if(g<a)return 0;const b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.max(.15,Math.min(1,(g-a)/(b-a)))*arr(i)};
@@ -1123,7 +1126,7 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   // Pflanzen und Bäume, von hinten nach vorn
   LC.lay.forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=rnd("sd"+it.k)();
     if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth*[.72,.86,1][it.band||0],sw=calm()?0:Math.sin(sec*.6+seed*20)*1.2;tree(it.a,it.x,it.y,s,u,sw,seed);return}
-    const lv=level(it.n),cnt=[1,1,2,3,5,7,9][lv],sz=[.5,.55,.68,.82,.95,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
+    const lv=level(it.n),cnt=[1,2,3,4,5,7,9][lv],sz=[.6,.72,.8,.88,.96,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
     const kind=it.a==="essen"?(hashStr(it.k)%2?"sun":"wheat"):it.a;
     for(let i=0;i<cnt;i++){const ox=(r()-.5)*(10+cnt*4)*u,oy=(r()-.5)*5*u,x=it.x+ox,y=it.y+oy,hv=.75+r()*.5,sw=calm()?0:Math.sin(sec*1.1+x*.07)*1.6;
       if(kind==="sun")sunflower(x,y,28*u*sz*hv,u*sz,sw);else if(kind==="wheat")wheat(x,y,24*u*sz*hv,u*sz,sw);
@@ -1481,7 +1484,7 @@ function closeSheet(){CK=null;const sh=$("#sh");$("#layer").innerHTML="";if(sh){
   if(lastFocus&&lastFocus.isConnected){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null}
 
 /* ---------- Rendern ---------- */
-function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,year:viewYear}[tab]();const Mn=$("#main");Mn.classList.remove("anim");Mn.innerHTML=v;void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
+function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,year:viewYear}[tab]();const Mn=$("#main");const openF=[...Mn.querySelectorAll("details[open][id]")].map(d=>d.id);Mn.classList.remove("anim");Mn.innerHTML=v;openF.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true});if(confirmReset){const d=$("#aboutfold");if(d)d.open=true}void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
   $("#tl").innerHTML=`<b>${stage().n}</b>Stufe ${stage().i+1} von ${STAGES.length}`;fillBars();
   if(tab==="home")startLand();else if(raf){cancelAnimationFrame(raf);raf=0}}
 
