@@ -300,6 +300,26 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .landfoot{border-top:2px solid var(--ink);padding:6px 10px;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--muted);background:var(--sheet)}
 .inks:not(.six) .ink{font-size:12px;overflow-wrap:normal;hyphens:manual}
 
+.lprog{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.02em;color:var(--muted)}
+.lprog b{color:var(--ink);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+.lbar{flex:1;height:10px;border:1.5px solid var(--ink);background:var(--paper);position:relative;min-width:60px}
+.lbar i{position:absolute;inset:0 auto 0 0;background:var(--wir);background-image:radial-gradient(var(--wege) 1px,transparent 1.3px);background-size:4px 4px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.landfoot{display:flex;flex-direction:column;gap:5px}
+.lcnt{font-size:11px}
+.lvl{display:inline-flex;gap:2px;margin-top:3px;align-self:flex-start}
+.lvl b{width:9px;height:5px;background:var(--line)}
+.lvl b.on{background:var(--c)}
+.li .lvl{margin-top:0;align-self:center}
+.stg small{color:var(--muted)}
+.stg:not(.got) b{color:var(--muted)}
+.stg.got .aside{color:var(--ok);font-size:14px}
+.toast.rich{flex-wrap:wrap;max-width:min(420px,calc(100% - 32px))}
+.toast .tx{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.toast .tmain b{font-weight:700}
+.toast small{font-family:var(--f-mono);font-size:11.5px;opacity:.8}
+.tbar{display:block;height:5px;background:color-mix(in srgb,var(--paper) 25%,transparent);position:relative}
+.tbar i{position:absolute;inset:0 auto 0 0;background:var(--wir)}
+
 </style>
 </head><body>
 <div class="app" id="app">
@@ -675,7 +695,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="18.10.2026, 13:12";
+const BUILD="18.10.2026, 13:21";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -706,8 +726,16 @@ const weekStart=(t=now())=>{const d=new Date(dayStart(t));const wd=(d.getDay()+6
 const meets=()=>S.log.filter(e=>e.w).length;
 const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
 function growth(){const small=S.log.filter(e=>!e.g).length,big=S.log.filter(e=>e.g).length;return small+big*6+misDone()*4+Object.keys(S.base||{}).length*3}
-const STAGES=[[0,"Brache"],[1,"Keimling"],[10,"Wiese"],[30,"Hecke"],[70,"Hain"],[150,"Wald"],[300,"Biotop"]];
-function stage(){const g=growth();let s=STAGES[0],nx=null;for(let i=0;i<STAGES.length;i++){if(g>=STAGES[i][0]){s=STAGES[i];nx=STAGES[i+1]||null}}return {n:s[1],g,next:nx}}
+/* Stufen der Landschaft: jede bringt etwas Neues ins Bild */
+const STAGES=[[0,"Brache","Noch ist fast alles kahl."],[1,"Keimling","Die ersten Gräser keimen."],[8,"Wiese","Schmetterlinge sind eingezogen."],[20,"Blumenwiese","Wildblumen breiten sich am Boden aus."],[40,"Hecke","Am Hang wächst eine Hecke. Sie gibt Vögeln und Igeln Schutz."],[70,"Streuobst","Ein Bach fließt jetzt von den Hügeln zum Teich."],[110,"Hain","Ein Igel wohnt in deiner Landschaft."],[160,"Auenwald","Am Teich steht ein Reiher."],[230,"Wald","Am Waldrand zeigt sich ein Reh."],[320,"Biotop","Über deiner Landschaft steht ein Regenbogen."]];
+function stage(){const g=growth();let i=0;STAGES.forEach((s,k)=>{if(g>=s[0])i=k});return {i,n:STAGES[i][1],g,from:STAGES[i][0],next:STAGES[i+1]||null}}
+/* Stufen pro Gewohnheit */
+const LV=[1,3,7,15,30,60],level=n=>LV.filter(v=>n>=v).length,nextLv=n=>LV.find(v=>v>n);
+const SPEC={essen:k=>hashStr(k)%2?"Sonnenblumen":"Ähren",wohnen:()=>"Rohrkolben",wege:()=>"Lupinen",dinge:()=>"Pilze",wir:()=>"Laternen"};
+const species=(k,a)=>SPEC[a](k);
+function lvlBoxes(n,a){const l=level(n);return `<span class="lvl" ${da(a)} aria-label="Stufe ${l} von 6">${LV.map((_,i)=>`<b class="${i<l?"on":""}"></b>`).join("")}</span>`}
+function stageBar(st){if(!st.next)return `<div class="lprog"><span>Höchste Stufe erreicht. Deine Landschaft wächst trotzdem weiter.</span></div>`;const pct=Math.round((st.g-st.from)/(st.next[0]-st.from)*100);
+  return `<div class="lprog"><span class="lbar"><i style="width:${pct}%"></i></span><span>Nächste Stufe <b>${st.next[1]}</b> <span class="num">${st.g}/${st.next[0]}</span></span></div>`}
 
 /* ---------- Haptik und Stempel ---------- */
 let hapt=null;
@@ -720,8 +748,8 @@ function stamp(e,el,col){if(calm())return;const r=el.getBoundingClientRect(),x=e
   const mk=(bg,dx,dy,del)=>{const d=document.createElement("span");d.className="stamp";Object.assign(d.style,{left:(x-sz/2+dx)+"px",top:(y-sz/2+dy)+"px",width:sz+"px",height:sz+"px",background:bg});fx().appendChild(d);
     d.animate([{transform:"scale(.15) rotate(-8deg)",opacity:0},{transform:"scale(.85) rotate(0)",opacity:.75,offset:.25},{transform:"scale(1.05)",opacity:0}],{duration:900,delay:del,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>d.remove()};
   mk(col,-3,-2,0);mk(`radial-gradient(${col} 1.6px,transparent 2px) 0 0/7px 7px`,4,3,70)}
-function toast(msg,undo){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.innerHTML=`<span>${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
-  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(()=>t.remove(),undo?4200:2400)}
+function toast(msg,undo,rich){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast"+(rich?" rich":"");t.innerHTML=`<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
+  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(()=>t.remove(),rich?5200:undo?4200:2400)}
 
 /* ---------- Landschaft ---------- */
 let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0;
@@ -795,23 +823,35 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   if(cv.width!==Math.round(bw*dpr)||cv.height!==Math.round(bh*dpr)){cv.width=Math.round(bw*dpr);cv.height=Math.round(bh*dpr)}
   W=bw;H=bh;const u=H/245;cx.setTransform(dpr,0,0,dpr,0,0);cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);
   cx.globalCompositeOperation=pal.blend==="screen"?"screen":"multiply";
-  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=growth(),lush=Math.min(1,g/80);
+  const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=growth(),lush=Math.min(1,g/80),si=stage().i;
   const grow=it=>{if(!growStart||!(it.last>seenAt))return 1;return .35+.65*ease((t-growStart)/1400)};
   // Sonne
   const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
   cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=dots(pal.essen,6,1.4);cx.beginPath();cx.arc(sx+4,sy+3,H*.1,0,7);cx.fill();
+  // Regenbogen (Stufe Biotop)
+  if(si>=9){[pal.essen,pal.wohnen,pal.wir,pal.wege].forEach((c,i)=>{cx.strokeStyle=c;cx.globalAlpha=.45;cx.lineWidth=H*.03;cx.beginPath();cx.arc(W*.42,H*.62,W*.42-i*H*.03,Math.PI*1.05,Math.PI*1.95);cx.stroke()});cx.globalAlpha=1}
   // ferne Hügel
   const far=x=>H*.47+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012;
   cx.fillStyle=pal.wege;cx.globalAlpha=.4;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   cx.globalAlpha=.55;cx.fillStyle=dots(pal.wege,6,1.2);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x)+3);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  // Reh am Waldrand (Stufe Wald)
+  if(si>=8){const x=W*.13,y=far(W*.13)+H*.04,k=u*.85;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1.4*k;[-5,-3,3,5].forEach(dx=>{cx.beginPath();cx.moveTo(x+dx*k,y-7*k);cx.lineTo(x+dx*k*1.1,y);cx.stroke()});cx.globalAlpha=1;
+    inkFill(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.8,.6);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
+    inkFill(()=>cx.ellipse(x-8.5*k,y-20*k,2.8*k,1.9*k,-.3,0,7),pal.essen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.ellipse(x-8*k,y-23*k,.9*k,2.2*k,-.3,0,7);cx.fill()}
   // naher Hügel: wird mit dem Wachstum grüner
   cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalCompositeOperation=dark?"screen":"multiply";
   cx.fillStyle=pal.wohnen;cx.globalAlpha=.3*(1-lush);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();
   cx.fillStyle=pal.wir;cx.globalAlpha=.12+.2*lush;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   cx.globalAlpha=.25+.35*lush;cx.fillStyle=dots(pal.wir,7,1.3);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.05);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
+  // Hecke am Hang (Stufe Hecke)
+  if(si>=4){const rh=rnd("hedge");cx.globalAlpha=.7;for(let x=W*.01;x<W*.46;x+=W*.024){const y=ground(x)+H*.012,r=H*(.022+rh()*.014);inkFill(()=>cx.arc(x,y-r*.6,r,0,7),pal.wir,null)}cx.globalAlpha=1;
+    cx.fillStyle=dots(pal.wege,5,1.1);cx.beginPath();for(let x=W*.01;x<W*.46;x+=W*.024){const y=ground(x)+H*.012;cx.moveTo(x+H*.03,y-H*.01);cx.arc(x,y-H*.01,H*.03,0,7)}cx.fill()}
+  // Bach (Stufe Streuobst)
+  if(si>=5){const [px,py]=POND();cx.strokeStyle=pal.wege;cx.globalAlpha=.85;cx.lineWidth=3.2*u;cx.lineCap="round";cx.beginPath();cx.moveTo(W*.02,far(W*.02)+H*.04);cx.bezierCurveTo(W*.16,H*.58,W*.06,H*.68,px-W*.06,py);cx.stroke();cx.globalAlpha=1;
+    if(!calm()){cx.strokeStyle=pal.sheet;cx.lineWidth=1;cx.setLineDash([2,9]);cx.lineDashOffset=-sec*12;cx.beginPath();cx.moveTo(W*.02,far(W*.02)+H*.04);cx.bezierCurveTo(W*.16,H*.58,W*.06,H*.68,px-W*.06,py);cx.stroke();cx.setLineDash([]);cx.lineDashOffset=0}}
   // Teich, sobald es etwas im Bereich Wohnen gibt
   const nW=landClumps().filter(c=>c.a==="wohnen").reduce((s,c)=>s+c.n,0)+landTrees().filter(c=>c.a==="wohnen").length*4;
-  if(nW){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+nW*.03);inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5);
+  if(nW||si>=5){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+(nW||10)*.03);inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5);
     if(!calm()){cx.strokeStyle=pal.sheet;cx.globalAlpha=.6;cx.lineWidth=1;for(let i=0;i<3;i++){const ph=(sec*.25+i/3)%1;cx.beginPath();cx.ellipse(px+rx*.2*f,py,rx*f*ph*.6,ry*f*ph*.6,0,0,7);cx.stroke()}cx.globalAlpha=1}}
   // Weg zum Dorf, breiter mit jeder Begegnung
   const nMeet=meets()+Object.keys(S.base||{}).filter(id=>A[id]&&A[id].a==="wir").length*3;
@@ -822,19 +862,31 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(2,window.devicePixelRatio|
   const nG=Math.round(8+lush*70),rg=rnd("grass");cx.strokeStyle=pal.wir;cx.lineWidth=1*u;cx.globalAlpha=.85;
   for(let i=0;i<nG;i++){const x=rg()*W,y=Math.max(ground(x)+H*.02,H*(.66+rg()*.32)),h=(3+rg()*5)*u*(.6+lush*.6),sw=calm()?0:Math.sin(sec*1.3+x*.05)*1.2;cx.beginPath();cx.moveTo(x-2*u,y);cx.quadraticCurveTo(x-1,y-h*.6,x-2*u+sw,y-h);cx.moveTo(x,y);cx.quadraticCurveTo(x+1,y-h*.6,x+1.5*u+sw,y-h*1.1);cx.stroke()}
   cx.globalAlpha=1;
+  // Wildblumen am Boden (Stufe Blumenwiese)
+  if(si>=3){const rf=rnd("flowers"),cols=[pal.essen,pal.dinge,pal.wohnen,pal.sheet,pal.wege];for(let i=0;i<46;i++){const x=rf()*W,y=Math.max(ground(x)+H*.04,H*(.68+rf()*.3));cx.fillStyle=cols[i%5];cx.beginPath();cx.arc(x,y,(1.3+rf()*1.1)*u,0,7);cx.fill()}}
   // Pflanzen und Bäume, von hinten nach vorn
   landLayout().forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=it.r();
     if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth,sw=calm()?0:Math.sin(sec*.6+seed*20)*1.2;tree(it.a,it.x,it.y,s,u,sw,seed);return}
-    const n=it.n,cnt=Math.min(7,1+Math.floor(Math.log2(1+n)*1.6)),sz=Math.min(1.15,.5+.2*Math.log2(1+n))*gr*depth,r=rnd("p"+it.k);
+    const lv=level(it.n),cnt=[1,1,2,3,5,7,9][lv],sz=[.5,.55,.68,.82,.95,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
     const kind=it.a==="essen"?(hashStr(it.k)%2?"sun":"wheat"):it.a;
     for(let i=0;i<cnt;i++){const ox=(r()-.5)*(10+cnt*4)*u,oy=(r()-.5)*5*u,x=it.x+ox,y=it.y+oy,hv=.75+r()*.5,sw=calm()?0:Math.sin(sec*1.1+x*.07)*1.6;
       if(kind==="sun")sunflower(x,y,28*u*sz*hv,u*sz,sw);else if(kind==="wheat")wheat(x,y,24*u*sz*hv,u*sz,sw);
       else if(kind==="wohnen")cattail(x,y,22*u*sz*hv,u*sz,sw);else if(kind==="wege")lupine(x,y,24*u*sz*hv,u*sz,sw);
       else if(kind==="dinge")mushroom(x,y,19*u*sz*hv,u*sz*1.25,sw*.2);else lantern(x,y,18*u*sz*hv,u*sz,sec,r())}});
+  // Igel (Stufe Hain)
+  if(si>=6){const x=W*.56+(calm()?0:Math.sin(sec*.15)*W*.03),y=H*.95,k=u*1.15;cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
+    inkFill(()=>cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0),pal.essen,pal.ink,.6,.6);inkFill(()=>{cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath()},pal.wohnen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
+  // Reiher am Teich (Stufe Auenwald)
+  if(si>=7){const [px,py,rx]=POND(),x=px+rx*.55,y=py+H*.01,k=u*1.1;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1*k;cx.beginPath();cx.moveTo(x-1*k,y-10*k);cx.lineTo(x-1.5*k,y);cx.moveTo(x+1*k,y-10*k);cx.lineTo(x+1.6*k,y);cx.stroke();
+    cx.lineWidth=1.6*k;cx.beginPath();cx.moveTo(x+4*k,y-14*k);cx.quadraticCurveTo(x+9*k,y-18*k,x+5*k,y-22*k);cx.stroke();cx.globalAlpha=1;
+    inkFill(()=>cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7),pal.wege,pal.wege,.8,.6);cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+5*k,y-23*k);cx.lineTo(x+11*k,y-21.5*k);cx.lineTo(x+5*k,y-21*k);cx.fill()}
   // Vögel für abgeschlossene Missionen
   const nb=Math.min(14,misDone());cx.strokeStyle=pal.ink;cx.lineWidth=1.6;cx.globalAlpha=.8;
   for(let i=0;i<nb;i++){const r=rnd("bird"+i),bx=((r()*W)+sec*(6+r()*6))%(W+40)-20,by=H*(.08+r()*.26)+Math.sin(sec+i)*2,s=4+r()*3,fl=calm()?0:Math.sin(sec*5+i)*1.5;
     cx.beginPath();cx.moveTo(bx-s,by-fl);cx.quadraticCurveTo(bx-s*.4,by-s*.6,bx,by);cx.quadraticCurveTo(bx+s*.4,by-s*.6,bx+s,by-fl);cx.stroke()}
+  // Schmetterlinge (Stufe Wiese)
+  if(si>=2){const nbf=Math.min(5,1+Math.floor(si/2));for(let i=0;i<nbf;i++){const r=rnd("bf"+i),bx=W*(.1+r()*.8)+(calm()?0:Math.sin(sec*.4+i*2)*W*.06),by=H*(.62+r()*.22)+(calm()?0:Math.sin(sec*.9+i)*H*.03),fl=calm()?.8:.35+.65*Math.abs(Math.sin(sec*7+i*3)),k=u*1.2,c=[pal.dinge,pal.wege,pal.essen][i%3];
+    cx.fillStyle=c;cx.beginPath();cx.ellipse(bx-2.6*k*fl,by,2.8*k*fl,3.6*k,-.4,0,7);cx.ellipse(bx+2.6*k*fl,by,2.8*k*fl,3.6*k,.4,0,7);cx.fill();cx.fillStyle=pal.ink;cx.fillRect(bx-.5*k,by-2.5*k,1*k,5*k)}}
   cx.globalAlpha=1;cx.globalCompositeOperation="source-over"}
 function loop(t){raf=0;if(!cv||!document.body.contains(cv))return;if(t-lastT>40){lastT=t;drawLand(t)}if(!calm()&&!document.hidden&&tab==="home")raf=requestAnimationFrame(loop)}
 function startLand(){cv=$("#land");if(!cv)return;cx=cv.getContext("2d");readPal();
@@ -872,7 +924,7 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
   return `<section class="view">
    <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
      <div class="landcap"><span class="stage">${st.n}</span></div>
-     ${parts.length?`<div class="landfoot">${parts.join(" · ")}</div>`:""}${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
+     <div class="landfoot">${stageBar(st)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
    <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(0))}</b><span>gespart insgesamt</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
    ${nudge}
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
@@ -883,17 +935,22 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
    <div class="sec"><div class="sec-h"><h3>Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div>
   </section>`}
 const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"></i>`).join("")}<em>${EV[l]}</em></span>`;
-function landSheet(){const st=stage(),lc=landCounts();
-  sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>
-  <div class="list">${[["Pflanzengruppen","Jede Art von Schritt bekommt eine eigene Gruppe, die mit jeder Wiederholung dichter wird. Sonnenblumen und Ähren für Essen, Rohrkolben am Teich für Wohnen, Lupinen am Weg für Unterwegs, Pilze für Dinge.",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
-  ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Ein kleiner Schritt zählt 1, eine dauerhafte Änderung 6, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
+function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>A[c.k]).sort((a,b)=>b.n-a.n);
+  sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${stageBar(st)}
+  <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?x[2]:"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
+  ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"gehört schon dazu":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
+  <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
+  ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte: ein kleiner Schritt 1, eine dauerhafte Änderung 6, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
 
 /* ---------- Eintragen ---------- */
 function logAct(id,ev,el){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
   const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;S.log.push(e);save();
   if(el)stamp(ev,el,`var(--${a.a})`);buzz([8,40,8]);
-  render();toast(`Eingetragen${a.k?" · − "+kgTxt(a.k):""}`,()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()});checkMoments()}
+  render();toast(growMsg(e)+(a.k?`<small>Gespart: ${kgTxt(a.k)} CO₂e</small>`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments()}
+function growMsg(e){const k=clumpKey(e),c=landClumps().find(x=>x.k===k),n=c?c.n:1,sp=species(k,e.a),la=level(n),lb=level(n-1),st=stage();
+  let head;if(n===1)head=`Neu in deinem Biotop: <b>${sp}</b>`;else if(la>lb)head=`<b>${sp}</b> wachsen auf Stufe ${la} von 6`;else if(la>=6)head=`<b>${sp}</b> in voller Pracht`;else{const r=nextLv(n)-n;head=`<b>${sp}</b> · noch ${r}× bis Stufe ${la+1}`}
+  return `<span class="tmain">${head}</span>${st.next?`<span class="tbar"><i style="width:${Math.round((st.g-st.from)/(st.next[0]-st.from)*100)}%"></i></span><small>Bis ${st.next[1]}: ${st.g}/${st.next[0]}</small>`:""}`}
 function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);
   if(cur){sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhaft seit ${fmtDate(cur.ts)}</span></div><h2>${a.t}</h2><p>Diese Änderung wirkt seit ${Math.max(1,Math.round((now()-cur.ts)/DAY))} Tagen und hat bisher rund <b>${kgTxt(eKg(cur))}</b> gespart.</p><p class="caveat">${a.n}</p><div class="row"><button class="btn ghost" data-endbig="${cur.id}">Gilt nicht mehr</button></div><p class="muted" style="font-size:14px">Wenn du die Änderung zurücknimmst, bleibt die bisherige Einsparung im Logbuch. Der Baum bleibt stehen.</p>`);return}
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt(a.y)}`:""}.</p><p class="caveat">${a.n}</p>
@@ -917,11 +974,12 @@ function customSheet(){sheet(`<div class="label">Eigener Schritt</div><h2>Was ha
   <label class="label" for="ckg">Geschätzte Einsparung in kg, wenn du es weißt</label><input type="number" id="ckg" min="0" step="0.1" inputmode="decimal" placeholder="Leer lassen, wenn unklar">
   <p class="muted" style="font-size:13.5px">Bei einer dauerhaften Änderung gilt der Wert pro Jahr.</p>
   <div class="row"><button class="btn primary" id="csave">Eintragen</button></div>`)}
+const nAll=id=>S.log.filter(e=>e.act===id&&!e.g).length;
 function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now());
   const today=S.log.filter(e=>e.ts>=ts&&!e.g).slice().reverse();
   const cntToday=id=>S.log.filter(e=>e.act===id&&e.ts>=ts).length;
   const item=x=>{const big=x.g,cur=big&&activeBig().find(e=>e.act===x.id),c=!big&&cntToday(x.id);
-    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):"zählt als Begegnung")}</small>`}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
+    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):"zählt als Begegnung")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
   const hist=S.log.slice().reverse().slice(0,40);
   return `<section class="view">
    <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
@@ -1092,9 +1150,12 @@ const MOMENTS=[
  {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
 ];
 let momentOpen=false;
-function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();
-  setTimeout(()=>{momentOpen=true;const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true"><div class="mseal" aria-hidden="true"></div><span class="label">Ein Moment</span><h2>${m.t}</h2><p>${m.x}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);buzz([10,60,10,60,20]);
-    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false}})},600)}
+function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
+  if(st.i>S.stageSeen){S.stageSeen=st.i;S.moments["st"+st.i]=now();save();showMoment("Neue Stufe",st.n,STAGES[st.i][2]+(st.next?` Als Nächstes: ${st.next[1]}.`:""));return}
+  const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x)}
+function showMoment(lab,ttl,txt){momentOpen=true;
+  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2>${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);buzz([10,60,10,60,20]);
+    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d){d.remove();momentOpen=false;if(tab==="home"&&cv)readPal();setTimeout(checkMoments,400)}})},600)}
 
 /* ---------- Teilen ---------- */
 const appUrl=()=>location.href.split("#")[0];
@@ -1168,7 +1229,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
   if(t.id==="reset"){confirmReset=true;render();return}
   if(t.id==="resetno"){confirmReset=false;render();return}
-  if(t.id==="resetyes"){S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
+  if(t.id==="resetyes"){S={stageSeen:0,log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
   if(t.id==="welcomecheck"){closeSheet();checkSheet();return}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
@@ -1181,6 +1242,7 @@ function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();
 function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis","year"].includes(h)){tab=h;return}
   if(h.startsWith("b-")&&B[h.slice(2)]){cur=h.slice(2);if(!S.read[cur])S.read[cur]=now();tab="know";ktab="bites";return}
   if(h.startsWith("m-")&&M[h.slice(2)]){invited=h.slice(2);tab="mis";setTimeout(()=>misSheet(invited),300)}}
+if(S.stageSeen==null){S.stageSeen=stage().i;save()}
 if(location.hash)fromHash();
 render();setTimeout(welcome,700);
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;fetch(location.pathname,{cache:"reload"}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD="([^"]+)"/);if(!m||m[1]===BUILD)return;let dn=null;try{dn=sessionStorage.getItem("bt-upd")}catch(e){}if(dn===m[1])return;const go=()=>{if($("#layer").innerHTML||momentOpen){setTimeout(go,4000);return}try{sessionStorage.setItem("bt-upd",m[1])}catch(e){}location.reload()};go()}).catch(()=>{})}
