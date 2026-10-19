@@ -385,6 +385,10 @@ nav.tabs button[aria-current="page"]::before{display:none}
 .toast{display:flex;align-items:center;gap:10px}
 @media (prefers-reduced-motion:reduce){.fill-in[aria-pressed="true"]{animation:none;background-image:none}.okmark{animation:none;stroke-dashoffset:0}.tabdot.ready,.toggle,.toggle .knob{transition:none}}
 input.hap{touch-action:pan-y}
+/* Stufen-Karte: unten, damit die Landschaft sichtbar bleibt; das neue Element als Vignette */
+.moment.stagecard{background:color-mix(in srgb,var(--paper) 18%,transparent);place-items:end center;padding-bottom:calc(158px + env(safe-area-inset-bottom,0px))}
+.moment.stagecard .mcard{gap:8px;padding:18px 20px 18px}
+.mvig{width:120px;height:80px;border:2px solid var(--ink);background:var(--sheet);display:block}
 
 </style>
 </head><body>
@@ -857,7 +861,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 10:33";
+const BUILD="19.10.2026, 10:58";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -897,7 +901,20 @@ function ptsOf(e){if(e.g)return (e.y||0)>=1000?8:6;const k=e.k||0;return k>20?3:
 function growthRaw(){return S.log.reduce((s,e)=>s+ptsOf(e),0)+misDone()*4+Object.keys(S.base||{}).length*3}
 function growth(){return Math.max(growthRaw(),S.gFloor||0)}
 /* Stufen der Landschaft: jede bringt etwas Neues ins Bild */
-const STAGES=[[0,"Brache","Noch ist fast alles kahl."],[1,"Keimling","Die ersten Gräser keimen."],[5,"Wiese","Ein erster Schmetterling ist da. Mit der Zeit werden es mehr."],[12,"Blumenwiese","Die ersten Wildblumen blühen. Mit jedem Schritt kommen welche dazu."],[22,"Hecke","Am Hang wachsen die ersten Sträucher. Nach und nach wird daraus eine Hecke."],[35,"Streuobst","Am Hügel entspringt eine Quelle. Mit der Zeit wird daraus ein Bach bis zum Teich."],[52,"Hain","Ab und zu schaut ein Igel vorbei. Wenn die Landschaft weiter wächst, bleibt er."],[75,"Auenwald","Ein Reiher besucht manchmal den Teich."],[105,"Wald","Am Waldrand zeigt sich hin und wieder ein Reh."],[145,"Biotop","Nach einem Schauer steht ein Regenbogen über deiner Landschaft. Du siehst ihn, wenn die Sonne tiefer als 42 Grad steht: morgens, abends und im Winterhalbjahr fast den ganzen Tag."]];
+const STAGES=[[0,"Brache","Noch ist hier fast alles kahl.",null,"die ersten Halme"],
+ [1,"Keimling","Die ersten Halme keimen.",null,"ein Schmetterling|ein Stieglitz"],
+ [5,"Wiese","Ein Schmetterling ist da.","Ein Stieglitz sucht Samen in den Halmen.","Wildblumen|Samenstände"],
+ [12,"Blumenwiese","Am Weg blühen fünf Wildblumen.","Am Weg stehen fünf Samenstände.","eine Hecke"],
+ [22,"Hecke","Am Hang wachsen vier Sträucher.","Am Hang stehen vier kahle Sträucher mit Hagebutten.","eine Quelle"],
+ [35,"Quelle","Am Hang entspringt eine Quelle. Ihr Bach fließt zum Teich.",null,"ein Igel"],
+ [52,"Unterholz","Unter der Hecke wohnt ein Igel.","Im Laubhaufen unter der Hecke schläft ein Igel.","ein Reiher"],
+ [75,"Ufer","Ein Reiher steht am Teich.",null,"ein Waldrand"],
+ [105,"Waldrand","Am fernen Hügel beginnt ein Wald. Ein Reh steht am Rand.",null,"der Wald über dem Hügel"],
+ [145,"Biotop","Ein Schauer zieht durch, danach steht ein Regenbogen. Der Wald wächst weiter über den Hügel.","Der Wald wächst weiter über den ganzen Hügel.",null]];
+/* Was die Stufe gerade zeigt, hängt von der Jahreszeit ab: Text und Bild bleiben deckungsgleich */
+const coldNow=()=>{const m=new Date().getMonth();return m>=10||m<=1};
+function stText(i){const st=STAGES[i],cold=coldNow();if(i===9){const e=solarElev();return (e>.5&&e<42&&!seasonNow().snow&&!calm())?st[2]:st[3]}if(i===6)return seasonNow().hog?st[2]:st[3];return cold&&st[3]?st[3]:st[2]}
+function stHint(i){const h=STAGES[i]&&STAGES[i][4];if(!h)return null;const [a,b]=h.split("|");return b&&coldNow()?b:a}
 function stage(){const g=growth();let i=0;STAGES.forEach((s,k)=>{if(g>=s[0])i=k});return {i,n:STAGES[i][1],g,from:STAGES[i][0],next:STAGES[i+1]||null}}
 /* Stufen pro Gewohnheit */
 const LV=[1,2,4,7,12,20],level=n=>LV.filter(v=>n>=v).length,nextLv=n=>LV.find(v=>v>n);
@@ -966,12 +983,12 @@ function toast(msg,undo,ok){document.querySelectorAll(".toast").forEach(x=>x.rem
   if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(out,undo?4200:2600)}
 
 /* ---------- Landschaft ---------- */
-let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0;
+let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0,rbWant=false,ring=null,ANCH={};
 /* Sonnenhöhe in Grad für Mitteldeutschland (51° N, 10° O), genau genug für den Regenbogen */
 function solarElev(d=new Date()){const lat=51*Math.PI/180,doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5),dec=23.44*Math.PI/180*Math.sin(2*Math.PI*(284+doy)/365),
   h=d.getUTCHours()+d.getUTCMinutes()/60+10/15,ha=(h-12)*15*Math.PI/180;return Math.asin(Math.sin(lat)*Math.sin(dec)+Math.cos(lat)*Math.cos(dec)*Math.cos(ha))*180/Math.PI}
 /* Jahreszeiten: Herbstlaub ab Mitte Oktober, Winter kühler, Frühling mit Blüten. Schnee nur an einzelnen, festen Tagen im Januar und Februar. */
-function seasonNow(d=new Date()){const m=d.getMonth(),day=d.getDate();return {bugs:m>=2&&m<=9,bloom:m>=2&&m<=10,hog:m>=3&&m<=9,autumn:m===9?Math.max(0,Math.min(1,(day-12)/18)):m===10?1:0,winter:m===11||m<=1?1:0,spring:(m===2&&day>=15)||m===3?1:0,
+function seasonNow(d=new Date()){const m=d.getMonth(),day=d.getDate();return {bugs:m>=2&&m<=9,bloom:m>=3&&m<=8?1:(m===2||m===9)?.5:0,hog:m>=3&&m<=9,autumn:m===9?Math.max(0,Math.min(1,(day-12)/18)):m===10?1:0,winter:m===11||m<=1?1:0,spring:(m===2&&day>=15)||m===3?1:0,
   snow:(m===0||m===1)&&hashStr("snow"+d.getFullYear()+"-"+m+"-"+day)%100<18}}
 let SEAS=seasonNow(),LC=null,landVis=true,io=null;const layers={};
 /* Unbewegte Ebenen (Hügel, Wald, Hecke) werden einmal gezeichnet und dann nur noch kopiert */
@@ -1039,7 +1056,7 @@ function lantern(x,y,h,u,sec,seed){const fl=calm()?1:.78+.22*Math.sin(sec*2.2+se
 function tint(path){if(SEAS.autumn>0){cx.fillStyle=pal.essen;cx.globalAlpha=.5*SEAS.autumn;cx.beginPath();path();cx.fill();cx.globalAlpha=1}
   if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.22;cx.beginPath();path();cx.fill();cx.globalAlpha=1}}
 /* Laubbäume sind im Winter kahl: nur ein Hauch der Krone, dazu Äste. Nadelwald (ever) bleibt grün. */
-function crown(path,col,dot,dx,dy,ever,md){if(SEAS.winter&&!ever){const a=cx.globalAlpha;cx.globalAlpha=a*.22;inkFill(path,col,null);cx.globalAlpha=a;return}inkFill(path,col,md>=15?dot:null,dx,dy);tint(path)}
+function crown(path,col,dot,dx,dy,ever,md){if(SEAS.winter&&!ever){const a=cx.globalAlpha;cx.globalAlpha=a*.15;inkFill(path,col,null);cx.globalAlpha=a;return}inkFill(path,col,md>=15?dot:null,dx,dy);tint(path)}
 function snowCap(path,w){if(!SEAS.snow)return;cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.blend==="screen"?"#DCE3EA":"#FFFFFF";cx.globalAlpha=.95;cx.lineWidth=w;cx.lineCap="round";cx.beginPath();path();cx.stroke();cx.restore()}
 function tree(a,x,y,s,u,sw,seed){const r=s*u;
   if(a==="wir"){const hs=r*1.15;inkFill(()=>cx.rect(x-hs*.62,y-hs,hs*1.24,hs),pal.wohnen,hs>=15?pal.essen:null,1.5,1);
@@ -1048,17 +1065,50 @@ function tree(a,x,y,s,u,sw,seed){const r=s*u;
     cx.fillStyle=pal.wege;cx.globalAlpha=.8;cx.fillRect(x+hs*.24,y-hs*.78,hs*.22,hs*.2);cx.globalAlpha=1;return}
   const trunkH={essen:1.4,wohnen:1.6,wege:.9,dinge:1.3}[a];stem(x,y,x+sw*.3,y-r*trunkH,Math.max(2,r*.16));
   const tx=x+sw,ty=y-r*trunkH;
-  if(SEAS.winter){cx.strokeStyle=pal.ink;cx.globalAlpha=.6;cx.lineWidth=Math.max(1,r*.07);cx.lineCap="round";const rb=rnd("br"+seed);for(let i=0;i<6;i++){const ang=-Math.PI/2+(rb()-.5)*2.2,len=r*(.6+rb()*.7),mx=tx+Math.cos(ang)*len*.5,my=ty-r*.3+Math.sin(ang)*len*.5;cx.beginPath();cx.moveTo(tx,ty);cx.quadraticCurveTo(mx,my,tx+Math.cos(ang)*len,ty-r*.4+Math.sin(ang)*len);cx.stroke()}cx.globalAlpha=1}
+  if(SEAS.winter){cx.strokeStyle=pal.ink;cx.globalAlpha=.7;cx.lineWidth=Math.max(1.2,r*.08);cx.lineCap="round";const rb=rnd("br"+seed);for(let i=0;i<6;i++){const ang=-Math.PI/2+(rb()-.5)*2.2,len=r*(.6+rb()*.7),mx=tx+Math.cos(ang)*len*.5,my=ty-r*.3+Math.sin(ang)*len*.5;cx.beginPath();cx.moveTo(tx,ty);cx.quadraticCurveTo(mx,my,tx+Math.cos(ang)*len,ty-r*.4+Math.sin(ang)*len);cx.stroke()}cx.globalAlpha=1}
   if(a==="essen"){crown(()=>cx.arc(tx,ty-r*.75,r,0,7),pal.wir,pal.wege,2,1.5,0,2*r);for(let i=0;i<6;i++){const ang=seed*7+i*1.1,rr=r*(.35+((i*37)%10)/16);cx.fillStyle=pal.essen;cx.beginPath();cx.arc(tx+Math.cos(ang)*rr,ty-r*.75+Math.sin(ang)*rr,Math.max(1.6,r*.13),0,7);cx.fill()}}
   else if(a==="wohnen"){crown(()=>cx.ellipse(tx,ty-r*.4,r*1.35,r*.62,0,0,7),pal.wohnen,pal.wir,2,1.5,0,1.24*r)}
   else if(a==="wege"){crown(()=>cx.ellipse(tx,ty-r*1.3,r*.5,r*1.5,sw*.01,0,7),pal.wege,pal.wir,1.5,1.5,0,r)}
   else{const pts=[[0,-.9],[-.65,-.45],[.65,-.5],[-.3,-1.35],[.38,-1.25]];pts.forEach(([px,py])=>crown(()=>cx.arc(tx+px*r,ty+py*r*.8,r*.52,0,7),pal.dinge,null));if(!SEAS.winter&&1.7*r>=15)screen(()=>cx.arc(tx+1.5,ty-r*.75,r*.85,0,7),pal.wohnen,DEP)}
   if(SEAS.spring&&a!=="wege"){const rb=rnd("bl"+seed);for(let i=0;i<7;i++){cx.fillStyle=i%2?pal.dinge:pal.sheet;cx.beginPath();cx.arc(tx+(rb()-.5)*r*1.6,ty-r*(.4+rb()*.9),Math.max(1.2,r*.08),0,7);cx.fill()}}}
-function landLayout(){const cl=(LC?LC.cl:landClumps()).map(c=>{const r=rnd("cl"+c.k);let x,y;
+/* ---------- Elemente der Stufen ---------- */
+const LIGHT=()=>pal.blend==="screen"?"#DCE3EA":"#FFFFFF";
+function drawTuft(x,y,k,muted){cx.strokeStyle=pal.wir;cx.lineWidth=1.2*k;cx.lineCap="round";cx.globalAlpha=muted?.6:.95;[[-4,-.4],[-2,-.15],[0,0],[2,.2],[4,.4]].forEach(([dx,b],i)=>{const h=(7+(i%2)*2)*k;cx.beginPath();cx.moveTo(x+dx*k,y);cx.quadraticCurveTo(x+dx*k,y-h*.6,x+dx*k+b*5*k,y-h);cx.stroke()});cx.globalAlpha=1}
+function drawButterfly(x,y,k,fl,col){cx.fillStyle=col;cx.beginPath();cx.ellipse(x-2.6*k*fl,y,2.8*k*fl,3.6*k,-.4,0,7);cx.ellipse(x+2.6*k*fl,y,2.8*k*fl,3.6*k,.4,0,7);cx.fill();cx.fillStyle=pal.ink;cx.fillRect(x-.5*k,y-2.5*k,1*k,5*k)}
+function drawStieglitz(x,y,k){cx.strokeStyle=pal.ink;cx.lineWidth=.8*k;cx.globalAlpha=.8;cx.beginPath();cx.moveTo(x-1*k,y);cx.lineTo(x-1.4*k,y+3*k);cx.moveTo(x+1*k,y);cx.lineTo(x+1.2*k,y+3*k);cx.stroke();cx.globalAlpha=1;
+  cx.fillStyle=pal.essen;cx.globalAlpha=.55;cx.beginPath();cx.ellipse(x,y-2*k,4*k,2.6*k,-.15,0,7);cx.fill();cx.globalAlpha=1;cx.fillStyle=pal.ink;cx.beginPath();cx.moveTo(x-3*k,y-2.6*k);cx.lineTo(x-7*k,y-1*k);cx.lineTo(x-3*k,y-1.2*k);cx.fill();
+  cx.fillStyle=pal.wohnen;cx.fillRect(x-2*k,y-2.6*k,3*k,1*k);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+3*k,y-4.4*k,1.9*k,0,7);cx.fill();cx.fillStyle=pal.essen;cx.beginPath();cx.arc(x+4.2*k,y-4.4*k,1.1*k,0,7);cx.fill()}
+function drawFlower(x,y,k,col,bloom){cx.strokeStyle=bloom?pal.wir:pal.ink;cx.lineWidth=1*k;cx.globalAlpha=bloom?.9:.65;cx.beginPath();cx.moveTo(x,y);cx.quadraticCurveTo(x+1*k,y-5*k,x+.5*k,y-10*k);cx.stroke();cx.globalAlpha=1;
+  if(bloom){cx.fillStyle=col;for(let a=0;a<5;a++){const g=a/5*Math.PI*2;cx.beginPath();cx.arc(x+.5*k+Math.cos(g)*1.6*k,y-10*k+Math.sin(g)*1.6*k,1.2*k,0,7);cx.fill()}cx.fillStyle=pal.wohnen;cx.beginPath();cx.arc(x+.5*k,y-10*k,.9*k,0,7);cx.fill()}
+  else{cx.fillStyle=pal.essen;cx.beginPath();cx.arc(x+.5*k,y-10*k,2*k,0,7);cx.fill();cx.fillStyle=pal.ink;cx.globalAlpha=.45;cx.beginPath();cx.arc(x+.5*k,y-10*k,2*k,0,7);cx.fill();cx.globalAlpha=1}}
+function drawShrub(x,y,r,winter,seed){if(winter){cx.globalAlpha=.25;cx.fillStyle=pal.wir;cx.beginPath();cx.arc(x,y-r*.6,r,0,7);cx.fill();cx.globalAlpha=.55;cx.strokeStyle=pal.ink;cx.lineWidth=Math.max(.8,r*.08);const rb=rnd("tw"+seed);cx.beginPath();for(let i=0;i<7;i++){const a=-Math.PI*(.1+rb()*.8),l=r*(.6+rb()*.5);cx.moveTo(x,y);cx.lineTo(x+Math.cos(a)*l,y-r*.2+Math.sin(a)*l)}cx.stroke();cx.globalAlpha=1;
+    cx.fillStyle=pal.essen;for(let i=0;i<2;i++){const a=-Math.PI*(.15+rb()*.7),l=r*(.4+rb()*.6);cx.beginPath();cx.arc(x+Math.cos(a)*l,y-r*.4+Math.sin(a)*l,1,0,7);cx.fill()}return}
+  cx.globalAlpha=.75;cx.fillStyle=pal.wir;cx.beginPath();cx.arc(x,y-r*.6,r,0,7);cx.fill();cx.globalAlpha=1}
+function drawSpring(x,y,k){cx.fillStyle=pal.wege;cx.beginPath();cx.ellipse(x,y,4*k,2.5*k,0,0,7);cx.fill();cx.strokeStyle=pal.ink;cx.globalAlpha=.6;cx.lineWidth=.8*k;cx.beginPath();cx.ellipse(x,y,4.6*k,3*k,0,Math.PI*.05,Math.PI*.95);cx.stroke();cx.globalAlpha=1}
+function drawLeafPile(x,y,k,snow){const r=rnd("leaf");for(let i=0;i<9;i++){cx.fillStyle=[pal.essen,pal.wohnen,pal.dinge][i%3];cx.globalAlpha=.75;cx.beginPath();cx.ellipse(x+(r()-.5)*15*k,y-r()*5*k,3*k,1.5*k,r()*3,0,7);cx.fill()}cx.globalAlpha=1;
+  if(snow){cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=LIGHT();cx.lineWidth=1.6*k;cx.beginPath();cx.ellipse(x,y-4*k,8*k,3*k,0,Math.PI*1.1,Math.PI*1.9);cx.stroke();cx.restore()}}
+function drawHedgehog(x,y,k){cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
+  cx.fillStyle=pal.essen;cx.beginPath();cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0);cx.fill();cx.save();cx.translate(x+.6,y+.6);screen(()=>cx.ellipse(0,0,8*k,5.5*k,0,Math.PI,0),pal.ink,1.15,1,false,true);cx.restore();
+  cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath();cx.fill();cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
+function drawHeron(x,y,k){cx.strokeStyle=pal.ink;cx.globalAlpha=.85;cx.lineWidth=1*k;cx.beginPath();cx.moveTo(x-1*k,y-10*k);cx.lineTo(x-1.5*k,y);cx.moveTo(x+1*k,y-10*k);cx.lineTo(x+1.6*k,y);cx.stroke();
+  cx.lineWidth=1.6*k;cx.beginPath();cx.moveTo(x+4*k,y-14*k);cx.quadraticCurveTo(x+9*k,y-18*k,x+5*k,y-22*k);cx.stroke();cx.globalAlpha=1;
+  twoInk(()=>cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7),pal.wege,pal.ink,.25);if(pal.blend==="screen"){cx.strokeStyle=pal.ink;cx.lineWidth=1;cx.beginPath();cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7);cx.stroke()}
+  cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+5*k,y-23*k);cx.lineTo(x+11*k,y-21.5*k);cx.lineTo(x+5*k,y-21*k);cx.fill()}
+function drawDeer(x,y,k){cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1.4*k;[-5,-3,3,5].forEach(dx=>{cx.beginPath();cx.moveTo(x+dx*k,y-7*k);cx.lineTo(x+dx*k*1.1,y);cx.stroke()});cx.globalAlpha=1;
+  twoInk(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.3);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
+  inkFill(()=>cx.ellipse(x-8.5*k,y-20*k,2.8*k,1.9*k,-.3,0,7),pal.essen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.ellipse(x-8*k,y-23*k,.9*k,2.2*k,-.3,0,7);cx.fill()}
+function drawConifer(x,y,h){cx.fillStyle=pal.wir;cx.beginPath();cx.moveTo(x,y-h);cx.lineTo(x+h*.28,y-h*.1);cx.lineTo(x-h*.28,y-h*.1);cx.closePath();cx.fill()}
+const FLOWCOL=()=>[pal.essen,pal.dinge,pal.wohnen,pal.wege];
+/* Sperrzonen: hier stehen die Elemente der Stufen, Pflanzengruppen weichen aus (Anteile von Breite und Höhe) */
+const KEEP=[[.42,.58,.8,.93],[.56,.68,.82,.96],[.28,.44,.6,.78],[.14,.26,.6,.8],[.03,.14,.54,.66]];
+const blocked=(x,y)=>KEEP.some(([a,b,c,d])=>x>=a*W&&x<=b*W&&y>=c*H&&y<=d*H);
+function landLayout(){const cl=(LC?LC.cl:landClumps()).map(c=>{const r=rnd("cl"+c.k);let x,y,tries=0;
+    do{
     if(c.a==="wohnen"){const [px,py,rx,ry]=POND(),ang=Math.PI*(.05+r()*.9);x=px+Math.cos(ang)*rx*(1.05+r()*.3)*(r()<.5?-1:1);y=py+Math.sin(ang)*ry*1.2+H*.01}
     else if(c.a==="wege"){const t=.12+r()*.8,[px,py]=pathPt(t),side=r()<.5?-1:1;x=px+side*W*(.035+r()*.03);y=py+side*H*.005}
     else if(c.a==="wir"){x=W*(ZONE.wir[0]+r()*(ZONE.wir[1]-ZONE.wir[0]));y=ground(x)+H*(.07+r()*.16)}
     else{const z=ZONE[c.a];x=W*(z[0]+r()*(z[1]-z[0]));y=H*(.8+r()*.17)}
+    }while(blocked(x,y)&&++tries<10);
     return {...c,x,y,r,kind:"clump"}});
   const placed=[],tr=[];let forest=0;
   (LC?LC.tr:landTrees()).slice().sort((a,b)=>(a.ts||0)-(b.ts||0)).forEach(t=>{if(tr.length>=12&&t.a!=="wir"){forest++;return}
@@ -1076,108 +1126,129 @@ function drawLand(t){if(!cx)return;const dpr=Math.min(3,window.devicePixelRatio|
   /* Kamera: am Anfang nah an den ersten Pflanzen, mit dem Wachstum fährt sie zurück, bis bei 30 Punkten die ganze Landschaft zu sehen ist */
   ZOOM=1;if(ZOOM>1.001){const cl=LC.lay.filter(i=>i.kind==="clump"),ax=cl.length?Math.min(W*.78,Math.max(W*.22,cl.reduce((q,i)=>q+i.x,0)/cl.length)):W*.5;cx.setTransform(dpr*ZOOM,0,0,dpr*ZOOM,dpr*ax*(1-ZOOM),dpr*H*(1-ZOOM))}
   const dark=pal.blend==="screen",sec=calm()?0:t/1000,g=LC.g,lush=Math.min(1,Math.sqrt(g/40)),si=LC.st.i;
-  /* Alles Neue kommt allmählich: ff(i) wächst von 0 (Stufe i erreicht) bis 1 (zwei Stufen später). Tiere sind anfangs nur manchmal zu Besuch. */
-  const arr=i=>arrive&&arrive.i===i&&!calm()?ease((t-arrive.t)/1200):1;
-  const ff=i=>{const a=STAGES[i][0];if(g<a)return 0;const b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.max(.15,Math.min(1,(g-a)/(b-a)))*arr(i)};
-  const visit=i=>{if(si<i)return 0;if(arrive&&arrive.i===i&&!calm())return t>arrive.t+700?1:0;const f=ff(i);if(f>=1)return 1;const m=S.moments["st"+i];if(m&&now()-m<18e5)return 1;return (hashStr("v"+i+"-"+Math.floor(now()/3e5))%100)/100<.4+.6*f?1:0};
+  /* Jede Stufe zeigt ihr Element sofort in Mindestgröße. Danach wächst nur Menge oder Ausdehnung (ff: 0 an der Schwelle bis 1 zwei Stufen später).
+     Tiere bleiben dauerhaft. Bei einem Aufstieg wächst das Neue 1,2 s lang von 40 % auf volle Größe ein. */
+  const av=i=>arrive&&arrive.i===i&&!calm()?ease((t-arrive.t)/1200):1;
+  const sc=i=>{const a=av(i);return a<=0?0:.4+.6*a};
+  const ff=i=>{const a=STAGES[i][0];if(g<a)return 0;const b=i+2<STAGES.length?STAGES[i+2][0]:a*1.6;return Math.min(1,(g-a)/(b-a))};
+  const has=i=>si>=i&&sc(i)>0;
   const grow=it=>{if(!growStart||!(it.last>seenAt))return 1;return .35+.65*ease((t-growStart)/1400)};
+  const cold=coldNow(),M0=new Date().getMonth();ANCH={};
   // Sonne und Regenbogen. Physik: Ein Regenbogen steht immer gegenüber der Sonne, sein Mittelpunkt liegt so weit unter dem Horizont,
   // wie die Sonne darüber steht. Der Hauptbogen hat 42 Grad Radius (außen rot, innen violett), der Nebenbogen 51 Grad mit umgekehrten Farben.
   // Er entsteht nur, wenn die Sonne höher als 0 und tiefer als 42 Grad steht. Während er zu sehen ist, steht die Sonne also hinter uns.
-  const elev=solarElev(),rbOn=si>=9&&elev>.5&&elev<42&&!SEAS.snow;
+  /* Der Regenbogen ist ein Ereignis: beim Aufstieg und höchstens einmal am Tag nach einem Schauer, 20 s lang, dann kommt die Sonne zurück */
+  const elev=solarElev(),rbOk=si>=9&&elev>.5&&elev<42&&!SEAS.snow&&!calm();
+  if(rbOk&&!rbStart&&rbWant&&!(momentOpen||$("#layer").innerHTML)){rbStart=t;rbWant=false;S.rbDay=todayKey();save()}
+  if(rbStart&&(t-rbStart)/1000>22)rbStart=0;
+  const rbOn=rbOk&&rbStart>0,rbFade=rbOn?Math.min(1,Math.max(0,(22-(t-rbStart)/1000)/2)):0;
   /* Bei starkem Zoom blickt die Kamera auf den Boden, die Sonne liegt dann außerhalb des Bildes */
-  if(!rbOn&&ZOOM<1.2){cx.save();cx.setTransform(dpr,0,0,dpr,0,0);const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
-    cx.fillStyle=pal.wohnen;cx.globalAlpha=dark?.55:.9;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=1;screen(()=>cx.arc(sx+4,sy+3,H*.1,0,7),pal.essen,1.2,1,true);cx.restore()}
-  else if(rbStart||!(momentOpen||$("#layer").innerHTML)){if(!rbStart)rbStart=t;const tt=calm()?99:(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
+  if(!rbOn||rbFade<1){cx.save();cx.setTransform(dpr,0,0,dpr,0,0);const hr=new Date().getHours(),sx=W*(.12+.76*Math.min(1,Math.max(0,(hr-6)/14))),sy=H*.19+Math.abs(hr-13)*H*.011;
+    const sa=rbOn?1-rbFade:1;cx.fillStyle=pal.wohnen;cx.globalAlpha=(dark?.55:.9)*sa;cx.beginPath();cx.arc(sx,sy,H*.1,0,7);cx.fill();cx.globalAlpha=sa;screen(()=>cx.arc(sx+4,sy+3,H*.1,0,7),pal.essen,1.2,1,true);cx.globalAlpha=1;cx.restore()}
+  if(rbOn){const tt=(t-rbStart)/1000,K=W/72,hy=H*.58,ccx=W*.5,ccy=hy+elev*K;
     // Der Schauer zieht von links nach rechts durch, der Bogen erscheint dort, wo der Regen schon fällt
     const cxp=-W*.25+(tt/7)*W*1.6,xr=cxp+W*.12,sweep=Math.min(1,Math.max(0,(xr+W*.2)/(W*1.3))),endA=R=>tt>8||calm()?2*Math.PI:2*Math.PI-Math.acos(Math.max(-1,Math.min(1,(xr-ccx)/R)));
     const bow=(R,cols,bw,al)=>{cols.forEach((c,k)=>{cx.strokeStyle=c;cx.globalAlpha=al;cx.lineWidth=bw+.6;cx.beginPath();const e=endA(R);if(e>Math.PI)cx.arc(ccx,ccy,R-k*bw,Math.PI,e);cx.stroke()})};
     if(sweep>0){const C=[pal.essen,pal.wohnen,pal.wir,pal.wege,pal.dinge];
       cx.strokeStyle=pal.ink;cx.globalAlpha=dark?.05:.03;cx.lineWidth=7*K;cx.beginPath();cx.arc(ccx,ccy,46.5*K,Math.PI,Math.max(Math.PI+.001,endA(46.5*K)));cx.stroke();
-      bow(42*K,C,.45*K,dark?.6:.6);bow(51.6*K,C.slice().reverse(),.6*K,dark?.25:.22);cx.globalAlpha=1}
+      bow(42*K,C,.45*K,.6*rbFade);bow(51.6*K,C.slice().reverse(),.6*K,.22*rbFade);cx.globalAlpha=1}
     if(tt<7.5){const ca=Math.min(1,tt/.6)*Math.min(1,(7.5-tt)/1.2),cy=H*.16;
       cx.strokeStyle=pal.wege;cx.lineWidth=1;cx.globalAlpha=.45*ca;cx.beginPath();for(let q=0;q<26;q++){const rx=cxp-W*.16+q*W*.013+((q*37)%7),ry=cy+H*.05+((q*53+Math.floor(t/90))%9)*2;cx.moveTo(rx,ry);cx.lineTo(rx-4,ry+H*.2)}cx.stroke();
       cx.globalAlpha=.55*ca;[[0,0,.09],[-.08,.02,.07],[.08,.025,.075],[.15,.04,.05],[-.15,.045,.05]].forEach(([dx,dy,r])=>{cx.fillStyle=pal.wege;cx.beginPath();cx.arc(cxp+dx*W,cy+dy*H,r*W,0,7);cx.fill()});
       cx.globalAlpha=.1*ca;cx.fillStyle=pal.ink;cx.beginPath();cx.arc(cxp+2,cy+3,.085*W,0,7);cx.arc(cxp+.08*W+2,cy+.025*H+3,.07*W,0,7);cx.fill();cx.globalAlpha=1}}
   // ferne Hügel
   const far=x=>H*.47+Math.sin(x/W*Math.PI*2.2+2)*H*.06+Math.sin(x/W*9)*H*.012;
-  const fN=Math.min(44,(LC.lay.forest||0)+Math.max(0,Math.floor((g-145)/5)));
-  layer("far",[W,H,dpr,BL,fN,SEAS.snow,SEAS.winter].join(),dpr,BL,()=>{
+  const fW=has(8)?Math.min(44,5+Math.max(0,Math.floor((g-105)/5))):0,fN=Math.min(44,fW+(LC.lay.forest||0)),s8=has(8)?sc(8):1;
+  layer("far",[W,H,dpr,BL,fN,SEAS.snow,SEAS.winter,s8.toFixed(2)].join(),dpr,BL,()=>{
   cx.fillStyle=pal.wege;cx.globalAlpha=.4;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   screen(()=>{cx.moveTo(0,H);for(let x=0;x<=W;x+=6)cx.lineTo(x,far(x)+3);cx.lineTo(W,H)},pal.wege,.85,.6,true);
   // Wald auf dem fernen Hügel: ab zwölf Bäumen und nach der Stufe Biotop
-  const fN0=fN;if(fN0){const rf=rnd("forest");cx.globalAlpha=.45;for(let i=0;i<fN0;i++){const x=W*(.03+rf()*.94),y=far(x)+H*(.025+rf()*.035),h=H*(.045+rf()*.03);crown(()=>cx.ellipse(x,y-h*.55,h*.26,h*.55,0,0,7),pal.wir,null,0,0,true)}cx.globalAlpha=1;
+  /* Waldrand: die ersten fünf Kronen stehen links (x 0,06 bis 0,2), zwei davon Nadelbäume. Danach wächst der Wald über den Hügel. */
+  const fpos=i=>{const rf=rnd("forest"+i),x=i<5?W*(.06+i*.034):W*(.03+rf()*.94);return [x,far(x)+H*(.025+rf()*.035),H*(.045+rf()*.03)*(i<5?s8:1)]};
+  const fN0=fN;if(fN0){for(let i=0;i<fN0;i++){const [x,y,h]=fpos(i);cx.globalAlpha=.75;if(i<2||i%6===5)drawConifer(x,y,h*1.15);
+      else if(SEAS.winter){cx.strokeStyle=pal.ink;cx.globalAlpha=.65;cx.lineWidth=1;cx.lineCap="round";cx.beginPath();cx.moveTo(x,y);cx.lineTo(x,y-h*.9);[[-.3,.45],[.3,.5],[-.22,.7],[.25,.78],[0,1]].forEach(([dx,dy])=>{cx.moveTo(x,y-h*dy*.85);cx.lineTo(x+dx*h,y-h*dy)});cx.stroke()}
+      else crown(()=>cx.ellipse(x,y-h*.55,h*.26,h*.55,0,0,7),pal.wir,null,0,0,false)}cx.globalAlpha=1;
     // Raster über dem ganzen Waldsaum (als eine Fläche), wird mit der Zahl der Bäume dichter
-    const rf2=rnd("forest");RA=Math.min(1,fN0/18);screen(()=>{for(let i=0;i<fN0;i++){const x=W*(.03+rf2()*.94),y=far(x)+H*(.025+rf2()*.035),h=H*(.045+rf2()*.03);cx.moveTo(x+1+h*.3,y-h*.45);cx.ellipse(x+1,y-h*.45,h*.3,h*.55,0,0,7)}},pal.ink,.75,.45);RA=1}
+    if(!SEAS.winter){RA=Math.min(1,fN0/18);screen(()=>{for(let i=0;i<fN0;i++){const [x,y,h]=fpos(i);cx.moveTo(x+1+h*.3,y-h*.45);cx.ellipse(x+1,y-h*.45,h*.3,h*.55,0,0,7)}},pal.ink,.75,.45);RA=1}}
   snowCap(()=>{for(let x=0;x<=W;x+=6)x?cx.lineTo(x,far(x)+1.5):cx.moveTo(x,far(x)+1.5)},3*u);
   });
-  // Reh am Waldrand (Stufe Wald)
-  if(visit(8)){const x=W*.13,y=far(W*.13)+H*.04,k=u*.85;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1.4*k;[-5,-3,3,5].forEach(dx=>{cx.beginPath();cx.moveTo(x+dx*k,y-7*k);cx.lineTo(x+dx*k*1.1,y);cx.stroke()});cx.globalAlpha=1;
-    twoInk(()=>cx.ellipse(x,y-9*k,7.5*k,3.6*k,0,0,7),pal.essen,pal.ink,.3);inkFill(()=>{cx.moveTo(x-5*k,y-11*k);cx.lineTo(x-8*k,y-19*k);cx.lineTo(x-5*k,y-19.5*k);cx.lineTo(x-3*k,y-11*k);cx.closePath()},pal.essen,null);
-    inkFill(()=>cx.ellipse(x-8.5*k,y-20*k,2.8*k,1.9*k,-.3,0,7),pal.essen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.ellipse(x-8*k,y-23*k,.9*k,2.2*k,-.3,0,7);cx.fill()}
+  // Reh am Waldrand (Stufe Waldrand), steht weiter hinten und ist deshalb kleiner als der Reiher
+  if(has(8)){const x=W*.13,y=far(W*.13)+H*.045,k=u*.62*sc(8);drawDeer(x,y,k);ANCH[8]={x:x-2,y:y-12*k,r:16}}
   // naher Hügel: wird mit dem Wachstum grüner
-  const fH=ff(4);
-  layer("near",[W,H,dpr,BL,lush.toFixed(3),SEAS.winter,SEAS.snow,fH.toFixed(3)].join(),dpr,BL,()=>{
+  const fH=has(4)?ff(4):-1,s4=has(4)?sc(4):0;
+  layer("near",[W,H,dpr,BL,lush.toFixed(3),SEAS.winter,SEAS.snow,fH.toFixed(3),s4.toFixed(2)].join(),dpr,BL,()=>{
   cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalCompositeOperation=BL;
   cx.fillStyle=pal.wohnen;cx.globalAlpha=.3*(1-lush);cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();
   cx.fillStyle=pal.wir;cx.globalAlpha=.12+.2*lush;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill();cx.globalAlpha=1;
   if(SEAS.winter){cx.fillStyle=pal.wege;cx.globalAlpha=.09;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x));cx.lineTo(W,H);cx.fill()}
   snowCap(()=>{for(let x=0;x<=W;x+=5)x?cx.lineTo(x,ground(x)+1.5):cx.moveTo(x,ground(x)+1.5)},3.5*u);
   screen(()=>{cx.moveTo(0,H);for(let x=0;x<=W;x+=5)cx.lineTo(x,ground(x)+H*.05);cx.lineTo(W,H)},pal.wir,1,(.25+.35*lush)*.8,true);
-  // Hecke am Hang (Stufe Hecke)
-  if(fH>0){const xe=W*(.01+.45*Math.max(.1,fH)),rh=rnd("hedge");cx.globalAlpha=.7;for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012,r=H*(.022+rh()*.014);inkFill(()=>cx.arc(x,y-r*.6,r,0,7),pal.wir,null)}cx.globalAlpha=1;
-    RA=fH;screen(()=>{for(let x=W*.01;x<xe;x+=W*.024){const y=ground(x)+H*.012;cx.moveTo(x+H*.03,y-H*.01);cx.arc(x,y-H*.01,H*.03,0,7)}},pal.wege,.95);RA=1}
+  // Hecke am Hang: vier Sträucher bei x 0,14 bis 0,26, dann wächst sie nach links und rechts bis 0,46
+  if(fH>=0){const xs=[.14,.18,.22,.26].map(f=>W*f),ext=fH,rh=rnd("hedge");for(let x=W*.116;x>=W*(.14-.13*ext);x-=W*.024)xs.unshift(x);for(let x=W*.284;x<=W*(.26+.2*ext);x+=W*.024)xs.push(x);
+    xs.forEach((x,i)=>{const y=ground(x)+H*.012,r=(9*u+rh()*2*u)*s4;drawShrub(x,y,r,SEAS.winter,i)});
+    if(!SEAS.winter){RA=Math.min(1,.4+fH);screen(()=>{xs.forEach(x=>{const y=ground(x)+H*.012;cx.moveTo(x+10*u,y-H*.01);cx.arc(x,y-H*.01,10*u*s4,0,7)})},pal.wege,.95);RA=1}}
   });
-  // Bach (Stufe Streuobst)
-  const fB=ff(5);if(fB>0){const [px,py]=POND(),P=[[W*.02,far(W*.02)+H*.04],[W*.16,H*.58],[W*.06,H*.68],[px-W*.06,py]],fr=Math.max(.12,fB),bz=t=>{const v=1-t;return [0,1].map(k=>v*v*v*P[0][k]+3*v*v*t*P[1][k]+3*v*t*t*P[2][k]+t*t*t*P[3][k])},seg=()=>{cx.beginPath();for(let q=0;q<=40;q++){const [x,y]=bz(q/40*fr);q?cx.lineTo(x,y):cx.moveTo(x,y)}};
-    cx.strokeStyle=pal.wege;cx.globalAlpha=.85;cx.lineWidth=(1.4+1.8*fB)*u;cx.lineCap="round";seg();cx.stroke();cx.globalAlpha=1;
-    if(!calm()){cx.strokeStyle=pal.sheet;cx.lineWidth=1;cx.setLineDash([2,9]);cx.lineDashOffset=-sec*12;seg();cx.stroke();cx.setLineDash([]);cx.lineDashOffset=0}}
-  // Teich, sobald es etwas im Bereich Wohnen gibt
+  // Quelle und Bach: Quelltopf am Hang, der Bach ist sofort 40 % lang und erreicht mit dem Wachstum den Teich
+  const [px,py,rx,ry]=POND();
+  if(has(5)){const qx=W*.08,qy=ground(W*.08)+H*.02,a5=av(5),P=[[qx,qy],[W*.13,H*.69],[W*.1,H*.76],[px-rx*.85,py]],fr=(.4+.6*ff(5))*Math.max(.15,a5),bz=t=>{const v=1-t;return [0,1].map(k=>v*v*v*P[0][k]+3*v*v*t*P[1][k]+3*v*t*t*P[2][k]+t*t*t*P[3][k])},seg=()=>{cx.beginPath();for(let q=0;q<=40;q++){const [x,y]=bz(q/40*fr);q?cx.lineTo(x,y):cx.moveTo(x,y)}};
+    cx.strokeStyle=pal.wege;cx.globalAlpha=.85;cx.lineWidth=(1.6+1.6*ff(5))*u;cx.lineCap="round";seg();cx.stroke();cx.globalAlpha=1;
+    if(!calm()){cx.strokeStyle=pal.sheet;cx.lineWidth=1;cx.setLineDash([2,9]);cx.lineDashOffset=-sec*12;seg();cx.stroke();cx.setLineDash([]);cx.lineDashOffset=0}
+    drawSpring(qx,qy,u*1.1*sc(5));ANCH[5]={x:qx,y:qy,r:14}}
+  // Teich: sobald es etwas im Bereich Wohnen gibt, ab der Quelle immer, mindestens 60 % groß
   const nW=LC.cl.filter(c=>c.a==="wohnen").reduce((s,c)=>s+c.n,0)+LC.tr.filter(c=>c.a==="wohnen").length*4;
-  if(nW||ff(5)>=1){const [px,py,rx,ry]=POND(),f=Math.min(1,.55+(nW||10)*.03);RA=Math.max(.15,Math.min(1,(f-.55)/.45));inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5,dR(py));RA=1;
-    if(!calm()){cx.strokeStyle=pal.sheet;cx.globalAlpha=.6;cx.lineWidth=1;for(let i=0;i<3;i++){const ph=(sec*.25+i/3)%1;cx.beginPath();cx.ellipse(px+rx*.2*f,py,rx*f*ph*.6,ry*f*ph*.6,0,0,7);cx.stroke()}cx.globalAlpha=1}}
+  if(nW||has(5)){const f=Math.max(has(5)?.6:0,Math.min(1,.55+nW*.03));RA=Math.max(.15,Math.min(1,(f-.55)/.45));inkFill(()=>cx.ellipse(px,py,rx*f,ry*f,0,0,7),pal.wege,pal.wege,2,1.5,dR(py));RA=1;
+    if(SEAS.winter){cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=LIGHT();cx.globalAlpha=.9;cx.lineWidth=1;cx.beginPath();cx.ellipse(px,py,rx*f,ry*f,0,Math.PI*1.05,Math.PI*1.95);cx.stroke();cx.restore()}
+    else if(!calm()){cx.strokeStyle=pal.sheet;cx.globalAlpha=.6;cx.lineWidth=1;for(let i=0;i<3;i++){const ph=(sec*.25+i/3)%1;cx.beginPath();cx.ellipse(px+rx*.2*f,py,rx*f*ph*.6,ry*f*ph*.6,0,0,7);cx.stroke()}cx.globalAlpha=1}}
   // Weg zum Dorf, breiter mit jeder Begegnung
   const nMeet=LC.meet+Object.keys(S.base||{}).filter(id=>A[id]&&A[id].a==="wir").length*3;
   if(nMeet){const lw=Math.min(11,3+nMeet*.25)*u,tr=()=>{cx.beginPath();for(let i=0;i<=30;i++){const [x,y]=pathPt(i/30);i?cx.lineTo(x,y):cx.moveTo(x,y)}};cx.lineCap="round";
     cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.sheet;cx.lineWidth=lw;tr();cx.stroke();cx.globalCompositeOperation=BL;
     cx.strokeStyle=pal.wohnen;cx.globalAlpha=.9;cx.lineWidth=Math.max(1.5,lw*.28);cx.setLineDash([2*u,5*u]);tr();cx.stroke();cx.setLineDash([]);cx.globalAlpha=1}
   // Gräser
-  const nG=Math.round(8+lush*70),rg=rnd("grass");cx.strokeStyle=pal.wir;cx.lineWidth=1*u;cx.globalAlpha=.85;
+  const nG=g>=1?Math.round(8+lush*70):0,rg=rnd("grass");cx.strokeStyle=pal.wir;cx.lineWidth=1*u;cx.globalAlpha=.85;
   for(let i=0;i<nG;i++){const x=rg()*W,y=Math.max(ground(x)+H*.02,H*(.66+rg()*.32)),h=(3+rg()*5)*u*(.6+lush*.6),sw=calm()?0:Math.sin(sec*1.3+x*.05)*1.2;cx.beginPath();cx.moveTo(x-2*u,y);cx.quadraticCurveTo(x-1,y-h*.6,x-2*u+sw,y-h);cx.moveTo(x,y);cx.quadraticCurveTo(x+1,y-h*.6,x+1.5*u+sw,y-h*1.1);cx.stroke()}
   cx.globalAlpha=1;
+  // Die ersten Halme (Stufe Keimling): ein Horst aus fünf Halmen vorn in der Mitte
+  if(has(1)){drawTuft(W*.5,H*.88,u*1.15*sc(1),cold);ANCH[1]={x:W*.5,y:H*.85,r:16}}
   // Wildblumen am Boden (Stufe Blumenwiese)
-  const fF=SEAS.bloom?ff(3):0;if(fF>0){const rf=rnd("flowers"),cols=[pal.essen,pal.dinge,pal.wohnen,pal.sheet,pal.wege];for(let i=0;i<Math.round(5+41*fF);i++){const x=rf()*W,y=Math.max(ground(x)+H*.04,H*(.68+rf()*.3));cx.fillStyle=cols[i%5];cx.beginPath();cx.arc(x,y,(1.3+rf()*1.1)*u,0,7);cx.fill()}}
+  /* Fünf Blumen am Weg (x 0,62), dann drei mehr je Wachstumspunkt bis 46. Im kalten Halbjahr Samenstände, im März und Oktober halb und halb. */
+  if(has(3)){const n=Math.min(46,5+3*Math.max(0,g-12)),rf=rnd("flowers"),C=FLOWCOL();
+    for(let i=0;i<n;i++){const hx=rf(),hy=rf();let x,y,k;if(i<5){x=W*(.598+i*.012)+(i%2?2:-2);y=H*(.9+(i%2)*.012);k=u*1.05*sc(3)}else{x=hx*W;y=Math.max(ground(x)+H*.05,H*(.7+hy*.28));k=u*.8}
+      const bl=cold?false:SEAS.bloom===1?true:(i%2===0);drawFlower(x,y,k,C[i%4],bl)}
+    ANCH[3]={x:W*.623,y:H*.85,r:20}}
   // Pflanzen und Bäume, von hinten nach vorn
   LC.lay.forEach(it=>{const gr=grow(it),depth=.75+.35*((it.y/H-.55)/.45),seed=rnd("sd"+it.k)();
     if(it.kind==="tree"){const age=it.base?1:Math.min(1,.6+(now()-it.ts)/DAY/90),s=(14+seed*6)*age*gr*depth*[.72,.86,1][it.band||0];
       /* Bäume wiegen sich nicht: unter einer bewegten Krone würde das feste Raster schwimmen. Ihr Raster kommt langsam (Wachstum, erste Wochen). */
       RA=Math.max(.2,Math.min(1,(age-.6)/.25))*Math.max(0,(gr-.35)/.65);DEP=dR(it.y);tree(it.a,it.x,it.y,s,u,0,seed);RA=1;DEP=1.1;return}
-    const lv=level(it.n),cnt=[1,2,3,4,5,7,9][lv],sz=[.6,.72,.8,.88,.96,1.05,1.15][lv]*gr*depth,r=rnd("p"+it.k);
+    const lv=level(it.n),cnt=[1,2,3,4,5,7,9][lv],sz=[.6,.72,.8,.88,.96,1.05,1.15][lv]*gr*depth*(1+.8*Math.max(0,1-g/30)),r=rnd("p"+it.k);
     const kind=it.a==="essen"?(hashStr(it.k)%2?"sun":"wheat"):it.a;
     for(let i=0;i<cnt;i++){const ox=(r()-.5)*(10+cnt*4)*u,oy=(r()-.5)*5*u,x=it.x+ox,y=it.y+oy,hv=.75+r()*.5,sw=calm()?0:Math.sin(sec*1.1+x*.07)*1.6;
       if(kind==="sun")sunflower(x,y,28*u*sz*hv,u*sz,sw);else if(kind==="wheat")wheat(x,y,24*u*sz*hv,u*sz,sw);
       else if(kind==="wohnen")cattail(x,y,22*u*sz*hv,u*sz,sw);else if(kind==="wege")lupine(x,y,24*u*sz*hv,u*sz,sw);
       else if(kind==="dinge")mushroom(x,y,19*u*sz*hv,u*sz*1.25,sw*.2);else lantern(x,y,18*u*sz*hv,u*sz,sec,r())}});
-  // Igel (Stufe Hain)
-  if(SEAS.hog&&visit(6)){const x=W*.56+(calm()?0:Math.sin(sec*.15)*W*.03),y=H*.95,k=u*1.15;cx.strokeStyle=pal.ink;cx.globalAlpha=.75;cx.lineWidth=1.1*k;cx.beginPath();for(let i=0;i<9;i++){const a=Math.PI*(1.08+i*.1);cx.moveTo(x+Math.cos(a)*7*k,y+Math.sin(a)*5*k);cx.lineTo(x+Math.cos(a)*10.5*k,y+Math.sin(a)*8.5*k)}cx.stroke();cx.globalAlpha=1;
-    /* Igel: Punkte als Stacheln, wandern mit ihm (eigene Textur, kein Druckraster) */
-    cx.fillStyle=pal.essen;cx.beginPath();cx.ellipse(x,y,8*k,5.5*k,0,Math.PI,0);cx.fill();cx.save();cx.translate(x+.6,y+.6);screen(()=>cx.ellipse(0,0,8*k,5.5*k,0,Math.PI,0),pal.ink,1.15,1,false,true);cx.restore();inkFill(()=>{cx.moveTo(x+7*k,y);cx.lineTo(x+12*k,y-1.5*k);cx.lineTo(x+7*k,y-4*k);cx.closePath()},pal.wohnen,null);cx.fillStyle=pal.ink;cx.beginPath();cx.arc(x+12*k,y-1.5*k,.9*k,0,7);cx.fill()}
-  // Reiher am Teich (Stufe Auenwald)
-  if(visit(7)){const [px,py,rx]=POND(),x=px+rx*.55,y=py+H*.01,k=u*1.1;cx.strokeStyle=pal.ink;cx.globalAlpha=.8;cx.lineWidth=1*k;cx.beginPath();cx.moveTo(x-1*k,y-10*k);cx.lineTo(x-1.5*k,y);cx.moveTo(x+1*k,y-10*k);cx.lineTo(x+1.6*k,y);cx.stroke();
-    cx.lineWidth=1.6*k;cx.beginPath();cx.moveTo(x+4*k,y-14*k);cx.quadraticCurveTo(x+9*k,y-18*k,x+5*k,y-22*k);cx.stroke();cx.globalAlpha=1;
-    twoInk(()=>cx.ellipse(x,y-13*k,6*k,3.4*k,-.35,0,7),pal.wege,pal.ink,.25);cx.fillStyle=pal.wohnen;cx.beginPath();cx.moveTo(x+5*k,y-23*k);cx.lineTo(x+11*k,y-21.5*k);cx.lineTo(x+5*k,y-21*k);cx.fill()}
+  // Igel (Stufe Unterholz): Laubhaufen am Fuß der Hecke, davor der Igel. Im Winterschlaf nur der Laubhaufen.
+  if(has(6)){const lx=W*.34,ly=ground(W*.34)+H*.075,k6=u*sc(6);drawLeafPile(lx,ly,k6*1.1,SEAS.snow);
+    if(SEAS.hog){const hx=W*.37+(calm()?0:Math.sin(sec*.63)*10),hy=ly+H*.035;drawHedgehog(hx,hy,k6);ANCH[6]={x:hx,y:hy-4,r:18}}else ANCH[6]={x:lx,y:ly-3,r:16}}
+  // Reiher (Stufe Ufer): dauerhaft rechts am Teich
+  if(has(7)){const x=px-rx*.6,y=py+H*.012,k=u*1.05*sc(7);drawHeron(x,y,k);ANCH[7]={x:x+3,y:y-13*k,r:18}}
   // Vögel für abgeschlossene Missionen
   const nb=Math.min(14,misDone());cx.strokeStyle=pal.ink;cx.lineWidth=1.6;cx.globalAlpha=.8;
   for(let i=0;i<nb;i++){const r=rnd("bird"+i),bx=((r()*W)+sec*(6+r()*6))%(W+40)-20,by=H*(.08+r()*.26)+Math.sin(sec+i)*2,s=4+r()*3,fl=calm()?0:Math.sin(sec*5+i)*1.5;
     cx.beginPath();cx.moveTo(bx-s,by-fl);cx.quadraticCurveTo(bx-s*.4,by-s*.6,bx,by);cx.quadraticCurveTo(bx+s*.4,by-s*.6,bx+s,by-fl);cx.stroke()}
-  // Schmetterlinge (Stufe Wiese)
-  const fS=SEAS.bugs?ff(2):0;if(fS>0){const nbf=1+Math.floor(fS*3.99)+(ff(6)>=1?1:0);for(let i=0;i<nbf;i++){const r=rnd("bf"+i),ak=arr(2),bx0=W*(.1+r()*.8)+(calm()?0:Math.sin(sec*.4+i*2)*W*.06),bx=ak<1?-W*.12+(bx0+W*.12)*ak:bx0,by=H*(.62+r()*.22)+(calm()?0:Math.sin(sec*.9+i)*H*.03),fl=calm()?.8:.35+.65*Math.abs(Math.sin(sec*7+i*3)),k=u*1.2,c=[pal.dinge,pal.wege,pal.essen][i%3];
-    cx.fillStyle=c;cx.beginPath();cx.ellipse(bx-2.6*k*fl,by,2.8*k*fl,3.6*k,-.4,0,7);cx.ellipse(bx+2.6*k*fl,by,2.8*k*fl,3.6*k,.4,0,7);cx.fill();cx.fillStyle=pal.ink;cx.fillRect(bx-.5*k,by-2.5*k,1*k,5*k)}}
+  // Schmetterlinge (Stufe Wiese): einer mehr je Stufe, bis fünf. Im kalten Halbjahr sitzen stattdessen Stieglitze auf den Halmen.
+  if(has(2)){const n=Math.min(5,1+(si-2)),a2=av(2);
+    if(!cold){for(let i=0;i<n;i++){const r=rnd("bf"+i);let bx=i?W*(.12+r()*.76)+(calm()?0:Math.sin(sec*.5+i*2)*W*.05):W*.5+(calm()?0:Math.sin(sec*.63)*W*.04),by=i?H*(.64+r()*.2)+(calm()?0:Math.sin(sec*.8+i)*H*.025):H*.74+(calm()?0:Math.sin(sec*.9)*H*.015);
+        if(i===0&&a2<1)bx=-W*.1+(bx+W*.1)*a2;const fl=calm()?.8:.35+.65*Math.abs(Math.sin(sec*6+i*3));drawButterfly(bx,by,u*(i?1.3:1.6),fl,[pal.dinge,pal.wege,pal.essen][i%3]);if(!i)ANCH[2]={x:bx,y:by,r:16}}}
+    else{const P=[[W*.5+5,H*.88-10*u],[W*.62,H*.9-12*u],[W*.47,H*.86-9*u]];for(let i=0;i<Math.min(3,n);i++){const [x,y]=P[i];drawStieglitz(x,y,u*1.1*(i?1:sc(2)))}ANCH[2]={x:P[0][0],y:P[0][1]-3,r:14}}}
   if(SEAS.autumn>.3&&!calm()){for(let i=0;i<5;i++){const r=rnd("lf"+i),x=(r()*W+sec*(9+r()*6))%W,y=H*.3+((r()*H*.6)+sec*(14+r()*8))%(H*.62),a=sec*2+i;cx.fillStyle=i%2?pal.essen:pal.wohnen;cx.beginPath();cx.ellipse(x,y,2.6*u,1.3*u*Math.abs(Math.cos(a)),a,0,7);cx.fill()}}
+  if(ring){const q=ring.i!=null?ANCH[ring.i]:ring;const el=t-ring.t0,tot=ring.fin+ring.hold+ring.out;if(el>tot)ring=null;else if(q&&el>0){const a=calm()?1:el<ring.fin?el/ring.fin:el<ring.fin+ring.hold?1:1-(el-ring.fin-ring.hold)/ring.out;
+    cx.save();cx.globalCompositeOperation="source-over";cx.strokeStyle=pal.ink;cx.globalAlpha=.5*a;cx.lineWidth=1;cx.setLineDash([3,3]);cx.beginPath();cx.arc(q.x,q.y,q.r+6,0,7);cx.stroke();cx.restore()}}
   if(SEAS.snow&&!calm()){cx.save();cx.globalCompositeOperation="source-over";cx.fillStyle=dark?"#DCE3EA":"#FFFFFF";for(let i=0;i<34;i++){const r=rnd("sn"+i),x=(r()*W+Math.sin(sec*.8+i)*6)%W,y=((r()*H)+sec*(12+r()*10))%H;cx.globalAlpha=.85;cx.beginPath();cx.arc(x,y,(.8+r()*1.2)*u,0,7);cx.fill()}cx.restore()}
   cx.globalAlpha=1;cx.globalCompositeOperation="source-over"}
 function loop(t){raf=0;if(!cv||!document.body.contains(cv)||!landVis)return;if(t-lastT>32){lastT=t;drawLand(t)}if(!calm()&&!document.hidden&&tab==="home")raf=requestAnimationFrame(loop)}
 function startLand(){cv=$("#land");if(!cv)return;cx=cv.getContext("2d");readPal();SEAS=seasonNow();LC={cl:landClumps(),tr:landTrees(),g:growth(),st:stage(),meet:meets(),key:""};
+  if(LC.st.i>=9&&S.rbDay!==todayKey()&&!rbStart&&hashStr("rb"+todayKey())%100<35)rbWant=true;
   if("IntersectionObserver" in window){if(io)io.disconnect();io=new IntersectionObserver(es=>{landVis=es[0].isIntersecting;if(landVis&&!raf&&tab==="home"&&!calm()&&cv)raf=requestAnimationFrame(loop)});io.observe(cv)}
   const fresh=S.log.some(e=>e.ts>S.lastSeen);if(fresh){seenAt=S.lastSeen;growStart=performance.now()+250}else growStart=0;S.lastSeen=now();save();
   if(raf)cancelAnimationFrame(raf);if(calm()){drawLand(performance.now()+5000)}else raf=requestAnimationFrame(loop)}
@@ -1249,7 +1320,7 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
 const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"></i>`).join("")}<em>${EV[l]}</em></span>`;
 function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>A[c.k]).sort((a,b)=>b.n-a.n);
   sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${stageBar(st)}
-  <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?x[2]:"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
+  <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?stText(k):"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
   ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"gehört schon dazu":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
   ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt 1 bis 3, eine dauerhafte Änderung 6 oder ab einer Tonne im Jahr 8, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
@@ -1259,7 +1330,7 @@ function logAct(id,ev,el){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
   const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;S.log.push(e);save();
   
-  const cb=coveredBy(e);render();toast(growMsg(e)+(cb?` · zählt schon über „${A[cb].t}“`:a.k?` · ${kgTxt(a.k)} gespart`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
+  const cb=coveredBy(e);render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+(cb?` · zählt schon über „${A[cb].t}“`:a.k?` · ${kgTxt(a.k)} gespart`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
 function growMsg(e){const k=clumpKey(e),c=landClumps().find(x=>x.k===k),n=c?c.n:1,sp=species(k,e.a),la=level(n),lb=level(n-1),st=stage();
   let head;if(n===1)head=`Neu in deinem Biotop: <b>${sp}</b>`;else if(la>lb)head=`<b>${sp}</b> wachsen auf Stufe ${la} von 6`;else if(la>=6)head=`<b>${sp}</b> in voller Pracht`;else{const r=nextLv(n)-n;head=`<b>${sp}</b> · noch ${r}× bis Stufe ${la+1}`}
   return head}
@@ -1477,18 +1548,32 @@ const MOMENTS=[
  {id:"meet25",t:"25 Begegnungen",x:"Zum Dorf in deiner Landschaft führt jetzt ein breiter Weg.",ok:()=>meets()>=25},
  {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
 ];
-let momentOpen=false,rbReplay=0;
+let momentOpen=false;
 /* Höchstens ein Moment pro Aktion. Beim Stufenaufstieg zuerst die Landschaft: Stempel, Wachsen, das Neue kommt ins Bild, erst dann die Karte. */
 function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
-  if(st.i>S.stageSeen){if(st.i>=9)rbReplay=1;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st.n;
-    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"center"})}
-    SEAS=seasonNow();const note=st.i===2&&!SEAS.bugs?" Im Winter ruhen die Schmetterlinge, ab März sind sie zu sehen.":st.i===3&&!SEAS.bloom?" Im Winter blüht noch nichts, ab März schon.":st.i===6&&!SEAS.hog?" Gerade hält er Winterschlaf, ab April ist er wieder unterwegs.":"";
-    showMoment("Neue Stufe",st.n,STAGES[st.i][2]+note+(st.next?` Als Nächstes: ${st.next[1]}.`:""),onHome?2600:600,!onHome);return}
+  if(st.i>S.stageSeen){if(st.i>=9)rbWant=true;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st.n;
+    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};ring={i:st.i,t0:arrive.t+1300,fin:300,hold:1500,out:500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight*.55)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"})}
+    SEAS=seasonNow();const nx=stHint(st.i);
+    showMoment("Neue Stufe",st.n,stText(st.i)+(nx?` Als Nächstes: ${nx}.`:""),onHome?2600:600,!onHome,st.i);return}
   const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x,600,true)}
 let arrive=null;
-function showMoment(lab,ttl,txt,delay,hap){momentOpen=true;
-  setTimeout(()=>{const d=document.createElement("div");d.className="moment";d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl"><div class="mseal" aria-hidden="true"></div><span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
-    const close=()=>{d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(rbReplay){rbStart=0;rbReplay=0}};
+function drawVignette(c,i){const save={cx,W,H,DPR,RA,DEP};readPal();const g2=c.getContext("2d");cx=g2;W=120;H=80;DPR=2;RA=1;DEP=1.1;cx.setTransform(2,0,0,2,0,0);
+  const cold=coldNow(),wint=SEAS.winter;cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);cx.globalCompositeOperation=pal.blend==="screen"?"source-over":"multiply";
+  const hill=(y0,col,a)=>{cx.fillStyle=col;cx.globalAlpha=a;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=4)cx.lineTo(x,y0+Math.sin(x/W*Math.PI*1.4+.5)*4);cx.lineTo(W,H);cx.fill();cx.globalAlpha=1};
+  if(i===8||i===9)hill(34,pal.wege,.4);hill(52,pal.wir,.28);
+  if(i===1)drawTuft(60,70,2.4,cold);
+  else if(i===2){drawTuft(60,74,1.8,cold);if(cold)drawStieglitz(64,52,2.2);else drawButterfly(60,36,2.8,.9,pal.dinge)}
+  else if(i===3){const C=FLOWCOL();for(let k=0;k<5;k++)drawFlower(40+k*10,74-(k%2)*3,2,C[k%4],!cold)}
+  else if(i===4){[28,48,68,88].forEach((x,k)=>drawShrub(x,62,12,wint,k))}
+  else if(i===5){drawSpring(22,54,2.6);cx.strokeStyle=pal.wege;cx.lineWidth=3;cx.lineCap="round";cx.beginPath();cx.moveTo(24,56);cx.bezierCurveTo(40,66,60,60,82,70);cx.stroke();cx.fillStyle=pal.wege;cx.beginPath();cx.ellipse(92,71,16,5,0,0,7);cx.fill()}
+  else if(i===6){drawLeafPile(46,66,2,SEAS.snow);if(SEAS.hog)drawHedgehog(76,72,1.8)}
+  else if(i===7){cx.fillStyle=pal.wege;cx.beginPath();cx.ellipse(56,72,30,6,0,0,7);cx.fill();drawHeron(74,72,2)}
+  else if(i===8){for(let k=0;k<5;k++){const x=16+k*11,y=40;if(k<2)drawConifer(x,y,16);else crown(()=>cx.ellipse(x,y-8,4,8,0,0,7),pal.wir,null,0,0,false)}drawDeer(84,50,1.2)}
+  else if(i===9){const e=solarElev();if(e>.5&&e<42&&!SEAS.snow&&!calm())[pal.essen,pal.wohnen,pal.wir,pal.wege,pal.dinge].forEach((col,k)=>{cx.strokeStyle=col;cx.globalAlpha=.6;cx.lineWidth=2.2;cx.beginPath();cx.arc(60,62,46-k*2.2,Math.PI,2*Math.PI);cx.stroke()});cx.globalAlpha=.6;for(let k=0;k<12;k++){const x=6+k*10;if(k%3===0)drawConifer(x,40,13);else crown(()=>cx.ellipse(x,32,3.5,7,0,0,7),pal.wir,null,0,0,false)}cx.globalAlpha=1}
+  cx.globalAlpha=1;cx.globalCompositeOperation="source-over";({cx,W,H,DPR,RA,DEP}=save)}
+function showMoment(lab,ttl,txt,delay,hap,vig){momentOpen=true;
+  setTimeout(()=>{const d=document.createElement("div");d.className="moment"+(vig!=null?" stagecard":"");d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl">${vig!=null?'<canvas class="mvig" width="240" height="160" aria-hidden="true"></canvas>':'<div class="mseal" aria-hidden="true"></div>'}<span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);if(vig!=null){try{drawVignette(d.querySelector(".mvig"),vig)}catch(e){}}const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
+    const close=()=>{d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(vig!=null&&tab==="home")ring={i:vig,t0:performance.now()+150,fin:200,hold:700,out:300}};
     d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d)close()});d.addEventListener("keydown",e=>{if(e.key==="Escape")close()})},delay||600)}
 
 /* ---------- Teilen ---------- */
