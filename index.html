@@ -389,6 +389,10 @@ input.hap{touch-action:pan-y}
 .moment.stagecard{background:color-mix(in srgb,var(--paper) 18%,transparent);place-items:end center;padding-bottom:calc(158px + env(safe-area-inset-bottom,0px))}
 .moment.stagecard .mcard{gap:8px;padding:18px 20px 18px}
 .mvig{width:120px;height:80px;border:2px solid var(--ink);background:var(--sheet);display:block}
+/* Leise Hinweiszeile und Inline-Links */
+.hintline{margin:12px 0 0;font-size:14.5px;color:var(--muted);line-height:1.5}
+.linkbtn.inl{padding:8px 0;margin-block:-8px;font-size:inherit;color:var(--ink)}
+.hebel .label .linkbtn.inl{font-size:inherit;letter-spacing:inherit;text-transform:inherit}
 
 </style>
 </head><body>
@@ -861,7 +865,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 10:58";
+const BUILD="19.10.2026, 12:16";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1283,7 +1287,7 @@ function quickIds(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.ac
   const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const def=[...hb,"rad5","veg_tag","leine","oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste"].filter(id=>A[id]);
   return [...new Set([...top,...def])].filter(id=>!isBase(id)).slice(0,6)}
 function hebelCard(){const lc=lastCheck();if(!lc)return "";
-  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),done=h.big.find(id=>!free(id)&&A[id]);
+  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),done=h.big.find(id=>!free(id)&&A[id]);
     return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}</button>`:done?`<span class="state">✓ ${A[done].t}</span>`:""}${M[mid]?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div></div>`}
 function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const a=A[th.act],m=M[th.mis],b=B[th.bite];
   return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}</p><div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}</div></div>`}
@@ -1310,10 +1314,10 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
    <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${share()!=null?`12 Monate · ${share()} % deines Jahres`:"in 12 Monaten"}</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
    ${weekCard()}${nudge}
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
-     <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):"Begegnung"}</span></button>`}).join("")}</div></div>
+     <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):"Begegnung"}</span></button>`}).join("")}</div>${invOpen()&&S.log.length>=5?`<p class="hintline">Steht hier etwas, das du sowieso immer tust? <button class="linkbtn inl" data-inv="1">Schon Alltag abhaken</button> · <button class="linkbtn inl" data-invskip="1">Passt so</button></p>`:""}</div>
    ${hintCard(mo)}
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>
-   ${Object.keys(S.base).length||S.invDone?"":`<div class="plain" ${da("wir")}><h3>Was machst du schon?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon dazugehört</button></div></div>`}
+   ${invOpen()&&S.log.length<5?`<div class="plain" ${da("wir")}><h3>Was ist bei dir schon Alltag?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon Alltag ist</button></div></div>`:""}
    ${S.checks.length?"":`<div class="plain" ${da("dinge")}><h3>Wo sind deine großen Hebel?</h3><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen, wo sich ein Schritt am meisten lohnt.</p><div class="row"><button class="btn go" data-check="1" ${da("dinge")}>Hebel-Check starten</button></div></div>`}
    <div class="sec"><div class="sec-h"><h3>Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div>
   </section>`}
@@ -1321,7 +1325,7 @@ const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"><
 function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>A[c.k]).sort((a,b)=>b.n-a.n);
   sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${stageBar(st)}
   <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?stText(k):"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
-  ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"gehört schon dazu":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
+  ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"schon Alltag":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
   ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt 1 bis 3, eine dauerhafte Änderung 6 oder ab einer Tonne im Jahr 8, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
 
@@ -1339,14 +1343,15 @@ function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt(a.y)}`:""}.</p><p class="caveat">${a.n}</p>
    <label class="label" for="bigdate">Seit wann?</label><input type="text" id="bigdate" inputmode="numeric" placeholder="Heute" value="">
    <p class="muted" style="font-size:13.5px">Leer lassen für heute oder ein Datum wie 1.9.2026 eingeben.</p>
-   <div class="row"><button class="btn go" ${da(a.a)} data-addbig="${id}">Eintragen</button><button class="btn" data-setbase="${id}">Mache ich schon länger</button></div><p class="muted" style="font-size:13.5px">„Mache ich schon länger“ lässt einen Baum wachsen, zählt aber keine neuen Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
+   <div class="row"><button class="btn go" ${da(a.a)} data-addbig="${id}">Eintragen</button><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div><p class="muted" style="font-size:13.5px">„Schon Alltag“ lässt einen Baum wachsen, zählt aber keine neuen Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
 function actMenu(id){const a=A[id],b=isBase(id);
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>${a.g?"Dauerhafte Änderung":"Kleiner Schritt"}</span></div><h2>${a.t}</h2><p class="caveat">${a.n}</p>
    ${b?`<p>Das gehört schon zu deinem Alltag. In deiner Landschaft wächst es mit, als Schritt taucht es nicht mehr auf.</p><div class="row"><button class="btn" data-unbase="${id}">Doch wieder als Schritt zeigen</button></div>`
-   :`<div class="row"><button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button><button class="btn" data-setbase="${id}">Mache ich schon immer</button></div>`}
-   <p class="muted" style="font-size:14px">„Mache ich schon immer“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
-function invSheet(){S.invDone=1;save();
-  sheet(`<span class="label">Bestandsaufnahme</span><h2>Was machst du schon?</h2><p>Hak an, was ohnehin zu deinem Alltag gehört. Du kannst es jederzeit wieder ändern.</p>
+   :`<div class="row"><button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`}
+   <p class="muted" style="font-size:14px">„Schon Alltag“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
+const invOpen=()=>!Object.keys(S.base).length&&!S.invDone;
+function invSheet(){
+  sheet(`<span class="label">Einmal abhaken</span><h2>Was ist bei dir schon Alltag?</h2><p>Hak an, was ohnehin zu deinem Alltag gehört. Du kannst es jederzeit wieder ändern.</p>
    ${AK.map(k=>`<div class="sec" ${da(k)}><h3>${AREAS[k].n}</h3><div class="row">${ACTS.filter(x=>x.a===k&&!activeBig().some(e=>e.act===x.id)).map(x=>`<button class="chip inv" ${da(x.a)} data-invt="${x.id}" aria-pressed="${isBase(x.id)}">${x.t}</button>`).join("")}</div></div>`).join("")}
    <div class="row"><button class="btn primary" id="invsave">Fertig</button></div>`)}
 function parseDate(s){const m=String(s||"").trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})?$/);if(!m)return null;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],12);return isNaN(d)||d.getTime()>now()?null:d.getTime()}
@@ -1368,8 +1373,8 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now()
    <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
    <div class="sec"><div class="sec-h"><h3>Kleine Schritte</h3><span class="label">pro Mal</span></div><div class="acts">${acts.filter(x=>!x.g&&!isBase(x.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
    <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g&&!isBase(x.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
-   ${(()=>{const b=acts.filter(x=>isBase(x.id));return b.length?`<div class="sec"><div class="sec-h"><h3>Gehört schon dazu</h3><span class="label">wächst mit</span></div><div class="row">${b.map(x=>`<button class="chip" ${da(x.a)} data-actmenu="${x.id}">${dot(x.a)}${x.t}</button>`).join("")}</div></div>`:""})()}
-   <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was machst du schon?</button></div>
+   ${(()=>{const b=acts.filter(x=>isBase(x.id));return b.length?`<div class="sec"><div class="sec-h"><h3>Schon Alltag</h3><span class="label">wächst mit</span></div><div class="row">${b.map(x=>`<button class="chip" ${da(x.a)} data-actmenu="${x.id}">${dot(x.a)}${x.t}</button>`).join("")}</div></div>`:""})()}
+   <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was ist schon Alltag?</button></div>
    ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${e.k?"− "+kgTxt(e.k):""}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div>`:""}
    ${hist.length?`<details class="fold" id="histfold"><summary><span>Logbuch</span><span class="label">${S.log.length} Einträge</span></summary><div><div class="entries">${hist.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${fmtDate(e.ts)}${e.g?(e.end?" bis "+fmtDate(e.end):" · dauerhaft"):""} · − ${kgTxt(eKg(e))}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div></details>`:""}
   </section>`}
@@ -1606,11 +1611,12 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
   if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
   if(d.actmenu){actMenu(d.actmenu);return}
-  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Gehört jetzt zu deinem Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
+  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
   if(d.inv){invSheet();return}
+  if(d.invskip){S.invDone=1;save();render();return}
   if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();return}
-  if(t.id==="invsave"){closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Sache gehört":"Dinge gehören"} schon zu deinem Alltag.`);checkMoments();return}
+  if(t.id==="invsave"){S.invDone=1;save();closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Sache ist":"Dinge sind"} schon Alltag.${S.checks.length?"":" Die großen Hebel liegen oft woanders, der Hebel-Check zeigt, wo."}`);checkMoments();return}
   if(d.addbig){const a=A[d.addbig],ts=parseDate($("#bigdate").value)||now(),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:a.y||0,ts};if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();toast("Eingetragen. Wirkt ab jetzt jeden Tag.",null,true);checkMoments();return}
   if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
   if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
@@ -1666,7 +1672,7 @@ document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week
 document.addEventListener("change",e=>{if(e.target.id==="rtime"){S.settings.remind=e.target.value||"19:00";save();const g=$("#gcal");if(g)g.href=gcal()}});
 
 function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();
-  sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p><div class="row"><button class="btn go" ${da("dinge")} id="welcomecheck">Mit dem Hebel-Check beginnen</button><button class="btn" data-inv="1">Abhaken, was du schon tust</button><button class="btn" id="shx">Erst umschauen</button></div>`);
+  sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p><div class="row"><button class="btn go" ${da("dinge")} id="welcomecheck">Mit dem Hebel-Check beginnen</button><button class="btn" data-inv="1">Abhaken, was schon Alltag ist</button><button class="btn" id="shx">Erst umschauen</button></div>`);
   $("#sh").querySelectorAll("#shx").forEach(b=>b.onclick=closeSheet)}
 function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis","year"].includes(h)){tab=h;return}
   if(h.startsWith("b-")&&B[h.slice(2)]){cur=h.slice(2);if(!S.read[cur])S.read[cur]=now();tab="know";ktab="bites";return}
