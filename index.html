@@ -393,6 +393,11 @@ input.hap{touch-action:pan-y}
 .hintline{margin:12px 0 0;font-size:14.5px;color:var(--muted);line-height:1.5}
 .linkbtn.inl{padding:8px 0;margin-block:-8px;font-size:inherit;color:var(--ink)}
 .hebel .label .linkbtn.inl{font-size:inherit;letter-spacing:inherit;text-transform:inherit}
+/* Kennzahlen antippbar */
+button.kpi{border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;position:relative}
+button.kpi+button.kpi{border-left:2px solid var(--ink)}
+button.kpi::after{content:"›";position:absolute;right:8px;top:8px;font-size:16px;line-height:1;color:var(--muted)}
+button.li{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
 
 </style>
 </head><body>
@@ -865,7 +870,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now();
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 12:16";
+const BUILD="19.10.2026, 12:20";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1311,7 +1316,7 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
   return `<section class="view">
    <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
      <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
-   <div class="kpis"><div class="kpi"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></div><div class="kpi"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${share()!=null?`12 Monate · ${share()} % deines Jahres`:"in 12 Monaten"}</span></div><div class="kpi"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></div></div>
+   <div class="kpis"><button class="kpi" data-kpi="m"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></button><button class="kpi" data-kpi="y"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${share()!=null?`12 Monate · ${share()} % deines Jahres`:"in 12 Monaten"}</span></button><button class="kpi" data-kpi="d"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></button></div>
    ${weekCard()}${nudge}
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
      <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):"Begegnung"}</span></button>`}).join("")}</div>${invOpen()&&S.log.length>=5?`<p class="hintline">Steht hier etwas, das du sowieso immer tust? <button class="linkbtn inl" data-inv="1">Schon Alltag abhaken</button> · <button class="linkbtn inl" data-invskip="1">Passt so</button></p>`:""}</div>
@@ -1328,6 +1333,23 @@ function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>
   ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"schon Alltag":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
   ${st.next?`<p class="muted" style="font-size:15px">Noch ${st.next[0]-st.g} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt 1 bis 3, eine dauerhafte Änderung 6 oder ab einer Tonne im Jahr 8, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 3.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
+
+/* Kennzahlen zum Antippen: woher die Zahl kommt und was sie bedeutet */
+function areaRows(from,to){const v=AK.map(k=>[k,sumKg(from,to,k)]).filter(x=>x[1]>=.05).sort((a,b)=>b[1]-a[1]),mx=v.length?v[0][1]:1;
+  return v.length?`<div class="fp">${v.map(([k,x])=>`<div class="fprow" ${da(k)}><span>${AREAS[k].n}</span><span class="track"><span style="width:${x/mx*100}%"></span></span><em>${kgTxt(x)}</em></div>`).join("")}</div>`:""}
+function topSteps(from,to){const m={};S.log.forEach(e=>{const v=eKg(e,from,to);if(v>0)(m[e.act||e.t]=m[e.act||e.t]||{t:e.t,a:e.a,v:0,n:0}),m[e.act||e.t].v+=v,m[e.act||e.t].n++});
+  const l=Object.values(m).sort((a,b)=>b.v-a.v).slice(0,3);return l.length?`<h3>Am meisten gebracht</h3><div class="list">${l.map(x=>`<div class="li" ${da(x.a)}>${dot(x.a)}<span class="tx"><b>${esc(x.t)}</b><small>${x.n}× eingetragen</small></span><span class="aside num">${kgTxt(x.v)}</span></div>`).join("")}</div>`:""}
+function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.total*1000:10300,yrDay=yr/365;
+  if(k==="m"){const m=monthStart(),pm=monthStart(new Date(m-DAY)),v=sumKg(m),pv=sumKg(pm,m),n=S.log.filter(e=>!e.g&&e.ts>=m).length;
+    sheet(`<span class="label">Gespart im ${MONTHS[mo]}</span><h2>${kgTxt(v)} CO₂e</h2><p>${n} Schritt${n===1?"":"e"} in diesem Monat${activeBig().length?", dazu deine dauerhaften Änderungen, die jeden Tag mitzählen":""}. ${pv>0?`Im ${MONTHS[(mo+11)%12]} waren es ${kgTxt(pv)}.`:""}</p>${areaRows(m)}${topSteps(m)}${v?"":`<p class="muted">Noch nichts in diesem Monat. Ein Schritt aus „Schnell eintragen“ reicht für den Anfang.</p>`}`);return}
+  if(k==="y"){const f=now()-365*DAY,v=sumKg(f),dd=v/yrDay;
+    sheet(`<span class="label">Letzte 12 Monate</span><h2>${kgTxt(v)} CO₂e</h2><p>${lc?`Dein Fußabdruck liegt laut Hebel-Check bei rund ${nf(lc.total,1)} t im Jahr, also etwa ${kgTxt(yrDay)} am Tag.`:`Ein Mensch in Deutschland verursacht im Schnitt rund 10,3 t im Jahr, etwa ${kgTxt(yrDay)} am Tag.`} ${v>0?`Deine Einsparung entspricht damit ${dd<1?"weniger als einem Tag":`etwa ${nf(dd,dd<10?1:0)} Tag${Math.round(dd)===1?"":"en"}`} ${lc?"deines":"eines durchschnittlichen"} Fußabdrucks.`:""}</p>${areaRows(f)}
+     <p class="muted" style="font-size:14.5px">Kleine Schritte summieren sich langsam. Die großen Verschiebungen kommen meist aus dauerhaften Änderungen bei Wohnen, Wegen und Essen.</p>${lc?"":`<div class="row"><button class="btn go" ${da("dinge")} data-check="1">Eigenen Fußabdruck messen</button></div>`}`);return}
+  const ab=activeBig().slice().sort((a,b)=>(b.y||0)-(a.y||0)),pd=perDay();
+  const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(free)):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id));
+  sheet(`<span class="label">Wirkt jeden Tag weiter</span><h2>${kgTxt(pd)} am Tag</h2><p>${ab.length?`Das kommt aus ${ab.length===1?"deiner dauerhaften Änderung":`deinen ${ab.length} dauerhaften Änderungen`}. Sie zählen jeden Tag von selbst weiter, ohne dass du etwas einträgst. Im Jahr sind das rund ${kgTxt(pd*365)}${lc?`, ${nf(pd*365/yr*100,pd*365/yr<.1?1:0)} % deines Fußabdrucks`:""}.`:"Hier zählen dauerhafte Änderungen, etwa ein Ökostromtarif oder weniger Fleisch als Grundregel. Einmal eingetragen, rechnen sie jeden Tag von selbst weiter."}</p>
+   ${ab.length?`<div class="list">${ab.map(e=>`<button class="li" ${da(e.a)} data-log="${e.act}">${dot(e.a)}<span class="tx"><b>${esc(e.t)}</b><small>seit ${fmtDate(e.ts)} · bisher ${kgTxt(eKg(e))}</small></span><span class="aside num">${kgTxt((e.y||0)/365)}</span></button>`).join("")}</div>`:""}
+   ${[...new Set(sug)].length?`<h3>${ab.length?"Was als Nächstes viel bewirkt":"Womit du anfangen könntest"}</h3><div class="row">${[...new Set(sug)].slice(0,3).map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div>`:""}`)}
 
 /* ---------- Eintragen ---------- */
 function logAct(id,ev,el){const a=A[id];if(!a)return;
@@ -1613,6 +1635,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.actmenu){actMenu(d.actmenu);return}
   if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
+  if(d.kpi){kpiSheet(d.kpi);return}
   if(d.inv){invSheet();return}
   if(d.invskip){S.invDone=1;save();render();return}
   if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();return}
