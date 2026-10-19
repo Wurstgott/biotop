@@ -86,7 +86,7 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 .qa{padding-left:16px}
 .qa b{font-weight:700;font-size:15px;line-height:1.25}
 .qa span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.qa:active{transform:translate(2px,2px)}
+.qa:active:not(.nopress){transform:translate(2px,2px)}
 @media (hover:hover){.qa:hover{box-shadow:3px 3px 0 var(--c)}}
 
 /* Karten und Bögen */
@@ -111,7 +111,7 @@ h3{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 8
 .btn{border:2px solid var(--ink);background:transparent;padding:9px 15px;font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:16px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em;transition:transform .15s,box-shadow .15s,background-color .2s}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn.go{background:var(--c,var(--wege));border-color:var(--ink);color:var(--on)}
-.btn:active:not(:disabled){transform:translate(2px,2px)}
+.btn:active:not(.nopress):not(:disabled){transform:translate(2px,2px)}
 @media (hover:hover){.btn:hover:not(:disabled){box-shadow:3px 3px 0 var(--c,var(--dinge))}}
 .btn:disabled{opacity:.4;cursor:default}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
@@ -129,7 +129,8 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .ink i{width:22px;height:22px;border-radius:50%;background:var(--c,conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0));mix-blend-mode:var(--blend);transition:transform .35s cubic-bezier(.34,1.5,.5,1)}
 .ink[aria-pressed="true"]{background:var(--c,var(--ink));color:var(--on)}
 .ink[aria-pressed="true"]:not([data-a]){color:var(--paper)}
-.ink[aria-pressed="true"] i{background:var(--sheet);transform:scale(.7)}
+.ink[aria-pressed="true"] i{background:color-mix(in srgb,var(--c) 55%,var(--on));mix-blend-mode:normal;transform:scale(.78);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 70%,var(--sheet))}
+.ink[aria-pressed="true"]:not([data-a]) i{background:conic-gradient(var(--essen) 0 20%,var(--wohnen) 0 40%,var(--wege) 0 60%,var(--dinge) 0 80%,var(--wir) 0);box-shadow:0 0 0 2px var(--paper)}
 
 /* Eintragsliste */
 .acts{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
@@ -140,7 +141,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .act .kg{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .act .plus{width:30px;height:30px;flex:none;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:20px;line-height:1;background:var(--sheet);position:relative}
 .act .plus::after{content:"";position:absolute;inset:3px;background:var(--c);mix-blend-mode:var(--blend);opacity:0;transition:opacity .2s}
-.act:active .plus::after{opacity:1}
+.act:active:not(.nopress) .plus::after{opacity:1}
 .act.on .plus{background:var(--c);color:var(--on)}
 .cnt{font-family:var(--f-mono);font-size:12px;background:var(--c);color:var(--on);padding:1px 6px}
 .state{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
@@ -176,7 +177,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .stampbtn::before,.stampbtn::after{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:var(--blend);z-index:-1}
 .stampbtn::before{background:var(--wohnen);transform:translate(-5px,-3px)}
 .stampbtn::after{background:radial-gradient(var(--dinge) 1.3px,transparent 1.6px) 0 0/6px 6px;transform:translate(5px,4px)}
-.stampbtn:active{transform:scale(.96)}
+.stampbtn:active:not(.nopress){transform:scale(.96)}
 .duel .opts{display:flex;flex-direction:column;gap:8px}
 .opt{border:2px solid var(--ink);background:var(--sheet);text-align:left;padding:12px 14px;font-size:16px;line-height:1.35;display:flex;flex-direction:column;gap:6px}
 .opt.eq{display:block}
@@ -208,8 +209,10 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 
 /* Saison */
 .saison{display:flex;flex-wrap:wrap;gap:6px}
-.saison span{border:1.5px solid var(--ink);padding:3px 9px;font-size:14px;background:var(--sheet)}
-.saison span:nth-child(5n+1){box-shadow:3px 3px 0 var(--essen)}.saison span:nth-child(5n+2){box-shadow:3px 3px 0 var(--wir)}.saison span:nth-child(5n+3){box-shadow:3px 3px 0 var(--wohnen)}.saison span:nth-child(5n+4){box-shadow:3px 3px 0 var(--dinge)}.saison span:nth-child(5n){box-shadow:3px 3px 0 var(--wege)}
+.saison{gap:8px}
+.saison .sz{border:1.5px solid var(--ink);padding:6px 11px;min-height:40px;font-size:14px;background:var(--sheet);transition:transform .16s ease-out,box-shadow .16s ease-out}
+.saison .sz:nth-child(5n+1){box-shadow:3px 3px 0 var(--essen)}.saison .sz:nth-child(5n+2){box-shadow:3px 3px 0 var(--wir)}.saison .sz:nth-child(5n+3){box-shadow:3px 3px 0 var(--wohnen)}.saison .sz:nth-child(5n+4){box-shadow:3px 3px 0 var(--dinge)}.saison .sz:nth-child(5n){box-shadow:3px 3px 0 var(--wege)}
+.saison .sz:active:not(.nopress){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);transition-duration:.08s}
 
 /* Jahr */
 .fp{display:flex;flex-direction:column;gap:10px}
@@ -330,8 +333,8 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .lprog{flex-wrap:wrap;row-gap:4px}
 .stampbtn{color:var(--on)}
 .qa,.btn,.card,.opt,.chip,.nudge,.act .plus{transition:transform .16s ease-out,box-shadow .16s ease-out,background-color .2s}
-.qa:active,.btn:active:not(:disabled),.opt:active:not(:disabled),.chip:active,.nudge:active{transform:translate(2px,2px);box-shadow:none;transition-duration:.08s}
-button.card:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--c,var(--wege));transition-duration:.08s}
+.qa:active:not(.nopress),.btn:active:not(.nopress):not(:disabled),.opt:active:not(.nopress):not(:disabled),.chip:active:not(.nopress),.nudge:active:not(.nopress){transform:translate(2px,2px);box-shadow:none;transition-duration:.08s}
+button.card:active:not(.nopress){transform:translate(3px,3px);box-shadow:3px 3px 0 var(--c,var(--wege));transition-duration:.08s}
 .toast.out{opacity:0;transform:translate(-50%,6px);transition:opacity .18s ease-in,transform .18s ease-in}
 .sheet.out{background:rgba(10,12,18,0);transition:background .2s;pointer-events:none}
 .sheet.out .panel{transform:translateY(40px);opacity:0;transition:transform .2s ease-in,opacity .2s ease-in}
@@ -378,14 +381,14 @@ button:disabled>label.hap{display:none}
 .toggle .knob{position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:12px;background:var(--ink);transition:width .16s ease-out,left .24s cubic-bezier(.3,.7,.2,1)}
 .toggle[aria-checked="true"]{background:var(--wir)}
 .toggle[aria-checked="true"] .knob{left:calc(100% - 26px)}
-.toggle:active .knob{width:30px}
-.toggle[aria-checked="true"]:active .knob{left:calc(100% - 32px)}
+.toggle:active:not(.nopress) .knob{width:30px}
+.toggle[aria-checked="true"]:active:not(.nopress) .knob{left:calc(100% - 32px)}
 /* Reiterleiste: ein Punkt gleitet */
 nav.tabs button[aria-current="page"]::before{display:none}
 .tabdot{position:absolute;top:-5px;left:0;width:8px;height:8px;border-radius:50%;background:var(--wege);border:2px solid var(--ink);box-sizing:content-box;margin-left:-2px;pointer-events:none}
 .tabdot.ready{transition:transform .38s cubic-bezier(.3,.7,.2,1),background-color .38s}
 /* Navigation: kein Tick, nur leichtes Abdunkeln */
-.li:active,.linkbtn:active,.fold summary:active,.more:active,.seg button:active,nav.tabs button:active,.close:active,.nudge:active{background-color:color-mix(in srgb,var(--ink) 8%,transparent);transform:none;box-shadow:none}
+.li:active:not(.nopress),.linkbtn:active:not(.nopress),.fold summary:active:not(.nopress),.more:active:not(.nopress),.seg button:active:not(.nopress),nav.tabs button:active:not(.nopress),.close:active:not(.nopress),.nudge:active:not(.nopress){background-color:color-mix(in srgb,var(--ink) 8%,transparent);transform:none;box-shadow:none}
 .toast{display:flex;align-items:center;gap:10px}
 @media (prefers-reduced-motion:reduce){.fill-in[aria-pressed="true"]{animation:none;background-image:none}.okmark{animation:none;stroke-dashoffset:0}.tabdot.ready,.toggle,.toggle .knob{transition:none}}
 
@@ -416,6 +419,61 @@ button.li{width:100%;border:0;background:none;color:inherit;font:inherit;text-al
 .invfold summary>span:nth-child(2){flex:1}
 .invfold>div{padding-top:2px}
 .setdata{display:flex;flex-direction:column;gap:8px;border-top:1.5px dashed var(--line);padding-top:14px}
+
+/* --- Wünsche C: Wege zur nächsten Stufe, Größenordnungen, Monate, Saison, Scrollen beim Halten --- */
+:root{--htop:1}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--htop:.6}}
+:root[data-theme="dark"]{--htop:.6}
+/* Halten und Wischen: nichts markiert Text, kein Kontextmenü, Wischen gehört dem Browser */
+button,summary,a,label.hap{touch-action:manipulation}
+button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.sheet .panel{overscroll-behavior:contain}
+/* Als Nächstes */
+.nextup{border:2px solid var(--ink);background:var(--paper);padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px;box-shadow:4px 4px 0 var(--c)}
+.nextup h3{font-size:22px}
+.nextup>p{font-size:15.5px}
+.nextup .ways{display:flex;flex-direction:column;gap:2px;margin-top:4px;border-top:1.5px dashed var(--line);padding-top:10px}
+.nextup .ways .list .li:last-child{border-bottom:0}
+.way{min-height:52px}
+.way .tx small{display:block;line-height:1.35;margin-top:2px}
+.way .pts{flex:none;min-width:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 7px;background:color-mix(in srgb,var(--c) 26%,var(--sheet));font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:19px;line-height:1;color:var(--ink)}
+.way .pts small{font-family:var(--f-mono);font-weight:400;font-size:11px;margin-top:2px;color:var(--muted);letter-spacing:.02em}
+/* Größenordnungen */
+.cmpx{border-left:3px solid var(--wir);padding:2px 0 2px 12px;display:flex;flex-direction:column;gap:5px}
+.cmpx p{font-size:15px;color:var(--muted)}
+.cmpx ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.cmpx li{font-size:16px;font-weight:600;line-height:1.35;padding-left:18px;position:relative}
+.cmpx li::before{content:"";position:absolute;left:0;top:.42em;width:9px;height:9px;border-radius:50%;background:var(--wir);mix-blend-mode:var(--blend)}
+.cmpx li+li::before{background:var(--wege)}
+/* Jahresringe: Ringe und Monate antippbar */
+.rhit{stroke:transparent;pointer-events:stroke;cursor:pointer}
+@media (hover:hover){.rhit:hover{stroke:color-mix(in srgb,var(--ink) 14%,transparent)}}
+.rmonths{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.rm{border:1.5px solid var(--ink);background:var(--sheet);padding:5px 8px;min-width:54px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-family:var(--f-mono);font-size:12px;line-height:1.15}
+.rm b{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 80;font-size:14px;text-transform:uppercase}
+.rm b i{font-style:normal;font-family:var(--f-mono);font-weight:400;font-size:11px;color:var(--muted)}
+.rm span{color:var(--muted)}
+.rm:active:not(.nopress){background-color:color-mix(in srgb,var(--ink) 8%,var(--sheet))}
+.mnav{justify-content:space-between}
+/* Saison: Riso-Zeichnung und Kalender */
+.szart{width:120px;height:120px;flex:none;display:block;overflow:visible}
+.szart .i1,.szart .ht,.szart .i2{mix-blend-mode:var(--blend)}
+.szart .ht{opacity:var(--htop)}
+.szart .s{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.szhead{display:flex;align-items:center;gap:16px}
+.szhead>.szart{border:2px solid var(--ink);background:var(--paper)}
+.szhead h2{font-size:30px}
+.szcal{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px}
+.szcal span{display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.szcal i{display:block;width:100%;height:16px;border:1.5px solid var(--line);background:var(--sheet)}
+.szcal .fr i{background:var(--c);border-color:var(--ink);mix-blend-mode:var(--blend)}
+.szcal .lg i{background:radial-gradient(var(--c) 1.3px,transparent 1.7px) 0 0/5px 5px var(--sheet);border-color:var(--ink)}
+.szcal .now{color:var(--ink);font-weight:700}
+.szcal .now i{outline:2px solid var(--ink);outline-offset:1px}
+.szleg{display:flex;gap:16px;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:-4px}
+.szleg span{display:inline-flex;align-items:center;gap:6px}
+.szleg i{display:inline-block;width:14px;height:10px;border:1.5px solid var(--ink);background:var(--ink)}
+.szleg i.lg{background:radial-gradient(var(--ink) .9px,transparent 1.2px) 0 0/3.5px 3.5px}
 
 </style>
 </head><body>
@@ -836,6 +894,59 @@ const SAISON=[
 ["Grünkohl","Rosenkohl","Wirsing","Lauch","Feldsalat","Schwarzwurzeln","Äpfel (Lager)","Kartoffeln (Lager)"]
 ];
 
+/* Kurzinfos zu allen Einträgen in SAISON. Schlüssel ist der Name ohne Klammerzusatz.
+   m = Monate frisch aus dem Freiland, l = Monate aus dem Lager (1 = Januar, „11-2“ heißt November bis Februar). Die Monatslisten in SAISON sind eine Auswahl daraus.
+   f = Grundform der kleinen Riso-Zeichnung, c = zwei Tinten (Körper, Blatt und Raster), x = zwei bis drei Sätze zu Saison, Lagerung, Küche oder Klima.
+   Saisonzeiten nach den Saisonkalendern von Verbraucherzentrale und BZfE, Lagerhinweise nach BZfE. Klimahinweise nach ifeu (Lebensmittel 2020). */
+const SAISON_INFO={
+"Grünkohl":{m:"11-2",f:"kraus",c:["wir","wege"],x:"Ein Wintergemüse, geerntet von November bis Februar. Kälte macht die Blätter milder, weil die Pflanze dann mehr Zucker einlagert. Die harten Blattrippen vor dem Kochen herausschneiden."},
+"Rosenkohl":{m:"10-2",f:"roeschen",c:["wir","wohnen"],x:"Die Röschen wachsen dicht am Stängel und werden von Oktober bis Februar geerntet. Ungewaschen halten sie sich im Kühlschrank etwa eine Woche. Gleich große Röschen garen gleichmäßig."},
+"Wirsing":{m:"6-2",f:"kopf",c:["wir","wege"],x:"Feste Winterköpfe gibt es bis in den Februar. Die krausen Blätter garen schneller als Weißkohl. Ein ganzer Kopf hält kühl gelagert ein bis zwei Wochen."},
+"Lauch":{m:"6-3",f:"stange",c:["wohnen","wir"],x:"Lauch ist winterhart und kommt fast das ganze Jahr aus dem Freiland. Zwischen den Blättern sitzt oft Erde, deshalb längs aufschneiden und gründlich waschen. Das dunkle Grün gibt eine gute Brühe."},
+"Pastinaken":{m:"10-3",f:"wurzel",c:["wohnen","wir"],x:"Die hellen Wurzeln werden von Oktober bis März geerntet, nach dem ersten Frost schmecken sie süßer. Im Gemüsefach halten sie mehrere Wochen. Geröstet oder als Püree ein Klassiker."},
+"Schwarzwurzeln":{m:"10-3",f:"wurzel",c:["wege","wir"],x:"Der „Winterspargel“ hat Saison von Oktober bis März. Beim Schälen tritt klebriger Milchsaft aus, Handschuhe helfen. Geschält gleich in Wasser mit etwas Zitrone legen, dann bleiben sie hell."},
+"Feldsalat":{m:"10-3",f:"rosette",c:["wir","wohnen"],x:"Feldsalat wächst auch im Winter im Freiland und ist einer der wenigen Salate dieser Jahreszeit. Er welkt schnell, am besten in ein, zwei Tagen essen. Zwischen den Wurzeln steckt oft Sand, also gründlich waschen."},
+"Äpfel":{m:"8-10",l:"11-4",f:"kernobst",c:["essen","wir"],x:"Geerntet wird von August bis Oktober, Lageräpfel gibt es bis ins Frühjahr. Bis dahin haben Äpfel aus der Region meist den kleineren Fußabdruck, danach gleicht die lange Kühlung den Vorteil gegenüber Übersee-Ware fast aus. Äpfel geben Ethylen ab und lassen anderes Obst schneller reifen, darum getrennt lagern."},
+"Frühe Äpfel":{m:"7-8",f:"kernobst",c:["wohnen","wir"],x:"Frühe Sorten wie der Klarapfel reifen schon im Juli und August. Sie sind saftig und säuerlich, halten aber nur wenige Wochen. Gut für Apfelmus und Kuchen."},
+"Möhren":{m:"6-10",l:"11-4",f:"wurzel",c:["essen","wir"],x:"Frische Möhren gibt es von Juni bis Oktober, Lagermöhren den ganzen Winter. Ohne Grün bleiben sie im Kühlschrank länger fest, weil das Kraut Wasser zieht. Das Grün selbst taugt für Pesto."},
+"Rote Bete":{m:"7-11",l:"12-3",f:"rund",c:["dinge","wege"],x:"Rote Bete wird von Juli bis November geerntet und hält kühl gelagert monatelang. Mit Schale gegart blutet sie weniger aus. Der Saft färbt stark, Handschuhe schützen die Hände."},
+"Chicorée":{m:"10-4",f:"spindel",c:["wohnen","wir"],x:"Chicorée treibt im Winter im Dunkeln aus Wurzeln, die im Herbst geerntet wurden. Licht macht ihn grün und bitter, deshalb dunkel und kühl lagern. Wer es milder mag, schneidet den Strunk keilförmig heraus."},
+"Kartoffeln":{m:"6-10",l:"11-5",f:"knolle",c:["wohnen","essen"],x:"Geerntet wird von Juni bis Oktober, Lagerkartoffeln gibt es bis ins Frühjahr. Kühl, dunkel und luftig lagern, aber nicht im Kühlschrank, dort wird Stärke zu Zucker. Grüne Stellen großzügig wegschneiden."},
+"Zwiebeln":{m:"7-9",l:"10-5",f:"zwiebel",c:["wohnen","essen"],x:"Zwiebeln werden im Spätsommer geerntet und halten trocken und luftig viele Monate. Nicht neben Kartoffeln lagern, beide verderben dann schneller. Ein scharfes Messer schont die Augen, weil weniger Zellen platzen."},
+"Bärlauch":{m:"3-5",f:"blatt",c:["wir","wege"],x:"Bärlauch wächst von März bis Mai in feuchten Laubwäldern. Beim Sammeln auf giftige Doppelgänger wie Maiglöckchen achten: Nur Bärlauch riecht beim Zerreiben nach Knoblauch. Frisch hält er wenige Tage, als Pesto Monate."},
+"Spinat":{m:"3-5,9-11",f:"blatt",c:["wir","wege"],x:"Spinat kommt im Frühjahr und im Herbst aus dem Freiland. Er welkt schnell und schmeckt in den ersten ein, zwei Tagen am besten. Reste lassen sich aufwärmen, wenn sie zügig gekühlt wurden."},
+"Rhabarber":{m:"4-6",f:"rhabarber",c:["dinge","wir"],x:"Rhabarber hat Saison von April bis zum Johannistag am 24. Juni. Danach steigt der Gehalt an Oxalsäure, und die Pflanze braucht Ruhe. Nur die Stiele sind essbar, die Blätter nicht."},
+"Radieschen":{m:"4-10",f:"rund",c:["dinge","wir"],x:"Radieschen wachsen schnell und kommen von April bis Oktober aus dem Freiland. Ohne Blätter bleiben sie im Kühlschrank länger knackig. Die jungen Blätter schmecken im Salat."},
+"Frühlingszwiebeln":{m:"4-10",f:"lauchzw",c:["wir","wohnen"],x:"Frühlingszwiebeln gibt es vom Frühjahr bis in den Herbst aus dem Freiland. Weiß und Grün sind beide essbar, das Grün roh zum Bestreuen. In einem Glas mit etwas Wasser treiben die Wurzelenden wieder aus."},
+"Spargel":{m:"4-6",f:"spargel",c:["wohnen","dinge"],x:"Die Saison läuft von etwa Mitte April bis zum 24. Juni, danach sammelt die Pflanze Kraft fürs nächste Jahr. In ein feuchtes Tuch gewickelt hält er im Kühlschrank zwei, drei Tage. Sehr früher Spargel stammt oft von beheizten Feldern oder kommt per Flugzeug, das vergrößert den Fußabdruck deutlich."},
+"Kohlrabi":{m:"5-10",f:"kohlrabi",c:["wohnen","wir"],x:"Kohlrabi kommt von Mai bis Oktober aus dem Freiland. Die zarten Blätter sind essbar und lassen sich wie Spinat zubereiten. Ohne Blätter hält die Knolle im Kühlschrank etwa eine Woche."},
+"Kopfsalat":{m:"5-10",f:"kopf",c:["wir","wohnen"],x:"Kopfsalat wächst von Mai bis Oktober im Freiland. Im Winter kommt er meist aus beheizten Gewächshäusern oder aus Südeuropa. Gewaschen und trocken geschleudert hält er in einer Dose einige Tage."},
+"Salat":{m:"5-10",f:"kopf",c:["wir","wohnen"],x:"Blattsalate wie Kopfsalat, Eichblatt oder Lollo wachsen von Mai bis Oktober im Freiland. Im Winter stammen sie meist aus beheizten Gewächshäusern oder aus Südeuropa. Trocken geschleudert in einer Dose bleiben sie länger frisch."},
+"Erdbeeren":{m:"5-7",f:"erdbeere",c:["dinge","wir"],x:"Freiland-Erdbeeren reifen von Ende Mai bis Juli. Im Winter stammen sie aus beheizten Gewächshäusern oder von weit her. Erst kurz vor dem Essen waschen, sonst werden sie schnell weich."},
+"Kirschen":{m:"6-8",f:"kirsche",c:["dinge","essen"],x:"Süßkirschen gibt es von Juni bis August. Mit Stiel halten sie länger, gekühlt zwei, drei Tage. Kirschen reifen nach der Ernte nicht nach."},
+"Erbsen":{m:"6-7",f:"erbse",c:["wir","wege"],x:"Frische Erbsen haben im Juni und Juli Saison. Ihr Zucker wird nach der Ernte schnell zu Stärke, deshalb bald essen oder einfrieren. Tiefkühlerbsen werden meist wenige Stunden nach der Ernte gefroren und sind eine gute Wahl."},
+"Zucchini":{m:"6-9",f:"lang",c:["wir","wohnen"],x:"Zucchini wachsen von Juni bis September, oft mehr, als man essen kann. Kleine Früchte sind fester und aromatischer. Bitter schmeckende Zucchini nicht essen, sie können giftige Bitterstoffe enthalten."},
+"Johannisbeeren":{m:"6-7",f:"rispe",c:["dinge","essen"],x:"Rote, weiße und schwarze Johannisbeeren reifen im Juni und Juli. Mit einer Gabel lassen sie sich leicht von den Rispen streifen. Sie lassen sich gut einfrieren und einkochen."},
+"Himbeeren":{m:"6-9",f:"himbeere",c:["dinge","essen"],x:"Himbeeren reifen von Juni bis September, Herbstsorten bis zum ersten Frost. Sie sind empfindlich und halten nur ein, zwei Tage. Einzeln auf einem Blech eingefroren kleben sie nicht zusammen."},
+"Heidelbeeren":{m:"7-9",f:"beeren",c:["wege","dinge"],x:"Kulturheidelbeeren reifen von Juli bis September. Ungewaschen und gekühlt halten sie etwa eine Woche. Wilde Waldheidelbeeren sind auch innen blau, Kulturheidelbeeren innen hell."},
+"Bohnen":{m:"7-9",f:"bohne",c:["wir","wege"],x:"Grüne Bohnen gibt es von Juli bis September. Roh sind sie giftig, denn sie enthalten Phasin, das erst beim Kochen zerfällt. Rund zehn Minuten garen reicht."},
+"Gurken":{m:"6-9",f:"lang",c:["wir","wege"],x:"Freilandgurken gibt es von Juni bis September. Sie mögen keine Kälte und reifen neben Tomaten und Äpfeln schneller nach, deshalb kühl, aber nicht im kältesten Fach lagern. In der Schale steckt viel Aroma."},
+"Tomaten":{m:"7-10",f:"tomate",c:["essen","wir"],x:"Freilandtomaten reifen von Juli bis Oktober. Nicht in den Kühlschrank legen, dort verlieren sie Aroma. Tomaten aus beheizten Gewächshäusern haben im Winter einen um ein Vielfaches größeren Fußabdruck als sonnengereifte."},
+"Mangold":{m:"6-11",f:"mangold",c:["wir","dinge"],x:"Mangold wächst von Juni bis November. Stiele und Blätter garen unterschiedlich lang, deshalb die Stiele zuerst in die Pfanne. Bunte Stiele behalten beim kurzen Garen ihre Farbe."},
+"Paprika":{m:"7-10",f:"paprika",c:["essen","wir"],x:"Paprika aus dem Freiland oder ungeheizten Tunneln gibt es von Juli bis Oktober. Grüne Paprika sind unreif geerntet und schmecken herber. Kühl, aber nicht unter etwa 8 Grad lagern."},
+"Mais":{m:"8-9",f:"mais",c:["wohnen","wir"],x:"Zuckermais wird im August und September geerntet. Sein Zucker wird nach der Ernte schnell zu Stärke, frisch schmeckt er am süßesten. Mit Hüllblättern hält der Kolben im Kühlschrank zwei, drei Tage."},
+"Pflaumen":{m:"7-9",f:"pflaume",c:["wege","dinge"],x:"Pflaumen reifen von Juli bis September. Der weiße Belag ist ein natürlicher Wachsfilm, der die Frucht schützt. Reife Früchte geben auf leichten Druck nach."},
+"Zwetschgen":{m:"8-10",f:"pflaume",c:["wege","dinge"],x:"Zwetschgen sind eine längliche, festere Art der Pflaume und reifen von August bis Oktober. Beim Backen behalten sie ihre Form, deshalb sind sie die Wahl für den Blechkuchen. Entsteint lassen sie sich gut einfrieren."},
+"Brombeeren":{m:"7-9",f:"himbeere",c:["wege","dinge"],x:"Brombeeren reifen von Juli bis September, auch wild an Weg- und Waldrändern. Sie reifen nicht nach, also nur tiefschwarze pflücken. Gekühlt halten sie ein, zwei Tage."},
+"Birnen":{m:"8-10",f:"birne",c:["wohnen","wir"],x:"Birnen werden von August bis Oktober geerntet und reifen nach. Bei Zimmertemperatur werden sie in wenigen Tagen weich, im Kühlschrank halten sie länger. Reif ist eine Birne, wenn sie am Stielansatz leicht nachgibt."},
+"Trauben":{m:"9-10",f:"traube",c:["wir","wohnen"],x:"Tafeltrauben aus Deutschland gibt es im September und Oktober. Sie reifen nach der Ernte nicht nach. Ungewaschen und gekühlt halten sie etwa eine Woche."},
+"Kürbis":{m:"9-11",l:"12-2",f:"kuerbis",c:["essen","wohnen"],x:"Kürbisse werden von September bis November geerntet. Ganz und unverletzt halten viele Sorten kühl und trocken mehrere Monate. Beim Hokkaido lässt sich die Schale mitessen."},
+"Brokkoli":{m:"6-10",f:"brokkoli",c:["wir","wege"],x:"Brokkoli kommt von Juni bis Oktober aus dem Freiland. Er sollte bald gegessen werden, gelbe Röschen sind zu lange gelagert. Den Strunk geschält mitgaren, er schmeckt ähnlich wie die Röschen."},
+"Quitten":{m:"10-11",f:"birne",c:["wohnen","essen"],x:"Quitten reifen im Oktober und November. Roh sind sie hart und herb, gekocht werden sie zu Gelee, Mus oder Kompott. Vor dem Verarbeiten den Flaum abreiben."},
+"Rotkohl":{m:"9-11",l:"12-4",f:"kopf",c:["dinge","wege"],x:"Rotkohl wird von September bis November geerntet und hält kühl gelagert bis ins Frühjahr. Säure, etwa von Essig oder Apfel, macht ihn rot, ohne Säure wird er bläulich. Ein ganzer Kopf reicht für mehrere Mahlzeiten und lässt sich gut einfrieren."},
+"Steckrüben":{m:"10-2",f:"rund",c:["wohnen","wege"],x:"Steckrüben werden von Oktober bis Februar geerntet und lagern gut. Ihr gelbes Fleisch ist mild und leicht süßlich. Geschält und gewürfelt passen sie in Eintopf und Püree."}
+};
+
 /* Hebel-Check: Werte in Tonnen pro Jahr, gerundete Richtwerte nach UBA-CO₂-Rechner */
 const CHECK=[
 {id:"ess",a:"essen",q:"Wie isst du meistens?",o:[["Fast täglich Fleisch",2.2],["Durchschnittlich, einige Male pro Woche Fleisch",1.75],["Selten Fleisch",1.4],["Vegetarisch",1.2],["Vegan",0.95]]},
@@ -912,7 +1023,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 15:29";
+const BUILD="19.10.2026, 16:10";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1006,8 +1117,9 @@ const SPEC={essen:k=>hashStr(k)%2?"Sonnenblumen":"Ähren",wohnen:()=>"Rohrkolben
 const species=(k,a)=>SPEC[a](k);
 function lvlBoxes(n,a){const l=level(n);return `<span class="lvl" ${da(a)} aria-label="Stufe ${l} von 6">${LV.map((_,i)=>`<b class="${i<l?"on":""}"></b>`).join("")}</span>`}
 let barMem=null;
-function stageBar(st,withName){const nm=withName?`<span class="stage">${st.n}</span>`:"";if(!st.next)return `<div class="lprog">${nm}<span>Höchste Stufe erreicht. Deine Landschaft wächst weiter.</span></div>`;const pct=Math.round((st.g-st.from)/(st.next[0]-st.from)*100);
-  const old=barMem&&barMem.i===st.i&&barMem.pct<=pct?barMem.pct:(barMem&&barMem.i<st.i?0:pct);if(withName)barMem={i:st.i,pct};
+function stageBar(st,withName){const nm=withName===true?`<span class="stage">${st.n}</span>`:"";if(!st.next)return `<div class="lprog">${nm}<span>Höchste Stufe erreicht. Deine Landschaft wächst weiter.</span></div>`;const pct=Math.round((st.g-st.from)/(st.next[0]-st.from)*100);
+  const old=barMem&&barMem.i===st.i&&barMem.pct<=pct?barMem.pct:(barMem&&barMem.i<st.i?0:pct);if(withName===true)barMem={i:st.i,pct};
+  if(withName==="bar")return `<div class="lprog"><span class="lbar"><i style="width:${old}%" data-to="${pct}"></i></span><span class="num">${nf(Math.floor(st.g*2)/2,1)} von ${st.next[0]}</span></div>`;
   return `<div class="lprog">${nm}<span class="lbar"><i style="width:${old}%" data-to="${pct}"></i></span><span>Nächste Stufe <b>${st.next[1]}</b> <span class="num">${Math.floor(st.g)}/${st.next[0]}</span></span></div>`}
 function fillBars(){requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll("[data-to]").forEach(i=>{i.style.width=i.dataset.to+"%";i.removeAttribute("data-to")})))}
 
@@ -1036,11 +1148,16 @@ function armHaptics(){const on=hapOn();document.querySelectorAll(HAPSEL).forEach
 if(IOS){let q=false;new MutationObserver(()=>{if(!q){q=true;requestAnimationFrame(()=>{q=false;armHaptics()})}}).observe(document.body,{childList:true,subtree:true})}
 /* Wegwischen bricht ab: Bewegt sich der Finger mehr als 10 px oder wird er außerhalb des Elements losgelassen, zählt das Tippen nicht.
    Wichtig auf dem iPhone, wo der unsichtbare Schalter sonst auch beim Wischen umschaltet. Läuft vor allen anderen Klick-Handlern. */
+/* Scrollen beim Halten: Alle Touch-Handler sind passiv, nichts ruft preventDefault, Felder tragen touch-action:manipulation (Wischen bleibt beim Browser).
+   Die gedrückte Optik (:active) darf zu sehen sein. Sobald der Finger mehr als 10 px wandert, bekommt das Feld .nopress, die Optik geht zurück, und das Loslassen löst nichts aus. */
 let tg=null,cancelUntil=0;
-document.addEventListener("touchstart",e=>{cancelUntil=0;const t=e.touches[0],el=e.target.closest&&e.target.closest("button,a,[data-gotab],#landbox");tg=el?{el,x:t.clientX,y:t.clientY,moved:false}:null},{passive:true,capture:true});
-document.addEventListener("touchmove",e=>{if(!tg)return;const t=e.touches[0];if(Math.hypot(t.clientX-tg.x,t.clientY-tg.y)>10)tg.moved=true},{passive:true,capture:true});
-document.addEventListener("touchend",e=>{if(!tg)return;const t=e.changedTouches[0],r=tg.el.getBoundingClientRect(),out=t.clientX<r.left||t.clientX>r.right||t.clientY<r.top||t.clientY>r.bottom;if(tg.moved||out)cancelUntil=performance.now()+600;tg=null},{passive:true,capture:true});
-document.addEventListener("touchcancel",()=>{if(tg)cancelUntil=performance.now()+600;tg=null},{passive:true,capture:true});
+const TAPSEL="button,a,summary,[data-gotab],#landbox,[data-ringm]";
+const unpress=()=>{document.querySelectorAll(".nopress").forEach(x=>x.classList.remove("nopress"))};
+document.addEventListener("touchstart",e=>{cancelUntil=0;unpress();const t=e.touches[0],el=e.target.closest&&e.target.closest(TAPSEL);tg=el?{el,x:t.clientX,y:t.clientY,moved:false}:null},{passive:true,capture:true});
+document.addEventListener("touchmove",e=>{if(!tg||tg.moved)return;const t=e.touches[0];if(Math.hypot(t.clientX-tg.x,t.clientY-tg.y)>10){tg.moved=true;tg.el.classList.add("nopress");fadeRipples()}},{passive:true,capture:true});
+document.addEventListener("touchend",e=>{if(!tg)return;const t=e.changedTouches[0],r=tg.el.getBoundingClientRect(),out=t.clientX<r.left||t.clientX>r.right||t.clientY<r.top||t.clientY>r.bottom;if(tg.moved||out)cancelUntil=performance.now()+600;const el=tg.el;tg=null;setTimeout(()=>el.classList.remove("nopress"),250)},{passive:true,capture:true});
+document.addEventListener("touchcancel",()=>{if(tg){cancelUntil=performance.now()+600;const el=tg.el;setTimeout(()=>el.classList.remove("nopress"),250)}tg=null;fadeRipples()},{passive:true,capture:true});
+document.addEventListener("pointercancel",fadeRipples,{passive:true});
 document.addEventListener("click",e=>{if(performance.now()<cancelUntil){cancelUntil=0;e.preventDefault();e.stopImmediatePropagation()}},true);
 /* Android: ein Muster je Familie, sofort beim Tippen. Quiz-Antworten melden sich selbst (richtig oder falsch). */
 document.addEventListener("click",e=>{const el=e.target.closest(HAPSEL);if(!el||el.disabled||el.dataset.hap==="judge")return;vib(el.matches(OKSEL)?VIB.ok:el.matches(SELSEL)?VIB.sel:VIB.act)},true);
@@ -1052,6 +1169,8 @@ document.addEventListener("pointerdown",e=>{if(calm()||e.button>0)return;const e
   const x=e.clientX-r.left,y=e.clientY-r.top,R=Math.hypot(Math.max(x,r.width-x),Math.max(y,r.height-y)),dot=document.createElement("span");dot.className="rip";
   Object.assign(dot.style,{left:(x-R)+"px",top:(y-R)+"px",width:2*R+"px",height:2*R+"px",background:cs.color});box.appendChild(dot);fx().appendChild(box);
   dot.animate([{transform:"scale(.08)",opacity:.16},{transform:"scale(1)",opacity:.1,offset:.45},{transform:"scale(1)",opacity:0}],{duration:600,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>box.remove()},{passive:true});
+/* Wird aus dem Tippen ein Wischen, verblasst die Welle sofort */
+function fadeRipples(){document.querySelectorAll(".ripbox").forEach(b=>{b.getAnimations({subtree:true}).forEach(a=>a.cancel());b.remove()})}
 /* Auswahl: die Füllung läuft vom Fingerpunkt aus ein. Der Punkt wird im pointerdown gemerkt, das Element nach dem Neuzeichnen über seine data-Attribute wiedergefunden. */
 let pick=null;
 document.addEventListener("pointerdown",e=>{const el=e.target.closest(SELSEL);if(!el)return;const r=el.getBoundingClientRect(),attrs=[...el.attributes].filter(a=>a.name.startsWith("data-")&&a.name!=="data-a");
@@ -1430,33 +1549,151 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
      ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>
    ${slot}
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>
-   <details class="fold" id="saisonfold"><summary><span>Saison im ${MONTHS[mo]}</span><span class="label">Freiland und Lager</span></summary><div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div></details>
+   <details class="fold" id="saisonfold"><summary><span>Saison im ${MONTHS[mo]}</span><span class="label">Freiland und Lager</span></summary><div><div class="saison">${SAISON[mo].map(x=>`<button class="sz" data-saison="${esc(x)}">${x}</button>`).join("")}</div><p class="muted" style="font-size:14px;margin-top:12px">Antippen für Saison, Lagerung und Küchentipps.</p></div></details>
   </section>`}
 const chkOpen=()=>!S.checks.length&&!S.chkSkip;
 const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"></i>`).join("")}<em>${EV[l]}</em></span>`;
+/* ---------- Wege zur nächsten Stufe ----------
+   Was ein Schritt fürs Wachstum bringt, wird nicht geschätzt, sondern mit growth() nachgerechnet: Der Schritt wird kurz probeweise ins Logbuch gelegt.
+   So stimmen die Zahlen auch dann, wenn derselbe kleine Schritt heute schon gezählt hat oder eine alte Stufe (gFloor) gehalten wird. */
+function gainOf(e){const g0=growth();S.log.push(e);let g1;try{g1=growth()}finally{S.log.pop()}return Math.round((g1-g0)*10)/10}
+function gainMis(){const raw=growthRaw()+(S.gAdd||0),fl=S.gFloor||0;return Math.round((Math.max(raw+4,fl)-Math.max(raw,fl))*10)/10}
+const ptxt=v=>(v>0?"+":"")+nf(v,1);
+/* Passend: dauerhafte Änderungen zuerst zu den Hebeln aus dem Check, ohne, was laut Check nicht zutrifft (kein Auto, kein Flug, schon vegetarisch, schon Ökostrom).
+   Kleine Schritte aus dem eigenen Alltag (Schnell eintragen), dazu eine Mission. Höchstens drei Wege, kein Abarbeiten. */
+const BIG_DEF=["fleisch_halb","oekostrom","grad","nurgebraucht","dticket","kaese_weniger","daemmung","handylang"];
+function unfit(id){const lc=lastCheck(),q=(lc&&lc.ans)||{};return (noCar()&&SRCOF[id]==="Auto")||(id==="keinflug"&&!(q.flug>=3))||(q.ess>=3&&["fleisch_halb","veg_dauer"].includes(id))||(q.ess===4&&id==="kaese_weniger")||(q.strom===0&&id==="oekostrom")||(q.heiz===3&&id==="waermepumpe")}
+function nextWays(st){if(!st.next)return [];const lc=lastCheck(),t=now(),miss=st.next[0]-st.g;
+  const hb=lc?lc.top.flatMap(x=>(HEBEL[x[0]]||{big:[]}).big):[];
+  const big=[...new Set([...hb,...BIG_DEF])].filter(id=>A[id]&&A[id].g&&free(id)&&!unfit(id)).map(id=>({id,kind:"big",p:gainOf({id:"_",act:id,a:A[id].a,t:"",g:1,y:A[id].y||0,ts:t})})).filter(x=>x.p>0);
+  const small=quickIds().filter(id=>A[id]&&!A[id].g).map(id=>({id,kind:"small",p:gainOf({id:"_",act:id,a:A[id].a,t:"",k:A[id].k||0,w:A[id].w,ts:t})})).filter(x=>x.p>0);
+  const out=[];if(big[0])out.push(big[0]);if(small[0])out.push(small[0]);
+  const ready=activeMis().find(canFinish),sug=!activeMis().length&&suggestMis(),mp=gainMis();
+  if(mp>0&&ready)out.push({id:ready,kind:"done",p:mp});else if(mp>0&&sug)out.push({id:sug.id,kind:"mis",p:mp});
+  else if(small[1])out.push(small[1]);
+  /* fehlt nur noch wenig, steht der kleine Schritt vorn */
+  if(small[0]&&miss<=small[0].p*2)out.sort((a,b)=>(b.kind==="small")-(a.kind==="small"));
+  return out.slice(0,3)}
+function wayRow(w){const s=w.kind==="small",m=w.kind==="done"||w.kind==="mis",a=m?M[w.id].a:A[w.id].a;
+  const attr=w.kind==="big"?`data-log="${w.id}"`:s?`data-actmenu="${w.id}"`:w.kind==="done"?`data-done="${w.id}"`:`data-misopen="${w.id}"`;
+  const tt=m?(w.kind==="done"?`Mission „${M[w.id].t}“ abschließen`:`Mission: ${M[w.id].t}`):A[w.id].t;
+  const sub=w.kind==="big"?"dauerhaft, einmal eintragen":s?"kleiner Schritt, einmal am Tag":w.kind==="done"?"bereit zum Abschließen":`${M[w.id].d===1?"ein Tag":M[w.id].d+" Tage"}, zählt beim Abschluss`;
+  return `<button class="li way" ${da(a)} ${attr}>${dot(a)}<span class="tx"><b>${esc(tt)}</b><small>${sub}</small></span><span class="pts num">${ptxt(w.p)}${s?`<small>je Tag</small>`:""}</span></button>`}
+function nextBlock(st){if(!st.next)return `<div class="nextup" ${da("wir")}>${stageBar(st)}<p>Alle Stufen sind erreicht. Was du einträgst, wächst trotzdem weiter: der Wald über dem Hügel, neue Pflanzen, Bäume und Laternen.</p></div>`;
+  const miss=Math.max(.5,Math.ceil((st.next[0]-st.g)*2)/2),nx=stHint(st.i),ways=nextWays(st);
+  return `<div class="nextup" ${da("wir")}><span class="label">Als Nächstes</span><h3>${st.next[1]}</h3>
+   <p>${nx?`Neu im Bild: <b>${nx}</b>. `:""}Es fehl${miss===1?"t":"en"} noch <b class="num">${nf(miss,1)} Wachstumspunkt${miss===1?"":"e"}</b>.</p>${stageBar(st,"bar")}
+   ${ways.length?`<div class="ways"><span class="label">Zum Beispiel</span><div class="list">${ways.map(wayRow).join("")}</div></div>`:""}</div>`}
 function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>A[c.k]).sort((a,b)=>b.n-a.n);
-  sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${stageBar(st)}
+  sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${nextBlock(st)}
   <h3>Stufen</h3><div class="list">${STAGES.slice(1).map((x,i)=>{const k=i+1,got=k<=st.i,nx=k===st.i+1;return `<div class="li stg ${got?"got":""}"><span class="tx"><b>${x[1]}</b><small>${got||nx?stText(k):"Noch nicht entdeckt"}</small></span><span class="aside num">${got?"✓":x[0]}</span></div>`}).join("")}</div>
   ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"schon Alltag":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <p class="muted" style="font-size:14.5px">Jeder Bereich wächst an seinem Ort in der Landschaft: Essen als Ähren und Sonnenblumen im Feld, Wohnen als Rohrkolben am Teich, Unterwegs als Lupinen am Wegrand, Konsum als Pilze, die im Wald alles wiederverwerten, Gemeinschaft als Laternen im Dorf. Eine Radfahrt wird deshalb zu Lupinen am Weg.</p>
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
-  ${st.next?`<p class="muted" style="font-size:15px">Noch ${nf(Math.ceil((st.next[0]-st.g)*2)/2,1)} Wachstumspunkte bis zur Stufe „${st.next[1]}“. Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt ½ bis 3 je nach Kilogramm, eine Begegnung 1, eine dauerhafte Änderung 2 bis 10 je nach Kilogramm im Jahr, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 1 oder 2. Derselbe Schritt zählt fürs Wachstum einmal am Tag. Eintragen kannst du ihn trotzdem so oft, wie er vorkommt.</p>`:`<p class="muted">Die letzte Stufe ist erreicht. Die Landschaft wächst trotzdem weiter.</p>`}`)}
+  ${st.next?`<p class="muted" style="font-size:15px">Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt ½ bis 3 je nach Kilogramm, eine Begegnung 1, eine dauerhafte Änderung 2 bis 10 je nach Kilogramm im Jahr, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 1 oder 2. Derselbe Schritt zählt fürs Wachstum einmal am Tag. Eintragen kannst du ihn trotzdem so oft, wie er vorkommt.</p>`:""}`)}
+
+/* ---------- Saison: kleine Riso-Zeichnungen ----------
+   Ein Baukasten aus Grundformen statt Einzelbildern. Jede Zeichnung druckt mit zwei Tinten wie die Landschaft:
+   Tinte 1 als Vollton für den Körper, Tinte 2 für Blatt, Stiel und Zeichnung und als 5-px-Raster über dem leicht versetzten Körper (Passerversatz).
+   Beide Ebenen überdrucken sich (multiply im Hellmodus, screen im Dunkelmodus). Zeichenfläche 120 × 120, eine Einheit = ein Pixel. */
+const P=(d,w)=>`<path class="s" d="${d}" stroke-width="${w||2.4}"/>`;
+const C0=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}"/>`;
+const E0=(x,y,rx,ry,a)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"${a?` transform="rotate(${a} ${x} ${y})"`:""}/>`;
+function kraus(){const L=[],n=7,amp=4.5;for(const sd of [1,-1])for(let k=0;k<=48;k++){const t=sd>0?k/48:1-k/48,y=100-t*84,w=31*Math.pow(Math.sin(Math.PI*(.12+.8*t)),.75);L.push([60+sd*(w+amp*Math.abs(Math.sin(t*Math.PI*n))),y])}
+  return "M"+L.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join("L")+"Z"}
+const SZF={
+ knolle:()=>[`<path d="M28 68c0-18 15-30 34-30s32 10 32 26-14 28-34 28-32-7-32-24z"/>`,P("M45 58q2 2 4 0M74 52q2 2 4 0M62 80q2 2 4 0M82 72q1 2 3 0",1.8)],
+ wurzel:()=>[`<path d="M42 42Q60 35 78 42Q74 72 62 108Q60 112 58 108Q46 72 42 42Z"/>`,`<path d="M57 42C50 28 40 20 32 10C44 13 54 23 60 39Z"/><path d="M59 40C59 26 59 14 62 3C66 15 65 28 62 41Z"/><path d="M63 42C70 28 80 20 90 14C84 25 74 34 65 43Z"/>`+P("M47 56h7M66 66h6M51 79h6M62 92h4",2)],
+ rund:()=>[`<path d="M36 72A24 24 0 1 1 84 72C84 85 75 95 64 97Q62 105 60 113Q58 105 56 97C45 95 36 85 36 72Z"/>`,`<path d="M58 49C48 38 40 24 43 10C53 18 60 32 60 47Z"/><path d="M62 48C66 32 77 19 90 16C86 31 75 42 64 50Z"/>`+P("M60 48V30",2.6)],
+ kohlrabi:()=>[C0(60,74,28),P("M50 50Q40 34 30 26M60 47Q60 30 58 16M70 50Q81 36 92 30",2.6)+E0(27,22,6,10,-40)+E0(57,12,5,10,-5)+E0(95,26,6,10,45)+P("M60 102v9",2.2)],
+ blatt:()=>[`<path d="M60 106C32 86 28 50 50 24C56 16 64 16 70 24C92 50 88 86 60 106Z"/>`,P("M60 116V30",3)+P("M60 86L44 72M60 86L76 72M60 68L46 54M60 68L74 54M60 50L52 42M60 50L68 42",2)],
+ mangold:()=>[`<path d="M60 94C32 76 30 44 50 20C56 13 64 13 70 20C90 44 88 76 60 94Z"/>`,P("M60 116V26",6.5)+P("M60 78L45 64M60 78L75 64M60 60L47 47M60 60L73 47",2.2)],
+ kraus:()=>[`<path d="${kraus()}"/>`,P("M60 114V24",3.2)+P("M60 88L42 74M60 88L78 74M60 68L44 56M60 68L76 56M60 48L50 40M60 48L70 40",2)],
+ rosette:()=>[[0,60,120,180,240,300].map(a=>E0(60,42,11,21,0).replace("/>",` transform="rotate(${a} 60 66)"/>`)).join(""),C0(60,66,6)+[0,60,120,180,240,300].map(a=>`<path class="s" d="M60 66V30" stroke-width="1.8" transform="rotate(${a} 60 66)"/>`).join("")],
+ kopf:()=>[C0(60,66,34),P("M60 100Q49 72 58 34M60 100Q75 76 88 60M60 100Q44 80 30 62",2.6)+P("M30 48Q60 22 90 48",2.2)],
+ roeschen:()=>[`<path d="M56 114L57 14L63 14L64 114Z"/>`+C0(41,88,15)+C0(79,72,15)+C0(41,54,14)+C0(78,36,12),P("M33 83Q41 96 49 83M71 67Q79 80 87 67M34 49Q41 61 48 49M72 32Q78 42 84 32",2.2)+`<path d="M60 16C52 6 54 0 62 2C66 6 64 12 60 16Z"/>`],
+ brokkoli:()=>[`<path d="M50 64L70 64L75 108L45 108Z"/>`+C0(40,48,16)+C0(59,36,18)+C0(80,47,16)+C0(49,62,13)+C0(71,62,13),P("M54 72L56 104M66 72L64 104M60 70L49 56M60 70L72 56",2.2)],
+ stange:()=>[`<path d="M51 50H69V102Q69 109 60 109Q51 109 51 102Z"/>`,`<path d="M57 52L35 13L44 10L61 42Z"/><path d="M63 52L84 10L93 14L67 54Z"/><path d="M57 50L58 6L64 6L63 50Z"/>`+P("M55 109l-4 7M60 109v8M65 109l4 7",2)],
+ lauchzw:()=>[`<path d="M43 92L45 18L50 18L50 92Z"/><path d="M57 92L58 10L63 10L63 92Z"/><path d="M70 92L72 22L77 22L76 92Z"/>`,E0(46.5,96,7,9)+E0(60.5,97,7.5,9.5)+E0(73.5,96,7,9)+P("M46 105v7M60 106v8M74 105v7",1.8)],
+ spargel:()=>[`<path d="M42 112V38Q46.5 18 51 38V112Z"/><path d="M56 112V30Q60.5 10 65 30V112Z"/><path d="M70 112V42Q74.5 22 79 42V112Z"/>`,`<path d="M42 40Q46.5 21 51 40Q46.5 34 42 40Z"/><path d="M56 32Q60.5 13 65 32Q60.5 26 56 32Z"/><path d="M70 44Q74.5 25 79 44Q74.5 38 70 44Z"/><rect x="38" y="82" width="45" height="7"/>`+P("M44 56l4 3M58 50l4 3M72 62l4 3",1.8)],
+ rhabarber:()=>[`<path d="M44 112L49 56L57 56L54 112Z"/><path d="M60 112L61 52L69 52L70 112Z"/><path d="M75 112L77 60L84 62L83 112Z"/>`,`<path d="M30 54C26 32 46 14 62 20C78 10 98 26 92 46C96 58 80 64 70 58C62 66 46 66 40 58C34 62 28 60 30 54Z"/>`],
+ spindel:()=>[`<path d="M60 14C78 32 80 76 68 102Q60 110 52 102C40 76 42 32 60 14Z"/>`,P("M60 104Q56 60 60 18M60 104Q70 70 72 40M60 104Q48 70 47 40",2.2)],
+ zwiebel:()=>[`<path d="M60 24C64 40 88 50 88 72C88 92 74 102 60 102C46 102 32 92 32 72C32 50 56 40 60 24Z"/>`,P("M60 32Q45 62 51 100M60 32Q75 62 69 100",2)+P("M54 102l-4 8M60 102v9M66 102l4 8",1.8)+P("M60 24q2-8-2-15",2.4)],
+ kernobst:()=>[`<path d="M60 44C46 30 24 40 26 64C28 90 46 104 60 96C74 104 92 90 94 64C96 40 74 30 60 44Z"/>`,P("M60 46Q59 34 64 24",3)+`<path d="M64 32C70 20 84 18 91 22C85 32 72 36 64 32Z"/>`],
+ birne:()=>[`<path d="M60 24C68 24 70 38 72 48C84 60 90 76 86 90C82 104 70 108 60 108C50 108 38 104 34 90C30 76 36 60 48 48C50 38 52 24 60 24Z"/>`,P("M60 26Q60 16 66 9",3)+`<path d="M65 17C71 7 84 6 89 10C84 18 72 21 65 17Z"/>`],
+ kirsche:()=>[C0(42,84,15)+C0(78,80,15),P("M42 69Q46 44 65 22M78 65Q74 44 65 22",2.6)+`<path d="M65 22C73 12 87 11 94 15C88 25 76 28 65 22Z"/>`],
+ pflaume:()=>[E0(60,66,28,36,-16),P("M52 34Q40 64 57 100",2.2)+P("M66 31q2-10 9-15",2.8)],
+ beeren:()=>[C0(42,70,17)+C0(76,64,16)+C0(58,94,15),[[42,62],[76,56],[58,87]].map(([x,y])=>`<path d="M${x-4} ${y}l4-4 4 4-4 4z"/>`).join("")],
+ rispe:()=>[[[36,34,7],[46,45,8],[36,57,7],[53,58,8],[59,72,8],[47,76,7],[66,86,8],[72,72,7],[70,100,7]].map(c=>C0(...c)).join(""),P("M26 18Q56 26 70 104",2.4)+`<path d="M26 18C18 8 30 0 38 6C38 14 32 18 26 18Z"/>`],
+ himbeere:()=>[`<path d="M60 44C80 44 84 62 80 76C76 92 66 102 60 102C54 102 44 92 40 76C36 62 40 44 60 44Z"/>`+[[50,50],[70,50],[42,62],[58,60],[78,62],[48,74],[66,72],[54,88],[72,84],[60,98],[44,84]].map(([x,y])=>C0(x,y,7.5)).join(""),`<path d="M42 41Q60 30 78 41L60 45Z"/>`+P("M60 38V22",2.6)],
+ traube:()=>[[[40,40],[54,40],[68,40],[82,40],[34,54],[48,54],[62,54],[76,54],[42,68],[56,68],[70,68],[49,82],[63,82],[56,96]].map(([x,y])=>C0(x,y,7.6)).join(""),P("M61 32Q63 20 72 13M66 22q9-1 11-10",2.4)+`<path d="M72 13C82 4 96 8 100 16C90 22 80 20 72 13Z"/>`],
+ erdbeere:()=>[`<path d="M60 106C40 94 28 68 32 52C36 40 50 38 60 44C70 38 84 40 88 52C92 68 80 94 60 106Z"/>`,`<path d="M60 47L46 36L57 41L60 30L63 41L74 36Z"/>`+P("M60 34V22",2.4)+[[44,58],[56,55],[68,57],[80,60],[40,70],[52,68],[64,69],[76,71],[48,81],[60,82],[72,82],[56,94],[66,93]].map(([x,y])=>E0(x,y,1.1,1.9)).join("")],
+ erbse:()=>[[36,48,60,72,84].map(x=>C0(x,63,7.6)).join(""),P("M24 62C40 44 82 44 98 58C82 80 40 82 24 62Z",3)+P("M24 62l-9-7",2.4)],
+ bohne:()=>[`<path d="M24 38C40 46 58 60 70 80C78 92 88 100 98 102C92 109 80 107 70 99C55 87 40 66 22 48C17 43 18 36 24 38Z"/>`,P("M26 43C44 54 62 70 73 87C80 96 88 100 95 102",1.8)+P("M22 40l-6-9",2.4)],
+ lang:()=>[`<rect x="20" y="47" width="80" height="27" rx="13.5" transform="rotate(-28 60 60)"/>`,`<g transform="rotate(-28 60 60)">${P("M30 56H90M32 65H88",1.8)}<rect x="98" y="55" width="10" height="11" rx="2"/></g>`],
+ tomate:()=>[E0(60,72,34,28),`<path d="M60 46L44 40L55 50L46 58L60 52L74 58L65 50L76 40Z"/>`+P("M60 48V34",3)],
+ paprika:()=>[`<path d="M34 52C32 40 46 36 52 42C56 36 64 36 68 42C74 36 88 40 86 52C90 72 82 98 70 104C64 108 56 108 50 104C38 98 30 72 34 52Z"/>`,`<path d="M56 43Q55 30 64 22L68 26Q61 32 63 43Z"/>`+P("M51 48Q46 74 53 101M69 48Q74 74 67 101",1.8)],
+ mais:()=>[E0(60,60,16,37),`<path d="M60 110C36 98 30 62 44 28C44 62 52 92 60 110Z"/><path d="M60 110C84 98 90 62 76 28C76 62 68 92 60 110Z"/>`+P("M60 23q-4-10-11-14M60 23q4-10 9-16",1.6)],
+ kuerbis:()=>[E0(40,72,20,27)+E0(80,72,20,27)+E0(60,72,24,31),`<path d="M56 44L57 30Q62 25 67 30L64 44Z"/>`+P("M50 47Q43 72 50 99M70 47Q77 72 70 99",2)]
+};
+let szN=0;
+const szBase=n=>String(n).replace(/\s*\(.*\)$/,"");
+const szInfo=n=>(typeof SAISON_INFO!=="undefined"&&(SAISON_INFO[n]||SAISON_INFO[szBase(n)]))||null;
+function szArt(name,cls){const I=szInfo(name);if(!I)return "";const F=(SZF[I.f]||SZF.knolle)(),id="szp"+(++szN),c1=`var(--${I.c[0]})`,c2=`var(--${I.c[1]})`;
+  return `<svg class="szart ${cls||""}" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><pattern id="${id}" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1.45" style="fill:${c2}"/></pattern></defs>
+   <g class="i1" style="fill:${c1}" transform="translate(-1.5 -1)">${F[0]}</g><g class="ht" style="fill:url(#${id})" transform="translate(4 3)">${F[0]}</g><g class="i2" style="fill:${c2};color:${c2}">${F[1]}</g></svg>`}
+/* Monate aus „m“ und „l“ in data.js, zum Beispiel „11-2“ für November bis Februar */
+function szMonths(s){const o=new Set();if(!s)return o;s.split(",").forEach(p=>{const [a,b]=p.split("-").map(Number);for(let m=a,g=0;g<12;m=m%12+1,g++){o.add(m-1);if(m===b)break}});return o}
+function saisonSheet(name){const I=szInfo(name);if(!I)return;const fr=szMonths(I.m),lg=szMonths(I.l),mo=new Date().getMonth(),lag=/Lager/.test(name),b=szBase(name);
+  sheet(`<div class="szhead">${szArt(name)}<div><span class="label">Saison im ${MONTHS[mo]}${lag?" · aus dem Lager":""}</span><h2>${esc(b)}</h2></div></div>
+   <div class="szcal" role="img" aria-label="Frisch: ${[...fr].sort((x,y)=>x-y).map(m=>MONTHS[m]).join(", ")}${lg.size?`. Aus dem Lager: ${[...lg].sort((x,y)=>x-y).map(m=>MONTHS[m]).join(", ")}`:""}.">${MONTHS.map((m,i)=>`<span class="${fr.has(i)?"fr":lg.has(i)?"lg":""}${i===mo?" now":""}" ${da(I.c[0]==="wohnen"&&I.c[1]?I.c[1]:I.c[0])}><i></i>${m[0]}</span>`).join("")}</div>
+   <p class="szleg"><span><i class="fr"></i>frisch</span>${lg.size?`<span><i class="lg"></i>aus dem Lager</span>`:""}</p>
+   <p>${I.x}</p>
+   <p class="muted" style="font-size:14px">Was gerade hier wächst, braucht weder ein beheiztes Gewächshaus noch einen langen Transport. Deshalb ist es meist die klimafreundlichere Wahl.</p>`)}
 
 /* Kennzahlen zum Antippen: woher die Zahl kommt und was sie bedeutet */
 function areaRows(from,to){const v=AK.map(k=>[k,sumKg(from,to,k)]).filter(x=>x[1]>=.05).sort((a,b)=>b[1]-a[1]),mx=v.length?v[0][1]:1;
   return v.length?`<div class="fp">${v.map(([k,x])=>`<div class="fprow" ${da(k)}><span>${AREAS[k].n}</span><span class="track"><span style="width:${x/mx*100}%"></span></span><em>${kgTxt(x)}</em></div>`).join("")}</div>`:""}
-function topSteps(from,to){const m={};S.log.forEach(e=>{const v=eKg(e,from,to);if(v>0)(m[e.act||e.t]=m[e.act||e.t]||{t:e.t,a:e.a,v:0,n:0}),m[e.act||e.t].v+=v,m[e.act||e.t].n++});
+function topSteps(from,to){const m={};S.log.forEach(e=>{const v=eKg(e,from,to);if(v>0)(m[e.act||e.t]=m[e.act||e.t]||{t:e.t||(A[e.act]&&A[e.act].t)||"",a:e.a,v:0,n:0}),m[e.act||e.t].v+=v,m[e.act||e.t].n++});
   const l=Object.values(m).sort((a,b)=>b.v-a.v).slice(0,3);return l.length?`<h3>Am meisten gebracht</h3><div class="list">${l.map(x=>`<div class="li" ${da(x.a)}>${dot(x.a)}<span class="tx"><b>${esc(x.t)}</b><small>${x.n}× eingetragen</small></span><span class="aside num">${kgTxt(x.v)}</span></div>`).join("")}</div>`:""}
+/* ---------- Größenordnungen ----------
+   Vergleichswerte in kg CO₂e, abgestimmt auf die Richtwerte in data.js. Gerundet wird immer nach unten, damit nichts größer wirkt, als es ist. */
+const CMP={
+  auto:.17,     // je Kilometer mit dem Auto, Durchschnitt je Person (data.js „rad5“; UBA, Emissionsdaten Verkehr)
+  zug:.05,      // je Kilometer im Fernzug (data.js „bahn“; UBA). Bahn statt Auto spart damit 0,12 kg je Kilometer.
+  flugBM:200,   // Berlin–München hin und zurück: 2 × rund 500 km × 0,2 kg/km mit Nicht-CO₂-Effekten (data.js „bahnflug“; UBA)
+  buche:12.5,   // eine Buche bindet in rund 80 Jahren etwa 1 t CO₂, im Mittel 12,5 kg im Jahr (Richtwert der Forstwirtschaft; junge und alte Bäume weichen stark ab)
+  trockner:1,   // ein Gang im Wäschetrockner, rund 2,5 kWh (data.js „leine“)
+  laden:.005    // eine Smartphone-Ladung, rund 13 Wh beim deutschen Strommix von rund 0,38 kg/kWh (UBA 2023)
+};
+/* auf zwei gültige Stellen abrunden: 711 → 710, 9,7 → 9 */
+const floor2=x=>{if(x<10)return Math.floor(x);const p=Math.pow(10,Math.floor(Math.log10(x))-1);return Math.floor(x/p)*p};
+/* ein bis zwei Vergleiche, passend zur Größe gewählt. noDays: wenn die Tage des Fußabdrucks schon im Text stehen. */
+function cmpLines(v,yrDay,own,noDays){if(!(v>=.05))return [];const L=[],km=floor2(v/CMP.auto),fl=v/CMP.flugBM,bu=floor2(v/CMP.buche),dy=v/yrDay,whose=own?"deines Fußabdrucks":"eines durchschnittlichen Fußabdrucks in Deutschland";
+  const auto=()=>{if(km<1)return false;L.push(`${nf(km,0)} km mit dem Auto`);return true};
+  const bahn=()=>{const b=floor2(v/(CMP.auto-CMP.zug));if(b>=10)L.push(`${nf(b,0)} km mit der Bahn statt mit dem Auto`)};
+  const days=()=>{if(noDays||dy<1)return false;const d=Math.floor(dy),w=Math.floor(dy/7);L.push(dy>=14?`${w} Wochen ${whose}`:d===1?`ein Tag ${whose}`:`${d} Tage ${whose}`);return true};
+  const buche=()=>{if(bu<1)return false;L.push(bu===1?"die CO₂-Bindung einer Buche in einem Jahr":`die CO₂-Bindung von ${nf(bu,0)} Buchen in einem Jahr`);return true};
+  const flug=()=>{const n=Math.floor(fl+.2);if(n<1)return false;L.push(n===1?"ein Hin- und Rückflug Berlin–München":`${nf(n,0)} Hin- und Rückflüge Berlin–München`);return true};
+  if(v<1){const n=floor2(v/CMP.laden);L.push(`${nf(n,0)} Smartphone-Ladungen`);auto()}
+  else if(v<30){auto();const t=Math.floor(v/CMP.trockner);L.push(t===1?"ein Gang im Wäschetrockner":`${t} Gänge im Wäschetrockner`)}
+  else if(v<150){auto();days()||bahn()}
+  else if(v<1500){flug()||auto();days()||buche()}
+  else{days()||flug();buche()}
+  return L.slice(0,2)}
+/* lead: der Satz vor der Liste, Standard „121 kg sind etwa so viel wie:“ */
+function cmpBlock(v,yrDay,own,noDays,lead){const L=cmpLines(v,yrDay,own,noDays);if(!L.length)return "";
+  return `<div class="cmpx"><span class="label">Zum Vergleich</span><p>${lead||`${kgTxt(v)} ${kgTxt(v)==="1 kg"?"ist":"sind"} etwa so viel wie:`}</p><ul>${L.map(x=>`<li>${x}</li>`).join("")}</ul></div>`}
 function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.total*1000:10300,yrDay=yr/365;
   if(k==="m"){const m=monthStart(),pm=monthStart(new Date(m-DAY)),v=sumKg(m),pv=sumKg(pm,m),n=S.log.filter(e=>!e.g&&e.ts>=m).length;
-    sheet(`<span class="label">Gespart im ${MONTHS[mo]}</span><h2>${kgTxt(v)} CO₂e</h2><p>${n} Schritt${n===1?"":"e"} in diesem Monat${activeBig().length?", dazu deine dauerhaften Änderungen, die jeden Tag mitzählen":""}. ${pv>0?`Im ${MONTHS[(mo+11)%12]} waren es ${kgTxt(pv)}.`:""}</p>${areaRows(m)}${topSteps(m)}${v?"":`<p class="muted">Noch nichts in diesem Monat. Ein Schritt aus „Schnell eintragen“ reicht für den Anfang.</p>`}`);return}
+    sheet(`<span class="label">Gespart im ${MONTHS[mo]}</span><h2>${kgTxt(v)} CO₂e</h2><p>${n} Schritt${n===1?"":"e"} in diesem Monat${activeBig().length?", dazu deine dauerhaften Änderungen, die jeden Tag mitzählen":""}. ${pv>0?`Im ${MONTHS[(mo+11)%12]} waren es ${kgTxt(pv)}.`:""}</p>${cmpBlock(v,yrDay,!!lc)}${areaRows(m)}${topSteps(m)}${v?"":`<p class="muted">Noch nichts in diesem Monat. Ein Schritt aus „Schnell eintragen“ reicht für den Anfang.</p>`}`);return}
   if(k==="y"){const f=now()-365*DAY,v=sumKg(f),dd=v/yrDay;
-    sheet(`<span class="label">${appStart()>f?`Seit deinem Start am ${fmtDate(appStart())}`:"Letzte 12 Monate"}</span><h2>${kgTxt(v)} CO₂e</h2><p>${lc?`Dein Fußabdruck liegt laut Hebel-Check bei rund ${nf(lc.total,1)} t im Jahr, also etwa ${kgTxt(yrDay)} am Tag.`:`Ein Mensch in Deutschland verursacht im Schnitt rund 10,3 t im Jahr, etwa ${kgTxt(yrDay)} am Tag.`} ${v>0?`Deine Einsparung entspricht damit ${dd<1?"weniger als einem Tag":`etwa ${nf(dd,dd<10?1:0)} Tag${Math.round(dd)===1?"":"en"}`} ${lc?"deines":"eines durchschnittlichen"} Fußabdrucks.`:""}</p>${areaRows(f)}
+    sheet(`<span class="label">${appStart()>f?`Seit deinem Start am ${fmtDate(appStart())}`:"Letzte 12 Monate"}</span><h2>${kgTxt(v)} CO₂e</h2><p>${lc?`Dein Fußabdruck liegt laut Hebel-Check bei rund ${nf(lc.total,1)} t im Jahr, also etwa ${kgTxt(yrDay)} am Tag.`:`Ein Mensch in Deutschland verursacht im Schnitt rund 10,3 t im Jahr, etwa ${kgTxt(yrDay)} am Tag.`} ${v>0?`Deine Einsparung entspricht damit ${dd<1?"weniger als einem Tag":`etwa ${nf(dd,dd<10?1:0)} Tag${Math.round(dd)===1?"":"en"}`} ${lc?"deines":"eines durchschnittlichen"} Fußabdrucks.`:""}</p>${cmpBlock(v,yrDay,!!lc,true)}${areaRows(f)}
      <p class="muted" style="font-size:14.5px">Kleine Schritte summieren sich langsam. Die großen Verschiebungen kommen meist aus dauerhaften Änderungen bei Wohnen, Wegen und Essen.</p>${lc?"":`<div class="row"><button class="btn go" ${da("dinge")} data-check="1">Eigenen Fußabdruck messen</button></div>`}`);return}
   const ab=activeBig().slice().sort((a,b)=>effY(b)-effY(a)),pd=perDay(),nb=Object.keys(S.base||{}).length;
   const capped=Object.keys(memo().caps).filter(n=>ab.some(e=>SRCOF[e.act]===n&&e.act!=="custom"&&capFactor(e,now())<1));
-  const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(free)):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id));
-  sheet(`<span class="label">Wirkt jeden Tag weiter</span><h2>${kgTxt(pd)} am Tag</h2><p>${ab.length?`Das kommt aus ${ab.length===1?"deiner dauerhaften Änderung":`deinen ${ab.length} dauerhaften Änderungen`}. Sie zählen jeden Tag von selbst weiter, ohne dass du etwas einträgst. Im Jahr sind das rund ${kgTxt(pd*365)}${lc?`, ${nf(pd*365/yr*100,pd*365/yr<.1?1:0)} % deines Fußabdrucks`:""}.`:"Hier zählen dauerhafte Änderungen, etwa ein Ökostromtarif oder weniger Fleisch als Grundregel. Einmal eingetragen, rechnen sie jeden Tag von selbst weiter."}</p>
+  const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(free)):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id)&&!unfit(id));
+  sheet(`<span class="label">Wirkt jeden Tag weiter</span><h2>${kgTxt(pd)} am Tag</h2><p>${ab.length?`Das kommt aus ${ab.length===1?"deiner dauerhaften Änderung":`deinen ${ab.length} dauerhaften Änderungen`}. ${ab.length===1?"Sie zählt":"Sie zählen"} jeden Tag von selbst weiter, ohne dass du etwas einträgst. Im Jahr sind das rund ${kgTxt(pd*365)}${lc?`, ${nf(pd*365/yr*100,pd*365/yr<.1?1:0)} % deines Fußabdrucks`:""}.`:"Hier zählen dauerhafte Änderungen, etwa ein Ökostromtarif oder weniger Fleisch als Grundregel. Einmal eingetragen, rechnen sie jeden Tag von selbst weiter."}</p>${pd>0?cmpBlock(pd*365,yrDay,!!lc,false,"Das ist im Jahr etwa so viel wie:"):""}
    ${ab.length?`<div class="list">${ab.map(e=>`<button class="li" ${da(e.a)} data-log="${e.act}">${dot(e.a)}<span class="tx"><b>${esc(e.t)}</b><small>seit ${fmtDate(e.ts)} · bisher ${kgTxt(eKg(e))}${capFactor(e,now())<1?" · zählt anteilig":""}</small></span><span class="aside num">${kgTxt(effY(e)/365)}</span></button>`).join("")}</div>`:""}
    ${capped.length?`<p class="muted" style="font-size:14.5px">Überschneidungen zählen nur einmal. ${capped.map(n=>`Deine Änderungen bei „${n}“ ergeben zusammen höchstens rund ${kgTxt(memo().caps[n])} im Jahr`).join(". ")}, ${lc?"so viel verursacht diese Quelle laut deinem Hebel-Check":"ein typischer Höchstwert, solange es keinen Hebel-Check gibt"}. Jede dieser Änderungen zählt deshalb anteilig.</p>`:""}
    ${nb?`<p class="muted" style="font-size:14.5px">Was du als „Schon Alltag“ abgehakt hast, wächst in deiner Landschaft, zählt hier aber nicht mit. Es steckt schon in deinem bisherigen Fußabdruck. Hier zählen nur Änderungen, die du neu angefangen hast.</p>`:""}
@@ -1648,31 +1885,49 @@ function checkResultSheet(r,auto){sheet(`<span class="label">Dein Ergebnis</span
   ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}<h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`).join("")}</div>
   <div class="row"><a class="btn" href="${gcalLink("Biotop: Hebel-Check neu messen",at19(now()+90*DAY),15,"Fünf Minuten: Wie hat sich dein Fußabdruck verändert?")}" target="_blank" rel="noopener">In drei Monaten neu messen</a></div>
   <p class="caveat">Eine grobe Schätzung mit gerundeten Richtwerten nach dem CO₂-Rechner des Umweltbundesamts. Für eine genaue Rechnung lohnt sich der Rechner selbst: uba.co2-rechner.de</p>`)}
-function ringsSVG(){if(!S.log.length)return "";const first=new Date(appStart());const months=[];let d=new Date(first.getFullYear(),first.getMonth(),1);const end=new Date();
-  while(d<=end&&months.length<24){const a=d.getTime(),b=new Date(d.getFullYear(),d.getMonth()+1,1).getTime();const by={};AK.forEach(k=>by[k]=sumKg(a,b,k));months.push({a,by,sum:Object.values(by).reduce((x,y)=>x+y,0)});d=new Date(d.getFullYear(),d.getMonth()+1,1)}
+function ringMonths(){const first=new Date(appStart()),months=[],end=new Date();let d=new Date(first.getFullYear(),first.getMonth(),1);
+  while(d<=end&&months.length<24){const a=d.getTime(),b=new Date(d.getFullYear(),d.getMonth()+1,1).getTime();const by={};AK.forEach(k=>by[k]=sumKg(a,b,k));months.push({a,b,by,sum:Object.values(by).reduce((x,y)=>x+y,0)});d=new Date(d.getFullYear(),d.getMonth()+1,1)}
+  return months}
+/* Jeder Ring lässt sich antippen (unsichtbarer, etwas breiterer Ring darüber). Für Tastatur und Screenreader stehen dieselben Monate als Knöpfe unter den Ringen. */
+function ringsSVG(months){if(!S.log.length)return "";
   /* Gemischte Skala: ein voller Ring steht für 150 kg oder, wenn mehr, für den besten Monat. So wird ein Monat mit 3 kg nicht breit. */
-  const mx=Math.max(RREF,...months.map(m=>m.sum));let r=16,out="";const C=170;
+  const mx=Math.max(RREF,...months.map(m=>m.sum));let r=16,out="",hit="";const C=170;
   months.forEach((m,i)=>{const w=3+12*Math.sqrt(m.sum/mx),rr=r+w/2;let ang=-Math.PI/2;
     out+=`<circle cx="${C}" cy="${C}" r="${rr}" fill="none" stroke="var(--line)" stroke-width="${w}"/>`;
     AK.forEach(k=>{const v=m.by[k];if(!v||!m.sum)return;const sw=v/m.sum*Math.PI*2,a2=ang+sw,large=sw>Math.PI?1:0;
       const p=(t)=>[(C+rr*Math.cos(t)).toFixed(1),(C+rr*Math.sin(t)).toFixed(1)];const [x1,y1]=p(ang),[x2,y2]=p(a2-.0001);
       out+=sw>6.28?`<circle cx="${C}" cy="${C}" r="${rr}" fill="none" stroke="var(--${k})" stroke-width="${w-1}" style="mix-blend-mode:var(--blend)"/>`:`<path d="M${x1} ${y1}A${rr} ${rr} 0 ${large} 1 ${x2} ${y2}" fill="none" stroke="var(--${k})" stroke-width="${w-1}" style="mix-blend-mode:var(--blend)"/>`;ang=a2});
+    hit+=`<circle class="rhit" data-ringm="${m.a}" cx="${C}" cy="${C}" r="${rr.toFixed(1)}" fill="none" stroke-width="${(w+2).toFixed(1)}"/>`;
     r+=w+2});
   const R=Math.max(r,40);
-  return `<svg viewBox="${C-R-6} ${C-R-6} ${2*R+12} ${2*R+12}" role="img" aria-label="Jahresringe: ${months.length} Monate"><circle cx="${C}" cy="${C}" r="5" fill="var(--ink)"/>${out}</svg>`}
+  return `<svg viewBox="${C-R-6} ${C-R-6} ${2*R+12} ${2*R+12}" role="img" aria-label="Jahresringe: ${months.length} Monate"><circle cx="${C}" cy="${C}" r="5" fill="var(--ink)"/>${out}<g aria-hidden="true">${hit}</g></svg>`}
+const MSHORT=["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+function ringList(months){return `<div class="rmonths" role="group" aria-label="Monate ansehen">${months.map(m=>{const d=new Date(m.a);return `<button class="rm" data-ringm="${m.a}" aria-label="${MONTHS[d.getMonth()]} ${d.getFullYear()}: ${kgTxt(m.sum)} gespart. Details ansehen."><b>${MSHORT[d.getMonth()]}${d.getMonth()===0||m===months[0]?` <i>${String(d.getFullYear()).slice(2)}</i>`:""}</b><span class="num">${kgTxt(m.sum)}</span></button>`}).join("")}</div>`}
+/* Monatsdetails: gespart, Schritte, Bereiche, Momente und Missionen des Monats */
+function monthSheet(a){const d=new Date(+a),b=new Date(d.getFullYear(),d.getMonth()+1,1).getTime(),cur=b>now(),lc=lastCheck(),yrDay=(lc?lc.total*1000:10300)/365;
+  const v=sumKg(+a,b),small=S.log.filter(e=>!e.g&&e.ts>=+a&&e.ts<b),meet=small.filter(e=>e.w).length,bigKg=S.log.filter(e=>e.g).reduce((q,e)=>q+eKg(e,+a,b),0),n=small.length;
+  const nb=S.log.filter(e=>e.g&&e.ts>=+a&&e.ts<b);
+  const moms=Object.entries(S.moments||{}).filter(([,t])=>t>1e12&&t>=+a&&t<b).sort((x,y)=>x[1]-y[1]).map(([id,t])=>{const m=MOMENTS.find(q=>q.id===id);if(m)return [m.t,t];const si=/^st(\d+)$/.exec(id);return si&&STAGES[+si[1]]?["Stufe „"+STAGES[+si[1]][1]+"“",t]:null}).filter(Boolean);
+  const mis=Object.entries(S.mis||{}).filter(([id,x])=>x.status==="done"&&x.end>=+a&&x.end<b&&M[id]).map(([id,x])=>[M[id].t,x.end]);
+  const prev=new Date(d.getFullYear(),d.getMonth()-1,1).getTime(),hasPrev=prev>=monthStart(new Date(appStart()));
+  sheet(`<span class="label">${MONTHS[d.getMonth()]} ${d.getFullYear()}${cur?" · bisher":""}</span><h2>${kgTxt(v)} gespart</h2>
+   <p>${n?`${n} Schritt${n===1?"":"e"} eingetragen${meet?`, davon ${meet} Begegnung${meet===1?"":"en"}`:""}.`:"Keine kleinen Schritte in diesem Monat."}${bigKg>=.05?` Dauerhafte Änderungen brachten ${kgTxt(bigKg)} davon${nb.length?`, neu dazu kam ${nb.map(e=>"„"+esc(e.t)+"“").join(" und ")}`:""}.`:nb.length?` Neu dazu kam ${nb.map(e=>"„"+esc(e.t)+"“").join(" und ")}.`:""}</p>
+   ${cmpBlock(v,yrDay,!!lc)}${areaRows(+a,b)}${topSteps(+a,b)}
+   ${moms.length||mis.length?`<h3>Momente</h3><div class="list">${mis.map(([t,ts])=>`<div class="li"><span class="tx"><b>Mission „${esc(t)}“ geschafft</b></span><span class="aside">${fmtDate(ts)}</span></div>`).concat(moms.map(([t,ts])=>`<div class="li"><span class="tx"><b>${esc(t)}</b></span><span class="aside">${fmtDate(ts)}</span></div>`)).join("")}</div>`:""}
+   <div class="row mnav">${hasPrev?`<button class="linkbtn" data-ringm="${prev}">‹ ${MONTHS[new Date(prev).getMonth()]}</button>`:"<span></span>"}${cur?"":`<button class="linkbtn" data-ringm="${b}">${MONTHS[new Date(b).getMonth()]} ›</button>`}</div>`)}
 function weekView(){const ws=weekStart(),days=[...Array(7)].map((_,i)=>{const a=ws+i*DAY,b=a+DAY,by={};AK.forEach(k=>by[k]=S.log.filter(e=>!e.g&&e.a===k&&e.ts>=a&&e.ts<b).length);return {a,by,n:Object.values(by).reduce((x,y)=>x+y,0)}});
   const mx=Math.max(3,...days.map(d=>d.n)),key="w"+ws,kg=sumKg(ws),n=days.reduce((s,d)=>s+d.n,0);
   return `<div class="plain"><div class="sec-h"><h3>Diese Woche</h3><span class="label num">${n} Schritt${n===1?"":"e"} · − ${kgTxt(kg)}</span></div>
    <div class="week">${days.map((d,i)=>`<div><span class="col">${AK.map(k=>d.by[k]?`<span ${da(k)} style="height:${d.by[k]/mx*100}%"></span>`:"").join("")}</span>${["Mo","Di","Mi","Do","Fr","Sa","So"][i]}</div>`).join("")}</div>
    <label class="label" for="weeknote">Was hat sich diese Woche gut angefühlt?</label><textarea id="weeknote" data-week="${key}" placeholder="Ein Satz reicht. Er bleibt auf diesem Gerät.">${esc(S.weeks[key]||"")}</textarea></div>`}
-function viewYear(){const last=S.checks[S.checks.length-1],jan=new Date(new Date().getFullYear(),0,1).getTime(),y0=Math.max(jan,dayStart(appStart()));
+function viewYear(){const RM=S.log.length?ringMonths():[],last=S.checks[S.checks.length-1],jan=new Date(new Date().getFullYear(),0,1).getTime(),y0=Math.max(jan,dayStart(appStart()));
   const got=MOMENTS.filter(m=>S.moments[m.id]);const prevWeeks=Object.entries(S.weeks).filter(([k,v])=>v&&k!=="w"+weekStart()).sort((a,b)=>b[0].slice(1)-a[0].slice(1));
   return `<section class="view">
    <div class="sec"><div class="sec-h"><h2>Dein Fußabdruck</h2>${last?`<span class="label">${fmtDate(last.ts)}</span>`:""}</div>
     ${last?`<div class="plain" ${da("dinge")}><div class="bigt num">${nf(nowTotal(),1)}<small>t im Jahr</small></div>${sinceCheck()>0?`<p style="font-size:15px">Gemessen ${nf(last.total,1)} t. Seit der Messung wirken dauerhafte Änderungen mit <b>${nf(sinceCheck(),1)} t</b> pro Jahr, also heute etwa ${nf(nowTotal(),1)} t.</p>`:""}${share()!=null?`<p style="font-size:15px">In den letzten 12 Monaten hast du ${kgTxt(sumKg(now()-365*DAY))} eingespart, das sind ${share()} % deines Jahres.</p>`:""}${now()-last.ts>90*DAY?`<p class="tip" ${da("dinge")}><b>Zeit für eine neue Messung</b>Dein letzter Check ist über drei Monate her.</p>`:""}${fpBars(last)}${srcBlock(last)}<div class="row"><button class="btn" data-checkres="1">Quellen ansehen</button><button class="btn go" ${da("dinge")} data-check="1">Neu messen</button></div>${S.checks.length>1?`<p class="muted" style="font-size:14.5px">Erste Messung am ${fmtDate(S.checks[0].ts)}: ${nf(S.checks[0].total,1)} t. Jetzt ${nf(last.total,1)} t.</p>`:""}</div>`
     :`<div class="plain"><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen deine drei größten Quellen. Nach ein paar Monaten kannst du neu messen und vergleichen.</p><div class="row"><button class="btn go" ${da("dinge")} data-check="1">Hebel-Check starten</button></div></div>`}</div>
    <div class="sec"><div class="sec-h"><h2>Jahresringe</h2><span class="label num">− ${kgTxt(sumKg(y0))} ${y0>jan?"seit "+fmtDate(y0):"seit Januar"}</span></div>
-    ${S.log.length?`<div class="rings">${ringsSVG()}</div><p class="muted" style="font-size:14.5px">Jeder Ring ist ein Monat, innen der erste. Je breiter der Ring, desto mehr hast du in dem Monat eingespart. Ganz breit wird er ab rund 150 kg oder in deinem besten Monat. Die Farben zeigen die Bereiche.</p><div class="legend">${AK.map(k=>`<span ${da(k)}>${dot(k)}${AREAS[k].n}</span>`).join("")}</div>`:`<p class="empty">Wenn du Schritte einträgst, wächst hier jeden Monat ein Ring.</p>`}</div>
+    ${S.log.length?`<div class="rings">${ringsSVG(RM)}</div>${ringList(RM)}<p class="muted" style="font-size:14.5px">Jeder Ring ist ein Monat, innen der erste. Je breiter der Ring, desto mehr hast du in dem Monat eingespart. Ganz breit wird er ab rund 150 kg oder in deinem besten Monat. Die Farben zeigen die Bereiche. Ein Tipp auf einen Ring oder Monat zeigt die Details.</p><div class="legend">${AK.map(k=>`<span ${da(k)}>${dot(k)}${AREAS[k].n}</span>`).join("")}</div>`:`<p class="empty">Wenn du Schritte einträgst, wächst hier jeden Monat ein Ring.</p>`}</div>
    <div class="sec"><h2>Rückblick</h2>${weekView()}${prevWeeks.length?`<details class="fold"><summary><span>Frühere Wochen</span><span class="label">${prevWeeks.length}</span></summary><div><div class="entries">${prevWeeks.map(([k,v])=>`<div class="en"><span class="tx"><small>Woche ab ${fmtDate(+k.slice(1))}</small><br>${esc(v)}</span></div>`).join("")}</div></div></details>`:""}</div>
    ${got.length?`<div class="sec"><div class="sec-h"><h3>Momente</h3><span class="label">${got.length} von ${MOMENTS.length}</span></div><div class="moms">${got.map(m=>`<span class="mom" title="${fmtDate(S.moments[m.id])}"><i></i>${m.t}</span>`).join("")}</div></div>`:""}
    <details class="fold" id="setfold"><summary><span>Erinnerung</span><span class="label">Rückblick am Sonntag</span></summary><div class="sec">
@@ -1802,7 +2057,7 @@ function sheet(html){const had=!!$("#sh");document.querySelectorAll(".toast").fo
   const sh=$("#sh"),pn=sh.querySelector(".panel");sh.addEventListener("click",e=>{if(e.target===sh||e.target.id==="shx")closeSheet()});try{pn.focus({preventScroll:true})}catch(e){}fillBars();
   /* nach unten wischen schließt das Blatt */
   let y0=null,t0=0,dy=0;pn.addEventListener("touchstart",e=>{if(pn.scrollTop<=0){y0=e.touches[0].clientY;t0=performance.now();dy=0;pn.style.transition="none"}},{passive:true});
-  pn.addEventListener("touchmove",e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0)pn.style.transform=`translateY(${dy}px)`;else{pn.style.transform="";}},{passive:true});
+  pn.addEventListener("touchmove",e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0&&pn.scrollTop<=0)pn.style.transform=`translateY(${dy}px)`;else{pn.style.transform="";if(dy<-10||pn.scrollTop>0){y0=null;pn.style.transition=""}}},{passive:true});
   pn.addEventListener("touchend",()=>{if(y0==null)return;const v=dy/Math.max(1,performance.now()-t0);pn.style.transition="";if(dy>80||(dy>24&&v>.6))closeSheet();else pn.style.transform="";y0=null},{passive:true})}
 function closeSheet(){CK=null;const sh=$("#sh");$("#layer").innerHTML="";if(sh){sh.removeAttribute("id");if(!calm()){document.body.appendChild(sh);sh.classList.add("out");setTimeout(()=>sh.remove(),200)}}
   if(lastFocus&&lastFocus.isConnected){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null;setTimeout(checkMoments,0)}
@@ -1812,8 +2067,10 @@ function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,y
   $("#tl").innerHTML=`<b>${stage().n}</b>Stufe ${stage().i+1} von ${STAGES.length}`;fillBars();
   if(tab==="home"){startLand();setTimeout(checkMoments,0)}else if(raf){cancelAnimationFrame(raf);raf=0}}
 
-document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox");if(!t)return;const d=t.dataset;
+document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox,[data-ringm]");if(!t)return;const d=t.dataset;
   if(t.id==="landbox"){landSheet();return}
+  if(d.saison){saisonSheet(d.saison);return}
+  if(d.ringm){monthSheet(+d.ringm);return}
   if(t.id==="home"){tab="home";anim=true;render();window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});return}
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
   if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
