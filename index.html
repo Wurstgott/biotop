@@ -179,7 +179,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .stampbtn:active{transform:scale(.96)}
 .duel .opts{display:flex;flex-direction:column;gap:8px}
 .opt{border:2px solid var(--ink);background:var(--sheet);text-align:left;padding:12px 14px;font-size:16px;line-height:1.35;display:flex;flex-direction:column;gap:6px}
-.opt.eq{font-family:var(--f-mono);font-size:13px;text-align:center;align-items:center;padding:9px}
+.opt.eq{display:block}
 .opt.right{border-color:var(--ok);box-shadow:4px 4px 0 var(--ok)}
 .opt.wrong{border-color:var(--warn);opacity:.8}
 .bar{height:12px;background:var(--wash);position:relative}
@@ -267,8 +267,11 @@ nav.tabs .badge{position:absolute;top:4px;left:calc(50% + 7px);min-width:16px;he
 .mseal::before,.mseal::after{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:var(--blend);z-index:-1}
 .mseal::before{background:var(--wohnen);transform:translate(-4px,-3px)}
 .mseal::after{background:radial-gradient(var(--wege) 1.3px,transparent 1.6px) 0 0/5px 5px;transform:translate(4px,3px)}
-.mok{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:var(--sheet);margin-top:6px;position:relative}
-.mok::after{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--wir);mix-blend-mode:var(--blend)}
+.mok{border:0;background:none;margin-top:6px;padding:0 10px 2px;position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:24px}
+.mokc{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:var(--sheet);position:relative;display:block}
+.mokc::after{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--wir);mix-blend-mode:var(--blend)}
+.moktx{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.mmore{font-size:14px;color:var(--muted);border-top:1.5px dashed var(--line);padding-top:8px;width:100%}
 
 /* Stempel-Effekt */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:45;overflow:hidden}
@@ -354,8 +357,9 @@ nav.tabs button span{white-space:nowrap}
 
 /* --- Klickdesign nach Briefing: ruhig, matt, kurz. Keine Größensprünge, kein Glanz. --- */
 html,body,.app{overflow-x:clip}
-input.hap{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;z-index:6;border-radius:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
-button:disabled>input.hap{display:none}
+label.hap{position:absolute;inset:0;margin:0;z-index:6;border-radius:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
+label.hap>input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
+button:disabled>label.hap{display:none}
 /* Aktion: Welle */
 .ripbox{position:fixed;overflow:hidden;pointer-events:none;z-index:46}
 .rip{position:absolute;border-radius:50%;opacity:0}
@@ -384,7 +388,7 @@ nav.tabs button[aria-current="page"]::before{display:none}
 .li:active,.linkbtn:active,.fold summary:active,.more:active,.seg button:active,nav.tabs button:active,.close:active,.nudge:active{background-color:color-mix(in srgb,var(--ink) 8%,transparent);transform:none;box-shadow:none}
 .toast{display:flex;align-items:center;gap:10px}
 @media (prefers-reduced-motion:reduce){.fill-in[aria-pressed="true"]{animation:none;background-image:none}.okmark{animation:none;stroke-dashoffset:0}.tabdot.ready,.toggle,.toggle .knob{transition:none}}
-input.hap{touch-action:pan-y}
+
 /* Stufen-Karte: unten, damit die Landschaft sichtbar bleibt; das neue Element als Vignette */
 .moment.stagecard{background:color-mix(in srgb,var(--paper) 18%,transparent);place-items:end center;padding-bottom:calc(158px + env(safe-area-inset-bottom,0px))}
 .moment.stagecard .mcard{gap:8px;padding:18px 20px 18px}
@@ -398,6 +402,20 @@ button.kpi{border:0;background:none;color:inherit;font:inherit;text-align:left;c
 button.kpi+button.kpi{border-left:2px solid var(--ink)}
 button.kpi::after{content:"›";position:absolute;right:8px;top:8px;font-size:16px;line-height:1;color:var(--muted)}
 button.li{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+
+/* --- Flow und Ruhe: Willkommen, Hinweise, Sicherung --- */
+.wfirst{display:flex;flex-direction:column;gap:8px;border-top:2px solid var(--ink);padding-top:14px}
+.btn.wide{width:100%;padding-block:13px;font-size:17px}
+.wmore{gap:4px 22px}
+.toast.top{top:calc(12px + env(safe-area-inset-top,0px));bottom:auto}
+@media (prefers-reduced-motion:no-preference){.toast.top{animation-name:tintop}}
+@keyframes tintop{from{opacity:0;transform:translate(-50%,-10px)}}
+.invfold+.invfold{border-top:0}
+.invfold summary{font-size:15.5px;padding-block:10px}
+.invfold summary>span:first-child{flex:none}
+.invfold summary>span:nth-child(2){flex:1}
+.invfold>div{padding-top:2px}
+.setdata{display:flex;flex-direction:column;gap:8px;border-top:1.5px dashed var(--line);padding-top:14px}
 
 </style>
 </head><body>
@@ -894,13 +912,14 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 13:27";
+const BUILD="19.10.2026, 15:29";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 S.base=S.base||{};S.plans=S.plans||{};
-if(!(S.gv>=2)){S.gFloor=S.log.filter(e=>!e.g).length+S.log.filter(e=>e.g).length*6+Object.values(S.mis||{}).filter(v=>v.status==="done").length*4+Object.keys(S.base).length*3;S.gv=2}
+function migrate2(){S.base=S.base||{};S.plans=S.plans||{};if(!(S.gv>=2)){S.gFloor=S.log.filter(e=>!e.g).length+S.log.filter(e=>e.g).length*6+Object.values(S.mis||{}).filter(v=>v.status==="done").length*4+Object.keys(S.base).length*3;S.gv=2}}
+migrate2();
 const isBase=id=>!!S.base[id];
 let kv=0;
 const save=()=>{kv++;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -1003,11 +1022,17 @@ const OKSEL='[data-log],[data-addbig],[data-setbase],[data-start],#savedone,#csa
 const VIB={sel:10,act:12,ok:[10,60,14],err:[24,60,24]};
 const hapOn=()=>S.settings.hap!==false&&!calm();
 function vib(p){if(!hapOn()||IOS||!navigator.vibrate)return;try{navigator.vibrate(p)}catch(e){}}
-function armHaptics(){const on=hapOn();document.querySelectorAll(HAPSEL).forEach(el=>{const has=el.querySelector(":scope>input.hap");
+/* Über dem Element liegt ein label, nicht der Schalter selbst: Ein Schalter fängt auf iOS die Wischgeste ab und blockiert das Scrollen.
+   Das label schaltet den versteckten Schalter beim Tippen um (Tick), lässt Wischen aber durch. Der Klick auf das label selbst wird angehalten; weiter läuft nur der Klick des Schalters,
+   der erst nach dem Umschalten kommt. So bekommt das Element genau einen Klick, und der Tick passiert vor dem Neuzeichnen. */
+function armHaptics(){const on=hapOn();document.querySelectorAll(HAPSEL).forEach(el=>{const has=el.querySelector(":scope>label.hap");
   if(!on||el.tagName==="A"){if(has)has.remove();return}if(has)return;
   if(getComputedStyle(el).position==="static")el.style.position="relative";
-  const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.className="hap";i.tabIndex=-1;i.setAttribute("aria-hidden","true");el.appendChild(i)});
-  if(!on)document.querySelectorAll("input.hap").forEach(i=>i.remove())}
+  const l=document.createElement("label");l.className="hap";l.setAttribute("aria-hidden","true");
+  l.addEventListener("click",e=>{if(e.target===l)e.stopPropagation()});
+  const i=document.createElement("input");i.type="checkbox";i.setAttribute("switch","");i.tabIndex=-1;
+  l.appendChild(i);el.appendChild(l)});
+  if(!on)document.querySelectorAll("label.hap").forEach(i=>i.remove())}
 if(IOS){let q=false;new MutationObserver(()=>{if(!q){q=true;requestAnimationFrame(()=>{q=false;armHaptics()})}}).observe(document.body,{childList:true,subtree:true})}
 /* Wegwischen bricht ab: Bewegt sich der Finger mehr als 10 px oder wird er außerhalb des Elements losgelassen, zählt das Tippen nicht.
    Wichtig auf dem iPhone, wo der unsichtbare Schalter sonst auch beim Wischen umschaltet. Läuft vor allen anderen Klick-Handlern. */
@@ -1043,9 +1068,13 @@ function stamp(e,el,col){if(calm())return;const r=el.getBoundingClientRect(),x=e
   const mk=(bg,dx,dy,del)=>{const d=document.createElement("span");d.className="stamp";Object.assign(d.style,{left:(x-sz/2+dx)+"px",top:(y-sz/2+dy)+"px",width:sz+"px",height:sz+"px",background:bg});fx().appendChild(d);
     d.animate([{transform:"scale(.15) rotate(-8deg)",opacity:0},{transform:"scale(.85) rotate(0)",opacity:.75,offset:.25},{transform:"scale(1.05)",opacity:0}],{duration:900,delay:del,easing:"cubic-bezier(.2,.8,.2,1)",fill:"both"}).onfinish=()=>d.remove()};
   mk(col,-3,-2,0);mk(`radial-gradient(${col} 1.6px,transparent 2px) 0 0/7px 7px`,4,3,70)}
-function toast(msg,undo,ok){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.innerHTML=`${ok?CHECK_SVG:""}<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
-  const out=()=>{if(!t.isConnected)return;if(momentOpen){setTimeout(out,1200);return}t.classList.add("out");setTimeout(()=>t.remove(),200)};
-  if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(out,undo?4200:2600)}
+function toast(msg,undo,ok){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.dataset.t0=performance.now();t.innerHTML=`${ok?CHECK_SVG:""}<span class="tx">${msg}</span>${undo?'<button id="undo">Rückgängig</button>':""}`;document.body.appendChild(t);
+  const out=()=>{if(!t.isConnected)return;t.classList.add("out");setTimeout(()=>t.remove(),200)};
+  placeToast(t);if(undo)t.querySelector("#undo").onclick=()=>{undo();t.remove()};setTimeout(out,undo?4200:2600)}
+/* Der Hinweis sitzt unten über den Registern. Ist ein Blatt offen oder läge er über Knöpfen einer Aktionsleiste (etwa „Nächstes“ und „Merken“), rückt er nach oben. */
+function placeToast(t){if($("#sh")){t.classList.add("top");return}const r=t.getBoundingClientRect(),m=8;
+  const hit=[...document.querySelectorAll("#main .row>button,#main .row>a.btn,#main .opts>button,#main .opts2>button")].some(b=>{const q=b.getBoundingClientRect();return q.width>0&&q.bottom>r.top-m&&q.top<r.bottom+m&&q.right>r.left&&q.left<r.right});
+  if(hit)t.classList.add("top")}
 
 /* ---------- Landschaft ---------- */
 let cv=null,cx=null,W=0,H=0,raf=0,lastT=0,growStart=0,seenAt=0,rbStart=0,rbWant=false,ring=null,ANCH={};
@@ -1347,43 +1376,63 @@ const free=id=>A[id]&&!isBase(id)&&!activeBig().some(e=>e.act===id||(rivals(id).
 const noCar=()=>{const lc=lastCheck();return (lc&&lc.ans&&lc.ans.auto===0)||isBase("autolos")||activeBig().some(e=>e.act==="autolos")};
 function quickIds(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.act]=(c[e.act]||0)+1);
   const lc=lastCheck(),hb=lc?lc.top.flatMap(t=>(HEBEL[t[0]]||{small:[]}).small):[];
-  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);const nc=noCar(),def=[...hb,nc?"rad_oepnv":"rad5","veg_tag","leine",nc?"taxi":"oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste"].filter(id=>A[id]);
-  return [...new Set([...top,...def])].filter(id=>!isBase(id)).slice(0,6)}
+  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).filter(id=>!isBase(id));const nc=noCar(),def=[nc?"rad_oepnv":"rad5","veg_tag","leine",nc?"taxi":"oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste","linsen","lueften","nichtgekauft","saison","dusche","weiter"].filter(id=>A[id]);
+  /* Wechsel von Woche zu Woche: die drei häufigsten Schritte bleiben vorn, dazu zwei Schritte zu den Hebeln aus dem Check und einer aus dem übrigen Vorrat, jeweils reihum */
+  const wk=weekNo(),rot=(l,n)=>l.length?l.map((_,i)=>l[(i+n)%l.length]):l,keep=top.slice(0,3),out=[...keep];
+  const hp=rot([...new Set(hb)].filter(id=>A[id]&&!isBase(id)&&!out.includes(id)),wk);hp.slice(0,2).forEach(id=>out.push(id));
+  rot(def.filter(id=>!isBase(id)&&!out.includes(id)),wk*2).forEach(id=>{if(out.length<6)out.push(id)});
+  return out.slice(0,6)}
+/* fortlaufende Wochennummer, für den leisen Wechsel auf der Startseite */
+const weekNo=()=>Math.round(weekStart()/(7*DAY));
 function hebelCard(){const lc=lastCheck();if(!lc)return "";
   return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),de=activeBig().find(e=>SRCOF[e.act]===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
     return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b>${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mid]?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div></div>`}
-function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const a=A[th.act],m=M[th.mis],b=B[th.bite];
+/* Gerade dran: Thema und Mission bleiben den Monat über, Schritt und Häppchen wechseln wöchentlich innerhalb desselben Bereichs */
+function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const wk=weekNo(),a0=A[th.act],b0=B[th.bite];
+  const alt=(first,l,force)=>!l.length?first:force||wk%2?l[(wk>>1)%l.length]:first;
+  const a=a0?alt(a0,ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&(x.k||0)>=.3),isBase(a0.id)):null,m=M[th.mis];
+  const b=b0?alt(b0,BITES.filter(x=>x.a===b0.a&&x.id!==b0.id&&!S.read[x.id]&&x.ev>0),!!S.read[b0.id]):null;
   return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}</p><div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}</div></div>`}
 function weekCard(){const wk="w"+weekStart(),plan=S.plans[wk];let h="";
   if(plan&&A[plan]){const a=A[plan],n=S.log.filter(e=>e.act===plan&&e.ts>=weekStart()).length;h+=`<div class="nudge plan" ${da(a.a)}>${dot(a.a)}<span><b>Dein Schritt diese Woche:</b> ${a.t}${n?` · ${n}× geschafft`:""}</span><button class="chip" data-log="${plan}">Eintragen</button></div>`}
   return h}
 /* Höchstens eine Hinweiskarte am Tag: sonntags die Woche, sonst abwechselnd Hebel und Monatsthema */
-function hintCard(mo){if(new Date().getDay()===0)return sundayCard();const hb=hebelCard(),th=themeCard(mo);if(hb&&th)return Math.floor(now()/DAY)%2?th:hb;return hb||th}
+function hintCard(mo){if(new Date().getDay()===0)return sundayCard();const hb=hebelCard(),th=themeCard(mo),lc=lastCheck();if(hb&&th)return lc&&dayStart(lc.ts)===dayStart(now())?hb:Math.floor(now()/DAY)%2?th:hb;return hb||th}
 function sundayCard(){let h="";{const ws=weekStart(),n=S.log.filter(e=>!e.g&&e.ts>=ws).length,nx="w"+weekStart(now()+DAY),pick=S.plans[nx],sug=quickIds().slice(0,4);
     h+=`<div class="plain week-card"><span class="label">Sonntag · Deine Woche</span><h3>${n} Schritt${n===1?"":"e"}, ${kgTxt(sumKg(ws))} gespart</h3><p style="font-size:15px">Ein Schritt für nächste Woche: Was möchtest du dir vornehmen?</p><div class="row">${sug.map(id=>`<button class="chip" data-plan="${id}" aria-pressed="${pick===id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div><button class="linkbtn" data-gotab="year">Rückblick schreiben</button></div>`}
   return h}
-function dailyBite(){const list=BITES.filter(b=>b.ev>0);return list[hashStr("bt-"+todayKey())%list.length]}
+/* Häppchen des Tages: bleibt den Tag über gleich, bevorzugt Ungelesenes und an jedem zweiten Tag die Bereiche der eigenen Hebel */
+function dailyBite(){const d=todayKey();if(S.dayBite&&S.dayBite.d===d&&B[S.dayBite.id])return B[S.dayBite.id];
+  const all=BITES.filter(b=>b.ev>0),un=all.filter(b=>!S.read[b.id]),pool=un.length?un:all,lc=lastCheck(),h=hashStr("bt-"+d);
+  const ha=lc?lc.top.map(t=>(HEBEL[t[0]]||{}).a).filter(Boolean):[],hp=pool.filter(b=>ha.includes(b.a)),l=hp.length&&h%2?hp:pool;
+  const b=l[h%l.length];S.dayBite={d,id:b.id};save();return b}
 function landCounts(){const cl=landClumps(),tr=landTrees();return {plants:cl.filter(c=>c.a!=="wir").length,lights:cl.filter(c=>c.a==="wir").length,trees:tr.filter(t=>t.a!=="wir").length,houses:tr.filter(t=>t.a==="wir").length,birds:misDone()}}
 /* Einsparung im Verhältnis zum eigenen Jahr, gegen das Gefühl, schon genug getan zu haben */
 function share(){const lc=lastCheck();if(!lc)return null;const v=sumKg(now()-365*DAY)/(lc.total*1000)*100;if(v<.05)return null;return v<1?nf(v,1):nf(v,0)}
 function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=landCounts();
   const pl=(n,a,b)=>n?`${n} ${n===1?a:b}`:"";
   const parts=[pl(small,"Pflanzengruppe","Pflanzengruppen"),pl(trees,"Baum","Bäume"),pl(houses,"Haus","Häuser"),pl(lights,"Laterne","Laternen"),pl(birds,"Vogel","Vögel")].filter(Boolean);
-  const m=monthStart(),act=activeMis()[0],db=dailyBite(),mo=new Date().getMonth();
-  const nudge=act?(()=>{const mm=M[act],v=S.mis[act],left=Math.max(0,mm.d-Math.floor((now()-v.start)/DAY));return `<button class="nudge" data-gotab="mis" ${da(mm.a)}>${dot(mm.a)}<span><b>${mm.t}</b> · ${left?`noch ${left} Tag${left>1?"e":""}`:"heute ist der letzte Tag"}</span><span class="label">Mission</span></button>`})():"";
+  const m=monthStart(),db=dailyBite(),mo=new Date().getMonth();
+  /* Rangfolge der Startseite: Landschaft, Kennzahlen, Schnell eintragen, höchstens eine Hinweiskarte, Häppchen. Alles Weitere ist eingeklappt oder in den anderen Registern.
+     Einstiegskarten (Hebel-Check, Schon Alltag): unter 5 Einträgen eine Karte im Platz der Hinweiskarte, danach eine leise Zeile, weg nach Erledigen oder „Passt so“.
+     Am Tag des Willkommens nur die leise Zeile, denn dort wurde gerade schon gewählt. */
+  const wDay=S.welcomed>1e12&&dayStart(S.welcomed)===dayStart(now()),few=S.log.length<5&&!wDay,lines=[];let slot="";
+  if(chkOpen()){if(few)slot=`<div class="plain" ${da("dinge")}><h3>Wo sind deine großen Hebel?</h3><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen, wo sich ein Schritt am meisten lohnt.</p><div class="row"><button class="btn go" data-check="1" ${da("dinge")}>Hebel-Check starten</button><button class="linkbtn" data-chkskip="1">Passt so</button></div></div>`;
+    else lines.push(`Wo lohnt sich ein Schritt am meisten? <button class="linkbtn inl" data-check="1">Hebel-Check starten</button> · <button class="linkbtn inl" data-chkskip="1">Passt so</button>`)}
+  if(invOpen()){if(few&&!slot)slot=`<div class="plain" ${da("wir")}><h3>Was ist bei dir schon Alltag?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon Alltag ist</button></div></div>`;
+    else lines.push(`Steht hier etwas, das du sowieso immer tust? <button class="linkbtn inl" data-inv="1">Schon Alltag abhaken</button> · <button class="linkbtn inl" data-invskip="1">Passt so</button>`)}
+  if(!slot)slot=hintCard(mo);
   return `<section class="view">
    <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
-     <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
+     <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length||st.i>0?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>
    <div class="kpis"><button class="kpi" data-kpi="m"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></button><button class="kpi" data-kpi="y"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${(()=>{const rc=appStart()>now()-365*DAY,yl=rc?"seit "+fmtDate(appStart()):"12 Monate";return share()!=null?`${yl} · ${share()} % deines Jahres`:rc?yl:"in 12 Monaten"})()}</span></button><button class="kpi" data-kpi="d"><b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span></button></div>
-   ${weekCard()}${nudge}
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
-     <div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${invOpen()&&S.log.length>=5?`<p class="hintline">Steht hier etwas, das du sowieso immer tust? <button class="linkbtn inl" data-inv="1">Schon Alltag abhaken</button> · <button class="linkbtn inl" data-invskip="1">Passt so</button></p>`:""}</div>
-   ${hintCard(mo)}
+     ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>
+   ${slot}
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>
-   ${invOpen()&&S.log.length<5?`<div class="plain" ${da("wir")}><h3>Was ist bei dir schon Alltag?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon Alltag ist</button></div></div>`:""}
-   ${S.checks.length?"":`<div class="plain" ${da("dinge")}><h3>Wo sind deine großen Hebel?</h3><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen, wo sich ein Schritt am meisten lohnt.</p><div class="row"><button class="btn go" data-check="1" ${da("dinge")}>Hebel-Check starten</button></div></div>`}
-   <div class="sec"><div class="sec-h"><h3>Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div>
+   <details class="fold" id="saisonfold"><summary><span>Saison im ${MONTHS[mo]}</span><span class="label">Freiland und Lager</span></summary><div><div class="saison">${SAISON[mo].map(x=>`<span>${x}</span>`).join("")}</div></div></details>
   </section>`}
+const chkOpen=()=>!S.checks.length&&!S.chkSkip;
 const evHTML=l=>`<span class="ev">${[1,2,3].map(k=>`<i class="${l>=k?"on":""}"></i>`).join("")}<em>${EV[l]}</em></span>`;
 function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>A[c.k]).sort((a,b)=>b.n-a.n);
   sheet(`<div class="label">Deine Landschaft</div><h2>${st.n}</h2><p>Alles, was du einträgst, wächst hier und bleibt. Nichts welkt, auch wenn du eine Pause machst.</p>${stageBar(st)}
@@ -1438,9 +1487,18 @@ function actMenu(id){const a=A[id],b=isBase(id);
    :`<div class="row"><button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`}
    <p class="muted" style="font-size:14px">„Schon Alltag“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
 const invOpen=()=>!Object.keys(S.base).length&&!S.invDone;
-function invSheet(){
+/* Vorschläge für „Schon Alltag“: zuerst, was die Antworten im Hebel-Check nahelegen, dann typische Alltagsdinge. Der Rest liegt nach Bereichen eingeklappt darunter. */
+const INV_TYP=["leine","leitung","kalt","lueften","deckel","saison","reste","rad5","dusche","repariert","standby","weiter","veg_tag","mahlzeit"];
+function invSuggest(){const lc=lastCheck(),q=(lc&&lc.ans)||{},l=[];
+  if(q.auto===0)l.push("autolos","rad_oepnv");if(q.ess===4)l.push("vegan_dauer");else if(q.ess===3)l.push("veg_dauer");else if(q.ess===2)l.push("fleisch_halb");
+  if(q.strom===0)l.push("oekostrom");if(q.heiz===3)l.push("waermepumpe");if(q.flaeche===0)l.push("kleiner");if(q.flug===0)l.push("keinflug");
+  if(q.gebraucht===0)l.push("kleid");if(q.rest===2)l.push("reste","retten");if(q.teilen===2)l.push("gemeinschaft","geteilt");
+  const nc=noCar();return [...new Set([...l,...INV_TYP])].filter(id=>A[id]&&!activeBig().some(e=>e.act===id)&&!(nc&&["rad5","rad10","oepnv","wegspar","tempo"].includes(id))).slice(0,12)}
+function invSheet(){const sug=invSuggest(),lc=lastCheck(),chip=x=>`<button class="chip inv" ${da(x.a)} data-invt="${x.id}" aria-pressed="${isBase(x.id)}">${x.t}</button>`;
+  const more=k=>ACTS.filter(x=>x.a===k&&!sug.includes(x.id)&&!activeBig().some(e=>e.act===x.id)),on=k=>more(k).filter(x=>isBase(x.id)).length;
   sheet(`<span class="label">Einmal abhaken</span><h2>Was ist bei dir schon Alltag?</h2><p>Hak an, was ohnehin zu deinem Alltag gehört. Du kannst es jederzeit wieder ändern.</p>
-   ${AK.map(k=>`<div class="sec" ${da(k)}><h3>${AREAS[k].n}</h3><div class="row">${ACTS.filter(x=>x.a===k&&!activeBig().some(e=>e.act===x.id)).map(x=>`<button class="chip inv" ${da(x.a)} data-invt="${x.id}" aria-pressed="${isBase(x.id)}">${x.t}</button>`).join("")}</div></div>`).join("")}
+   <div class="sec"><h3>${lc&&lc.ans?"Passend zu deinem Check":"Häufig schon Alltag"}</h3><div class="row">${sug.map(id=>chip(A[id])).join("")}</div></div>
+   <div class="sec"><span class="label">Alles Weitere nach Bereichen</span>${AK.map(k=>more(k).length?`<details class="fold invfold" ${da(k)}><summary>${dot(k)}<span>${AREAS[k].n}</span><span class="label">${on(k)?on(k)+" abgehakt":more(k).length}</span></summary><div><div class="row">${more(k).map(chip).join("")}</div></div></details>`:"").join("")}</div>
    <div class="row"><button class="btn primary" id="invsave">Fertig</button></div>`)}
 function parseDate(s){const m=String(s||"").trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})?$/);if(!m)return null;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],12);return isNaN(d)||d.getTime()>now()?null:d.getTime()}
 function customSheet(){sheet(`<div class="label">Eigener Schritt</div><h2>Was hast du gemacht?</h2>
@@ -1621,8 +1679,11 @@ function viewYear(){const last=S.checks[S.checks.length-1],jan=new Date(new Date
      <p style="font-size:15.5px">Die App schickt keine Nachrichten. Wenn du möchtest, legst du dir einen wöchentlichen Termin für den Rückblick in deinem Kalender an.</p>
      <div class="row"><label class="label" for="rtime">Sonntags um</label><input type="time" id="rtime" value="${S.settings.remind}"></div>
      <div class="row"><a class="btn" id="gcal" href="${gcal()}" target="_blank" rel="noopener">Google Kalender</a>${framed?"":`<button class="btn" id="ics">Apple- oder anderer Kalender</button>`}</div></div></details>
-   <details class="fold" id="setfold2"><summary><span>Einstellungen</span><span class="label">Vibration</span></summary><div class="sec">
-     <div class="setrow"><span><b>Vibration</b><br><span class="muted" style="font-size:14px">Ein kurzer Tick bei jedem Tippen. Bei „Bewegung reduzieren“ ist sie immer aus.</span></span><button class="toggle" role="switch" aria-checked="${S.settings.hap!==false}" id="haptgl" aria-label="Vibration"><span class="knob"></span></button></div></div></details>
+   <details class="fold" id="setfold2"><summary><span>Einstellungen</span><span class="label">Vibration · Daten</span></summary><div class="sec">
+     <div class="setrow"><span><b>Vibration</b><br><span class="muted" style="font-size:14px">Ein kurzer Tick bei jedem Tippen. Bei „Bewegung reduzieren“ ist sie immer aus.</span></span><button class="toggle" role="switch" aria-checked="${S.settings.hap!==false}" id="haptgl" aria-label="Vibration"><span class="knob"></span></button></div>
+     <div class="setdata"><b>Daten sichern</b><span class="muted" style="font-size:14px">Alles liegt nur in diesem Browser. Eine Sicherung bewahrt es auf, etwa vor einem Gerätewechsel, und lässt sich hier wieder laden.</span>
+      <div class="row"><button class="btn" id="bkfile">Als Datei sichern</button><button class="btn" id="bkcopy">In Zwischenablage kopieren</button></div>
+      <div class="row"><button class="btn" id="bkload">Sicherung laden</button></div></div></div></details>
    <details class="fold" id="aboutfold"><summary><span>Über diese App</span><span class="label">Haltung · Zahlen · Daten</span></summary><div class="about">
      <p>Biotop hilft, Stück für Stück nachhaltiger zu leben, ohne Druck und ohne schlechtes Gewissen. Die Haltung dahinter: Ein gutes Leben und ein kleiner Fußabdruck gehen oft zusammen.</p>
      <p>Alle Kilogramm-Werte sind gerundete Richtwerte in CO₂-Äquivalenten. Sie stützen sich vor allem auf Daten des Umweltbundesamts, des ifeu-Instituts und auf Übersichtsstudien. Sie sollen Größenordnungen zeigen und sind keine genaue Bilanz.</p>
@@ -1646,25 +1707,37 @@ function ics(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4);const t=["BEG
 
 /* ---------- Momente ---------- */
 const MOMENTS=[
- {id:"first",t:"Der erste Samen",x:"Dein erster Schritt steht im Logbuch. In der Landschaft keimt jetzt etwas.",ok:()=>S.log.length>=1},
+ {id:"first",t:"Der erste Samen",x:()=>`Dein erster Schritt steht im Logbuch. ${Object.keys(S.base).length||stage().i>=2?"Er wächst neben dem, was schon Alltag ist.":"Was du einträgst, bleibt in der Landschaft, auch wenn du eine Pause machst."}`,ok:()=>S.log.length>=1},
  {id:"tree",t:"Der erste Baum",x:"Eine dauerhafte Änderung wirkt ab jetzt jeden Tag weiter, ohne dass du etwas tun musst.",ok:()=>S.log.some(e=>e.g&&e.a!=="wir")},
  {id:"ten",t:"Zehn Schritte",x:"Unter „Dein Weg“ wächst jetzt dein erster Jahresring.",ok:()=>S.log.length>=10},
  {id:"five",t:"Alle fünf Bereiche",x:"Du hast in jedem Bereich mindestens einen Schritt eingetragen.",ok:()=>AK.every(k=>S.log.some(e=>e.a===k))},
  {id:"kg100",t:"100 Kilogramm",x:"So viel CO₂ steckt etwa in 600 km Autofahrt.",ok:()=>sumKg(0)>=100},
  {id:"t1",t:"Eine Tonne",x:"Eine Tonne entspricht etwa einem Zehntel des deutschen Durchschnitts im Jahr.",ok:()=>sumKg(0)>=1000},
- {id:"check",t:"Die Hebel kennen",x:"Du kennst jetzt deine drei größten Quellen. Unter „Missionen“ gibt es passende Vorschläge.",ok:()=>S.checks.length>=1},
+ {id:"check",t:"Die Hebel kennen",x:"Du kennst jetzt deine drei größten Quellen. Unter „Dein Weg“ siehst du, wie viel du dort schon vermeidest.",ok:()=>S.checks.length>=1},
  {id:"mis1",t:"Die erste Mission",x:"Über deiner Landschaft fliegt jetzt ein Vogel.",ok:()=>misDone()>=1},
  {id:"meet25",t:"25 Begegnungen",x:"Zum Dorf in deiner Landschaft führt jetzt ein breiter Weg.",ok:()=>meets()>=25},
  {id:"duel10",t:"Gefühl für Größen",x:"Zehn richtige Antworten im Quiz „Was spart mehr?“.",ok:()=>S.duel.r>=10}
 ];
 let momentOpen=false;
-/* Höchstens ein Moment pro Aktion. Beim Stufenaufstieg zuerst die Landschaft: Stempel, Wachsen, das Neue kommt ins Bild, erst dann die Karte. */
-function checkMoments(){if(momentOpen||$("#layer").innerHTML)return;const st=stage();
-  if(st.i>S.stageSeen){if(st.i>=9)rbWant=true;S.stageSeen=st.i;S.moments["st"+st.i]=now();save();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st.n;
-    const onHome=tab==="home"&&$("#landbox");if(onHome){arrive={i:st.i,t:performance.now()+500};ring={i:st.i,t0:arrive.t+1300,fin:300,hold:1500,out:500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight*.55)lb.scrollIntoView({behavior:calm()?"auto":"smooth",block:"start"})}
-    SEAS=seasonNow();const nx=stHint(st.i);
-    showMoment("Neue Stufe",st.n,stText(st.i)+(nx?` Als Nächstes: ${nx}.`:""),onHome?2600:600,!onHome,st.i);return}
-  const m=MOMENTS.find(m=>!S.moments[m.id]&&m.ok());if(!m)return;S.moments[m.id]=now();save();showMoment("Ein Moment",m.t,m.x,600,true)}
+/* Momente erscheinen nur auf der Startseite mit der Landschaft und nie über einem Blatt, Häppchen oder Quiz. Bis dahin warten sie.
+   Pro Mal höchstens einer: der bedeutsamste. Was gleichzeitig fällig ist, steht als „Auch neu“ in derselben Karte.
+   Beim Stufenaufstieg zuerst die Landschaft: Stempel, Wachsen, das Neue kommt ins Bild, erst dann die Karte. */
+const MPRI=["t1","check","tree","mis1","kg100","five","ten","meet25","duel10","first"];
+const momentReady=()=>tab==="home"&&!!$("#landbox")&&!$("#layer").innerHTML&&!document.querySelector(".moment")&&!!(S.welcomed||invited);
+function checkMoments(){if(momentOpen||!momentReady())return;const st=stage(),up=st.i>S.stageSeen;
+  const due=MOMENTS.filter(m=>!S.moments[m.id]&&m.ok()).sort((a,b)=>MPRI.indexOf(a.id)-MPRI.indexOf(b.id));if(!up&&!due.length)return;
+  momentOpen=true;const anim=up&&!calm();
+  if(anim){arrive={i:st.i,t:performance.now()+500};ring={i:st.i,t0:arrive.t+1300,fin:300,hold:1500,out:500};const lb=$("#landbox"),r=lb.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight*.55)lb.scrollIntoView({behavior:"smooth",block:"start"})}
+  const go=()=>{if(!momentReady()){momentOpen=false;arrive=null;return}
+    /* ein frischer Hinweis unten bleibt kurz lesbar, dann übernimmt der Moment */
+    const ty=document.querySelector(".toast:not(.out)"),age=ty?performance.now()-(+ty.dataset.t0||0):1e9;if(age<1600){setTimeout(go,1600-age);return}
+    const st2=stage();let lab,ttl,txt,vig=null,rest;
+    /* direkt nach dem Hebel-Check steht „Die Hebel kennen“ vorn, eine dabei erreichte Stufe steht unter „Auch neu“ */
+    if(st2.i>S.stageSeen&&due[0]&&due[0].id==="check"){if(st2.i>=9)rbWant=true;S.stageSeen=st2.i;S.moments["st"+st2.i]=now();const m=due[0];lab="Ein Moment";ttl=m.t;txt=m.x;rest=[{t:"Stufe „"+st2.n+"“"},...due.slice(1)]}
+    else if(st2.i>S.stageSeen){if(st2.i>=9)rbWant=true;S.stageSeen=st2.i;S.moments["st"+st2.i]=now();const lv=$("#live");if(lv)lv.textContent="Neue Stufe: "+st2.n;
+      SEAS=seasonNow();const nx=stHint(st2.i);lab="Neue Stufe";ttl=st2.n;txt=stText(st2.i)+(nx?` Als Nächstes: ${nx}.`:"");vig=st2.i;rest=due}
+    else{const m=due[0];if(!m){momentOpen=false;return}lab="Ein Moment";ttl=m.t;txt=typeof m.x==="function"?m.x():m.x;rest=due.slice(1)}
+    const t=now();due.forEach(m=>S.moments[m.id]=t);save();showMoment(lab,ttl,txt,vig,rest.map(m=>m.t))};setTimeout(go,anim?2600:600)}
 let arrive=null;
 function drawVignette(c,i){const save={cx,W,H,DPR,RA,DEP};readPal();const g2=c.getContext("2d");cx=g2;W=120;H=80;DPR=2;RA=1;DEP=1.1;cx.setTransform(2,0,0,2,0,0);
   const cold=coldNow(),wint=SEAS.winter;cx.globalCompositeOperation="source-over";cx.fillStyle=pal.sheet;cx.fillRect(0,0,W,H);cx.globalCompositeOperation=pal.blend==="screen"?"source-over":"multiply";
@@ -1680,10 +1753,40 @@ function drawVignette(c,i){const save={cx,W,H,DPR,RA,DEP};readPal();const g2=c.g
   else if(i===8){for(let k=0;k<5;k++){const x=16+k*11,y=40;if(k<2)drawConifer(x,y,16);else crown(()=>cx.ellipse(x,y-8,4,8,0,0,7),pal.wir,null,0,0,false)}drawDeer(84,50,1.2)}
   else if(i===9){const e=solarElev();if(e>.5&&e<42&&!SEAS.snow&&!calm())[pal.essen,pal.wohnen,pal.wir,pal.wege,pal.dinge].forEach((col,k)=>{cx.strokeStyle=col;cx.globalAlpha=.6;cx.lineWidth=2.2;cx.beginPath();cx.arc(60,62,46-k*2.2,Math.PI,2*Math.PI);cx.stroke()});cx.globalAlpha=.6;for(let k=0;k<12;k++){const x=6+k*10;if(k%3===0)drawConifer(x,40,13);else crown(()=>cx.ellipse(x,32,3.5,7,0,0,7),pal.wir,null,0,0,false)}cx.globalAlpha=1}
   cx.globalAlpha=1;cx.globalCompositeOperation="source-over";({cx,W,H,DPR,RA,DEP}=save)}
-function showMoment(lab,ttl,txt,delay,hap,vig){momentOpen=true;
-  setTimeout(()=>{const d=document.createElement("div");d.className="moment"+(vig!=null?" stagecard":"");d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl">${vig!=null?'<canvas class="mvig" width="240" height="160" aria-hidden="true"></canvas>':'<div class="mseal" aria-hidden="true"></div>'}<span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p><button class="mok" id="mok" aria-label="Weiter"></button></div>`;document.body.appendChild(d);if(vig!=null){try{drawVignette(d.querySelector(".mvig"),vig)}catch(e){}}const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
-    const close=()=>{d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(vig!=null&&tab==="home")ring={i:vig,t0:performance.now()+150,fin:200,hold:700,out:300}};
-    d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d)close()});d.addEventListener("keydown",e=>{if(e.key==="Escape")close()})},delay||600)}
+/* Ein Moment ersetzt einen gerade sichtbaren Hinweis unten, damit nichts doppelt dasteht */
+function showMoment(lab,ttl,txt,vig,rest){momentOpen=true;document.querySelectorAll(".toast").forEach(t=>{t.classList.add("out");setTimeout(()=>t.remove(),200)});
+  const d=document.createElement("div");d.className="moment"+(vig!=null?" stagecard":"");d.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mttl">${vig!=null?'<canvas class="mvig" width="240" height="160" aria-hidden="true"></canvas>':'<div class="mseal" aria-hidden="true"></div>'}<span class="label">${lab}</span><h2 id="mttl">${ttl}</h2><p>${txt}</p>${rest&&rest.length?`<p class="mmore">Auch neu: ${rest.join(" · ")}</p>`:""}<button class="mok" id="mok" aria-label="Weiter"><span class="mokc" aria-hidden="true"></span><span class="moktx">Weiter</span></button></div>`;document.body.appendChild(d);if(vig!=null){try{drawVignette(d.querySelector(".mvig"),vig)}catch(e){}}const ok=d.querySelector("#mok");try{ok.focus({preventScroll:true})}catch(e){}
+  const close=()=>{if(d.classList.contains("out"))return;d.classList.add("out");setTimeout(()=>d.remove(),200);momentOpen=false;if(vig!=null&&tab==="home")ring={i:vig,t0:performance.now()+150,fin:200,hold:700,out:300}};
+  d.addEventListener("click",e=>{if(e.target.closest("#mok")||e.target===d)close()});d.addEventListener("keydown",e=>{if(e.key==="Escape")close()})}
+
+/* ---------- Sichern und Laden ----------
+   Eine Sicherung ist eine JSON-Datei mit dem ganzen Zustand. Downloads gehen nicht in jeder Umgebung, deshalb gibt es auch Kopieren und Einfügen. */
+const backupText=()=>JSON.stringify({app:"biotop",v:1,saved:now(),data:S});
+const backupName=()=>{const d=new Date();return `biotop-sicherung-${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}.json`};
+function backupFile(){try{const u=URL.createObjectURL(new Blob([backupText()],{type:"application/json"})),l=document.createElement("a");l.href=u;l.download=backupName();document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+  toast(framed?"Falls kein Download startet: „In Zwischenablage kopieren“ geht hier immer.":"Sicherung gespeichert.",null,!framed)}catch(e){backupCopy()}}
+async function backupCopy(){const t=backupText();try{await navigator.clipboard.writeText(t);toast("Sicherung kopiert. Leg sie zum Beispiel in einer Notiz ab.",null,true);return}catch(e){}
+  sheet(`<span class="label">Daten sichern</span><h2>Sicherung kopieren</h2><p>Markiere den Text und kopiere ihn, etwa in eine Notiz oder eine E-Mail an dich selbst.</p><textarea id="bktext" readonly style="min-height:190px;font-family:var(--f-mono);font-size:12px">${esc(t)}</textarea>`);const ta=$("#bktext");ta.focus();ta.select()}
+/* Prüft eine Sicherung, bevor etwas überschrieben wird. Gibt den Zustand zurück oder eine verständliche Fehlermeldung. */
+function parseBackup(txt){let o;try{o=JSON.parse(String(txt||"").trim())}catch(e){return {err:"Das ist kein lesbarer Sicherungstext. Bitte die ganze Sicherung einfügen, von { bis }."}}
+  const d=o&&o.app==="biotop"&&o.data?o.data:o;
+  if(!d||typeof d!=="object"||Array.isArray(d)||!Array.isArray(d.log))return {err:"Das sieht nicht nach einer Biotop-Sicherung aus."};
+  if(d.log.some(e=>!e||typeof e!=="object"||typeof e.ts!=="number"||!isFinite(e.ts)||typeof (e.act||e.t)!=="string"))return {err:"Die Sicherung ist beschädigt: Einige Einträge sind unvollständig."};
+  for(const k of ["mis","read","saved","terms","base","moments","weeks","plans"])if(d[k]!=null&&(typeof d[k]!=="object"||Array.isArray(d[k])))return {err:"Die Sicherung ist beschädigt."};
+  if(d.checks!=null&&!Array.isArray(d.checks))return {err:"Die Sicherung ist beschädigt."};
+  return {d,saved:o.saved||null}}
+let BK=null;
+function loadSheet(msg){const p=BK&&BK.d?BK:null;
+  sheet(`<span class="label">Daten laden</span><h2>Sicherung laden</h2>${p?`<p>Sicherung${p.saved?` vom ${fmtDate(p.saved)}`:""}: <b>${p.d.log.length} Einträge</b>, ${Object.values(p.d.mis||{}).filter(v=>v&&v.status==="done").length} abgeschlossene Missionen, ${(p.d.checks||[]).length} Hebel-Checks.</p><p class="tip" ${da("dinge")}><b>Ersetzt alles</b>Was jetzt in diesem Browser liegt, wird durch die Sicherung ersetzt. Wenn du unsicher bist, sichere vorher deinen jetzigen Stand.</p><div class="row"><button class="btn primary" id="bkyes">Ja, Sicherung laden</button><button class="btn" id="bkno">Abbrechen</button></div>`
+   :`<p>Wähle eine Sicherungsdatei oder füge den kopierten Text ein. Bevor etwas ersetzt wird, fragt die App noch einmal nach.</p>
+   <div class="row"><button class="btn" id="bkpick">Datei wählen</button><input type="file" id="bkin" accept=".json,application/json,text/plain" hidden></div>
+   <label class="label" for="bkta">Oder Text einfügen</label><textarea id="bkta" placeholder="{&quot;app&quot;:&quot;biotop&quot;, …}" style="font-family:var(--f-mono);font-size:12px"></textarea>
+   ${msg?`<p class="fb no" style="font-size:16px;text-transform:none" role="alert">${msg}</p>`:""}
+   <div class="row"><button class="btn" id="bkpaste">Einfügen</button><button class="btn primary" id="bkcheck">Prüfen</button></div>`}`)}
+function bkTry(txt){const r=parseBackup(txt);if(r.err){BK=null;loadSheet(r.err);const ta=$("#bktext")||$("#bkta");if(ta)ta.value=String(txt||"").slice(0,5e5);shake($("#sh .panel"));return}BK=r;loadSheet()}
+function applyBackup(d){const keep=S.settings;S=Object.assign({log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:keep,area:"essen",filter:"alle",lastSeen:0,welcomed:1,base:{},plans:{}},d);
+  S.settings=Object.assign({remind:"19:00"},S.settings||{});S.duel=Object.assign({n:0,r:0,i:0},S.duel||{});if(!S.duel.seed)S.duel.seed=1+Math.floor(Math.random()*1e6);
+  migrate2();migrate3();if(S.stageSeen==null)S.stageSeen=stage().i;S.welcomed=S.welcomed||1;MEMO={k:""};LC=null;barMem=null;save();BK=null;closeSheet();tab="home";anim=true;render();window.scrollTo(0,0);toast(`Sicherung geladen: ${S.log.length} Einträge.`,null,true)}
 
 /* ---------- Teilen ---------- */
 const appUrl=()=>location.href.split("#")[0];
@@ -1695,19 +1798,19 @@ let invited=null;
 
 /* ---------- Blatt ---------- */
 let lastFocus=null;
-function sheet(html){const had=!!$("#sh");if(!had)lastFocus=document.activeElement;$("#layer").innerHTML=`<div class="sheet${had?" swap":""}" id="sh"><div class="panel" role="dialog" aria-modal="true" tabindex="-1"><div class="grab" aria-hidden="true"></div><button class="close" id="shx">Schließen</button>${html}</div></div>`;
+function sheet(html){const had=!!$("#sh");document.querySelectorAll(".toast").forEach(t=>t.classList.add("top"));if(!had)lastFocus=document.activeElement;$("#layer").innerHTML=`<div class="sheet${had?" swap":""}" id="sh"><div class="panel" role="dialog" aria-modal="true" tabindex="-1"><div class="grab" aria-hidden="true"></div><button class="close" id="shx">Schließen</button>${html}</div></div>`;
   const sh=$("#sh"),pn=sh.querySelector(".panel");sh.addEventListener("click",e=>{if(e.target===sh||e.target.id==="shx")closeSheet()});try{pn.focus({preventScroll:true})}catch(e){}fillBars();
   /* nach unten wischen schließt das Blatt */
   let y0=null,t0=0,dy=0;pn.addEventListener("touchstart",e=>{if(pn.scrollTop<=0){y0=e.touches[0].clientY;t0=performance.now();dy=0;pn.style.transition="none"}},{passive:true});
   pn.addEventListener("touchmove",e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0)pn.style.transform=`translateY(${dy}px)`;else{pn.style.transform="";}},{passive:true});
   pn.addEventListener("touchend",()=>{if(y0==null)return;const v=dy/Math.max(1,performance.now()-t0);pn.style.transition="";if(dy>80||(dy>24&&v>.6))closeSheet();else pn.style.transform="";y0=null},{passive:true})}
 function closeSheet(){CK=null;const sh=$("#sh");$("#layer").innerHTML="";if(sh){sh.removeAttribute("id");if(!calm()){document.body.appendChild(sh);sh.classList.add("out");setTimeout(()=>sh.remove(),200)}}
-  if(lastFocus&&lastFocus.isConnected){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null}
+  if(lastFocus&&lastFocus.isConnected){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null;setTimeout(checkMoments,0)}
 
 /* ---------- Rendern ---------- */
 function render(){const v={home:viewHome,log:viewLog,know:viewKnow,mis:viewMis,year:viewYear}[tab]();const Mn=$("#main");const openF=[...Mn.querySelectorAll("details[open][id]")].map(d=>d.id);Mn.classList.remove("anim");Mn.innerHTML=v;openF.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true});if(confirmReset){const d=$("#aboutfold");if(d)d.open=true}void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
   $("#tl").innerHTML=`<b>${stage().n}</b>Stufe ${stage().i+1} von ${STAGES.length}`;fillBars();
-  if(tab==="home")startLand();else if(raf){cancelAnimationFrame(raf);raf=0}}
+  if(tab==="home"){startLand();setTimeout(checkMoments,0)}else if(raf){cancelAnimationFrame(raf);raf=0}}
 
 document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox");if(!t)return;const d=t.dataset;
   if(t.id==="landbox"){landSheet();return}
@@ -1720,6 +1823,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.kpi){kpiSheet(d.kpi);return}
   if(d.inv){invSheet();return}
   if(d.invskip){S.invDone=1;save();render();return}
+  if(d.chkskip){S.chkSkip=1;save();render();return}
   if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();return}
   if(t.id==="invsave"){S.invDone=1;save();closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Eintrag ist":"Einträge sind"} schon Alltag.${S.checks.length?"":" Die großen Hebel liegen oft woanders, der Hebel-Check zeigt, wo."}`);checkMoments();return}
   if(d.addbig){const a=A[d.addbig],st=appStart();let ts=parseDate($("#bigdate").value)||now(),early=false;if(ts<st){ts=st;early=true}
@@ -1764,10 +1868,18 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="other"){S.skip=(S.skip||0)+1;save();render();return}
   if(d.done){if(!canFinish(d.done))return;doneSheet(d.done);return}
   if(d.mood){document.querySelectorAll("[data-mood]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
-  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();toast("Gespeichert. Ein Vogel mehr über deinem Biotop.",null,true);checkMoments();return}
+  if(t.id==="savedone"){const id=d.id,m=document.querySelector('[data-mood][aria-pressed="true"]');Object.assign(S.mis[id],{status:"done",end:now(),mood:m?m.dataset.mood:null,note:$("#note").value.trim()});save();closeSheet();render();toast(S.moments.mis1?"Gespeichert. Ein Vogel mehr über deinem Biotop.":"Gespeichert.",null,true);checkMoments();return}
   if(d.sharemis){const m=M[d.sharemis];shareOut(m.t,`Hast du Lust, mit mir eine kleine Mission zu machen? Sie heißt „${m.t}“: ${m.x.split(/(?<=\.)\s/)[0]} Zu zweit fällt es leichter. Die Anleitung steht in Biotop, einer kostenlosen App ohne Anmeldung:`,appUrl()+"#m-"+m.id);return}
   if(t.id==="haptgl"){S.settings.hap=S.settings.hap===false;save();t.setAttribute("aria-checked",S.settings.hap!==false);armHaptics();return}
   if(t.id==="ics"){ics();return}
+  if(t.id==="bkfile"){backupFile();return}
+  if(t.id==="bkpick"){const i=$("#bkin");if(i)i.click();return}
+  if(t.id==="bkcopy"){backupCopy();return}
+  if(t.id==="bkload"){BK=null;loadSheet();return}
+  if(t.id==="bkpaste"){const ta=$("#bkta");(navigator.clipboard&&navigator.clipboard.readText?navigator.clipboard.readText():Promise.reject()).then(x=>{ta.value=x;bkTry(x)}).catch(()=>{ta.focus();toast("Einfügen ging nicht automatisch. Halte im Feld gedrückt und wähle Einfügen.")});return}
+  if(t.id==="bkcheck"){const v=($("#bkta")||{}).value||"";if(!v.trim()){$("#bkta").focus();return}bkTry(v);return}
+  if(t.id==="bkno"){BK=null;closeSheet();return}
+  if(t.id==="bkyes"&&BK){applyBackup(BK.d);return}
   if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
   if(t.id==="reset"){confirmReset=true;render();return}
   if(t.id==="resetno"){confirmReset=false;render();return}
@@ -1777,10 +1889,13 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
 document.addEventListener("touchstart",()=>{},{passive:true});
 document.addEventListener("keydown",e=>{const mo=document.querySelector(".moment:not(.out) #mok");if(e.key==="Escape"&&mo){mo.click();return}if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
 document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week){S.weeks[e.target.dataset.week]=e.target.value;save()}});
-document.addEventListener("change",e=>{if(e.target.id==="rtime"){S.settings.remind=e.target.value||"19:00";save();const g=$("#gcal");if(g)g.href=gcal()}});
+document.addEventListener("change",e=>{if(e.target.id==="bkin"){const f=e.target.files&&e.target.files[0];if(!f)return;if(f.size>5e6){loadSheet("Die Datei ist zu groß für eine Biotop-Sicherung.");return}const r=new FileReader();r.onload=()=>bkTry(r.result);r.onerror=()=>loadSheet("Die Datei ließ sich nicht lesen.");r.readAsText(f);return}
+  if(e.target.id==="rtime"){S.settings.remind=e.target.value||"19:00";save();const g=$("#gcal");if(g)g.href=gcal()}});
 
-function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();
-  sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p><div class="row"><button class="btn go" ${da("dinge")} id="welcomecheck">Mit dem Hebel-Check beginnen</button><button class="btn" data-inv="1">Abhaken, was schon Alltag ist</button><button class="btn" id="shx">Erst umschauen</button></div>`);
+function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();if(tab==="home")render();
+  sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p>
+   <div class="wfirst"><span class="label">Empfohlen für den Anfang · etwa 2 Minuten</span><button class="btn go wide" ${da("dinge")} id="welcomecheck">Mit dem Hebel-Check beginnen</button><span class="muted" style="font-size:14.5px">Zehn kurze Fragen zeigen, wo sich ein Schritt bei dir am meisten lohnt.</span></div>
+   <div class="row wmore"><button class="linkbtn" data-inv="1">Abhaken, was schon Alltag ist</button><button class="linkbtn" id="shx">Erst umschauen</button></div>`);
   $("#sh").querySelectorAll("#shx").forEach(b=>b.onclick=closeSheet)}
 function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis","year"].includes(h)){tab=h;return}
   if(h.startsWith("b-")&&B[h.slice(2)]){cur=h.slice(2);if(!S.read[cur])S.read[cur]=now();tab="know";ktab="bites";return}
@@ -1801,7 +1916,9 @@ function migrate3(){if(S.gv>=3){if(!S.start){S.start=now();save()}return}
   /* gestapelte Änderungen derselben Gruppe: die frühere endet, wenn die spätere beginnt */
   XG.forEach(g=>{const l=S.log.filter(e=>e.g&&g.includes(e.act)).sort((a,b)=>a.ts-b.ts);for(let k=0;k<l.length-1;k++){const nx=l[k+1];if(!l[k].end||l[k].end>nx.ts)l[k].end=Math.max(l[k].ts,nx.ts)}});
   (S.checks||[]).forEach(c=>{if(c.ans){const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
-  const t=Math.floor(tgt*10)/10;S.gFloor=t;S.gAdd=Math.max(0,Math.round((t-growthRaw())*10)/10);S.gv=3;save()}
+  const t=Math.floor(tgt*10)/10;S.gFloor=t;S.gAdd=Math.max(0,Math.round((t-growthRaw())*10)/10);S.gv=3;
+  /* die Umstellung selbst bringt keinen Stufen-Moment */
+  if(S.stageSeen!=null)S.stageSeen=Math.max(S.stageSeen,stage().i);save()}
 migrate3();
 if(S.stageSeen==null){S.stageSeen=stage().i;save()}
 if(location.hash)fromHash();
