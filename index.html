@@ -606,6 +606,57 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
 .mnadd input{flex:1;min-width:0}
 .mnadd .btn{flex:none}
 
+/* Exkurse: Karten zum Blättern, Fortschritt als Kästchen, kleine Grafiken mit Überdruck und 5-px-Raster */
+.exs{gap:14px}
+.exo h3{font-size:22px}
+.pips{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.pips .pip{width:14px;height:14px;border:1.5px solid var(--ink);background:transparent;display:block;padding:0;flex:none}
+.pips .pip.on{background:var(--c)}
+.pips button.pip,.pips button.pip.on{width:24px;height:24px;position:relative;background:transparent;border:0}
+.pips button.pip::before{content:"";position:absolute;inset:5px;border:1.5px solid var(--ink)}
+.pips button.pip.on::before{background:var(--c)}
+.pips button.pip[aria-current="step"]::before{inset:2px;border-width:2.5px}
+.exhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.exk h2{font-size:28px}
+.exk h2:focus{outline:none}
+.exk h2:focus-visible{outline:2px solid var(--wege);outline-offset:4px}
+.exnav{margin-top:2px}
+.exkeys{display:none;text-transform:none;letter-spacing:0}
+@media (hover:hover) and (pointer:fine){.exkeys{display:block}}
+.exdo{gap:10px}
+.exdo .chip{min-height:44px;text-align:left;font-size:14px}
+.exk .row .chip{text-align:left}
+.exg{margin:2px 0 0;display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--paper);border:1.5px solid var(--line)}
+.exg figcaption.label{text-transform:none;letter-spacing:.02em}
+.exg .sqs{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
+.exg .sqi{display:flex;flex-direction:column;gap:3px;min-width:0}
+.exg .sqi b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 80;font-size:20px;line-height:1.1;margin-top:6px}
+.exg .sqi small{font-size:13.5px;color:var(--muted);line-height:1.3}
+.sqb{display:block;position:relative;isolation:isolate;border:1.5px solid var(--ink);background:var(--ink)}
+.sqb.on{background:transparent}
+.sqb.on::before,.sqb.on::after{content:"";position:absolute;inset:0;mix-blend-mode:var(--blend);z-index:-1}
+.sqb.on::before{background:var(--c);transform:translate(-3px,-3px)}
+.sqb.on::after{background:radial-gradient(var(--wir) 1.2px,transparent 1.5px) 0 0/5px 5px;transform:translate(3px,3px)}
+.exbar{display:flex;flex-direction:column;gap:4px}
+.exl{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;line-height:1.3}
+.exl b{font-family:var(--f-mono);font-weight:500;font-size:13px;white-space:nowrap}
+.exbar .bar{height:16px;border:1.5px solid var(--ink);background:var(--sheet)}
+.exbar .bar>span{position:absolute;inset:0 auto 0 0;background:radial-gradient(var(--ink) 1.1px,transparent 1.4px) 0 0/5px 5px}
+.exbar .bar>span.hot{background:var(--c);mix-blend-mode:var(--blend)}
+.exst{display:flex;flex-direction:column;gap:4px}
+.seg3{display:flex;height:24px;border:1.5px solid var(--ink);overflow:hidden}
+.sg{display:flex;align-items:center;padding-left:6px;font-family:var(--f-mono);font-size:12px;color:var(--on);white-space:nowrap;overflow:hidden;min-width:0}
+.sg+.sg{border-left:1.5px solid var(--ink)}
+.sg-g{background:var(--wir)}
+.sg-b{background:var(--wege);color:#fff}
+.sg-y{background:radial-gradient(var(--ink) 1.1px,transparent 1.4px) 0 0/5px 5px,var(--wash);color:var(--ink)}
+.exv{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.exkey{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.exkey span{display:inline-flex;align-items:center;gap:6px}
+.exkey i{width:12px;height:12px;border:1.5px solid var(--ink);padding:0;display:block}
+.exnum{flex-direction:row;align-items:center;gap:16px}
+.exnum b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:44px;line-height:.9;color:var(--c);mix-blend-mode:var(--blend);white-space:nowrap;text-shadow:3px 2px 0 color-mix(in srgb,var(--dinge) 55%,transparent)}
+.exnum figcaption{font-size:15px;line-height:1.35}
 /* Desktop ab 900 px: Register als ruhige Leiste links, Startseite in zwei Spalten, übrige Register als lesbare Spalte. Das Handy bleibt unverändert. */
 @media (min-width:900px){
   body{font-size:17px}
@@ -630,6 +681,13 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
   .moment{padding-left:136px}
 }
 @media (min-width:900px) and (prefers-reduced-motion:no-preference){#main.anim .hdesk>.dcol>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}#main.anim .hdesk>.dr>*{animation-delay:.08s}}
+/* Gewählter Bereich: Punkt in einer Kontrastfarbe aus der Riso-Palette statt Ton in Ton */
+.ink[aria-pressed="true"][data-a] i{transform:none;box-shadow:none;background:var(--cc,var(--sheet))}
+.ink[aria-pressed="true"][data-a="essen"]{--cc:var(--wege)}
+.ink[aria-pressed="true"][data-a="wege"]{--cc:var(--essen)}
+.ink[aria-pressed="true"][data-a="wohnen"]{--cc:var(--dinge)}
+.ink[aria-pressed="true"][data-a="dinge"]{--cc:var(--wohnen)}
+.ink[aria-pressed="true"][data-a="wir"]{--cc:var(--dinge)}
 
 </style>
 </head><body>
@@ -1024,6 +1082,55 @@ const TERMS=[
 {id:"wasser",a:"wohnen",n:"Wasserfußabdruck",d:"Wie viel Süßwasser ein Produkt oder eine Leistung verbraucht. Er wird getrennt vom CO₂ gerechnet und nicht in CO₂ umgerechnet, denn entscheidend ist, ob das Wasser in der Region knapp ist.",e:"Viele Rechenzentren kühlen ihre Server mit verdunstendem Wasser. Dazu kommt Wasser, das Kraftwerke für den Strom verbrauchen, oft sogar mehr. In einer trockenen Gegend wiegt derselbe Liter schwerer als in einer regenreichen. Biotop zählt nur CO₂e, Wasser erscheint deshalb in Häppchen, nicht in deiner Bilanz."}
 ];
 
+/* Exkurse: kurze Folgen von Karten zu einem Thema, das außerhalb der CO₂e-Bilanz liegt oder sie ergänzt.
+   Eine Karte: t Titel, x 2 bis 4 Sätze, ev/c/src/u wie bei den Häppchen, g optional eine kleine Grafik:
+   sq = Flächen im Größenvergleich, bars = Balken (max optional), stack = Anteile in einer Zeile, num = eine große Zahl.
+   term/bite: passende Begriffe oder Häppchen. Am Ende: sum (Kurzfassung) und do: Schritte (acts), Mission (mis), Begriff, Häppchen.
+   Fortschritt liegt in S.exk[id].r (Karte → Zeitpunkt des ersten Lesens). Nichts verfällt. */
+const WF={g:["grün","var(--wir)"],b:["blau","var(--wege)"],y:["grau","var(--muted)"]};
+const EXKURSE=[
+{id:"wasser",a:"wege",t:"Wasser clever nutzen",d:"Wo Wassersparen dem Klima hilft, wo dem Wasser und wo es wenig bringt. Biotop zählt nur CO₂e, Wasser ist eine eigene Rechnung.",
+ cards:[
+ {t:"Zwei Arten, Wasser zu zählen",ev:2,
+  x:"Aus dem Hahn nutzt jede Person in Deutschland im Schnitt rund 122 bis 126 Liter am Tag. Zählt man das Wasser mit, das für Essen, Kleidung und andere Waren gebraucht wurde, sind es nach einer Studie für das Umweltbundesamt rund 7.200 Liter. Etwa 86 % davon werden im Ausland verbraucht.",
+  g:{k:"sq",u:"Liter pro Person und Tag",v:[[122,"Aus dem Hahn","rund 125"],[7200,"Für Essen und Waren","rund 7.200"]]},
+  c:"Die 7.200 Liter sind eine Modellrechnung mit Handelsdaten. Eine frühere Rechnung kam auf gut die Hälfte. Der größte Teil davon ist Regen, der auf Feldern fällt.",
+  src:"Umweltbundesamt (2022), Wasserfußabdruck; BDEW (2025), Wasserfakten im Überblick",u:"https://www.umweltbundesamt.de/themen/wasser/wasser-bewirtschaften/wasserfussabdruck",term:"wasser"},
+ {t:"Warmes Wasser ist Energie",ev:2,
+  x:"Fürs Klima zählt vor allem das warme Wasser. Im Schnitt gehen rund 12 % der Energie eines Haushalts ins Warmwasser. Wasser zu fördern, aufzubereiten und zu klären braucht nach Schweizer Zahlen pro Kopf weniger als ein Zehntel der Energie, die das Erwärmen kostet. Kürzer oder kühler duschen und bei niedriger Temperatur waschen sind deshalb die eigentlichen Klimaschritte beim Wasser.",
+  g:{k:"bars",u:"Energie pro Kopf in der Schweiz, als Dauerleistung",v:[[180,"Wasser erwärmen","180 W"],[13.5,"Fördern, aufbereiten, klären","rund 14 W"]]},
+  c:"Die 12 % sind ein Mittelwert, den das Umweltbundesamt 2014 nannte. Der Anteil hängt stark von Heizung und Gewohnheiten ab. Die Werte zu Wasserwerken und Kläranlagen stammen aus der Schweiz.",
+  src:"Umweltbundesamt (2014), Wassersparen: sinnvoll, ausgereizt, übertrieben?; Eawag (2011), Faktenblatt Wasser und Energie",u:"https://www.umweltbundesamt.de/presse/pressemitteilungen/wassersparen-sinnvoll-ausgereizt-uebertrieben"},
+ {t:"Kaltes Wasser: fürs Klima wenig",ev:2,
+  x:"Kaltes Wasser zu sparen, etwa bei der Toilettenspülung oder beim Zähneputzen, bringt fürs Klima kaum etwas. Deutschland nutzt nur rund 2,7 % seiner verfügbaren Wasservorkommen als Trinkwasser, und 95 % der Grundwasserkörper sind mengenmäßig in gutem Zustand. Örtlich und zeitweise kann es trotzdem eng werden, etwa in heißen, trockenen Sommern oder an Küsten, wo zu viel Entnahme Salzwasser ins Grundwasser zieht. Dann hilft Sparen vor Ort.",
+  g:{k:"num",n:"95 %",l:"der Grundwasserkörper in Deutschland sind mengenmäßig in gutem Zustand"},
+  c:"Die 2,7 % nannte das Umweltbundesamt 2014, die 95 % stammen aus der Bewertung von 2021. Sehr wenig Durchfluss kann örtlich Probleme in den Leitungen machen. Mehr Wasser zu verbrauchen ist laut Umweltbundesamt trotzdem keine Lösung, darum kümmern sich die Versorger.",
+  src:"Umweltbundesamt (2014), Wassersparen: sinnvoll, ausgereizt, übertrieben?; Umweltbundesamt, Die Wasserrahmenrichtlinie: Gewässer in Deutschland 2021",u:"https://www.umweltbundesamt.de/themen/wasser/wasserrahmenrichtlinie/die-wasserrahmenrichtlinie-gewaesser-in-deutschland"},
+ {t:"Grün, blau, grau",ev:2,
+  x:"Grünes Wasser ist Regen, den Pflanzen auf dem Feld aufnehmen. Blaues Wasser wird Flüssen, Seen oder dem Grundwasser entnommen, etwa zum Bewässern. Graues Wasser ist die Menge, die nötig wäre, um Schadstoffe ausreichend zu verdünnen. Für die Knappheit vor Ort zählt vor allem das blaue Wasser.",
+  g:{k:"stack",u:"Anteile am Wasserfußabdruck des Konsums in Deutschland",v:[["Im Ausland verbraucht",[[83,"g"],[11,"b"],[6,"y"]]],["In Deutschland verbraucht",[[75,"g"],[4,"b"],[21,"y"]]]]},
+  c:"Die Anteile stammen aus der Modellrechnung für das Umweltbundesamt. Wie schwer ein Liter blaues Wasser wiegt, hängt davon ab, wie knapp es am jeweiligen Ort ist.",
+  src:"Umweltbundesamt (2022), Factsheet zum Wasserfußabdruck (UBA-Texte 44/2022)",u:"https://www.umweltbundesamt.de/sites/default/files/medien/2875/dokumente/20220425_factsheet_fe_wasserfussabdruck.pdf",term:"wasser"},
+ {t:"Rind, T-Shirt, Kaffee",ev:2,
+  x:"Ein Kilogramm Rindfleisch steht im weltweiten Mittel für rund 15.400 Liter Wasser, je nach Haltung und Land für etwa 4.000 bis 26.000 Liter. Über 90 % davon ist Regen auf Weiden und Futterfeldern. Ein Baumwoll-T-Shirt kommt auf rund 2.700 Liter, davon fast die Hälfte aus Bewässerung. Eine Tasse Kaffee steht für etwa 140 Liter.",
+  g:{k:"stack",u:"Woher das Wasser stammt",v:[["1 kg Rindfleisch · rund 15.400 l",[[93.5,"g"],[3.6,"b"],[2.9,"y"]]],["1 T-Shirt · rund 2.700 l",[[40.8,"g"],[45.2,"b"],[14,"y"]]]]},
+  c:"Weltweite Mittelwerte aus Modellen mit Daten aus den Jahren um 2000. Einzelne Betriebe weichen stark ab. Zählt man nur das blaue Wasser, bleiben beim Rind rund 550 Liter, beim T-Shirt rund 1.200.",
+  src:"Mekonnen & Hoekstra (2012), Ecosystems; Chapagain et al. (2006), Ecological Economics; Chapagain & Hoekstra (2007), Ecological Economics",u:"https://digitalcommons.unl.edu/wffdocs/83/"},
+ {t:"Wo das Wasser knapp ist",ev:2,
+  x:"Entscheidend ist, wo etwas wächst. Knapp 10 % des blauen Wassers für den Konsum in Deutschland überschreiten die Belastungsgrenzen vor Ort, vor allem bei Obst, Gemüse und Nüssen aus Spanien und dem Mittleren Osten. Nüsse, Baumwolle und Reis machen nur etwa 3 % der Masse importierter Agrargüter aus, aber über die Hälfte des Wasserfußabdrucks, wenn man ihn nach Knappheit gewichtet. Verzichten muss deshalb niemand, doch bei solchen Produkten lohnt ein Blick auf die Herkunft.",
+  g:{k:"bars",max:100,u:"Nüsse, Baumwolle und Reis unter den Agrarimporten",v:[[3,"Anteil an der Masse","rund 3 %"],[50,"Anteil am Fußabdruck, nach Knappheit gewichtet","über 50 %"]]},
+  c:"Die Rechnung arbeitet mit Ländern und großen Flussgebieten. Ob ein einzelner Betrieb sparsam bewässert, zeigt sie nicht.",
+  src:"Umweltbundesamt (2022), Wasserfußabdruck; UBA-Texte 44/2022",u:"https://www.umweltbundesamt.de/system/files/medien/479/publikationen/texte_44-2022_konzeptionelle_weiterentwicklung_des_wasserfussabdrucks.pdf"},
+ {t:"Trockene Sommer, Garten und Balkon",ev:2,
+  x:"Die Dürre von 2018 bis 2020 war in Europa die heftigste seit Beginn der Vergleichsdaten im Jahr 1766. Ab 2019 sanken die Grundwasserstände in Nord- und Süddeutschland im Mittel auf Rekordtiefs. Wer gießt, gießt am besten früh am Morgen und direkt an die Wurzeln, gern mit aufgefangenem Regenwasser. Mulch hält die Feuchte im Boden.",
+  g:{k:"num",n:"seit 1766",l:"keine Dürre in Europa so heftig wie die von 2018 bis 2020"},
+  c:"Die Einordnung der Dürre beruht auf Modellrechnungen, die bis 1766 zurückreichen. Die Grundwasserwerte sind Mittel über viele Messstellen der Länder, einzelne Orte weichen ab.",
+  src:"Rakovec et al. (2022), Earth's Future; Umweltbundesamt (2023), Monitoringbericht zur Anpassung an den Klimawandel; NABU, Gießen im Sommer",u:"https://doaj.org/article/fd629009996048f1a1670386026e64f6"}
+ ],
+ sum:"Fürs Klima zählt beim Wasser vor allem, wie viel du erwärmst. Für das Wasser selbst zählt, woher deine Waren kommen und ob es bei dir gerade trocken ist.",
+ do:{acts:["dusche","kalt"],mis:"wasser",term:"wasser",bite:"ki_frage"}}
+];
+
 /* Missionen. al: Wird nicht mehr vorgeschlagen, wenn einer dieser Einträge schon Alltag ist oder als dauerhafte Änderung läuft.
    nf: Wird nicht vorgeschlagen, wenn das Profil aus Hebel-Check und „Schon Alltag“ sie gegenstandslos macht:
    auto = kein eigenes Auto, flug = fliegt nicht, autoflug = weder Auto noch Flug, veg = isst schon vegetarisch oder vegan,
@@ -1223,7 +1330,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="20.10.2026, 14:34";
+const BUILD="20.10.2026, 15:34";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -2218,16 +2325,16 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now()
 /* ---------- Wissen ---------- */
 let ktab="bites",cur=null,Q=null,openTerm=null,duelAns=null;
 function pickBite(){const p=BITES.filter(b=>S.filter==="alle"||b.a===S.filter),un=p.filter(b=>!S.read[b.id]);const l=un.length?un:p;let c=l[Math.floor(Math.random()*l.length)];if(c&&c.id===cur&&l.length>1)c=l.find(b=>b.id!==cur);return c}
-function openBite(id){cur=id;if(!S.read[id])S.read[id]=now();save();tab="know";ktab="bites";anim=true;render();window.scrollTo(0,0);checkMoments()}
+function openBite(id){cur=id;exo=null;if(!S.read[id])S.read[id]=now();save();tab="know";ktab="bites";anim=true;render();window.scrollTo(0,0);checkMoments()}
 function biteCard(b){const t=b.term&&T[b.term],m=b.mis&&misFits(b.mis)?M[b.mis]:null;
   return `<article class="card bite" ${da(b.a)}><div class="meta"><span class="tag">${dot(b.a)}${AREAS[b.a].n}</span>${evHTML(b.ev)}</div><h2>${b.t}</h2><p class="body">${b.x}</p><p class="caveat"><b>Wie sicher?</b> ${b.c}</p><div class="tip"><b>Was heißt das für dich?</b>${b.tip}</div><p class="src">Quelle: <a href="${esc(b.u)}" target="_blank" rel="noopener">${b.src} ↗</a></p>
    ${t||m?`<div class="row">${t?`<button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button>`:""}</div>`:""}
    <div class="row"><button class="btn primary" id="nextbite">Nächstes</button><button class="btn" id="savebite">${S.saved[b.id]?"Gemerkt ✓":"Merken"}</button><button class="btn" id="sharebite">Teilen</button><button class="linkbtn" id="backbite">Zur Übersicht</button></div></article>`}
 function filt(attr,cur0){return `<div class="inks six" role="group" aria-label="Bereich filtern"><button class="ink" data-${attr}="alle" aria-pressed="${cur0==="alle"}"><i></i>Alle</button>${AK.map(k=>`<button class="ink" ${da(k)} data-${attr}="${k}" aria-pressed="${cur0===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div>`}
 function viewKnow(){let h=`<section class="view"><h2 class="ph">Was steckt dahinter?</h2><div class="seg" role="group" aria-label="Wissen">${[["bites","Häppchen"],["duel","Was spart mehr?"],["terms","Begriffe"]].map(([k,n])=>`<button data-ktab="${k}" aria-pressed="${ktab===k}">${n}</button>`).join("")}</div>`;
-  if(ktab==="bites"){if(cur&&B[cur])return h+biteCard(B[cur])+`</section>`;
+  if(ktab==="bites"){if(exo&&X[exo.id])return h+exCard()+`</section>`;if(cur&&B[cur])return h+biteCard(B[cur])+`</section>`;
     const n=Object.keys(S.read).length,saved=Object.keys(S.saved).filter(id=>B[id]);
-    h+=`<div class="pull"><button class="stampbtn" id="pull" aria-label="Häppchen ziehen">Häppchen<br>ziehen</button><p class="muted" style="font-size:15px;max-width:34ch">Kurze Erkenntnisse aus Forschung und Praxis, jeweils mit Quelle und Beweislage. ${n} von ${BITES.length} gelesen.</p></div>${filt("bfilter",S.filter)}`;
+    h+=`<div class="pull"><button class="stampbtn" id="pull" aria-label="Häppchen ziehen">Häppchen<br>ziehen</button><p class="muted" style="font-size:15px;max-width:34ch">Kurze Erkenntnisse aus Forschung und Praxis, jeweils mit Quelle und Beweislage. ${n} von ${BITES.length} gelesen.</p></div>${filt("bfilter",S.filter)}`+(EXKURSE.length?`<div class="sec exs"><h3 class="sr">Exkurse</h3>${exList()}</div>`:"");
     if(saved.length)h+=`<div class="sec"><h3>Gemerkt</h3><div class="list">${saved.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b><small>${B[id].src}</small></span></button>`).join("")}</div></div>`;
     const read=Object.keys(S.read).filter(id=>B[id]).sort((a,b)=>S.read[b]-S.read[a]);
     if(read.length)h+=`<details class="fold"><summary><span>Gelesen</span><span class="label">${read.length}</span></summary><div><div class="list">${read.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b></span><span class="aside">${fmtDate(S.read[id])}</span></button>`).join("")}</div></div></details>`;
@@ -2266,6 +2373,38 @@ function termsView(){const F=[0,0,0];TERMS.forEach(t=>F[box(t.id)>=4?2:S.terms[t
    ${Q?quizCard():""}
    <div class="sec"><h3>Alle Begriffe</h3><div class="list">${TERMS.map(t=>`<div><button class="li" data-tt="${t.id}" ${da(t.a)} aria-expanded="${openTerm===t.id}">${dot(t.a)}<span class="tx"><b>${t.n}</b></span><span class="boxes">${[1,2,3,4,5].map(i=>`<b class="${box(t.id)>=i?"on":""}"></b>`).join("")}</span></button>${openTerm===t.id?`<div class="tdef"><p>${t.d}</p><em>Beispiel: ${t.e}</em></div>`:""}</div>`).join("")}</div></div>`}
 
+/* ---------- Exkurse ----------
+   Ein Exkurs ist eine kurze Folge von Karten (EXKURSE in data.js). Gelesen heißt: einmal aufgeschlagen. Der Stand liegt in S.exk[id].r,
+   nichts verfällt, es gibt keine Frist und keine Punkte. exo merkt sich, welcher Exkurs gerade offen ist. */
+const X=Object.fromEntries((typeof EXKURSE!=="undefined"?EXKURSE:[]).map(x=>[x.id,x]));
+let exo=null;
+function exS(id){if(!S.exk||typeof S.exk!=="object"||Array.isArray(S.exk))S.exk={};let v=S.exk[id];if(!v||typeof v!=="object"||!v.r||typeof v.r!=="object"||Array.isArray(v.r))v=S.exk[id]={r:{}};return v}
+const exRead=id=>{const v=exS(id);return X[id].cards.filter((_,i)=>v.r[i]).length};
+function exMark(){if(!exo||!X[exo.id])return;const v=exS(exo.id);if(!v.r[exo.i]){v.r[exo.i]=now();save()}}
+function exOpen(id,i){if(!X[id])return;const v=exS(id),n=X[id].cards.length;if(i==null){i=X[id].cards.findIndex((_,k)=>!v.r[k]);if(i<0)i=0}exo={id,i:Math.max(0,Math.min(n-1,i))};cur=null;Q=null;tab="know";ktab="bites";exMark();anim=true;render();window.scrollTo(0,0);exFocus()}
+function exGo(i){if(!exo)return;const n=X[exo.id].cards.length;if(i<0||i>=n)return;exo.i=i;exMark();render();const c=$("#exk");if(c&&c.getBoundingClientRect().top<0)c.scrollIntoView({block:"start"});exFocus()}
+function exFocus(){const h=$("#exh");if(h)try{h.focus({preventScroll:true})}catch(e){}}
+function exClose(){const id=exo&&exo.id;exo=null;anim=true;render();const b=id&&document.querySelector(`[data-exopen="${id}"]`);if(b){b.scrollIntoView({block:"center"});try{b.focus({preventScroll:true})}catch(e){}}}
+/* kleine Grafiken im Riso-Stil: Tinte als Kontur, Farbe mit Punktraster überdruckt */
+function exGraph(g){const cap=g.u?`<figcaption class="label">${g.u}</figcaption>`:"";
+  if(g.k==="sq"){const mx=Math.max(...g.v.map(v=>v[0]));return `<figure class="exg sq">${cap}<div class="sqs">${g.v.map(([v,l,s],i)=>{const px=Math.max(8,Math.round(128*Math.sqrt(v/mx)));return `<div class="sqi"><span class="sqb${i?" on":""}" style="width:${px}px;height:${px}px" aria-hidden="true"></span><b class="num">${s}</b><small>${l}</small></div>`}).join("")}</div></figure>`}
+  if(g.k==="bars"){const mx=g.max||Math.max(...g.v.map(v=>v[0]));return `<figure class="exg bars">${cap}${g.v.map(([v,l,s],i)=>`<div class="exbar"><span class="exl"><span>${l}</span><b class="num">${s}</b></span><span class="bar" aria-hidden="true"><span class="${i?"":"hot"}" style="width:${Math.max(1.5,v/mx*100)}%"></span></span></div>`).join("")}</figure>`}
+  if(g.k==="stack"){const used=[...new Set(g.v.flatMap(r=>r[1].map(s=>s[1])))];return `<figure class="exg stack">${cap}${g.v.map(([l,segs])=>`<div class="exst"><span class="exl"><span>${l}</span></span><span class="seg3" aria-hidden="true">${segs.map(([p,k])=>`<span class="sg sg-${k}" style="flex:${p}">${p>=12&&k!=="y"?Math.round(p)+" %":""}</span>`).join("")}</span><small class="sr">${segs.map(([p,k])=>`${WF[k][0]} ${Math.round(p)} %`).join(", ")}</small><small class="exv" aria-hidden="true">${segs.map(([p,k])=>`${WF[k][0]} ${Math.round(p)} %`).join(" · ")}</small></div>`).join("")}<div class="exkey" aria-hidden="true">${used.map(k=>`<span><i class="sg sg-${k}"></i>${WF[k][0]}</span>`).join("")}</div></figure>`}
+  if(g.k==="num")return `<figure class="exg exnum"><b>${g.n}</b><figcaption>${g.l}</figcaption></figure>`;
+  return ""}
+function exPips(x,on,cur0){const v=exS(x.id);return x.cards.map((c,i)=>on?`<button class="pip${v.r[i]?" on":""}" data-exgo="${i}" aria-label="Karte ${i+1}: ${c.t}${v.r[i]?", gelesen":""}"${i===cur0?' aria-current="step"':""}></button>`:`<i class="pip${v.r[i]?" on":""}"></i>`).join("")}
+function exList(){return EXKURSE.map(x=>{const n=x.cards.length,r=exRead(x.id);
+  return `<article class="plain exo" ${da(x.a)}><div class="sec-h"><span class="label">Exkurs · ${n} Karten</span><span class="label num">${r} von ${n} gelesen</span></div><h3>${x.t}</h3><p style="font-size:15.5px">${x.d}</p><div class="pips" aria-hidden="true">${exPips(x,false)}</div><div class="row"><button class="btn go" ${da(x.a)} data-exopen="${x.id}">${!r?"Lesen":r>=n?"Noch einmal lesen":"Weiterlesen"}</button></div></article>`}).join("")}
+function exCard(){const x=X[exo.id],n=x.cards.length,i=exo.i,c=x.cards[i],last=i===n-1,t=c.term&&T[c.term],dd=x.do||{};
+  let doH="";if(last){const acts=(dd.acts||[]).filter(id=>A[id]&&!isBase(id)),m=dd.mis&&misFits(dd.mis)?M[dd.mis]:null,dt=dd.term&&T[dd.term],db=dd.bite&&B[dd.bite];
+    doH=`<div class="tip"><b>Kurz gesagt</b>${x.sum}</div>${acts.length||m?`<div class="sec exdo"><h3>Was du tun kannst</h3>${acts.length?`<p class="muted" style="font-size:14.5px">Antippen trägt den Schritt ein.</p><div class="row">${acts.map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div>`:""}${m?`<div class="row"><button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button></div>`:""}</div>`:""}
+      ${dt||db?`<div class="row">${dt&&dt!==t?`<button class="chip" data-term="${dt.id}">${dot(dt.a)}Begriff: ${dt.n}</button>`:""}${db?`<button class="chip" data-bite="${db.id}">${dot(db.a)}Häppchen: ${db.t}</button>`:""}</div>`:""}`}
+  return `<article class="card bite exk" ${da(x.a)} id="exk" aria-roledescription="Exkurs" aria-labelledby="exh"><div class="meta"><span>Exkurs · ${x.t}</span>${evHTML(c.ev)}</div>
+   <div class="exhead"><div class="pips" role="group" aria-label="Karten des Exkurses">${exPips(x,true,i)}</div><span class="label num" id="expos" aria-hidden="true">Karte ${i+1} von ${n}</span></div>
+   <h2 id="exh" tabindex="-1"><span class="sr">Karte ${i+1} von ${n}: </span>${c.t}</h2>${c.g?exGraph(c.g):""}<p class="body">${c.x}</p><p class="caveat"><b>Wie sicher?</b> ${c.c}</p><p class="src">Quelle: <a href="${esc(c.u)}" target="_blank" rel="noopener">${c.src} ↗</a></p>
+   ${t?`<div class="row"><button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button></div>`:""}${doH}
+   <div class="row exnav"><button class="btn" id="exprev" ${i?"":"disabled"}>Zurück</button>${last?`<button class="btn primary" id="exdone">Fertig</button>`:`<button class="btn primary" id="exnext">Weiter</button>`}<button class="linkbtn" id="exback">Zur Übersicht</button></div>
+   <p class="label exkeys" aria-hidden="true">Pfeiltasten blättern</p></article>`}
 /* ---------- Missionen ---------- */
 const MAXM=3;
 /* Vorzeitig abschließen geht ab etwa der Hälfte der Laufzeit, ohne Abzug. Davor fehlt nur der Knopf, nichts verfällt. */
@@ -2675,7 +2814,12 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="ckok"&&CK){CK.ok=1;checkSheet();return}
   if(t.id==="ckfix"&&CK){const J=CK.jumps||[];CK.i=Math.max(0,CHECK.findIndex(q=>q.id===SRCQ[(J[0]||{}).n]));checkSheet();return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
-  if(d.ktab){ktab=d.ktab;cur=null;anim=true;render();return}
+  if(d.ktab){ktab=d.ktab;cur=null;exo=null;anim=true;render();return}
+  if(d.exopen){exOpen(d.exopen);return}
+  if(d.exgo!=null&&exo){exGo(+d.exgo);return}
+  if(t.id==="exnext"){exGo(exo.i+1);return}
+  if(t.id==="exprev"){exGo(exo.i-1);return}
+  if(t.id==="exdone"||t.id==="exback"){exClose();return}
   if(t.id==="pull"){const b=pickBite();if(!b)return;setTimeout(()=>openBite(b.id),calm()?0:260);return}
   if(d.bite){closeSheet();openBite(d.bite);return}
   if(t.id==="nextbite"){const b=pickBite();if(b)openBite(b.id);return}
@@ -2724,6 +2868,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="welcomecheck"){closeSheet();checkSheet();return}
 });
 document.addEventListener("touchstart",()=>{},{passive:true});
+document.addEventListener("keydown",e=>{if(!exo||tab!=="know"||$("#layer").innerHTML||(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||e.altKey||e.ctrlKey||e.metaKey)return;const a=document.activeElement;if(!a||!a.closest||!a.closest("#exk")||/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;e.preventDefault();exGo(exo.i+(e.key==="ArrowRight"?1:-1));setTimeout(exFocus,0)});
 document.addEventListener("keydown",e=>{if(e.key==="Tab"){trapTab(e);return}const mo=document.querySelector(".moment:not(.out) #mok");if(e.key==="Escape"&&mo){mo.click();return}if(e.key==="Escape"&&$("#layer").innerHTML){closeSheet();return}if((e.key==="Enter"||e.key===" ")&&e.target.id==="landbox"){e.preventDefault();landSheet()}});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.mnin&&!e.isComposing){e.preventDefault();const b=document.querySelector(`[data-mnote="${e.target.dataset.mnin}"]`);if(b)b.click()}});
 document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week){S.weeks[e.target.dataset.week]=e.target.value;save()}});
@@ -2737,6 +2882,7 @@ function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();if(tab=
   $("#sh").querySelectorAll("#shx").forEach(b=>b.onclick=closeSheet)}
 function fromHash(){const h=location.hash.slice(1);if(["home","log","know","mis","year"].includes(h)){tab=h;return}
   if(h.startsWith("b-")&&B[h.slice(2)]){cur=h.slice(2);if(!S.read[cur])S.read[cur]=now();tab="know";ktab="bites";return}
+  if(h.startsWith("x-")&&X[h.slice(2)]){exo={id:h.slice(2),i:0};tab="know";ktab="bites";exMark();return}
   if(h.startsWith("m-")&&M[h.slice(2)]){invited=h.slice(2);tab="mis";setTimeout(()=>misSheet(invited),300)}}
 /* Rückkehr nach einer Pause von mindestens sieben Tagen: eine leise Zeile, einmal, ohne Vorwurf. lastSeen ist der letzte Besuch. */
 let backHi=null;
