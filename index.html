@@ -619,7 +619,8 @@ const EV=["Denkanstoß","Vorläufig","Solide","Gut belegt"];
 
 /* Einträge: k = kg pro Mal (kleine Schritte), y = kg pro Jahr (dauerhafte Änderungen), w = zählt als Begegnung.
    md = so oft am Tag zählt ein kleiner Schritt in kg (Standard 3). Wer öfter einträgt, sieht den Eintrag im Logbuch, er zählt aber ohne kg.
-   bo = nur als „Schon Alltag“ wählbar, nicht als neue Änderung. */
+   bo = nur als „Schon Alltag“ wählbar, nicht als neue Änderung.
+   yr = so oft zählt ein vermiedener Neukauf in 12 Monaten in kg. Öfter ersetzt er kaum noch einen echten Kauf, eintragen lässt er sich trotzdem. */
 const ACTS=[
 {id:"veg_tag",a:"essen",md:1,t:"Ein Tag vegetarisch",k:1.5,n:"Verglichen mit einem durchschnittlichen Tag mit Fleisch."},
 {id:"vegan_tag",a:"essen",md:1,t:"Ein Tag vegan",k:2.2,n:"Verglichen mit einem durchschnittlichen Tag. Wer ohnehin vegetarisch lebt, spart damit noch rund 0,7 kg, so wird es dann auch gezählt."},
@@ -645,7 +646,7 @@ const ACTS=[
 {id:"grad",a:"wohnen",g:1,t:"Raumtemperatur um 1 Grad gesenkt",y:110,n:"Ein Grad weniger spart rund 6 % Heizenergie."},
 {id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:100,n:"Gerechnet mit rund 100 kg im Jahr, die Spanne reicht von etwa 50 bis 150 kg. Wie viel ein Wechsel zusätzlich bewirkt, ist unter Fachleuten umstritten: Bei Anbietern, die in neue Anlagen investieren, ist es mehr, bei reinen Herkunftsnachweisen kaum etwas."},
 {id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:130,n:"Rund 350 kWh selbst genutzter Solarstrom im Jahr, die sonst aus dem Netz kämen."},
-{id:"pv",a:"wohnen",g:1,t:"Photovoltaik aufs Dach gebracht",y:1000,n:"Gerechnet für rund 8 kWp auf einem Haus mit drei Personen, Anteil pro Person. Der Solarstrom verdrängt Strom aus Kohle und Gas."},
+{id:"pv",a:"wohnen",g:1,t:"Photovoltaik aufs Dach gebracht",y:1000,n:"Gerechnet für rund 8 kWp auf einem Haus mit drei Personen, Anteil pro Person. Der Solarstrom verdrängt Strom aus Kohle und Gas. In deiner Bilanz zählt davon höchstens so viel, wie dein eigener Strom verursacht. Der Überschuss, den die Anlage einspeist, ersetzt Strom anderer."},
 {id:"waermepumpe",a:"wohnen",g:1,t:"Heizung auf Wärmepumpe umgestellt",y:1000,n:"Anteil pro Person in einem durchschnittlichen Haushalt mit Gasheizung. Der Strom für die Wärmepumpe verursacht selbst noch rund 45 % der früheren Heizemissionen. Mehr als 55 % deiner Heizemissionen kann sie darum nicht sparen."},
 {id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
 {id:"kleiner",a:"wohnen",g:1,t:"Weniger Wohnfläche pro Person",y:600,n:"Etwa 20 m² weniger beheizte Fläche pro Person."},
@@ -669,12 +670,12 @@ const ACTS=[
 {id:"keinflug",a:"wege",g:1,t:"Auf die jährliche Fernreise im Flugzeug verzichtet",y:2500,n:"Eine Langstrecke hin und zurück, mit Nicht-CO₂-Effekten. Zählt nur, wenn laut Hebel-Check sonst eine Fernreise im Jahr anstünde."},
 {id:"lastenrad",a:"wege",g:1,t:"Lastenrad statt Zweitwagen",y:800,n:"Gerechnet für einen wenig gefahrenen Zweitwagen."},
 
-{id:"kleid",a:"dinge",md:3,t:"Ein Kleidungsstück gebraucht statt neu",k:5,n:"Ein neues Kleidungsstück verursacht rund 5 bis 15 kg, gerechnet mit 10 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"jeans",a:"dinge",md:1,t:"Eine Jeans gebraucht statt neu",k:12.5,n:"Die Herstellung einer Jeans verursacht rund 25 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"repariert",a:"dinge",md:2,t:"Etwas repariert statt ersetzt",k:15,n:"Mittelwert für kleinere Geräte und Gegenstände."},
-{id:"handyrep",a:"dinge",md:1,t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung."},
-{id:"laptop",a:"dinge",md:1,t:"Laptop gebraucht statt neu",k:100,n:"Die Herstellung eines Laptops verursacht rund 200 bis 300 kg. Gezählt wird die Hälfte von 200 kg, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"geliehen",a:"dinge",md:2,w:1,t:"Gerät geliehen statt gekauft",k:15,n:"Grobe Schätzung für ein Werkzeug oder Küchengerät, das du sonst gekauft hättest."},
+{id:"kleid",a:"dinge",md:3,yr:20,t:"Ein Kleidungsstück gebraucht statt neu",k:5,n:"Ein neues Kleidungsstück verursacht rund 5 bis 15 kg, gerechnet mit 10 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{id:"jeans",a:"dinge",md:1,yr:3,t:"Eine Jeans gebraucht statt neu",k:12.5,n:"Die Herstellung einer Jeans verursacht rund 25 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{id:"repariert",a:"dinge",md:2,yr:12,t:"Etwas repariert statt ersetzt",k:15,n:"Mittelwert für kleinere Geräte und Gegenstände."},
+{id:"handyrep",a:"dinge",md:1,yr:1,t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung."},
+{id:"laptop",a:"dinge",md:1,yr:1,t:"Laptop gebraucht statt neu",k:100,n:"Die Herstellung eines Laptops verursacht rund 200 bis 300 kg. Gezählt wird die Hälfte von 200 kg, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{id:"geliehen",a:"dinge",md:2,yr:12,w:1,t:"Gerät geliehen statt gekauft",k:15,n:"Grobe Schätzung für ein Werkzeug oder Küchengerät, das du sonst gekauft hättest."},
 {id:"nichtgekauft",a:"dinge",md:3,t:"Einen Spontankauf gelassen",k:3,n:"Grober Mittelwert für kleine Spontankäufe."},
 {id:"weiter",a:"dinge",t:"Etwas weitergegeben statt weggeworfen",k:0,n:"Ein Schritt für den Handabdruck, also für das, was du über deinen eigenen Fußabdruck hinaus bewirkst. Die Einsparung zählt bei der Person, die es gebraucht nutzt statt neu zu kaufen. So wird sie nicht doppelt gezählt."},
 {id:"handylang",a:"dinge",g:1,t:"Smartphone mindestens ein Jahr länger nutzen",y:8,n:"Die Herstellung verteilt sich auf mehr Jahre. Das sind rund 5 bis 10 kg im Jahr."},
@@ -686,7 +687,7 @@ const ACTS=[
 {id:"kreis",a:"wir",w:1,t:"Bei einem Plenum oder Gesprächskreis dabei gewesen",k:0,n:"Gemeinsam entscheiden ist eine Übung, die mit der Zeit leichter wird."},
 {id:"geteilt",a:"wir",md:2,w:1,t:"Etwas im Haus oder in der Gruppe geteilt",k:5,n:"Ein geteiltes Gerät muss nur einmal hergestellt werden."},
 {id:"verliehen",a:"wir",w:1,t:"Etwas verliehen",k:0,n:"Ein Schritt für den Handabdruck, also für das, was du über deinen eigenen Fußabdruck hinaus bewirkst. Den vermiedenen Neukauf zählt die Person, die sich etwas leiht. So wird er nicht doppelt gezählt."},
-{id:"tausch",a:"wir",md:1,w:1,t:"Bei einer Tauschparty gewesen",k:7.5,n:"Gerechnet für ein bis zwei getauschte Kleidungsstücke, mit derselben Hälfte wie beim Gebrauchtkauf."},
+{id:"tausch",a:"wir",md:1,yr:4,w:1,t:"Bei einer Tauschparty gewesen",k:7.5,n:"Gerechnet für ein bis zwei getauschte Kleidungsstücke, mit derselben Hälfte wie beim Gebrauchtkauf."},
 {id:"geholfen",a:"wir",w:1,t:"Jemandem aus der Nachbarschaft geholfen",k:0,n:"Nachbarschaftshilfe ist die Grundlage jeder Gemeinschaft."},
 {id:"genossenschaft",a:"wir",g:1,w:1,t:"Mitglied einer Wohn- oder Energiegenossenschaft",y:100,n:"Der direkte Effekt hängt vom Projekt ab. Genossenschaften machen gemeinsames Eigentum möglich. Gerechnet wird er beim Strom."},
 {id:"carsharing",a:"wir",g:1,w:1,t:"Auto mit anderen geteilt",y:700,n:"Ein geteiltes Auto ersetzt oft mehrere private Autos."},
@@ -700,9 +701,9 @@ const BITES=[
  c:"Systematische Übersicht über 53 Studien. Die Werte gelten für Haushalte in reichen Ländern.",
  src:"Ivanova et al. (2020), Environmental Research Letters",u:SCH("Ivanova Barrett Wiedenhofer Macura Callaghan Creutzig 2020 quantifying the potential for climate change mitigation of consumption options"),
  tip:"Es lohnt sich, einmal die großen Brocken anzuschauen, bevor man an den kleinen feilt.",term:"co2e",mis:"hebelcheck"},
-{id:"unterschaetzt",a:"dinge",ev:2,t:"Wir verschätzen uns bei den Hebeln",
- x:"In Befragungen überschätzen Menschen die Wirkung von Recycling, Plastiktüten und dem Ausschalten von Licht. Die Wirkung von Flügen, Fleisch und Autofahrten unterschätzen sie dagegen deutlich.",
- c:"Mehrere Befragungsstudien in verschiedenen Ländern.",
+{id:"unterschaetzt",a:"dinge",ev:1,t:"Wir verschätzen uns bei den Hebeln",
+ x:"In einer Befragung von 965 Menschen in Nordamerika unterschätzten die meisten deutlich, wie viel Treibhausgas Flugreisen verursachen, etwas weniger stark auch beim Fleisch. Abwägen fiel vielen schwer, etwa wie viele Hamburger so viel wiegen wie ein Flug über den Atlantik.",
+ c:"Eine einzelne Online-Befragung in Nordamerika. Ob es in Deutschland genauso ist, wurde dort nicht untersucht.",
  src:"Wynes, Zhao & Donner (2020), Climatic Change",u:SCH("Wynes Zhao Donner 2020 how well do people understand the climate impact of individual actions"),
  tip:"Darum gibt es hier das Quiz „Was spart mehr?“. Gefühle für Größenordnungen kann man üben.",term:"co2e"},
 {id:"teller",a:"essen",ev:3,t:"Was auf dem Teller liegt, zählt mehr als woher es kommt",
@@ -816,8 +817,8 @@ const BITES=[
  src:"Oxfam & SEI (2020), Confronting Carbon Inequality",u:SCH("Oxfam SEI 2020 confronting carbon inequality"),
  tip:"Viele Menschen in Deutschland gehören weltweit zu den reichsten zehn Prozent. Das ist kein Vorwurf, sondern ein Hebel."},
 {id:"zufrieden",a:"wir",ev:3,t:"Nachhaltig handeln und zufrieden sein gehen zusammen",
- x:"Eine Meta-Analyse über 78 Studien fand einen durchgehend positiven Zusammenhang zwischen umweltfreundlichem Verhalten und Wohlbefinden. Er war stärker, wenn Menschen bewusst und aus eigener Überzeugung handelten.",
- c:"Zusammenhang, keine Kausalität. Vermutet wird ein Weg über Sinn und Stimmigkeit.",
+ x:"Eine Meta-Analyse über 78 Studien fand einen durchgehend positiven, kleinen bis mittleren Zusammenhang zwischen umweltfreundlichem Verhalten und Wohlbefinden (r ≈ 0,24). Am deutlichsten war er beim „Warm Glow“, dem guten Gefühl, das Richtige zu tun, und bei umweltfreundlichen Einkäufen.",
+ c:"Zusammenhang, keine Kausalität. Die Art der Stichprobe und das Studiendesign änderten am Ergebnis wenig.",
  src:"Zawadzki, Steg & Bouman (2020), Environmental Research Letters",u:SCH("Zawadzki Steg Bouman 2020 meta-analytic evidence for a robust and positive association between pro-environmental behaviors and subjective wellbeing"),
  tip:"Nachhaltigkeit muss sich nicht nach Verzicht anfühlen. Für viele fühlt sie sich stimmig an.",term:"dividende"},
 {id:"zeitwohlstand",a:"wir",ev:1,t:"Zeit ist nachhaltiger als Geld",
@@ -917,7 +918,7 @@ const DUELS=[
 {a:"Ein Jahr lang Fleisch durch Käse ersetzen",ak:100,b:"Ein Jahr lang Fleisch durch Hülsenfrüchte ersetzen",bk:450,x:"Gerechnet für den durchschnittlichen Fleischverzehr in Deutschland, rund 1 kg pro Woche, ersetzt durch dieselbe Menge Eiweiß. Käse liegt pro Kilogramm in der Größenordnung von Schwein und Geflügel, Hülsenfrüchte weit darunter."},
 {a:"Ein Auto mit drei Haushalten teilen",ak:700,b:"Beim ohnehin fälligen Autokauf ein E-Auto statt Verbrenner",bk:900,x:"Ähnlich groß, das E-Auto liegt etwas vorn. In den 700 kg für das geteilte Auto steckt schon, dass weniger Autos hergestellt werden und weniger gefahren wird."},
 {a:"Eine Strecke von 1.000 km mit der Bahn statt mit dem Flugzeug",ak:150,b:"Ein Jahr lang einmal pro Woche kürzer duschen",bk:8,x:"Fliegen ist pro Kilometer einer der klimaschädlichsten Wege, sich fortzubewegen."},
-{a:"Photovoltaik aufs Dach, ein Jahr, Anteil pro Person",ak:1000,b:"Ein Jahr komplett vegetarisch",bk:450,x:"Eine Solaranlage auf dem Dach ist einer der größten Einzelschritte im Haushalt. Die vegetarische Ernährung ist trotzdem ein kräftiger Hebel."},
+{a:"Photovoltaik aufs Dach, ein Jahr, Anteil pro Person",ak:1000,b:"Ein Jahr komplett vegetarisch",bk:450,x:"Eine Solaranlage auf dem Dach ist einer der größten Einzelschritte im Haushalt. Der größte Teil ihres Stroms wird eingespeist und ersetzt Strom anderer. In deiner eigenen Bilanz zählt sie darum höchstens so viel, wie dein Strom verursacht, im Schnitt rund 600 kg. Die vegetarische Ernährung ist trotzdem ein kräftiger Hebel."},
 {a:"Ein Jahr komplett vegetarisch",ak:450,b:"Eine Kurzstrecke in Europa hin und zurück weniger fliegen, rund 1.000 km pro Weg",bk:400,x:"Fast gleich. Ein einziger kurzer Flug hin und zurück wiegt fast so viel wie ein ganzes Jahr ohne Fleisch."},
 {a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Ein Jahr lang jeden Tag eine Stunde weniger streamen",bk:13,x:"Ein Jahr Streaming-Verzicht wiegt mehr als ein Steak. Aber ein Steak ist eine einzige Mahlzeit, Streaming ein ganzes Jahr."},
 {a:"Ein T-Shirt gebraucht statt neu",ak:2.5,b:"Einmal 50 km Bahn statt Auto",bk:6,x:"Die Bahnfahrt spart mehr. Ein neues T-Shirt verursacht rund 5 kg, so viel wie etwa 30 km Autofahrt. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
@@ -938,25 +939,25 @@ const DUELS=[
 {a:"Einmal kürzer duschen",ak:0.15,b:"Einmal Wäsche an der Luft statt im Trockner",bk:1,x:"Der Trockner braucht viel Strom. Beim Duschen zählt vor allem, wie oft."},
 {a:"Ein Jahr lang täglich ein Glas Haferdrink statt Kuhmilch",ak:73,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Kuhmilch hat einen größeren Fußabdruck, als die meisten denken."},
 {a:"Ein Jahr Ökostrom",ak:100,b:"Ein Jahr lang Fleisch halbiert",bk:250,x:"Das halbierte Fleisch wiegt mehr. Beim Ökostrom ist umstritten, wie viel ein Wechsel zusätzlich bewirkt, gerechnet sind rund 100 kg, die Spanne reicht von etwa 50 bis 150 kg. Dafür ist er ein einziger Schritt."},
-{a:"Das Auto abschaffen",ak:1500,b:"Photovoltaik aufs Dach, Anteil pro Person",bk:1000,x:"Beides gehört zu den größten Hebeln. Das Auto liegt meist ein Drittel höher."},
+{a:"Das Auto abschaffen",ak:1500,b:"Photovoltaik aufs Dach, Anteil pro Person",bk:1000,x:"Beides gehört zu den größten Hebeln. Das Auto liegt um rund die Hälfte höher. Von der Solaranlage zählt in deiner eigenen Bilanz höchstens, was dein Strom verursacht, im Schnitt rund 600 kg. Der eingespeiste Rest ersetzt Strom anderer."},
 {a:"Eine Stunde Videostreaming",ak:0.036,b:"Einen Kilometer allein Auto fahren",bk:0.17,x:"Ein Kilometer Autofahrt verursacht etwa so viel wie fünf Stunden Streaming."},
-{a:"Einmal Bahn statt Inlandsflug, 500 km",ak:75,b:"Ein Jahr lang einmal pro Woche vegetarisch",bk:80,x:"Fast gleich. Eine Flugstrecke wiegt so viel wie ein Jahr lang ein fleischfreier Tag pro Woche."},
+{a:"Einmal Bahn statt Inlandsflug, 500 km",ak:75,b:"Ein Jahr lang einmal pro Woche vegetarisch",bk:80,x:"Fast gleich. Eine Strecke mit der Bahn statt mit dem Flugzeug spart etwa so viel wie ein Jahr lang ein fleischfreier Tag pro Woche."},
 {a:"Ein Jahr lang Wäsche bei 30 statt 60 Grad, 100 Ladungen",ak:30,b:"Eine Jeans gebraucht statt neu",bk:12.5,x:"Das kühlere Waschen spart mehr. Beim Waschen geht der meiste Strom ins Aufheizen."}
 ];
 const TERMS=[
 {id:"co2e",a:"essen",n:"CO₂-Äquivalent",d:"Eine gemeinsame Maßeinheit für alle Treibhausgase. Methan oder Lachgas werden in die Menge CO₂ umgerechnet, die dieselbe Erwärmung bewirken würde.",e:"Ein Kilogramm Methan entspricht über 100 Jahre rund 27 bis 30 kg CO₂-Äquivalent."},
 {id:"lca",a:"dinge",n:"Ökobilanz",d:"Eine Rechnung über das ganze Leben eines Produkts: Rohstoffe, Herstellung, Transport, Nutzung und Entsorgung.",e:"Die Ökobilanz einer Jeans schließt den Baumwollanbau und das Waschen ein."},
 {id:"grau",a:"dinge",n:"Graue Energie",d:"Die Energie, die in der Herstellung eines Produkts steckt, bevor man es überhaupt benutzt.",e:"Bei einem Smartphone steckt der größte Teil des Fußabdrucks in der grauen Energie."},
-{id:"suffizienz",a:"wohnen",n:"Suffizienz",d:"Das Prinzip des Genug: nicht effizienter mehr verbrauchen, sondern absolut weniger. Ergänzt Effizienz und Konsistenz.",e:"Eine Waschmaschine für das ganze Haus statt eine pro Wohnung."},
-{id:"effizienz",a:"wohnen",n:"Effizienz",d:"Dasselbe mit weniger Energie oder Material erreichen.",e:"Eine LED-Lampe gibt dasselbe Licht mit einem Bruchteil des Stroms."},
-{id:"konsistenz",a:"wohnen",n:"Konsistenz",d:"Stoffe und Energie so nutzen, dass sie in natürliche oder technische Kreisläufe passen, etwa durch erneuerbare Energie.",e:"Strom aus Sonne statt aus Kohle."},
+{id:"suffizienz",a:"wohnen",n:"Suffizienz",d:"Weniger brauchen: sich fragen, wie viel genug ist, und dadurch insgesamt weniger verbrauchen, nicht nur sparsamer dasselbe.",e:"Eine Waschmaschine für das ganze Haus statt eine pro Wohnung."},
+{id:"effizienz",a:"wohnen",n:"Effizienz",d:"Besser machen: dasselbe Ergebnis mit weniger Energie oder Material erreichen.",e:"Eine LED-Lampe macht genauso hell wie eine alte Glühbirne, braucht aber nur etwa ein Sechstel des Stroms."},
+{id:"konsistenz",a:"wohnen",n:"Konsistenz",d:"Anders machen: Energie und Material aus Quellen nehmen, die sich erneuern oder im Kreislauf bleiben, sodass kaum Schaden oder Abfall entsteht.",e:"Strom vom Solardach statt aus dem Kohlekraftwerk: Du verbrauchst gleich viel Strom, also weder weniger (Suffizienz) noch sparsamer (Effizienz). Aber die Quelle ist eine andere: Die Sonne scheint nach, und es entsteht kaum CO₂. Ein zweites Beispiel ist Kompost, bei dem Küchenreste wieder zu Erde werden."},
 {id:"jaz",a:"wohnen",n:"Jahresarbeitszahl",d:"Das Verhältnis von erzeugter Wärme zu eingesetztem Strom bei einer Wärmepumpe, gemessen über ein ganzes Jahr.",e:"Eine Jahresarbeitszahl von 3 heißt: Aus 1 kWh Strom werden 3 kWh Wärme."},
 {id:"amort",a:"wohnen",n:"Energetische Amortisation",d:"Die Zeit, die eine Anlage braucht, um die Energie wieder zu erzeugen, die ihre Herstellung gekostet hat.",e:"Eine Solaranlage in Deutschland hat ihre Herstellungsenergie nach rund ein bis zwei Jahren wieder eingespielt."},
 {id:"rebound",a:"wohnen",n:"Rebound-Effekt",d:"Wenn Einsparungen durch Effizienz teilweise wieder verloren gehen, weil man mehr verbraucht.",e:"Mit dem sparsameren Auto fährt man öfter in den Urlaub."},
 {id:"nonco2",a:"wege",n:"Nicht-CO₂-Effekte",d:"Die zusätzliche Klimawirkung von Flugzeugen durch Kondensstreifen und Stickoxide in großer Höhe.",e:"Durch sie ist die Wirkung eines Flugs je nach Metrik etwa 1,7- bis 3-mal so groß wie die seines CO₂ allein (Lee et al. 2021, mit GWP100 rund 1,7)."},
 {id:"saison",a:"essen",n:"Saisonalität",d:"Lebensmittel dann essen, wenn sie in der Region im Freien wachsen oder ohne viel Energie gelagert werden können.",e:"Kürbis im Oktober, Erdbeeren im Juni."},
 {id:"kreislauf",a:"dinge",n:"Kreislaufwirtschaft",d:"Ein Wirtschaften, bei dem Produkte möglichst lange genutzt, repariert, geteilt und am Ende wiederverwertet werden.",e:"Ein Handy mit austauschbarem Akku ist ein Schritt Richtung Kreislaufwirtschaft."},
-{id:"default",a:"wohnen",n:"Voreinstellung (Default)",d:"Die Option, die gilt, wenn man nichts tut. Menschen bleiben meist bei der Voreinstellung.",e:"Ökostrom als Standardtarif."},
+{id:"default",a:"wohnen",n:"Voreinstellung (Default)",d:"Was automatisch gilt, solange man nichts ändert. Weil Umstellen Mühe kostet, bleiben die meisten dabei. Deshalb wirkt eine gute Voreinstellung oft stärker als ein guter Vorsatz.",e:"Bietet ein Stromanbieter Ökostrom als normalen Tarif an, bleiben die meisten Kundinnen und Kunden dabei, obwohl sie jederzeit wechseln könnten. Für dich heißt das: Stell die Dinge einmal so ein, dass das Klimafreundliche von selbst passiert, etwa Ökostromtarif, Thermostat auf 20 Grad, Waschmaschine auf 30 Grad, Drucker auf beidseitig."},
 {id:"norm",a:"wohnen",n:"Soziale Norm",d:"Die Vorstellung davon, was andere tun oder für richtig halten. Sie beeinflusst unser Verhalten stark.",e:"Wenn alle im Haus den Müll trennen, trennt man selbst eher."},
 {id:"kipppunkt",a:"wir",n:"Sozialer Kipppunkt",d:"Der Punkt, ab dem sich eine neue Norm in einer Gruppe von selbst durchsetzt. In Experimenten lag er bei etwa einem Viertel.",e:"Ab einem gewissen Anteil wird das Rad zum normalen Weg zur Arbeit."},
 {id:"licensing",a:"dinge",n:"Moralische Lizenz",d:"Die Neigung, sich nach einer guten Tat eine weniger gute zu erlauben.",e:"Nach dem Ökostrom-Wechsel fühlt sich der Flug weniger schlimm an."},
@@ -970,23 +971,26 @@ const TERMS=[
 {id:"oekodorf",a:"wir",n:"Ökodorf",d:"Eine Gemeinschaft, die bewusst ökologisch, sozial und wirtschaftlich nachhaltig zusammenlebt, oft mit eigener Versorgung.",e:"Ein Dorf mit gemeinsamer Küche, Solaranlage und Gemüsegarten."}
 ];
 
-/* Missionen. al: Wird nicht mehr vorgeschlagen, wenn einer dieser Einträge schon Alltag ist oder als dauerhafte Änderung läuft. */
+/* Missionen. al: Wird nicht mehr vorgeschlagen, wenn einer dieser Einträge schon Alltag ist oder als dauerhafte Änderung läuft.
+   nf: Wird nicht vorgeschlagen, wenn das Profil aus Hebel-Check und „Schon Alltag“ sie gegenstandslos macht:
+   auto = kein eigenes Auto, flug = fliegt nicht, autoflug = weder Auto noch Flug, veg = isst schon vegetarisch oder vegan,
+   strom = bezieht schon Ökostrom, rest = wirft fast nie Lebensmittel weg, check = Hebel-Check ist schon gemacht. */
 const MISS=[
-{id:"hebelcheck",a:"wohnen",d:1,t:"Deine großen Hebel finden",x:"Mach den Hebel-Check unter „Jahr“ und schau dir deine drei größten Quellen an. Such dir für eine davon einen Schritt aus.",s:["Hebel-Check ausfüllen, etwa fünf Minuten","Die drei größten Quellen notieren","Einen Schritt für die größte Quelle eintragen oder planen"],b:"hebel"},
-{id:"veg5",al:["veg_dauer","vegan_dauer"],a:"essen",d:5,t:"Fünf Tage vegetarisch",x:"Iss fünf Tage lang kein Fleisch und keinen Fisch. Probier dabei mindestens zwei neue Gerichte mit Hülsenfrüchten.",s:["Zwei Rezepte mit Linsen, Bohnen oder Kichererbsen heraussuchen","Einkaufsliste für fünf Tage schreiben","Jeden Tag eintragen"],b:"teller"},
-{id:"restewoche",a:"essen",d:7,t:"Eine Woche ohne Wegwerfen",x:"Wirf eine Woche lang keine Lebensmittel weg. Plane Einkäufe, koche Reste und frier ein, was du nicht schaffst.",s:["Vor dem Einkauf in den Kühlschrank schauen","Ein Restegericht pro Woche fest einplanen","Notieren, was trotzdem fast im Müll gelandet wäre"],b:"verschwendung"},
+{id:"hebelcheck",nf:["check"],a:"wohnen",d:1,t:"Deine großen Hebel finden",x:"Mach den Hebel-Check unter „Jahr“ und schau dir deine drei größten Quellen an. Such dir für eine davon einen Schritt aus.",s:["Hebel-Check ausfüllen, etwa fünf Minuten","Die drei größten Quellen notieren","Einen Schritt für die größte Quelle eintragen oder planen"],b:"hebel"},
+{id:"veg5",al:["veg_dauer","vegan_dauer"],nf:["veg"],a:"essen",d:5,t:"Fünf Tage vegetarisch",x:"Iss fünf Tage lang kein Fleisch und keinen Fisch. Probier dabei mindestens zwei neue Gerichte mit Hülsenfrüchten.",s:["Zwei Rezepte mit Linsen, Bohnen oder Kichererbsen heraussuchen","Einkaufsliste für fünf Tage schreiben","Jeden Tag eintragen"],b:"teller"},
+{id:"restewoche",nf:["rest"],a:"essen",d:7,t:"Eine Woche ohne Wegwerfen",x:"Wirf eine Woche lang keine Lebensmittel weg. Plane Einkäufe, koche Reste und frier ein, was du nicht schaffst.",s:["Vor dem Einkauf in den Kühlschrank schauen","Ein Restegericht pro Woche fest einplanen","Notieren, was trotzdem fast im Müll gelandet wäre"],b:"verschwendung"},
 {id:"saisonmonat",a:"essen",d:30,t:"Ein Monat nach Saison",x:"Kauf einen Monat lang frisches Obst und Gemüse nur aus der aktuellen Saison. Der Saisonkalender auf der Startseite hilft.",s:["Saisonliste des Monats anschauen","Einen Markt oder eine Gemüsekiste ausprobieren","Ein Gericht kochen, das du noch nie gemacht hast"],b:"flugware"},
 {id:"wasser",al:["leitung"],a:"essen",d:14,t:"Zwei Wochen Leitungswasser",x:"Trink zwei Wochen lang nur Leitungswasser, unterwegs aus der eigenen Flasche.",s:["Eine Flasche für unterwegs bereitlegen","Wenn du Sprudel magst: einen Sprudler leihen statt kaufen","Notieren, wie viele Flaschen du sonst gekauft hättest"]},
 {id:"eingrad",al:["grad"],a:"wohnen",d:14,t:"Ein Grad weniger",x:"Senke die Raumtemperatur zwei Wochen lang um ein Grad. Schau, ob du es überhaupt merkst.",s:["Thermostat um eine Stufe zurückdrehen","Im Schlafzimmer die Heizung ganz auslassen","Nach zwei Wochen entscheiden, ob es so bleibt"],b:"grad"},
 {id:"leinemonat",al:["leine"],a:"wohnen",d:30,t:"Ein Monat Wäscheleine",x:"Lass den Trockner einen Monat lang aus und trockne alles an der Luft.",s:["Wäscheständer oder Leine einrichten","Bei 30 Grad waschen, wo es geht","Trocknergänge zählen, die du gespart hast"]},
 {id:"zaehler",a:"wohnen",d:7,t:"Die Stromzähler-Woche",x:"Lies eine Woche lang jeden Abend den Stromzähler ab. Finde heraus, welche Geräte am meisten verbrauchen.",s:["Zählerstand jeden Abend notieren","An einem Tag alle Standby-Geräte ausschalten und vergleichen","Den größten Verbraucher aufschreiben"],b:"nachbarn_strom"},
-{id:"stromcheck",al:["oekostrom"],a:"wohnen",d:7,t:"Der Ökostrom-Check",x:"Prüfe deinen Stromtarif. Wechsle zu einem Anbieter, der in neue Anlagen investiert, wenn du es noch nicht bist.",s:["Den aktuellen Tarif nachschauen","Auf ein anerkanntes Ökostrom-Siegel achten","Den Wechsel online abschließen, das dauert etwa zehn Minuten"],b:"default"},
+{id:"stromcheck",al:["oekostrom"],nf:["strom"],a:"wohnen",d:7,t:"Der Ökostrom-Check",x:"Prüfe deinen Stromtarif. Wechsle zu einem Anbieter, der in neue Anlagen investiert, wenn du es noch nicht bist.",s:["Den aktuellen Tarif nachschauen","Auf ein anerkanntes Ökostrom-Siegel achten","Den Wechsel online abschließen, das dauert etwa zehn Minuten"],b:"default"},
 {id:"energieberatung",a:"wohnen",d:21,t:"Eine Energieberatung buchen",x:"Lass dir von einer unabhängigen Energieberatung zeigen, wo dein Zuhause am meisten verbraucht und was sich lohnt. Bei der Verbraucherzentrale kostet das wenig oder nichts, auch für Mieterinnen und Mieter.",s:["Bei der Verbraucherzentrale oder einer Energieberatung in der Nähe einen Termin anfragen","Heizkosten- und Stromabrechnungen der letzten zwei Jahre heraussuchen","Nach der Beratung einen Schritt auswählen und eintragen"],b:"waermepumpe"},
 {id:"heizung",a:"wohnen",d:30,t:"Die Heizung einstellen lassen",x:"Viele Heizungen laufen mit zu hoher Vorlauftemperatur oder verteilen die Wärme ungleich. Ein hydraulischer Abgleich und eine passend eingestellte Heizkurve sparen oft spürbar Energie.",s:["Notieren, welche Räume zu warm werden und welche nie richtig warm","Beim Heizungsbetrieb oder der Hausverwaltung nach hydraulischem Abgleich und Heizkurve fragen","Heizzeiten und Nachtabsenkung einstellen, wo es eine Steuerung gibt"],b:"grad"},
-{id:"radwoche",al:["rad5","rad10"],a:"wege",d:7,t:"Die Rad-Woche",x:"Fahr eine Woche lang jeden Weg unter fünf Kilometern mit dem Rad oder zu Fuß.",s:["Rad prüfen: Luft, Licht, Bremsen","Wege unter fünf Kilometern auflisten","Jeden Weg eintragen"],b:"aktivwege"},
-{id:"autofasten",a:"wege",d:14,t:"Autofasten",x:"Lass das Auto zwei Wochen lang stehen. Organisiere die Wege mit Rad, Bahn, Fahrgemeinschaft oder geteiltem Auto.",s:["Die festen Wege der nächsten zwei Wochen planen","Für jeden Weg eine Alternative finden","Notieren, was gefehlt hat und was nicht"],b:"hebel"},
-{id:"bahnplan",a:"wege",d:30,t:"Die nächste Reise mit der Bahn",x:"Plane deine nächste längere Reise mit der Bahn statt mit dem Flugzeug oder Auto. Rechne die Reisezeit einmal ehrlich mit An- und Abfahrt.",s:["Ein Ziel wählen, das per Zug erreichbar ist","Früh buchen, oft ist es dann günstiger","Die Zugfahrt als Teil der Reise planen: Buch, Essen, Ausblick"],b:"flug"},
-{id:"urlaubzug",al:["keinflug"],a:"wege",d:14,t:"Urlaub ohne Flug planen",x:"Plane deinen nächsten großen Urlaub so, dass du ohne Flugzeug hinkommst. Viele Ziele in Europa erreichst du mit Tag- oder Nachtzug in einem Reisetag.",s:["Drei Ziele sammeln, die per Zug, Nachtzug oder Fernbus erreichbar sind","Verbindungen und Preise vergleichen, früh gebucht ist es oft günstiger","Die Anreise als ersten Urlaubstag planen"],b:"flug"},
+{id:"radwoche",al:["rad5","rad10"],nf:["auto"],a:"wege",d:7,t:"Die Rad-Woche",x:"Fahr eine Woche lang jeden Weg unter fünf Kilometern mit dem Rad oder zu Fuß.",s:["Rad prüfen: Luft, Licht, Bremsen","Wege unter fünf Kilometern auflisten","Jeden Weg eintragen"],b:"aktivwege"},
+{id:"autofasten",nf:["auto"],a:"wege",d:14,t:"Autofasten",x:"Lass das Auto zwei Wochen lang stehen. Organisiere die Wege mit Rad, Bahn, Fahrgemeinschaft oder geteiltem Auto.",s:["Die festen Wege der nächsten zwei Wochen planen","Für jeden Weg eine Alternative finden","Notieren, was gefehlt hat und was nicht"],b:"hebel"},
+{id:"bahnplan",nf:["autoflug"],a:"wege",d:30,t:"Die nächste Reise mit der Bahn",x:"Plane deine nächste längere Reise mit der Bahn statt mit dem Flugzeug oder Auto. Rechne die Reisezeit einmal ehrlich mit An- und Abfahrt.",s:["Ein Ziel wählen, das per Zug erreichbar ist","Früh buchen, oft ist es dann günstiger","Die Zugfahrt als Teil der Reise planen: Buch, Essen, Ausblick"],b:"flug"},
+{id:"urlaubzug",al:["keinflug"],nf:["flug"],a:"wege",d:14,t:"Urlaub ohne Flug planen",x:"Plane deinen nächsten großen Urlaub so, dass du ohne Flugzeug hinkommst. Viele Ziele in Europa erreichst du mit Tag- oder Nachtzug in einem Reisetag.",s:["Drei Ziele sammeln, die per Zug, Nachtzug oder Fernbus erreichbar sind","Verbindungen und Preise vergleichen, früh gebucht ist es oft günstiger","Die Anreise als ersten Urlaubstag planen"],b:"flug"},
 {id:"kaufpause",a:"dinge",d:7,t:"Die Kaufpause",x:"Kauf eine Woche lang nichts außer Lebensmitteln und wirklich Notwendigem. Schreib jeden Kaufimpuls auf.",s:["Liste anlegen: Impuls, Situation, Gefühl","Nach einer Woche: Welche Impulse kamen aus Langeweile oder Vergleich?","Einen Impuls auswählen, den du künftig anders beantwortest"],b:"materialismus"},
 {id:"repariermonat",a:"dinge",d:30,t:"Der Repariermonat",x:"Repariere in diesem Monat einen Gegenstand, der kaputt in der Schublade liegt, selbst oder im Repair-Café.",s:["Etwas Kaputtes heraussuchen","Anleitung suchen oder Repair-Café-Termin finden","Ob es klappt oder nicht: eintragen, was du gelernt hast"],b:"handy"},
 {id:"gebrauchtzuerst",al:["nurgebraucht"],a:"dinge",d:30,t:"Gebraucht zuerst",x:"Suche einen Monat lang bei jedem Kauf zuerst gebraucht, im Freundeskreis oder im Haus, bevor du neu kaufst.",s:["Zwei Plattformen oder Läden für Gebrauchtes heraussuchen","In der Haus- oder Familiengruppe zuerst fragen","Zählen, wie oft es geklappt hat"],b:"kleidung"},
@@ -1108,18 +1112,26 @@ vegan_dauer:["veg_tag","vegan_tag","linsen","hafer","milchfrei_tag"],
 kaese_weniger:["milchfrei_tag","hafer"],
 nurgebraucht:["kleid","jeans","tausch"],
 handylang:["handyrep"],
-oekostrom:["leine","kalt","standby","deckel"],
 gemeinschaft:["mahlzeit","geteilt"]
 };
 /* Teilweise enthalten: Solange die dauerhafte Änderung läuft, zählt der kleine Schritt nur mit diesem Anteil.
    fleisch_halb: Fleischfreie Tage sind oft genau die Halbierung, darum die Hälfte.
    veg_dauer: Ein veganer Tag spart gegenüber einem vegetarischen nur noch rund 0,7 von 2,2 kg. Ein Tag ohne Milch und Käse bleibt voll, denn Milchprodukte stecken nicht in „Dauerhaft vegetarisch“.
-   pendeln: Ein Homeoffice-Tag spart dann nur die Bahnfahrt, rund 0,07 statt 0,17 kg pro km. */
+   pendeln: Ein Homeoffice-Tag spart dann nur die Bahnfahrt, rund 0,07 statt 0,17 kg pro km.
+   oekostrom: Gesparter Strom zählt mit Ökostrom zu 80 %. Ein Tarifwechsel allein verändert den Strommix nur wenig (siehe „oekostrom“, rund 100 von 600 kg). */
 const COVER_PART={
 fleisch_halb:{veg_tag:.5,linsen:.5},
+oekostrom:{leine:.8,kalt:.8,standby:.8,deckel:.8},
 veg_dauer:{vegan_tag:.32},
 pendeln:{wegspar:.4}
 };
+/* Profil aus dem Hebel-Check: Was laut dem Check zum Zeitpunkt des Eintrags schon so ist, spart nichts Neues oder nur anteilig.
+   Entschieden wird beim Eintragen und am Eintrag festgehalten, damit ein späterer Check nichts rückwirkend ändert.
+   vegan / veg: wer schon vegan bzw. vegetarisch isst; vegPart: ein veganer Tag spart gegenüber einem vegetarischen nur noch rund 0,7 von 2,2 kg.
+   strom: kleine Stromschritte bei Ökostrom mit dem Faktor aus COVER_PART.oekostrom.
+   heat: Heizschritte und Heiz-Änderungen zählen mit dem Anteil der eigenen Heizung an einer Gasheizung (Werte aus dem Hebel-Check: Wärmepumpe 0,45, Holz 0,3, Fernwärme 0,85). Mehr als bei Gas wird nicht gerechnet. */
+const PROFILE={vegan:["veg_tag","vegan_tag","linsen","milchfrei_tag","hafer"],veg:["veg_tag","linsen"],vegPart:{vegan_tag:.32},
+  strom:["leine","kalt","standby","deckel"],strom_f:.8,heat:["lueften","dusche","grad","daemmung","kleiner","gemeinschaft"]};
 /* Höchstens so viel kg am Tag für eine Gruppe kleiner Schritte, die denselben Tag beschreiben: ein Tag vegan ist schon ein Tag vegetarisch und ohne Milch. */
 const DAYGROUP={esstag:{ids:["veg_tag","vegan_tag","milchfrei_tag"],kg:2.2}};
 
@@ -1138,13 +1150,16 @@ const EXCL=[
    fb: typischer Höchstwert in Tonnen, solange es keinen Check gibt. floor: was auch bei bester Wahl bleibt.
    rest: Restwert. Eine Wärmepumpe braucht Strom (rund 45 % der früheren Heizemissionen), ein E-Auto verursacht rund ein Drittel (ICCT 2021).
    Solange so eine Änderung läuft, spart sie selbst höchstens den Rest bis dahin, und alles andere an derselben Quelle zählt nur mit diesem Anteil.
-   small: kleine Schritte, die dieselbe Quelle betreffen. */
+   small: kleine Schritte, die dieselbe Quelle betreffen.
+   Der Rahmen für kleine Schritte wächst mit der Zeit: in 365 Tagen höchstens, was die Quelle in der Zeit verursacht. In den ersten 30 Tagen gilt ein Monat.
+   Wege: Taxi, Bus und Bahn. Der Hebel-Check fragt nur nach selbst gefahrenen Autokilometern, darum gilt hier immer der typische Höchstwert. */
 const SRC={
 "Auto":{a:"wege",fb:2.4,rest:{eauto:.33},acts:["autolos","eauto","pendeln","dticket","lastenrad","carsharing"],small:["rad5","rad10","oepnv","wegspar","mitfahren","tempo","bahn"]},
 "Fliegen":{a:"wege",fb:2.5,acts:["keinflug"],small:["bahnflug","bahn_eu"]},
 "Heizen":{a:"wohnen",fb:2.0,rest:{waermepumpe:.45},acts:["grad","daemmung","waermepumpe","kleiner","gemeinschaft"],small:["lueften","dusche"]},
 "Strom":{a:"wohnen",fb:0.6,acts:["oekostrom","balkon","pv","genossenschaft"],small:["leine","kalt","standby","deckel"]},
-"Essen":{a:"essen",fb:1.3,floor:0.9,acts:["veg_dauer","vegan_dauer","fleisch_halb","kaese_weniger","foodcoop"],small:["veg_tag","vegan_tag","linsen","hafer","milchfrei_tag","retten","reste","saison","leitung"]},
+"Wege":{a:"wege",fb:0.5,acts:[],small:["taxi","rad_oepnv"]},
+"Essen":{a:"essen",fb:1.3,floor:0.9,acts:["veg_dauer","vegan_dauer","fleisch_halb","kaese_weniger","foodcoop"],small:["veg_tag","vegan_tag","linsen","hafer","milchfrei_tag","retten","reste","saison","leitung","mahlzeit"]},
 "Konsum":{a:"dinge",fb:2.4,floor:1.0,acts:["nurgebraucht","handylang","werbung"],small:["kleid","jeans","repariert","handyrep","laptop","geliehen","nichtgekauft","tausch","geteilt"]}
 };
 
@@ -1155,7 +1170,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="19.10.2026, 23:16";
+const BUILD="20.10.2026, 13:11";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1192,61 +1207,94 @@ function partOf(e){let f=1,by=null;Object.entries(CPART).forEach(([big,m])=>{if(
 /* Überschneidungen: Aus jeder Gruppe in EXCL läuft höchstens eine dauerhafte Änderung */
 const XG=typeof EXCL!=="undefined"?EXCL:[];
 const rivals=id=>[...new Set(XG.filter(g=>g.includes(id)).flat())].filter(x=>x!==id);
-/* Plausibilitätsgrenzen für eigene Schätzungen: ein kleiner Schritt höchstens 50 kg, eine dauerhafte Änderung höchstens 2 t im Jahr */
-const KMAX_S=50,KMAX_Y=2000;
+/* Eigene Schätzungen: ein kleiner Schritt höchstens 50 kg, eine dauerhafte Änderung höchstens 1 t im Jahr.
+   Alle eigenen Schätzungen zusammen zählen höchstens 50 kg am Tag und 1 t im Jahr; dauerhafte zählen dabei mit ihrem Jahreswert.
+   Jede eigene Schätzung gehört zu einer Quelle (e.src) oder zu „Sonstiges“ (""). Dort gilt zusätzlich der Rahmen der Quelle. */
+const KMAX_S=50,KMAX_Y=1000,CUST_DAY=50,CUST_Y=1000;
+/* Rahmen kleiner Schritte wächst mit der Zeit seit dem Start: mindestens ein Monat, höchstens ein Jahr */
+const CAP_MIN_D=30;
 /* Deckel je Quelle: Dauerhafte Änderungen und kleine Schritte einer Quelle zählen zusammen höchstens so viel, wie die Quelle verursacht.
    Feste Basislinie ist der erste Hebel-Check. Änderungen, die bei diesem Check schon liefen, stecken nicht mehr in der Messung und werden zum Deckel addiert.
-   Ein späterer Check ändert den Deckel nur, wenn er bei der Quelle selbst mehr misst. Ein erneuter Check mit gleichen Antworten hebt den Deckel also nicht an.
+   Ein späterer Check hebt den Deckel nur, wenn er bei der Quelle selbst mehr misst, und erst ab seinem Datum, nicht rückwirkend.
    Ohne Check gilt ein typischer Höchstwert (fb). */
 const SRCS=typeof SRC!=="undefined"?SRC:{},SRCOF={},SMALLOF={};Object.entries(SRCS).forEach(([n,x])=>{x.acts.forEach(id=>SRCOF[id]=n);(x.small||[]).forEach(id=>SMALLOF[id]=n)});
+const PROF=typeof PROFILE!=="undefined"?PROFILE:{vegan:[],veg:[],vegPart:{},strom:[],strom_f:1,heat:[]};
+/* Quelle eines Eintrags: Katalogschritte nach SRC, eigene Schätzungen nach der beim Anlegen gewählten Quelle */
+const srcOfE=e=>(e.act==="custom"?(SRCS[e.src]?e.src:null):(e.g?SRCOF[e.act]:SMALLOF[e.act]))||null;
+/* Jahreswert einer dauerhaften Änderung mit dem Anteil aus dem Profil (etwa Heizen mit Wärmepumpe) */
+const yOf=e=>(e.y||0)*(e.pf!=null?e.pf:1);
 function srcMeasured(r){const v=id=>{const q=CHECK.find(x=>x.id===id);return q.o[(r.ans||{})[id]??0][1]};
   return {"Auto":v("auto"),"Fliegen":v("flug"),"Heizen":v("flaeche")*v("heiz"),"Strom":v("strom"),"Essen":v("ess")+v("rest"),"Konsum":Math.max(.8,v("konsum")+v("gebraucht"))}}
 const checksA=()=>S.checks.filter(c=>c&&c.ans);
 let MEMO={k:""};
 function memo(){const key=kv+"|"+S.log.length+"|"+S.checks.length;if(MEMO.k===key)return MEMO;
-  const bySrc={};Object.keys(SRCS).forEach(n=>bySrc[n]=[]);S.log.forEach(e=>{if(e.g&&e.act!=="custom"&&SRCOF[e.act])bySrc[SRCOF[e.act]].push(e)});
+  const bySrc={},cust=[];Object.keys(SRCS).forEach(n=>bySrc[n]=[]);S.log.forEach(e=>{if(!e.g)return;const n=srcOfE(e);if(n)bySrc[n].push(e);if(e.act==="custom")cust.push(e)});
   let st=S.start||now();S.log.forEach(e=>{if(!e.g&&e.ts<st)st=e.ts});if(S.checks[0]&&S.checks[0].ts<st)st=S.checks[0].ts;
-  const ck=checksA(),caps={};Object.entries(SRCS).forEach(([n,x])=>{if(x.fb==null)return;
-    if(!ck.length){caps[n]=x.fb*1000;return}
-    const m=c=>Math.max(0,srcMeasured(c)[n]-(x.floor||0))*1000,c0=ck[0];
-    const pre=bySrc[n].filter(e=>!newSince(e,c0.ts)&&(!e.end||e.end>c0.ts)).reduce((q,e)=>q+(e.y||0),0);
-    caps[n]=Math.max(m(c0)+pre,...ck.slice(1).map(m))});
-  MEMO={k:key,bySrc,start:st,caps,small:{},why:{}};smallPass(MEMO);return MEMO}
+  /* capT: Deckel als Treppe über die Zeit, [ab, kg im Jahr] */
+  const ck=checksA(),caps={},capT={};Object.entries(SRCS).forEach(([n,x])=>{if(x.fb==null)return;const fb=x.fb*1000;
+    if(!ck.length){caps[n]=fb;capT[n]=[[-Infinity,fb]];return}
+    const m=c=>{const v=srcMeasured(c)[n];return v==null?fb:Math.max(0,v-(x.floor||0))*1000},c0=ck[0];
+    const pre=bySrc[n].filter(e=>!newSince(e,c0.ts)&&(!e.end||e.end>c0.ts)).reduce((q,e)=>q+yOf(e),0);
+    let v=m(c0)+pre;const T=[[-Infinity,v]];ck.slice(1).forEach(c=>{const w=m(c);if(w>v){v=w;T.push([c.ts,v])}});caps[n]=v;capT[n]=T});
+  MEMO={k:key,bySrc,cust,start:st,caps,capT,small:{},why:{}};smallPass(MEMO);return MEMO}
+const capAt=(n,t)=>{const T=memo().capT[n];if(!T)return null;let v=T[0][1];T.forEach(([q,c])=>{if(q<=t)v=c});return v};
 /* Angerechnet wird frühestens ab dem Start in der App. Was vorher schon so war, gehört zu „Schon Alltag“. */
 const appStart=()=>memo().start;
 /* neu seit t: begonnen oder eingetragen nach t (lt = Zeitpunkt des Eintragens; ein zurückdatierter Eintrag steckt nicht in einer früheren Messung) */
 const newSince=(e,t)=>e.ts>t||(e.lt||0)>t;
+const runningAt=(e,t)=>e.ts<=t&&(!e.end||e.end>t);
+/* eigene dauerhafte Schätzungen zusammen höchstens CUST_Y im Jahr: Jahreswert aller laufenden und Faktor, falls es mehr sind */
+const custRate=t=>memo().cust.filter(e=>runningAt(e,t)).reduce((q,e)=>q+Math.min(KMAX_Y,yOf(e)),0);
+const custF=t=>{const r=custRate(t);return r>CUST_Y?CUST_Y/r:1};
+const y0=(e,t)=>e.act==="custom"?Math.min(KMAX_Y,yOf(e))*custF(t):yOf(e);
 /* Stand einer Quelle zum Zeitpunkt t: was jede laufende Änderung im Jahr zählt, zusammen (used), und der Restfaktor f.
    Restwert (rest in SRC): Läuft etwa eine Wärmepumpe, spart sie selbst höchstens 55 % der Quelle, und alles andere an der Quelle zählt nur noch zu 45 %. */
-function srcState(n,t){const M0=memo(),x=SRCS[n],cap=M0.caps[n],rs=x.rest||{};
-  const act=M0.bySrc[n].filter(e=>e.ts<=t&&(!e.end||e.end>t));let f=1;act.forEach(e=>{if(rs[e.act]!=null)f*=rs[e.act]});
-  const v={};let tot=0;act.forEach(e=>{const r=rs[e.act];let y=e.y||0;if(r!=null){if(cap!=null)y=Math.min(y,(1-r)*cap);y*=f/r}else y*=f;v[e.id]=y;tot+=y});
+function srcState(n,t){const M0=memo(),x=SRCS[n],cap=capAt(n,t),rs=x.rest||{};
+  const act=M0.bySrc[n].filter(e=>runningAt(e,t));let f=1;act.forEach(e=>{if(rs[e.act]!=null)f*=rs[e.act]});
+  const v={};let tot=0;act.forEach(e=>{const r=rs[e.act];let y=y0(e,t);if(r!=null){if(cap!=null)y=Math.min(y,(1-r)*cap);y*=f/r}else y*=f;v[e.id]=y;tot+=y});
   const sc=cap!=null&&tot>cap?cap/tot:1;Object.keys(v).forEach(id=>v[id]*=sc);
   return {v,used:tot*sc,f,cap,rest:act.filter(e=>rs[e.act]!=null).map(e=>e.act)}}
-function effY(e,t){if(t==null)t=now();const n=SRCOF[e.act];if(!e.g||!n||e.act==="custom"||memo().caps[n]==null)return e.y||0;const v=srcState(n,t).v[e.id];return v!=null?v:(e.y||0)}
+function effY(e,t){if(t==null)t=now();if(!e.g)return e.y||0;const n=srcOfE(e);if(!n||memo().caps[n]==null)return y0(e,t);const v=srcState(n,t).v[e.id];return v!=null?v:y0(e,t)}
 const capFactor=(e,t)=>{const y=e.y||0;return y>0?effY(e,t==null?now():t)/y:1};
+/* Rahmen für kleine Schritte bis t: was in den letzten 365 Tagen frei war, also Deckel minus das, was dauerhafte Änderungen dort zählen.
+   Er wächst mit der Zeit seit dem Start, am Anfang zählt ein Monat (CAP_MIN_D). n="_c": Rahmen der eigenen Schätzungen. */
+function budget(n,t,M0){const w0=Math.max(t-365*DAY,Math.min(M0.start,t-CAP_MIN_D*DAY)),b=[w0,t],add=q=>{if(q>w0&&q<t)b.push(q)};
+  if(n==="_c")M0.cust.forEach(x=>{add(x.ts);if(x.end)add(x.end)});else{M0.bySrc[n].forEach(x=>{add(x.ts);if(x.end)add(x.end)});M0.capT[n].forEach(([q])=>add(q))}
+  /* vor dem Start (Vorlauf von einem Monat) gilt der Stand vom Start: Was dauerhafte Änderungen ab dem Start belegen, ist auch im Vorlauf belegt */
+  b.sort((p,q)=>p-q);let v=0;for(let i=0;i<b.length-1;i++){const dt=b[i+1]-b[i];if(dt<=0)continue;const m=Math.max(M0.start,(b[i]+b[i+1])/2);
+    const fr=n==="_c"?Math.max(0,CUST_Y-Math.min(CUST_Y,custRate(m))):(s=>Math.max(0,s.cap-s.used))(srcState(n,m));v+=fr*dt/DAY/365}
+  return v}
+/* gleitendes Fenster über 365 Tage */
+const slide=(w,t)=>{while(w.i<w.l.length&&w.l[w.i].ts<=t-365*DAY){w.sum-=w.l[w.i].k;w.i++}};
 /* Kleine Schritte, in dieser Reihenfolge:
-   1. nicht passend zum eigenen Alltag (e.nf, beim Eintragen festgehalten): 0 kg
+   1. nicht passend zum eigenen Alltag (e.nf, beim Eintragen festgehalten): 0 kg; Profil (e.pf): anteilig
    2. schon in einer laufenden Änderung enthalten (COVER): 0 kg, teilweise enthalten (COVER_PART): anteilig
    3. Tagesgrenze: derselbe Schritt zählt höchstens md-mal am Tag (Standard 3), ein Esstag höchstens 2,2 kg
-   4. Restwert der Quelle (etwa neben einem E-Auto rund ein Drittel)
-   5. Deckel der Quelle: in 365 Tagen zusammen mit den dauerhaften Änderungen höchstens so viel, wie die Quelle verursacht */
+   4. vermiedene Neukäufe höchstens yr-mal in 12 Monaten
+   5. eigene Schätzungen zusammen höchstens 50 kg am Tag und 1 t im Jahr, mit der Zeit wachsend
+   6. Restwert der Quelle (etwa neben einem E-Auto rund ein Drittel)
+   7. Rahmen der Quelle: in 365 Tagen zusammen mit den dauerhaften Änderungen höchstens so viel, wie die Quelle in der Zeit verursacht */
 function smallRaw(e){if(e.nf)return {k:0,why:"nf"};const cb=coveredBy(e);if(cb)return {k:0,why:"cov",by:cb};
-  let k=e.k||0;if(e.act==="custom")k=Math.min(k,KMAX_S);const p=partOf(e);return p.f<1?{k:k*p.f,why:"part",by:p.by}:{k,why:null}}
-function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={};
+  let k=e.k||0;if(e.act==="custom")k=Math.min(k,KMAX_S);const p=partOf(e),pf=e.pf!=null?e.pf:1;
+  if(pf<1&&pf<=p.f)return {k:k*pf,why:"prof",pw:e.pw};return p.f<1?{k:k*p.f,why:"part",by:p.by}:{k,why:null}}
+function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={},yrc={},cday={},cw={l:[],i:0,sum:0};
   L.forEach(e=>{const r=smallRaw(e),a=A[e.act],d=dayStart(e.ts);let k=r.k,why=r.why,by=r.by;
     {const key=(a?e.act:"c:"+e.t)+"|"+d;day[key]=(day[key]||0)+1;if(k>0&&day[key]>((a&&a.md)||3)){k=0;why="day"}}
     const g=DGOF[e.act];if(g&&k>0){const key=g+"|"+d,u=grp[key]||0,lim=DGR[g].kg;if(u+k>lim){k=Math.max(0,lim-u);why="grp"}grp[key]=u+k}
-    const n=SMALLOF[e.act];if(n&&k>0&&M0.caps[n]!=null){const s=srcState(n,e.ts);if(s.f<1){k*=s.f;why=why||"rest";by=by||s.rest[0]}
-      const w=win[n]=win[n]||{l:[],i:0,sum:0};while(w.i<w.l.length&&w.l[w.i].ts<=e.ts-365*DAY){w.sum-=w.l[w.i].k;w.i++}
-      const av=Math.max(0,s.cap-s.used-w.sum);if(k>av+1e-9){k=av;why="cap"}w.l.push({ts:e.ts,k});w.sum+=k}
-    M0.small[e.id]=k;M0.why[e.id]={why,by,n}})}
+    if(a&&a.yr&&k>0){const q=yrc[e.act]=yrc[e.act]||[];while(q.length&&q[0]<=e.ts-365*DAY)q.shift();if(q.length>=a.yr){k=0;why="yr"}else q.push(e.ts)}
+    if(e.act==="custom"&&k>0){const u=cday[d]||0;if(u+k>CUST_DAY+1e-9){k=Math.max(0,CUST_DAY-u);why="cday"}cday[d]=u+k;
+      slide(cw,e.ts);const av=Math.max(0,budget("_c",e.ts,M0)-cw.sum);if(k>av+1e-9){k=av;why="cyr"}cw.l.push({ts:e.ts,k});cw.sum+=k}
+    const n=srcOfE(e);if(n&&k>0&&M0.caps[n]!=null){const s=srcState(n,e.ts);if(s.f<1){k*=s.f;why=why||"rest";by=by||s.rest[0]}
+      const w=win[n]=win[n]||{l:[],i:0,sum:0};slide(w,e.ts);const av=Math.max(0,budget(n,e.ts,M0)-w.sum);if(k>av+1e-9){k=av;why="cap"}w.l.push({ts:e.ts,k});w.sum+=k}
+    M0.small[e.id]=k;M0.why[e.id]={why,by,n,pw:r.pw}})}
 function eKg(e,from,to){from=from||0;
   if(!e.g){if(!(e.ts>=from&&(to==null||e.ts<to)))return 0;const v=memo().small[e.id];return v!=null?v:smallRaw(e).k}
   const s=Math.max(e.ts,from,appStart()),en=Math.min(e.end||now(),to==null?now():to);if(en<=s)return 0;
-  const n=SRCOF[e.act];if(!n||e.act==="custom"||memo().caps[n]==null)return (e.y||0)*(en-s)/DAY/365;
-  const b=[s,en];memo().bySrc[n].forEach(x=>[x.ts,x.end].forEach(q=>{if(q&&q>s&&q<en)b.push(q)}));b.sort((p,q)=>p-q);
-  let v=0;for(let i=0;i<b.length-1;i++)if(b[i+1]>b[i])v+=effY(e,(b[i]+b[i+1])/2)*(b[i+1]-b[i])/DAY/365;return v}
+  const M0=memo(),n=srcOfE(e),b=[s,en],add=q=>{if(q&&q>s&&q<en)b.push(q)};
+  if(n&&M0.caps[n]!=null){M0.bySrc[n].forEach(x=>{add(x.ts);add(x.end)});M0.capT[n].forEach(([q])=>add(q))}
+  if(e.act==="custom")M0.cust.forEach(x=>{add(x.ts);add(x.end)});
+  if(b.length===2&&!n)return y0(e,s)*(en-s)/DAY/365;
+  b.sort((p,q)=>p-q);let v=0;for(let i=0;i<b.length-1;i++)if(b[i+1]>b[i])v+=effY(e,(b[i]+b[i+1])/2)*(b[i+1]-b[i])/DAY/365;return v}
 const sumKg=(from,to,a)=>S.log.reduce((s,e)=>s+(!a||e.a===a?eKg(e,from,to):0),0);
 const activeBig=()=>S.log.filter(e=>e.g&&!e.end);
 const perDay=()=>activeBig().reduce((s,e)=>s+effY(e)/365,0);
@@ -1254,14 +1302,23 @@ const monthStart=(d=new Date())=>new Date(d.getFullYear(),d.getMonth(),1).getTim
 const weekStart=(t=now())=>{const d=new Date(dayStart(t));const wd=(d.getDay()+6)%7;return d.getTime()-wd*DAY};
 const meets=()=>S.log.filter(e=>e.w).length;
 const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
-/* Wachstum nach Wirkung, etwa logarithmisch: kleine Schritte ½ bis 3 Punkte je nach kg, eine Begegnung 1, dauerhafte Änderungen 2 bis 10 nach kg im Jahr.
+/* Wachstum nach Wirkung, etwa logarithmisch: kleine Schritte ½ bis 3 Punkte je nach gezählten kg, eine Begegnung oder ein Handabdruck 1,
+   dauerhafte Änderungen 2 bis 10 nach kg im Jahr (höchstens so viel, wie die Quelle verursacht).
    Derselbe kleine Schritt zählt fürs Wachstum höchstens einmal am Tag; eintragen lässt er sich beliebig oft.
-   Wer schon länger dabei ist, verliert durch die neue Rechnung nichts: gAdd und gFloor halten die erreichte Stufe (Migration gv 3). */
-let PTS_OLD=false;
-function ptsOf(e){if(e.g){const y=e.nf?0:Math.min(e.y||0,e.act==="custom"&&!PTS_OLD?KMAX_Y:1e9);if(e.act==="custom"&&!y)return 3;return Math.max(2,Math.min(10,Math.round(4*Math.log10(Math.max(1,y)/10))))}
-  const k=e.nf?0:Math.min(e.k||0,e.act==="custom"&&!PTS_OLD?KMAX_S:1e9);if(e.w&&k<.5)return 1;return k<=0?1:k<.5?.5:k<10?1:k<100?2:3}
+   Ein Wechsel innerhalb einer Gruppe (EXCL) oder ein neuer Anlauf derselben Änderung setzt die Kette fort (e.rep = erster Baum der Kette):
+   Es wächst kein neuer Baum, der bestehende wandelt sich, und es gibt nur die Punkte, die über den bisher besten der Kette hinausgehen.
+   Wer schon länger dabei ist, verliert durch neue Rechnungen nichts: gAdd und gFloor halten die erreichte Stufe (Migrationen gv 3 bis 5).
+   PTS_MODE: 3 = Rechnung vor gv 4, 4 = vor gv 5 (Richtwert statt gezählter kg), 5 = jetzt. */
+let PTS_MODE=5;
+function ptsOf(e){if(e.g){let y;if(PTS_MODE<5)y=e.nf?0:Math.min(e.y||0,e.act==="custom"&&PTS_MODE>3?2000:1e9);
+    else{y=e.nf?0:yOf(e);if(e.act==="custom")y=Math.min(y,KMAX_Y);const n=srcOfE(e),c=n?capAt(n,e.ts):null;if(c!=null)y=Math.min(y,c)}
+    if(e.act==="custom"&&!y)return 3;return Math.max(2,Math.min(10,Math.round(4*Math.log10(Math.max(1,y)/10))))}
+  const raw=e.nf&&PTS_MODE<5?0:Math.min(e.k||0,e.act==="custom"&&PTS_MODE>3?KMAX_S:1e9);if(e.w&&raw<.5)return 1;if(raw<=0)return 1;
+  const k=PTS_MODE<5?raw:(v=>v!=null?v:smallRaw(e).k)(memo().small[e.id]);return k<.5?.5:k<10?1:k<100?2:3}
 const basePts=()=>Object.keys(S.base||{}).reduce((s,id)=>s+(A[id]&&A[id].g?2:1),0);
-function growthRaw(){const seen=new Set();let g=0;S.log.slice().sort((a,b)=>a.ts-b.ts).forEach(e=>{if(!e.g){const key=clumpKey(e)+"|"+dayStart(e.ts);if(seen.has(key))return;seen.add(key)}g+=ptsOf(e)});
+function growthRaw(){const seen=new Set(),chain={};let g=0;S.log.map((e,i)=>[e,i]).sort((a,b)=>(a[0].ts-b[0].ts)||(a[1]-b[1])).forEach(([e])=>{
+    if(!e.g){const key=clumpKey(e)+"|"+dayStart(e.ts);if(seen.has(key))return;seen.add(key);g+=ptsOf(e);return}
+    const p=ptsOf(e);if(PTS_MODE<5){g+=p;return}const r=e.rep||e.id,best=chain[r]||0;g+=Math.max(0,p-best);chain[r]=Math.max(best,p)});
   return g+misDone()*4+basePts()}
 function growth(){return Math.round(Math.max(growthRaw()+(S.gAdd||0),S.gFloor||0)*10)/10}
 /* Stufen der Landschaft: jede bringt etwas Neues ins Bild */
@@ -1412,7 +1469,9 @@ function landClumps(){const m={};
   S.log.filter(e=>!e.g).forEach(e=>{const k=clumpKey(e);const c=m[k]||(m[k]={k,a:e.a,n:0,last:0});c.n++;c.last=Math.max(c.last,e.ts)});
   Object.keys(S.base||{}).forEach(id=>{const a=A[id];if(!a||a.g)return;const c=m[id]||(m[id]={k:id,a:a.a,n:0,last:0});c.n+=BASE_N;c.base=1});
   return Object.values(m)}
-function landTrees(){const t=S.log.filter(e=>e.g).map(e=>({k:e.id,a:e.a,last:e.ts,ts:e.ts}));
+/* Ein Baum je Kette (e.rep): Ein Wechsel wie vegetarisch → vegan lässt keinen neuen Baum wachsen, der bestehende wandelt sich und behält seinen Platz */
+function landTrees(){const L=S.log.filter(e=>e.g),lastOf={};L.forEach(e=>{const r=e.rep||e.id,c=lastOf[r];if(!c||e.ts>c.ts||(e.ts===c.ts&&(e.lt||0)>=(c.lt||0)))lastOf[r]=e});
+  const t=Object.entries(lastOf).map(([r,e])=>{const root=L.find(x=>x.id===r)||e;return {k:r,a:e.a,last:e.ts,ts:root.ts}});
   Object.keys(S.base||{}).forEach(id=>{const a=A[id];if(a&&a.g)t.push({k:"b-"+id,a:a.a,last:0,ts:S.base[id],base:1})});return t}
 function pathPt(t){const p0=[W*.16,H*1.02],p1=[W*.4,H*.84],p2=[W*.56,H*.9],p3=[W*.8,ground(W*.8)+H*.05],u=1-t;
   return [0,1].map(i=>u*u*u*p0[i]+3*u*u*t*p1[i]+3*u*t*t*p2[i]+t*t*t*p3[i])}
@@ -1671,14 +1730,32 @@ const noCar=()=>{const lc=lastCheck();return (lc&&lc.ans&&lc.ans.auto===0)||isBa
 /* Passt ein Schritt zum eigenen Alltag? Entschieden wird beim Eintragen und am Eintrag festgehalten (e.nf), damit ein späterer Check nichts rückwirkend ändert.
    Maßstab ist die Basislinie: Ein Auto, Flüge oder eine Fernreise gibt es, wenn der Deckel der Quelle das hergibt. Ernährung, Strom, Heizung und Wohnform zählen als schon so, wenn jeder Check es sagt. */
 const NFTXT={auto:"Laut Hebel-Check oder „Schon Alltag“ hast du kein eigenes Auto. Dann ersetzt dieser Schritt keine Autofahrt.",flug:"Laut Hebel-Check fliegst du nicht. Dann ersetzt die Bahn keinen Flug.",
-  fern:"Laut Hebel-Check steht bei dir keine Fernreise im Flugzeug an. Dann gibt es keine, auf die du verzichtest.",veg:"Laut Hebel-Check isst du schon vegetarisch oder vegan.",vegan:"Laut Hebel-Check isst du schon vegan.",
+  fern:"Laut Hebel-Check steht bei dir keine Fernreise im Flugzeug an. Dann gibt es keine, auf die du verzichtest.",veg:"Laut Hebel-Check isst du schon vegetarisch oder vegan, das ist also schon dein Alltag.",vegan:"Laut Hebel-Check isst du schon vegan, das ist also schon dein Alltag.",
   strom:"Laut Hebel-Check beziehst du schon Ökostrom.",wp:"Laut Hebel-Check heizt du schon mit einer Wärmepumpe.",gem:"Laut Hebel-Check lebst du schon gemeinschaftlich."};
+/* Profil zum Zeitpunkt t (PROFILE in data.js): der zu t gültige Check und „Schon Alltag“. Ergebnis {nf} für 0 kg oder {pf,pw} für einen Anteil. */
+const PFTXT={veg:"Laut Hebel-Check isst du schon vegetarisch. Ein veganer Tag spart dann nur noch den Unterschied, rund ein Drittel.",
+  strom:"Du beziehst Ökostrom. Gesparter Strom zählt dann zu 80 %, denn ein Tarifwechsel allein verändert den Strommix nur wenig.",
+  wp:"Du heizt mit einer Wärmepumpe. Sie verursacht rund 45 % der Emissionen einer Gasheizung, mit diesem Anteil zählt das hier.",
+  fw:"Du heizt mit Fernwärme. Sie verursacht rund 85 % der Emissionen einer Gasheizung, mit diesem Anteil zählt das hier.",
+  holz:"Du heizt mit Holz oder Pellets. Sie verursachen rund 30 % der Emissionen einer Gasheizung, mit diesem Anteil zählt das hier."};
+const checkAt=t=>{let c=null;checksA().forEach(x=>{if(x.ts<=t)c=x});return c};
+const baseAt=(id,t)=>{const v=(S.base||{})[id];return v!=null&&(!(v>1e12)||v<=t)};
+function profileOf(id,t){const a=A[id];if(!a)return null;const c=checkAt(t),q=(c&&c.ans)||{};
+  if(!a.g){if(q.ess===4&&PROF.vegan.includes(id))return {nf:"vegan"};
+    if(q.ess===3){if(PROF.veg.includes(id))return {nf:"veg"};if(PROF.vegPart[id]!=null)return {pf:PROF.vegPart[id],pw:"veg"}}
+    if(q.strom===0&&PROF.strom.includes(id))return {pf:PROF.strom_f,pw:"strom"}}
+  /* Heizen: Läuft die Wärmepumpe als dauerhafte Änderung, rechnet schon ihr Restwert (SRC). Sonst gilt die Heizung aus dem Check oder „Schon Alltag“. */
+  if(PROF.heat.includes(id)&&!S.log.some(x=>x.g&&x.act==="waermepumpe"&&runningAt(x,t))){
+    const hv=baseAt("waermepumpe",t)?[.45,"wp"]:q.heiz===3?[.45,"wp"]:q.heiz===4?[.3,"holz"]:q.heiz===2?[.85,"fw"]:null;if(hv)return {pf:hv[0],pw:hv[1]}}
+  return null}
 function nfWhy(id){const a=A[id];if(!a||id==="custom")return null;const ck=checksA(),cp=memo().caps,all=f=>ck.length&&ck.every(c=>f(c.ans));
   const carless=isBase("keinauto")||isBase("autolos")||(ck.length&&cp.Auto===0);
   if(a.g){if(id==="keinauto")return null;if(SRCOF[id]==="Auto"&&carless)return "auto";if(id==="keinflug"&&ck.length&&cp.Fliegen<2000)return "fern";
     if(["fleisch_halb","veg_dauer"].includes(id)&&all(q=>q.ess>=3))return "veg";if(["kaese_weniger","vegan_dauer"].includes(id)&&all(q=>q.ess===4))return "vegan";
     if(id==="oekostrom"&&all(q=>q.strom===0))return "strom";if(id==="waermepumpe"&&all(q=>q.heiz===3))return "wp";if(id==="gemeinschaft"&&all(q=>q.teilen===2))return "gem";return null}
-  if(SMALLOF[id]==="Auto"&&carless)return "auto";if(SMALLOF[id]==="Fliegen"&&ck.length&&cp.Fliegen===0)return "flug";return null}
+  if(SMALLOF[id]==="Auto"&&carless)return "auto";if(SMALLOF[id]==="Fliegen"&&ck.length&&cp.Fliegen===0)return "flug";const pr=profileOf(id,now());return pr&&pr.nf||null}
+/* Was beim Eintragen am Eintrag festgehalten wird: kein Bezug zum Alltag (nf) oder Anteil aus dem Profil (pf, pw) */
+function stampProfile(en,id){const nf=nfWhy(id);if(nf){en.nf=nf;return}const p=profileOf(id,now());if(p&&p.pf<1){en.pf=p.pf;en.pw=p.pw}}
 /* Schnell eintragen bleibt in einer Sitzung und an einem Tag stabil: Ein Tipp sortiert die Kacheln nicht um.
    Neu berechnet wird beim nächsten Öffnen, am nächsten Tag oder wenn sich Check oder „Schon Alltag“ ändern. */
 let QK=null;
@@ -1694,7 +1771,7 @@ function quickCalc(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.a
 /* fortlaufende Wochennummer, für den leisen Wechsel auf der Startseite */
 const weekNo=()=>Math.round(weekStart()/(7*DAY));
 function hebelCard(){const lc=lastCheck();if(!lc)return "";
-  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),de=activeBig().find(e=>SRCOF[e.act]===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
+  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),de=activeBig().find(e=>srcOfE(e)===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
     return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b>${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mid]&&misFits(mid)?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div></div>`}
 /* Gerade dran: Thema und Mission bleiben den Monat über, Schritt und Häppchen wechseln wöchentlich innerhalb desselben Bereichs */
 function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const wk=weekNo(),a0=A[th.act],b0=B[th.bite];
@@ -1782,7 +1859,7 @@ function landSheet(){const st=stage(),lc=landCounts(),cl=landClumps().filter(c=>
   ${cl.length?`<h3>Deine Gewohnheiten</h3><div class="list">${cl.map(c=>{const l=level(c.n),r=nextLv(c.n);return `<div class="li" ${da(c.a)}>${dot(c.a)}<span class="tx"><b>${A[c.k].t}</b><small>${species(c.k,c.a)} · ${c.base?"schon Alltag":`${c.n}×`}${r&&!c.base?` · noch ${r-c.n}× bis Stufe ${l+1}`:""}</small></span>${lvlBoxes(c.n,c.a)}</div>`}).join("")}</div>`:""}
   <p class="muted" style="font-size:14.5px">Jeder Bereich wächst an seinem Ort in der Landschaft: Essen als Ähren und Sonnenblumen im Feld, Wohnen als Rohrkolben am Teich, Unterwegs als Lupinen am Wegrand, Konsum als Pilze, Gemeinschaft als Laternen im Dorf. Eine Radfahrt wird deshalb zu Lupinen am Weg. Konsum wird zu Pilzen, weil Pilze im Wald Altes zersetzen und wieder nutzbar machen, so wie Reparieren, Leihen und Gebrauchtkaufen Dinge im Umlauf halten.</p>
   <div class="list">${[["Pflanzengruppen","Ähren und Sonnenblumen, Rohrkolben, Lupinen, Pilze",lc.plants],["Laternen","Begegnungen und Geteiltes, im Dorf",lc.lights],["Bäume","dauerhafte Änderungen, mit einer Form je Bereich",lc.trees],["Häuser","dauerhaft gemeinsam",lc.houses],["Vögel","abgeschlossene Missionen",lc.birds]].map(([n,d,v])=>`<div class="li"><span class="tx"><b>${n}</b><small>${d}</small></span><span class="aside num">${v}</span></div>`).join("")}</div>
-  ${st.next?`<p class="muted" style="font-size:15px">Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt ½ bis 3 je nach Kilogramm, eine Begegnung 1, eine dauerhafte Änderung 2 bis 10 je nach Kilogramm im Jahr, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 1 oder 2. Derselbe Schritt zählt fürs Wachstum einmal am Tag. Eintragen kannst du ihn trotzdem so oft, wie er vorkommt.</p>`:""}`)}
+  ${st.next?`<p class="muted" style="font-size:15px">Wachstumspunkte richten sich nach der Wirkung: ein kleiner Schritt ½ bis 3 je nach gezählten Kilogramm, eine Begegnung 1, eine dauerhafte Änderung 2 bis 10 je nach Kilogramm im Jahr, eine Mission 4, etwas, das schon zu deinem Alltag gehört, 1 oder 2. Derselbe Schritt zählt fürs Wachstum einmal am Tag. Eintragen kannst du ihn trotzdem so oft, wie er vorkommt. Wechselst du zu einer verwandten Änderung, etwa von vegetarisch zu vegan, wandelt sich der Baum, und es gibt nur Punkte für den Unterschied.</p>`:""}`)}
 
 /* ---------- Saison: kleine Riso-Zeichnungen ----------
    Ein Baukasten aus Grundformen statt Einzelbildern. Jede Zeichnung druckt mit zwei Tinten wie die Landschaft:
@@ -1888,7 +1965,7 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
     sheet(`<span class="label">${appStart()>f?`Seit deinem Start am ${fmtDate(appStart())}`:"Letzte 12 Monate"}</span><h2>${kgTxt(v)} CO₂e</h2><p>${lc?`Dein Fußabdruck liegt laut Hebel-Check bei rund ${nf(lc.total,1)} t im Jahr, also etwa ${kgTxt(yrDay)} am Tag.`:`Ein Mensch in Deutschland verursacht im Schnitt rund 10,3 t im Jahr, etwa ${kgTxt(yrDay)} am Tag.`} ${v>0?`Deine Einsparung entspricht damit ${dd<1?"weniger als einem Tag":`etwa ${nf(dd,dd<10?1:0)} Tag${Math.round(dd)===1?"":"en"}`} ${lc?"deines":"eines durchschnittlichen"} Fußabdrucks.`:""}</p>${cmpBlock(v,yrDay,!!lc,true)}${areaRows(f)}
      <p class="muted" style="font-size:14.5px">Kleine Schritte summieren sich langsam. Die großen Verschiebungen kommen meist aus dauerhaften Änderungen bei Wohnen, Wegen und Essen.</p>${lc?"":`<div class="row"><button class="btn go" ${da("dinge")} data-check="1">Eigenen Fußabdruck messen</button></div>`}`);return}
   const ab=activeBig().slice().sort((a,b)=>effY(b)-effY(a)),pd=perDay(),nb=Object.keys(S.base||{}).length;
-  const capped=Object.keys(memo().caps).filter(n=>ab.some(e=>SRCOF[e.act]===n&&e.act!=="custom"&&capFactor(e,now())<1));
+  const capped=Object.keys(memo().caps).filter(n=>ab.some(e=>srcOfE(e)===n&&capFactor(e,now())<1));
   const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(free)):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id)&&!unfit(id));
   sheet(`<span class="label">Wirkt jeden Tag weiter</span><h2>${kgTxt(pd)} am Tag</h2><p>${ab.length?`Das kommt aus ${ab.length===1?"deiner dauerhaften Änderung":`deinen ${ab.length} dauerhaften Änderungen`}. ${ab.length===1?"Sie zählt":"Sie zählen"} jeden Tag von selbst weiter, ohne dass du etwas einträgst. Im Jahr sind das rund ${kgTxt(pd*365)}${lc?`, ${nf(Math.min(100,pd*365/yr*100),pd*365/yr<.1?1:0)} % deines Fußabdrucks`:""}.`:"Hier zählen dauerhafte Änderungen, etwa ein Ökostromtarif oder weniger Fleisch als Grundregel. Einmal eingetragen, rechnen sie jeden Tag von selbst weiter."}</p>${pd>0?cmpBlock(pd*365,yrDay,!!lc,false,"Das ist im Jahr etwa so viel wie:"):""}
    ${ab.length?`<div class="list">${ab.map(e=>`<button class="li" ${da(e.a)} data-log="${e.act}">${dot(e.a)}<span class="tx"><b>${esc(e.t)}</b><small>seit ${fmtDate(e.ts)} · bisher ${kgTxt(eKg(e))}${e.nf?" · ohne kg, passt nicht zu deinem Check":capFactor(e,now())<1?" · zählt anteilig":""}</small></span><span class="aside num">${kgTxt(effY(e)/365)}</span></button>`).join("")}</div>`:""}
@@ -1899,36 +1976,50 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
 /* ---------- Eintragen ---------- */
 function logAct(id,ev,el){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
-  const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;const nf=nfWhy(id);if(nf)e.nf=nf;S.log.push(e);save();
+  const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();
   render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+kgNote(e),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
 /* Was ein kleiner Schritt in kg zählt, kurz und sachlich, mit Grund, wenn es weniger ist als sein Richtwert */
-function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act];
+function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${kgTxt(k)} gespart`:"zählt ohne kg";
   if(w.why==="nf")return ` · zählt ohne kg. ${NFTXT[e.nf]||""}`;
   if(w.why==="cov")return ` · zählt schon über „${A[w.by].t}“`;
+  if(w.why==="prof")return ` · ${kgTxt(k)} gespart, anteilig. ${PFTXT[w.pw]||""}`;
   if(w.why==="day")return ` · heute schon ${a&&a.md||3}× gezählt, dieser Eintrag zählt ohne kg`;
   if(w.why==="grp")return k>0?` · ${kgTxt(k)} gespart, mehr zählt an einem Tag nicht`:` · für heute ist schon ein ganzer Esstag gezählt, dieser Eintrag zählt ohne kg`;
-  if(w.why==="cap")return k>0?` · ${kgTxt(k)} gespart, mehr gibt die Quelle „${w.n}“ in diesem Jahr nicht her`:` · zählt ohne kg: Bei „${w.n}“ ist für dieses Jahr gezählt, was die Quelle verursacht`;
+  if(w.why==="yr")return ` · zählt ohne kg. Ein vermiedener Neukauf dieser Art zählt höchstens ${a.yr===1?"einmal":a.yr+"-mal"} in 12 Monaten`;
+  if(w.why==="cday")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${CUST_DAY} kg am Tag`;
+  if(w.why==="cyr")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${kgTxt(CUST_Y)} im Jahr, und dieser Rahmen wächst mit der Zeit seit deinem Start`;
+  if(w.why==="cap")return k>0?` · ${kgTxt(k)} gespart. Mehr gibt die Quelle „${w.n}“ bisher nicht her, ihr Rahmen wächst mit jedem Tag`:` · zählt ohne kg: Bei „${w.n}“ ist schon gezählt, was die Quelle in dieser Zeit verursacht. Der Rahmen wächst mit jedem Tag`;
   if((w.why==="part"||w.why==="rest")&&w.by)return ` · ${kgTxt(k)} gespart, anteilig neben „${A[w.by].t}“`;
-  return k>0?` · ${kgTxt(k)} gespart${e.est?" (eigene Schätzung)":""}`:""}
+  if(k>0)return ` · ${kgTxt(k)} gespart${e.est?" (eigene Schätzung)":""}`;
+  if(e.act==="custom")return " · ohne kg, weil keine Schätzung angegeben ist";
+  return a&&/Handabdruck/.test(a.n)?" · zählt als Handabdruck, ohne kg":e.w?" · zählt als Begegnung, ohne kg":" · zählt ohne kg"}
 function growMsg(e){const k=clumpKey(e),c=landClumps().find(x=>x.k===k),n=c?c.n:1,sp=species(k,e.a),la=level(n),lb=level(n-1),st=stage();
   let head;if(n===1)head=`Neu in deinem Biotop: <b>${sp}</b>`;else if(la>lb)head=`<b>${sp}</b> wachsen auf Stufe ${la} von 6`;else if(la>=6)head=`<b>${sp}</b> in voller Pracht`;else{const r=nextLv(n)-n;head=`<b>${sp}</b> · noch ${r}× bis Stufe ${la+1}`}
   return head}
 /* Zeiträume derselben Änderung und überschneidender Änderungen liegen nie übereinander: Ein neuer Zeitraum beginnt frühestens, wo der letzte endete.
    Eine laufende Gegenspielerin endet beim Eintrag, darum zählt bei ihr ihr Beginn. */
+/* Kette für den Baum: Der neue Eintrag setzt die zuletzt laufende oder zuletzt beendete Änderung derselben Art oder Gruppe fort.
+   Ersetzt er mehrere, gilt die mit den meisten Wachstumspunkten. Gibt es keine, beginnt ein neuer Baum (null). */
+function chainRoot(id){const rv=rivals(id),l=S.log.filter(x=>x.g&&x.act!=="custom"&&(x.act===id||rv.includes(x.act)));if(!l.length)return null;
+  const run=l.filter(x=>!x.end),pick=run.length?run.sort((p,q)=>ptsOf(q)-ptsOf(p))[0]:l.sort((p,q)=>(q.end||q.ts)-(p.end||p.ts))[0];return pick.rep||pick.id}
 function bigFloor(id){const rv=rivals(id);return Math.max(0,...S.log.filter(x=>x.g&&(x.act===id||rv.includes(x.act))).map(x=>x.end||(rv.includes(x.act)?x.ts:0)))}
 function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);if(a.bo&&!cur){actMenu(id);return}
   if(cur){sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhaft seit ${fmtDate(cur.ts)}</span></div><h2>${a.t}</h2><p>Diese Änderung wirkt ${(d=>d===1?"seit einem Tag":`seit ${d} Tagen`)(Math.max(1,Math.round((now()-cur.ts)/DAY)))} und hat bisher rund <b>${kgTxt(eKg(cur))}</b> gespart.${cur.ts<appStart()?` Gezählt wird ab deinem Start in Biotop am ${fdEnd(appStart())}`:""}${capFactor(cur,now())<1?` Sie überschneidet sich mit anderen Änderungen bei „${SRCOF[cur.act]}“ und zählt deshalb anteilig, im Moment rund ${kgTxt(effY(cur))} im Jahr.`:""}</p><p class="caveat">${a.n}</p><div class="row"><button class="btn ghost" data-endbig="${cur.id}">Gilt nicht mehr</button></div><p class="muted" style="font-size:14px">Wenn du die Änderung zurücknimmst, bleibt die bisherige Einsparung im Logbuch. Der Baum bleibt stehen.</p>`);return}
   const rep=activeBig().filter(x=>rivals(id).includes(x.act)),sn=SRCOF[id],cap=sn?memo().caps[sn]:null,lc=lastCheck(),nfw=nfWhy(id),
-    sumA=sn?activeBig().filter(e=>SRCOF[e.act]===sn&&!rep.includes(e)).reduce((q,e)=>q+(e.y||0),0):0;
-  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>${nfw?"Das trägst du einmal ein. Ab dann wächst ein Baum in deiner Landschaft.":`Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt(a.y)}`:""}.`}</p><p class="caveat">${a.n}</p>
+    sumA=sn?activeBig().filter(e=>srcOfE(e)===sn&&!rep.includes(e)).reduce((q,e)=>q+yOf(e),0):0,pr=nfw?null:profileOf(id,now()),pf=pr&&pr.pf<1?pr.pf:1,root=chainRoot(id),
+    rootT=root?((S.log.filter(x=>(x.rep||x.id)===root).sort((p,q)=>q.ts-p.ts)[0])||{}).t:null;
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${a.t}</h2><p>${nfw?"Das trägst du einmal ein. Ab dann wächst ein Baum in deiner Landschaft.":`Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)*pf/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt((a.y||0)*pf)}`:""}.`}</p><p class="caveat">${a.n}</p>
+   ${pf<1?`<p class="tip" ${da(a.a)}><b>Bei dir zählt das zu ${Math.round(pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    ${rep.length?`<p class="tip" ${da(a.a)}><b>Ersetzt ${rep.length===1?"eine laufende Änderung":"laufende Änderungen"}</b>${rep.map(x=>"„"+esc(x.t)+"“").join(" und ")} und diese Änderung würden sich überschneiden und doppelt zählen. Darum endet ${rep.length===1?"die alte":"die alten"} mit dem Eintrag. Die bisherige Einsparung bleibt im Logbuch.</p>`:""}
+   ${root&&rootT?`<p class="muted" style="font-size:14px">Dein Baum für „${esc(rootT)}“ wandelt sich dann, statt dass ein zweiter wächst. Neue Wachstumspunkte gibt es nur, wenn diese Änderung mehr bewirkt, und dann für den Unterschied.</p>`:""}
    ${!nfw&&cap!=null&&sumA+(a.y||0)>cap?`<p class="muted" style="font-size:14px">Bei „${sn}“ zählen deine dauerhaften Änderungen und kleinen Schritte zusammen höchstens rund ${kgTxt(cap)} im Jahr, ${lc?"so viel hat diese Quelle laut deinem Hebel-Check vor den Änderungen verursacht":"ein typischer Höchstwert, solange es keinen Hebel-Check gibt"}. Was sich überschneidet, zählt anteilig.</p>`:""}${!nfw&&sn&&SRCS[sn].rest&&SRCS[sn].rest[id]!=null&&cap!=null?`<p class="muted" style="font-size:14px">Bei dir spart das höchstens rund ${kgTxt(Math.min(a.y||0,(1-SRCS[sn].rest[id])*cap))} im Jahr. Alles andere bei „${sn}“ zählt danach nur noch zu ${Math.round(SRCS[sn].rest[id]*100)} %.</p>`:""}
    ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]} Eintragen kannst du es trotzdem, es wächst dann als Baum in deiner Landschaft.</p>`:""}
    <label class="label" for="bigdate">Seit wann?</label><input type="text" id="bigdate" inputmode="numeric" placeholder="Heute" value="">
    <p class="muted" style="font-size:13.5px">Leer lassen für heute oder ein Datum wie 1.9.2026 eingeben. Gezählt wird frühestens ab deinem Start in Biotop am ${`${fmtDate(appStart())}${bigFloor(id)>appStart()?`, und erst ab ${fmtDate(bigFloor(id))}, weil bis dahin diese oder eine überschneidende Änderung lief`:""}.`.replace(/\.\.$/,".")} Was schon länger so ist, steckt bereits in deinem Fußabdruck und gehört zu „Schon Alltag“.</p>
    <div class="row"><button class="btn go" ${da(a.a)} data-addbig="${id}">Eintragen</button><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div><p class="muted" style="font-size:13.5px">„Schon Alltag“ lässt einen Baum wachsen, zählt aber keine neuen Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
-function actMenu(id){const a=A[id],b=isBase(id);
-  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>${a.g?"Dauerhafte Änderung":"Kleiner Schritt"}</span></div><h2>${a.t}</h2><p class="caveat">${a.n}</p>
+function actMenu(id){const a=A[id],b=isBase(id),nfw=b?null:nfWhy(id),pr=b||nfw?null:profileOf(id,now());
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>${a.g?"Dauerhafte Änderung":"Kleiner Schritt"}</span></div><h2>${a.t}</h2><p class="caveat">${a.n}${a.yr?` In kg zählt das höchstens ${a.yr===1?"einmal":a.yr+"-mal"} in 12 Monaten, öfter ersetzt es kaum noch einen Neukauf.`:""}</p>
+   ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    ${b?`<p>Das gehört schon zu deinem Alltag. In deiner Landschaft wächst es mit, als Schritt taucht es nicht mehr auf.</p><div class="row"><button class="btn" data-unbase="${id}">Doch wieder als Schritt zeigen</button></div>`
    :`<div class="row">${a.bo?"":`<button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button>`}<button class="btn${a.bo?" go":""}" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`}
    <p class="muted" style="font-size:14px">„Schon Alltag“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
@@ -1947,13 +2038,21 @@ function invSheet(){const sug=invSuggest(),lc=lastCheck(),chip=x=>`<button class
    <div class="sec"><span class="label">Alles Weitere nach Bereichen</span>${AK.map(k=>more(k).length?`<details class="fold invfold" ${da(k)}><summary>${dot(k)}<span>${AREAS[k].n}</span><span class="label">${on(k)?on(k)+" abgehakt":more(k).length}</span></summary><div><div class="row">${more(k).map(chip).join("")}</div></div></details>`:"").join("")}</div>
    <div class="row"><button class="btn primary" id="invsave">Fertig</button></div>`)}
 function parseDate(s){const m=String(s||"").trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})?$/);if(!m)return null;let y=m[3]?+m[3]:new Date().getFullYear();if(y<100)y+=2000;const d=new Date(y,+m[2]-1,+m[1],12);return isNaN(d)||d.getTime()>now()?null:d.getTime()}
-function customSheet(){sheet(`<div class="label">Eigener Schritt</div><h2>Was hast du gemacht?</h2>
+/* Eigener Schritt: Bereich, Quelle (Pflicht, passend zum Bereich vorbelegt), Art und Schätzung */
+const SRC_NOTE={"Auto":"selbst gefahrene Autokilometer","Fliegen":"Flüge","Heizen":"Heizung und warmes Wasser","Strom":"Strom im Haushalt","Essen":"Lebensmittel und Mahlzeiten","Konsum":"Kleidung, Technik, Möbel, Freizeit","Wege":"Taxi, Bus und Bahn","":"passt zu keiner Quelle"};
+const defSrc=a=>({essen:"Essen",wohnen:"Heizen",wege:noCar()?"Wege":"Auto",dinge:"Konsum",wir:""})[a]??"";
+let csrcTouched=false;
+function csrcChips(a,sel){return [...Object.keys(SRCS),""].map(n=>`<button class="chip" data-csrc="${n}" aria-pressed="${n===sel}">${n||"Sonstiges"}</button>`).join("")}
+function customSheet(){csrcTouched=false;const a0=S.area,s0=defSrc(a0);sheet(`<div class="label">Eigener Schritt</div><h2>Was hast du gemacht?</h2>
   <input type="text" id="ctext" maxlength="90" placeholder="Zum Beispiel: Kompost im Hof angelegt">
-  <div class="label">Bereich</div><div class="inks" id="carea">${AK.map((k,i)=>`<button class="ink" ${da(k)} data-carea="${k}" aria-pressed="${i===AK.indexOf(S.area)}"><i></i>${AREAS[k].s}</button>`).join("")}</div>
+  <div class="label">Bereich</div><div class="inks" id="carea">${AK.map(k=>`<button class="ink" ${da(k)} data-carea="${k}" aria-pressed="${k===a0}"><i></i>${AREAS[k].s}</button>`).join("")}</div>
+  <div class="label" id="csrcl">Wo sparst du? Quelle</div><div class="row" id="csrc" role="group" aria-labelledby="csrcl">${csrcChips(a0,s0)}</div>
+  <p class="muted" id="csrcn" style="font-size:13.5px">${esc(SRC_NOTE[s0]||"")}. Für die Quelle gilt derselbe Rahmen wie für die Schritte aus dem Katalog.</p>
   <div class="label">Art</div><div class="row" id="ckind"><button class="chip" data-ckind="0" aria-pressed="true">Kleiner Schritt</button><button class="chip" data-ckind="1" aria-pressed="false">Dauerhafte Änderung</button></div>
   <label class="label" for="ckg">Geschätzte Einsparung in kg, wenn du es weißt</label><input type="number" id="ckg" min="0" step="0.1" inputmode="decimal" placeholder="Leer lassen, wenn unklar">
-  <p class="muted" style="font-size:13.5px">Bei einer dauerhaften Änderung gilt der Wert pro Jahr. Eine eigene Schätzung zählt höchstens 50 kg für einen kleinen Schritt und höchstens 2 t im Jahr für eine dauerhafte Änderung. Größere Brocken wie Flüge oder das Auto stehen mit geprüften Werten im Katalog. Im Logbuch ist der Wert als eigene Schätzung gekennzeichnet.</p>
+  <p class="muted" style="font-size:13.5px">Bei einer dauerhaften Änderung gilt der Wert pro Jahr. Ein kleiner Schritt zählt höchstens ${KMAX_S} kg, eine dauerhafte Änderung höchstens ${kgTxt(KMAX_Y)} im Jahr. Alle eigenen Schätzungen zusammen zählen höchstens ${CUST_DAY} kg am Tag und ${kgTxt(CUST_Y)} im Jahr. Dieser Rahmen wächst wie der jeder Quelle mit der Zeit seit deinem Start. Größere Brocken wie Flüge oder das Auto stehen mit geprüften Werten im Katalog. Im Logbuch ist der Wert als eigene Schätzung gekennzeichnet.</p>
   <div class="row"><button class="btn primary" id="csave">Eintragen</button></div>`)}
+function csrcSet(n){document.querySelectorAll("[data-csrc]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.csrc===n));const p=$("#csrcn");if(p)p.textContent=(SRC_NOTE[n]||"")+". Für die Quelle gilt derselbe Rahmen wie für die Schritte aus dem Katalog."}
 const nAll=id=>S.log.filter(e=>e.act===id&&!e.g).length;
 /* kg eines Eintrags für Listen: was er wirklich zählt, „ohne kg“, wenn er laut Richtwert etwas zählen würde, aber nicht zählt, und die Kennzeichnung eigener Schätzungen */
 function enKg(e){const k=eKg(e);return (k>=.0005||(e.g&&!e.nf)?"− "+kgTxt(k):(e.k>0||e.nf)?"ohne kg":"")+(e.est?" · eigene Schätzung":"")}
@@ -1977,7 +2076,7 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now()
 let ktab="bites",cur=null,Q=null,openTerm=null,duelAns=null;
 function pickBite(){const p=BITES.filter(b=>S.filter==="alle"||b.a===S.filter),un=p.filter(b=>!S.read[b.id]);const l=un.length?un:p;let c=l[Math.floor(Math.random()*l.length)];if(c&&c.id===cur&&l.length>1)c=l.find(b=>b.id!==cur);return c}
 function openBite(id){cur=id;if(!S.read[id])S.read[id]=now();save();tab="know";ktab="bites";anim=true;render();window.scrollTo(0,0);checkMoments()}
-function biteCard(b){const t=b.term&&T[b.term],m=b.mis&&M[b.mis];
+function biteCard(b){const t=b.term&&T[b.term],m=b.mis&&misFits(b.mis)?M[b.mis]:null;
   return `<article class="card bite" ${da(b.a)}><div class="meta"><span class="tag">${dot(b.a)}${AREAS[b.a].n}</span>${evHTML(b.ev)}</div><h2>${b.t}</h2><p class="body">${b.x}</p><p class="caveat"><b>Wie sicher?</b> ${b.c}</p><div class="tip"><b>Was heißt das für dich?</b>${b.tip}</div><p class="src">Quelle: <a href="${esc(b.u)}" target="_blank" rel="noopener">${b.src} ↗</a></p>
    ${t||m?`<div class="row">${t?`<button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button>`:""}</div>`:""}
    <div class="row"><button class="btn primary" id="nextbite">Nächstes</button><button class="btn" id="savebite">${S.saved[b.id]?"Gemerkt ✓":"Merken"}</button><button class="btn" id="sharebite">Teilen</button><button class="linkbtn" id="backbite">Zur Übersicht</button></div></article>`}
@@ -2036,7 +2135,16 @@ const MIS_GRACE=7;
 const misEnd=id=>dayStart(S.mis[id].start)+M[id].d*DAY;
 function misTidy(){let ch=false;Object.entries(S.mis).forEach(([id,v])=>{if(v.status==="active"&&M[id]&&now()>=misEnd(id)+MIS_GRACE*DAY){v.status="closed";v.end=misEnd(id)+MIS_GRACE*DAY;ch=true}});if(ch)save()}
 /* passt eine Mission noch? Nicht, wenn sie um etwas geht, das schon Alltag ist oder als dauerhafte Änderung läuft (al in data.js), und Autofasten nicht ohne Auto */
-const misFits=id=>{const m=M[id];if(!m)return false;if(id==="autofasten"&&noCar())return false;if(id==="urlaubzug"&&checksA().length&&memo().caps.Fliegen===0)return false;return !(m.al||[]).some(x=>isBase(x)||activeBig().some(e=>e.act===x))};
+/* Profil gegen Missionen (nf in data.js): kein Auto, kein Flug, schon vegetarisch, schon Ökostrom, kaum Reste, Check schon gemacht */
+const noFly=()=>checksA().length>0&&memo().caps.Fliegen===0;
+const MISNF={auto:()=>noCar(),flug:()=>noFly(),autoflug:()=>noCar()&&noFly(),veg:()=>{const q=(lastCheck()||{}).ans||{};return q.ess>=3},strom:()=>{const q=(lastCheck()||{}).ans||{};return q.strom===0},
+  rest:()=>{const q=(lastCheck()||{}).ans||{};return q.rest===2},check:()=>checksA().length>0};
+const MISNFTXT={auto:"Laut Hebel-Check oder „Schon Alltag“ hast du kein eigenes Auto.",flug:"Laut Hebel-Check fliegst du nicht.",autoflug:"Laut Hebel-Check hast du kein eigenes Auto und fliegst nicht.",
+  veg:"Laut Hebel-Check isst du schon vegetarisch oder vegan.",strom:"Laut Hebel-Check beziehst du schon Ökostrom.",rest:"Laut Hebel-Check wirfst du fast nie Lebensmittel weg.",check:"Deinen Hebel-Check hast du schon gemacht."};
+/* Grund, warum eine Mission gerade nicht zu dir passt, oder null */
+const misWhyNot=id=>{const m=M[id];if(!m)return "";const k=(m.nf||[]).find(x=>MISNF[x]&&MISNF[x]());if(k)return MISNFTXT[k];
+  return (m.al||[]).some(x=>isBase(x)||activeBig().some(e=>e.act===x))?"Das ist bei dir schon Alltag oder läuft als dauerhafte Änderung.":null};
+const misFits=id=>!!M[id]&&misWhyNot(id)==null;
 let misFilter="alle";
 function suggestMis(){const free=MISS.filter(m=>(!S.mis[m.id]||["dropped","closed"].includes(S.mis[m.id].status))&&misFits(m.id));if(!free.length)return null;
   // passend zu den größten Hebeln, sonst nach Tag
@@ -2055,12 +2163,13 @@ function viewMis(){const act=activeMis(),sug=suggestMis(),list=MISS.filter(m=>mi
   return `<section class="view">
    <div class="sec"><div class="sec-h"><h2>Läuft gerade</h2><span class="label">${act.length} von ${MAXM}</span></div>${act.length?act.map(id=>misCard(M[id],"active")).join(""):`<p class="empty">Missionen sind kleine Versuche für einen Tag bis einen Monat. Nichts davon muss perfekt gelingen.</p>`}</div>
    ${sug?`<div class="sec"><h3>Vorschlag für dich</h3>${misCard(sug,"suggest")}</div>`:""}
-   <div class="sec"><h3>Alle Missionen</h3>${filt("mfilter",misFilter)}<div class="list">${list.map(m=>{const v=S.mis[m.id];const st=v?(v.status==="active"?"läuft":v.status==="done"?"geschafft ✓":v.status==="closed"?"abgeschlossen":"abgebrochen"):(m.d===1?"heute":m.d+" Tage");return `<button class="li" data-misopen="${m.id}" ${da(m.a)}>${dot(m.a)}<span class="tx"><b>${m.t}</b></span><span class="aside">${st}</span></button>`}).join("")}</div></div>
+   <div class="sec"><h3>Alle Missionen</h3>${filt("mfilter",misFilter)}<div class="list">${list.map(m=>{const v=S.mis[m.id];const st=v?(v.status==="active"?"läuft":v.status==="done"?"geschafft ✓":v.status==="closed"?"abgeschlossen":"abgebrochen"):misFits(m.id)?(m.d===1?"heute":m.d+" Tage"):m.id==="hebelcheck"&&checksA().length?"erledigt":"passt nicht";return `<button class="li" data-misopen="${m.id}" ${da(m.a)}>${dot(m.a)}<span class="tx"><b>${m.t}</b></span><span class="aside">${st}</span></button>`}).join("")}</div></div>
   </section>`}
-function misSheet(id){const m=M[id],v=S.mis[id],b=m.b&&B[m.b];
+function misSheet(id){const m=M[id],v=S.mis[id],b=m.b&&B[m.b],wn=(!v||v.status==="dropped")&&invited!==id?misWhyNot(id):null;
   sheet(`${invited===id?`<div class="plain"><b>Eine Einladung</b><span class="muted">Jemand möchte diese Mission gemeinsam mit dir machen. Sie stammt aus „Biotop“, einer kostenlosen App ohne Anmeldung.</span></div>`:""}<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2><p>${m.x}</p><h3>So gehst du vor</h3><ol class="steps">${m.s.map(s=>`<li>${s}</li>`).join("")}</ol>
    ${b?`<div class="tip" ${da(b.a)}><b>Warum das?</b>${b.t}. <button class="linkbtn" data-bite="${b.id}">Häppchen lesen</button></div>`:""}
-   <div class="row">${!v||v.status==="dropped"?`<button class="btn go" ${da(m.a)} data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button>`:v.status==="active"?(canFinish(id)?`<button class="btn primary" data-done="${id}">Geschafft</button>`:`<span class="label">Abschließen ab ${fmtDate(finishFrom(id))}</span>`):`<span class="label">${v.status==="closed"?`Abgeschlossen am ${fmtDate(v.end)}, ohne Rückmeldung`:`Geschafft am ${fmtDate(v.end)}`}</span><button class="btn" data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Noch einmal</button>`}<button class="linkbtn" data-sharemis="${id}">Mit jemandem machen</button></div>`)}
+   ${wn?`<p class="tip" ${da(m.a)}><b>Passt gerade nicht zu dir</b>${wn} Darum schlägt Biotop diese Mission nicht vor.</p>`:""}
+   <div class="row">${!v||v.status==="dropped"?(wn?`<button class="linkbtn" data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Trotzdem annehmen</button>`:`<button class="btn go" ${da(m.a)} data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button>`):v.status==="active"?(canFinish(id)?`<button class="btn primary" data-done="${id}">Geschafft</button>`:`<span class="label">Abschließen ab ${fmtDate(finishFrom(id))}</span>`):`<span class="label">${v.status==="closed"?`Abgeschlossen am ${fmtDate(v.end)}, ohne Rückmeldung`:`Geschafft am ${fmtDate(v.end)}`}</span><button class="btn" data-accept="${id}" ${activeMis().length>=MAXM?"disabled":""}>Noch einmal</button>`}<button class="linkbtn" data-sharemis="${id}">Mit jemandem machen</button></div>`)}
 function planSheet(id){const m=M[id];sheet(`<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2>
   <p>Ein fester Plan hilft: Menschen, die vorher festlegen, wann und wo sie etwas tun, setzen es deutlich häufiger um.</p>
   <label class="label" for="mplan">Wann und wo?</label><input type="text" id="mplan" maxlength="120" placeholder="z. B. montags nach dem Frühstück">
@@ -2071,8 +2180,19 @@ function doneSheet(id){const m=M[id];sheet(`<div class="mseal" aria-hidden="true
 
 /* ---------- Jahr ---------- */
 let CK=null;
+/* Erneuter Check: Steigt eine Quelle um mehr als 30 % (und mindestens 0,1 t) gegenüber dem letzten Check, fragt die App einmal freundlich nach.
+   Ein höherer Wert gilt ohnehin erst ab dem Datum des neuen Checks (capT in memo). */
+const SRCQ={"Auto":"auto","Fliegen":"flug","Heizen":"flaeche","Strom":"strom","Essen":"ess","Konsum":"konsum"};
+function checkJumps(r){const prev=checksA().slice(-1)[0];if(!prev)return [];const a=srcMeasured(prev),b=srcMeasured(r);
+  return Object.keys(SRCQ).filter(n=>b[n]-a[n]>=.1&&b[n]>a[n]*1.3).map(n=>({n,a:a[n],b:b[n]}))}
+function jumpSheet(J){const names=J.map(j=>"„"+j.n+"“");
+  sheet(`<span class="label">Hebel-Check · Kurz nachgefragt</span><h2>Hat sich bei ${names.length>1?names.slice(0,-1).join(", ")+" und "+names.slice(-1):names[0]} wirklich so viel geändert?</h2>
+   <div class="list">${J.map(j=>`<div class="li" ${da((SRCS[j.n]||{}).a||"dinge")}>${dot((SRCS[j.n]||{}).a||"dinge")}<span class="tx"><b>${j.n}</b><small>beim letzten Check rund ${nf(j.a,1)} t, jetzt ${nf(j.b,1)} t</small></span></div>`).join("")}</div>
+   <p>Antworten verrutschen leicht. Wenn es so stimmt, ist alles in Ordnung.</p>
+   <p class="muted" style="font-size:14.5px">Ein höherer Wert gilt ab heute, nicht rückwirkend. Er vergrößert nur den Rahmen, in dem künftige Schritte bei dieser Quelle zählen.</p>
+   <div class="row"><button class="btn primary" id="ckok">Ja, stimmt so</button><button class="btn" id="ckfix">Antworten ansehen</button></div>`)}
 function checkSheet(){if(!CK)CK={i:0,ans:{}};const q=CHECK[CK.i];
-  if(!q){const r=calcCheck(CK.ans);S.checks.push(r);const hm=S.mis.hebelcheck,auto=!hm||hm.status!=="done";
+  if(!q){const r=calcCheck(CK.ans);if(!CK.ok){const J=checkJumps(r);if(J.length){CK.jumps=J;jumpSheet(J);return}}S.checks.push(r);const hm=S.mis.hebelcheck,auto=!hm||hm.status!=="done";
     /* Der Check selbst ist die Mission „Deine großen Hebel finden“ */
     if(auto)S.mis.hebelcheck={status:"done",start:(hm&&hm.start)||r.ts,end:r.ts,days:{},auto:1};save();CK=null;render();checkResultSheet(r,auto);return}
   sheet(`<span class="label">Hebel-Check · Frage ${CK.i+1} von ${CHECK.length}</span><div class="qprog"><span style="width:${CK.i/CHECK.length*100}%"></span></div><div class="meta"><span class="tag">${dot(q.a)}${AREAS[q.a].n}</span></div><h2>${q.q}</h2><div class="opts2">${q.o.map((o,k)=>`<button data-ck="${k}" aria-pressed="${CK.ans[q.id]===k}">${o[0]}</button>`).join("")}</div>${CK.i?`<button class="linkbtn" id="ckback">Zurück</button>`:""}`)}
@@ -2087,7 +2207,7 @@ const sinceCheck=()=>{const lc=lastCheck();return lc?activeBig().filter(e=>newSi
    Änderungen, die beim Check schon liefen, stecken schon in der Messung und zählen hier nicht. */
 function srcProg(lc,n){const x=SRCS[n];if(!lc||!lc.ans||!x)return null;const m=srcMeasured(lc)[n]*1000;if(m<=0)return null;
   const from=Math.max(lc.ts,now()-365*DAY),days=Math.max(30,(now()-from)/DAY);
-  const v=S.log.reduce((q,e)=>q+((e.g?x.acts.includes(e.act)&&newSince(e,lc.ts):x.small.includes(e.act))?eKg(e,from):0),0);
+  const v=S.log.reduce((q,e)=>q+(srcOfE(e)===n&&(!e.g||newSince(e,lc.ts))?eKg(e,from):0),0);
   return {v,m,pct:Math.min(100,Math.round(v/(m*days/365)*100))}}
 function srcBlock(lc){if(!lc||!lc.ans)return "";const rows=lc.top.map(([n])=>[n,srcProg(lc,n)]).filter(r=>r[1]);if(!rows.length)return "";
   return `<h3>An deinen drei größten Quellen</h3><div class="fp">${rows.map(([n,p])=>`<div class="fprow" ${da(SRCS[n].a)}><span>${n}</span><span class="track"><span style="width:${p.pct}%"></span></span><em>${p.pct} %</em></div>`).join("")}</div>
@@ -2104,7 +2224,7 @@ function fpBars(r){const mx=Math.max(...AK.filter(k=>k!=="wir").map(k=>Math.max(
 function checkResultSheet(r,auto){sheet(`<span class="label">Dein Ergebnis</span><div class="bigt num">${nf(r.total,1)}<small>t CO₂e im Jahr</small></div>
   <div class="cmp"><div><span>Du</span><span class="t" style="width:${Math.min(100,r.total/14*100)}%;background:var(--dinge)"></span><span class="num">${nf(r.total,1)} t</span></div><div><span>Durchschnitt DE</span><span class="t" style="width:${10.3/14*100}%"></span><span>10,3 t</span></div><div><span>Ziel langfristig</span><span class="t" style="width:${1/14*100}%;background:var(--wir)"></span><span>1 t</span></div></div>
   ${fpBars(r)}
-  ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}<h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`).join("")}</div>
+  ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}<h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>misFits(mid)?`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`:`<div class="li" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b></span></div>`).join("")}</div>
   <div class="row"><a class="btn" href="${gcalLink("Biotop: Hebel-Check neu messen",at19(now()+90*DAY),15,"Fünf Minuten: Wie hat sich dein Fußabdruck verändert?")}" target="_blank" rel="noopener">In drei Monaten neu messen</a></div>
   <p class="caveat">Eine grobe Schätzung mit gerundeten Richtwerten nach dem CO₂-Rechner des Umweltbundesamts. Für eine genaue Rechnung lohnt sich der Rechner selbst: uba.co2-rechner.de</p>`)}
 function ringMonths(){const first=new Date(appStart()),months=[],end=new Date();let d=new Date(first.getFullYear(),first.getMonth(),1);
@@ -2255,6 +2375,24 @@ function parseBackup(txt){let o;try{o=JSON.parse(String(txt||"").trim())}catch(e
   for(const k of ["mis","read","saved","terms","base","moments","weeks","plans"])if(d[k]!=null&&(typeof d[k]!=="object"||Array.isArray(d[k])))return {err:"Die Sicherung ist beschädigt."};
   if(d.checks!=null&&!Array.isArray(d.checks))return {err:"Die Sicherung ist beschädigt."};
   return {d,saved:o.saved||null}}
+/* Eine geladene Sicherung wird geprüft, nicht nur gelesen: Katalogschritte bekommen k und y aus dem Katalog, eigene Schätzungen die Grenzen aus F1,
+   Datumswerte liegen weder in der Zukunft noch vor dem Start, der Start nicht vor dem Erscheinen der App. Unbekannte Schritte werden zu eigenen Schätzungen. */
+const EPOCH=new Date(2026,0,1).getTime();
+function sanitizeImport(){const t=now(),cl=(v,a,b)=>Math.min(b,Math.max(a,v)),num=(v,d)=>typeof v==="number"&&isFinite(v)?v:d;
+  S.log=(S.log||[]).filter(e=>e&&typeof e==="object");S.checks=(S.checks||[]).filter(c=>c&&typeof c==="object"&&isFinite(c.ts));S.base=S.base||{};S.mis=S.mis||{};
+  let st=num(S.start,t);S.log.forEach(e=>{if(!e.g&&isFinite(e.ts))st=Math.min(st,e.ts)});S.checks.forEach(c=>st=Math.min(st,c.ts));S.start=st=cl(st,EPOCH,t);
+  S.log.forEach(e=>{e.ts=cl(num(e.ts,t),st,t);if(e.lt!=null)e.lt=cl(num(e.lt,e.ts),e.ts,t);if(e.end!=null)e.end=cl(num(e.end,e.ts),e.ts,t);if(e.end==null)delete e.end;
+    if(e.pf!=null){e.pf=cl(num(e.pf,1),0,1);if(!PFTXT[e.pw])e.pw="strom"}
+    if(e.act!=="custom"&&!A[e.act]){e.act="custom";if(typeof e.t!=="string")e.t="Eigener Schritt"}
+    const a=A[e.act];
+    if(a){e.t=a.t;e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=a.k||0}return}
+    if(!AREAS[e.a])e.a="dinge";if(e.src==null||(e.src!==""&&!SRCS[e.src]))e.src=defSrc(e.a);
+    if(e.g){e.g=1;e.y=cl(num(e.y,0),0,KMAX_Y);delete e.k}else{e.k=cl(num(e.k,0),0,KMAX_S);delete e.y}if((e.k||e.y)>0)e.est=1});
+  S.checks.forEach(c=>{c.ts=cl(c.ts,st,t);if(c.ans){CHECK.forEach(q=>{const v=c.ans[q.id];c.ans[q.id]=Number.isInteger(v)&&v>=0&&v<q.o.length?v:0});const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
+  S.checks.sort((a,b)=>a.ts-b.ts);
+  Object.values(S.mis).forEach(v=>{if(!v||typeof v!=="object")return;if(v.start!=null)v.start=cl(num(v.start,t),st,t);if(v.end!=null)v.end=cl(num(v.end,t),v.start||st,t)});
+  Object.keys(S.base).forEach(id=>{if(!A[id])delete S.base[id];else if(S.base[id]>1e12)S.base[id]=cl(S.base[id],st,t)});
+  ["gFloor","gAdd"].forEach(k=>{if(S[k]!=null)S[k]=Math.max(0,num(S[k],0))})}
 let BK=null;
 function loadSheet(msg){const p=BK&&BK.d?BK:null;
   sheet(`<span class="label">Daten laden</span><h2>Sicherung laden</h2>${p?`<p>Sicherung${p.saved?` vom ${fmtDate(p.saved)}`:""}: <b>${plu(p.d.log.length,"Eintrag","Einträge")}</b>, ${plu(Object.values(p.d.mis||{}).filter(v=>v&&v.status==="done").length,"abgeschlossene Mission","abgeschlossene Missionen")}, ${plu((p.d.checks||[]).length,"Hebel-Check","Hebel-Checks")}.</p><p class="tip" ${da("dinge")}><b>Ersetzt alles</b>Was jetzt in diesem Browser liegt, wird durch die Sicherung ersetzt. Wenn du unsicher bist, sichere vorher deinen jetzigen Stand.</p><div class="row"><button class="btn primary" id="bkyes">Ja, Sicherung laden</button><button class="btn" id="bkno">Abbrechen</button></div>`
@@ -2266,7 +2404,7 @@ function loadSheet(msg){const p=BK&&BK.d?BK:null;
 function bkTry(txt){const r=parseBackup(txt);if(r.err){BK=null;loadSheet(r.err);const ta=$("#bktext")||$("#bkta");if(ta)ta.value=String(txt||"").slice(0,5e5);shake($("#sh .panel"));return}BK=r;loadSheet()}
 function applyBackup(d){const keep=S.settings;S=Object.assign({log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:keep,area:"essen",filter:"alle",lastSeen:0,welcomed:1,base:{},plans:{}},d);
   S.settings=Object.assign({remind:"19:00"},S.settings||{});S.duel=Object.assign({n:0,r:0,i:0},S.duel||{});if(!S.duel.seed)S.duel.seed=1+Math.floor(Math.random()*1e6);
-  migrate2();migrate3();if(S.stageSeen==null)S.stageSeen=stage().i;S.welcomed=S.welcomed||1;MEMO={k:""};LC=null;barMem=null;save();BK=null;closeSheet();tab="home";anim=true;render();window.scrollTo(0,0);toast(`Sicherung geladen: ${plu(S.log.length,"Eintrag","Einträge")}.`,null,true)}
+  sanitizeImport();MEMO={k:""};migrate2();migrate3();migrate4();migrate5();if(S.stageSeen==null)S.stageSeen=stage().i;S.welcomed=S.welcomed||1;MEMO={k:""};LC=null;barMem=null;save();BK=null;closeSheet();tab="home";anim=true;render();window.scrollTo(0,0);toast(`Sicherung geladen: ${plu(S.log.length,"Eintrag","Einträge")}.`,null,true)}
 
 /* ---------- Teilen ---------- */
 const appUrl=()=>location.href.split("#")[0];
@@ -2327,7 +2465,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
   if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
   if(d.actmenu){actMenu(d.actmenu);return}
-  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
+  if(d.setbase){S.base[d.setbase]=now();save();closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit, ohne neue kg: Die stecken schon in deinem bisherigen Fußabdruck.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
   if(d.kpi){kpiSheet(d.kpi);return}
   if(d.inv){invSheet();return}
@@ -2336,22 +2474,31 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.invt){const id=d.invt;if(isBase(id))delete S.base[id];else S.base[id]=now();t.setAttribute("aria-pressed",isBase(id));save();return}
   if(t.id==="invsave"){S.invDone=1;save();closeSheet();render();const n=Object.keys(S.base).length;if(n)toast(`${n} ${n===1?"Eintrag ist":"Einträge sind"} schon Alltag.${S.checks.length?"":" Die großen Hebel liegen oft woanders, der Hebel-Check zeigt, wo."}`);checkMoments();return}
   if(d.addbig){const a=A[d.addbig],st=appStart();let ts=parseDate($("#bigdate").value)||now(),early=false;if(ts<st){ts=st;early=true}
-    const rep=activeBig().filter(x=>rivals(a.id).includes(x.act)),lb=bigFloor(a.id);let after=false;if(ts<lb){ts=Math.min(now(),lb);after=true;early=false}rep.forEach(x=>x.end=ts);
-    const nf=nfWhy(a.id),en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,y:nf?0:(a.y||0),ts,lt:now()};if(nf)en.nf=nf;if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();
-    toast(nf?`Eingetragen. ${NFTXT[nf]} Die Änderung wächst als Baum, zählt aber ohne kg.`:rep.length?`Eingetragen. Ersetzt ${rep.map(x=>"„"+esc(x.t)+"“").join(" und ")}, die bisherige Einsparung bleibt.`:after?`Eingetragen. Gezählt ab ${fmtDate(ts)}, denn bis dahin lief diese oder eine überschneidende Änderung schon.`:early?`Eingetragen. Gezählt ab deinem Start am ${fmtDate(st)}.`.replace("..","."):"Eingetragen. Wirkt ab jetzt jeden Tag.",null,true);checkMoments();return}
+    const rep=activeBig().filter(x=>rivals(a.id).includes(x.act)),lb=bigFloor(a.id),root=chainRoot(a.id);let after=false;if(ts<lb){ts=Math.min(now(),lb);after=true;early=false}rep.forEach(x=>x.end=ts);
+    const en={id:uid(),act:a.id,a:a.a,t:a.t,g:1,ts,lt:now()};stampProfile(en,a.id);en.y=en.nf?0:(a.y||0);if(root)en.rep=root;if(a.w)en.w=1;S.log.push(en);save();closeSheet();render();
+    const yr=effY(en),nf=en.nf,kgs=nf?`${NFTXT[nf]} Die Änderung wächst als Baum, zählt aber ohne kg.`:`Zählt rund ${kgTxt(yr)} im Jahr${yr<yOf(en)-.5?`, anteilig wegen Überschneidungen bei „${srcOfE(en)}“`:en.pf<1?`, anteilig. ${PFTXT[en.pw]||""}`:""}.`.replace("..",".");
+    toast(`Eingetragen. ${kgs}${rep.length?` Ersetzt ${rep.map(x=>"„"+esc(x.t)+"“").join(" und ")}, die bisherige Einsparung bleibt.`:""}${root?" Der Baum wandelt sich.":""}${after?` Gezählt ab ${fmtDate(ts)}, denn bis dahin lief diese oder eine überschneidende Änderung schon.`:early?` Gezählt ab deinem Start am ${fdEnd(st)}`:""}`,null,true);checkMoments();return}
   if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
   if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
   if(d.area){S.area=d.area;save();render();return}
   if(t.id==="custom"){customSheet();return}
-  if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
+  if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));if(!csrcTouched)csrcSet(defSrc(d.carea));return}
+  if(d.csrc!=null){csrcTouched=true;csrcSet(d.csrc);return}
   if(d.ckind){document.querySelectorAll("[data-ckind]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
   if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=Math.max(0,parseFloat(String($("#ckg").value).replace(",","."))||0);
+    const sb=document.querySelector('[data-csrc][aria-pressed="true"]'),src=sb?sb.dataset.csrc:defSrc(a);
     const mx=big?KMAX_Y:KMAX_S,v=Math.min(kg,mx),cut=kg>mx;
-    const en={id:uid(),act:"custom",a,t:tx,ts:now()};if(big){en.g=1;en.y=v}else en.k=v;if(v>0)en.est=1;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();
-    toast(cut?`Eingetragen mit ${kgTxt(v)}${big?" im Jahr":""}. Mehr zählt eine eigene Schätzung für ${big?"eine dauerhafte Änderung":"einen kleinen Schritt"} nicht.`:v>0?`Eingetragen, ${kgTxt(v)}${big?" im Jahr":""} als eigene Schätzung.`:"Eingetragen.",()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()},true);checkMoments();return}
+    const en={id:uid(),act:"custom",a,t:tx,src,ts:now()};if(big){en.g=1;en.y=v;en.lt=en.ts}else en.k=v;if(v>0)en.est=1;if(a==="wir")en.w=1;S.log.push(en);save();closeSheet();render();
+    let msg=cut?`Eingetragen mit ${kgTxt(v)}${big?" im Jahr":""}. Mehr zählt eine eigene Schätzung für ${big?"eine dauerhafte Änderung":"einen kleinen Schritt"} nicht.`:v>0?`Eingetragen, ${kgTxt(v)}${big?" im Jahr":""} als eigene Schätzung.`:"Eingetragen, ohne kg, weil keine Schätzung angegeben ist.";
+    if(v>0){if(big){const y=effY(en);if(y<v-.5)msg+=` Im Moment zählt sie rund ${kgTxt(y)} im Jahr: ${custF(now())<1?`Eigene Schätzungen zählen zusammen höchstens ${kgTxt(CUST_Y)} im Jahr`:`mehr gibt die Quelle „${src}“ neben deinen anderen Änderungen nicht her`}.`}
+      else{const k=eKg(en),w=memo().why[en.id]||{},why={cday:`eigene Schätzungen zählen zusammen höchstens ${CUST_DAY} kg am Tag`,cyr:`eigene Schätzungen zählen zusammen höchstens ${kgTxt(CUST_Y)} im Jahr, und dieser Rahmen wächst mit der Zeit seit deinem Start`,
+        cap:`mehr gibt die Quelle „${w.n}“ bisher nicht her, ihr Rahmen wächst mit jedem Tag`,day:"derselbe Schritt zählt höchstens dreimal am Tag"}[w.why];if(k<v-.005)msg+=` Davon zählt ${kgTxt(k)}${why?`, denn ${why}`:""}.`}}
+    toast(msg.replace("..","."),()=>{S.log=S.log.filter(x=>x.id!==en.id);save();render()},true);checkMoments();return}
   if(d.check){CK=null;checkSheet();return}
   if(d.ck!=null&&CK){CK.ans[CHECK[CK.i].id]=+d.ck;CK.i++;checkSheet();return}
   if(t.id==="ckback"&&CK){CK.i=Math.max(0,CK.i-1);checkSheet();return}
+  if(t.id==="ckok"&&CK){CK.ok=1;checkSheet();return}
+  if(t.id==="ckfix"&&CK){const J=CK.jumps||[];CK.i=Math.max(0,CHECK.findIndex(q=>q.id===SRCQ[(J[0]||{}).n]));checkSheet();return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
   if(d.ktab){ktab=d.ktab;cur=null;anim=true;render();return}
   if(t.id==="pull"){const b=pickBite();if(!b)return;setTimeout(()=>openBite(b.id),calm()?0:260);return}
@@ -2396,7 +2543,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="shareapp"){shareOut("Biotop","Ich probiere gerade Biotop aus: eine kleine App, mit der man Stück für Stück nachhaltiger lebt. Man trägt Schritte ein, und eine Landschaft wächst mit. Dazu gibt es kurze Erkenntnisse mit Quellen und kleine Missionen. Kostenlos und ohne Anmeldung.",appUrl());return}
   if(t.id==="reset"){confirmReset=true;render();return}
   if(t.id==="resetno"){confirmReset=false;render();return}
-  if(t.id==="resetyes"){S={stageSeen:0,plans:{},gv:4,gFloor:0,gAdd:0,start:now(),log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
+  if(t.id==="resetyes"){S={stageSeen:0,plans:{},gv:5,gFloor:0,gAdd:0,start:now(),log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:S.settings,area:"essen",filter:"alle",lastSeen:0,welcomed:S.welcomed,base:{}};save();confirmReset=false;render();toast("Alles zurückgesetzt.");return}
   if(t.id==="welcomecheck"){closeSheet();checkSheet();return}
 });
 document.addEventListener("touchstart",()=>{},{passive:true});
@@ -2437,7 +2584,7 @@ migrate3();
    Ehrlichere Bilanz: feste Basislinie, Restwerte, Tagesgrenzen, halber Ersatz bei Gebrauchtem, Grenze für eigene Schätzungen, keine überlappenden Zeiträume,
    Schritte ohne Bezug zum eigenen Alltag ohne kg. Die angezeigten kg alter Einträge dürfen sich dadurch ändern, die erreichte Stufe nicht:
    gFloor und gAdd halten das bisherige Wachstum, neues Wachstum bleibt sofort sichtbar. */
-function migrate4(){if(S.gv>=4)return;PTS_OLD=true;const g0=growth(),st0=stage().i;PTS_OLD=false;
+function migrate4(){if(S.gv>=4)return;PTS_MODE=3;MEMO={k:""};const g0=growth(),st0=stage().i;PTS_MODE=4;MEMO={k:""};
   S.log.forEach(e=>{if(e.act==="custom"){if(e.g){if((e.y||0)>KMAX_Y)e.y=KMAX_Y;if(e.y>0)e.est=1}else{if((e.k||0)>KMAX_S)e.k=KMAX_S;if(e.k>0)e.est=1}return}
     const a=A[e.act];if(!a)return;e.t=a.t;if(e.g){if(a.y!=null)e.y=a.y}else e.k=a.k||0});
   /* Zeiträume derselben Änderung und ihrer Gegenstücke: Ein späterer beginnt frühestens, wo ein früherer endet */
@@ -2446,13 +2593,25 @@ function migrate4(){if(S.gv>=4)return;PTS_OLD=true;const g0=growth(),st0=stage()
     if(!x.end){x.end=Math.max(x.ts,e.ts);return}if(x.end>e.ts){e.ts=x.end;if(e.end&&e.end<e.ts)e.end=e.ts}})});
   save();
   /* Schritte, die laut Check nicht zum eigenen Alltag passen (kein Auto, kein Flug, keine Fernreise), zählen ohne kg */
-  const c0=checksA()[0];S.log.forEach(e=>{if(e.act==="custom"||e.nf)return;const w=nfWhy(e.act);if(!w)return;if(e.g&&c0&&!newSince(e,c0.ts)&&w!=="fern")return;e.nf=w;if(e.g)e.y=0});
+  const c0=checksA()[0];S.log.forEach(e=>{if(e.act==="custom"||e.nf)return;const w=nfWhy(e.act);if(!w||(!e.g&&!["auto","flug"].includes(w)))return;if(e.g&&c0&&!newSince(e,c0.ts)&&w!=="fern")return;e.nf=w;if(e.g)e.y=0});
   /* Ein Begriff, eine Zahl: Die Quelle „Ernährung“ heißt jetzt „Essen“ und zählt wie der Bereich auch die Lebensmittelreste mit */
   (S.checks||[]).forEach(c=>{if(c.top)c.top=c.top.map(t=>t[0]==="Ernährung"?["Essen",c.area&&c.area.essen!=null?c.area.essen:t[1],t[2]]:t).sort((x,y)=>y[1]-x[1])});
   save();
   const raw=growthRaw();S.gFloor=Math.max(S.gFloor||0,Math.floor(g0*10)/10);S.gAdd=Math.max(S.gAdd||0,Math.round((g0-raw)*10)/10);
-  if(S.stageSeen!=null)S.stageSeen=Math.max(S.stageSeen,st0,stage().i);S.gv=4;save()}
+  if(S.stageSeen!=null)S.stageSeen=Math.max(S.stageSeen,st0,stage().i);S.gv=4;PTS_MODE=5;MEMO={k:""};save()}
 migrate4();
+/* ---------- Migration auf gv 5 ----------
+   Teil F: eigene Schätzungen mit Quelle und gemeinsamen Grenzen, Rahmen der Quellen wächst mit der Zeit, große Käufe pro Jahr begrenzt,
+   Profil aus dem Check (vegetarisch, Ökostrom, Heizung), Wachstumspunkte nach gezählten kg, Wechsel ohne neuen Baum.
+   Die angezeigten kg alter Einträge dürfen sich ändern, die erreichte Stufe nicht: gFloor und gAdd halten das bisherige Wachstum.
+   Bestehende Bäume bleiben alle stehen, Ketten gelten nur für neue Einträge. */
+function migrate5(){if(S.gv>=5)return;PTS_MODE=4;MEMO={k:""};const g0=growth(),st0=stage().i;PTS_MODE=5;
+  S.log.forEach(e=>{if(e.act==="custom"){if(e.src==null)e.src=defSrc(e.a);if(e.g&&(e.y||0)>KMAX_Y)e.y=KMAX_Y;return}
+    /* Profil nachtragen, so wie es zum Zeitpunkt des Eintrags galt */
+    if(e.nf||e.pf!=null||!A[e.act])return;const p=profileOf(e.act,e.ts);if(!p)return;if(p.nf&&!e.g)e.nf=p.nf;else if(p.pf<1){e.pf=p.pf;e.pw=p.pw}});
+  save();MEMO={k:""};const raw=growthRaw();S.gFloor=Math.max(S.gFloor||0,Math.floor(g0*10)/10);S.gAdd=Math.max(S.gAdd||0,Math.round((g0-raw)*10)/10);
+  if(S.stageSeen!=null)S.stageSeen=Math.max(S.stageSeen,st0,stage().i);S.gv=5;save()}
+migrate5();
 if(S.stageSeen==null){S.stageSeen=stage().i;save()}
 if(location.hash)fromHash();
 render();setTimeout(welcome,700);if(IOS)armHaptics();
