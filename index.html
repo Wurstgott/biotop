@@ -1049,10 +1049,10 @@ const DUELS=[
 {a:"Ein Jahr lang täglich ein Glas Haferdrink statt Kuhmilch",ak:73,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Kuhmilch hat einen größeren Fußabdruck, als die meisten denken."},
 {a:"Ein Jahr Ökostrom",ak:100,b:"Ein Jahr lang Fleisch halbiert",bk:250,x:"Das halbierte Fleisch wiegt mehr. Beim Ökostrom ist umstritten, wie viel ein Wechsel zusätzlich bewirkt, gerechnet sind rund 100 kg, die Spanne reicht von etwa 50 bis 150 kg. Dafür ist er ein einziger Schritt."},
 {a:"Das Auto abschaffen",ak:1500,b:"Photovoltaik aufs Dach, Anteil pro Person",bk:1000,x:"Beides gehört zu den größten Hebeln. Das Auto liegt um rund die Hälfte höher. Von der Solaranlage zählt in deiner eigenen Bilanz höchstens, was dein Strom verursacht, im Schnitt rund 600 kg. Der eingespeiste Rest ersetzt Strom anderer."},
-{a:"Eine Stunde Videostreaming",ak:0.036,b:"Einen Kilometer allein Auto fahren",bk:0.17,x:"Ein Kilometer Autofahrt verursacht etwa so viel wie fünf Stunden Streaming."},
+{q:"v",a:"Eine Stunde Videostreaming",ak:0.036,b:"Einen Kilometer allein Auto fahren",bk:0.17,x:"Ein Kilometer Autofahrt verursacht etwa so viel wie fünf Stunden Streaming."},
 {a:"Einmal Bahn statt Inlandsflug, 500 km",ak:75,b:"Ein Jahr lang einmal pro Woche vegetarisch",bk:80,x:"Fast gleich. Eine Strecke mit der Bahn statt mit dem Flugzeug spart etwa so viel wie ein Jahr lang ein fleischfreier Tag pro Woche."},
 {a:"Ein Jahr lang Wäsche bei 30 statt 60 Grad, 100 Ladungen",ak:30,b:"Eine Jeans gebraucht statt neu",bk:12.5,x:"Das kühlere Waschen spart mehr. Beim Waschen geht der meiste Strom ins Aufheizen."},
-{a:"Hundert Fragen an einen KI-Chat",ak:0.1,b:"Ein Kilometer im Auto",bk:0.17,x:"Bei kurzen Antworten wiegen hundert Textfragen weniger als ein Kilometer Autofahrt, auch mit Mistrals höherer Schätzung von rund 1 g pro Antwort. Bei langen Antworten, Modellen mit Denkschritten oder Agenten kann es ein Vielfaches sein. Bilder und Videos brauchen deutlich mehr."}
+{q:"v",a:"Hundert Fragen an einen KI-Chat",ak:0.1,b:"Ein Kilometer im Auto",bk:0.17,x:"Bei kurzen Antworten wiegen hundert Textfragen weniger als ein Kilometer Autofahrt, auch mit Mistrals höherer Schätzung von rund 1 g pro Antwort. Bei langen Antworten, Modellen mit Denkschritten oder Agenten kann es ein Vielfaches sein. Bilder und Videos brauchen deutlich mehr."}
 ];
 const TERMS=[
 {id:"co2e",a:"essen",n:"CO₂-Äquivalent",d:"Eine gemeinsame Maßeinheit für alle Treibhausgase. Methan oder Lachgas werden in die Menge CO₂ umgerechnet, die dieselbe Erwärmung bewirken würde.",e:"Ein Kilogramm Methan entspricht über 100 Jahre rund 27 bis 30 kg CO₂-Äquivalent."},
@@ -1330,7 +1330,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="20.10.2026, 15:34";
+const BUILD="21.10.2026, 10:49";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -2349,7 +2349,7 @@ function duelCard(){const i=S.duel.i%DUELS.length,d=duelAt(),r=duelAns;
   const mx=Math.max(d.ak,d.bk),pct=v=>Math.max(2,Math.round(v/mx*100));
   const right=duelRight(d),good=r&&right.includes(r);
   const cls=k=>!r?"opt":right.includes(k)?"opt right":k===r?"opt wrong":"opt";const ck=k=>r&&right.includes(k)?CHECK_SVG:"";
-  return `<article class="card duel" ${da("wege")}><div class="sec-h"><span class="label">Frage ${i+1} von ${DUELS.length}</span><span class="label num">${S.duel.r} von ${S.duel.n} richtig</span></div><h2>Was spart mehr?</h2>
+  return `<article class="card duel" ${da("wege")}><div class="sec-h"><span class="label">Frage ${i+1} von ${DUELS.length}</span><span class="label num">${S.duel.r} von ${S.duel.n} richtig</span></div><h2>${d.q==="v"?"Was verbraucht mehr?":"Was spart mehr?"}</h2>
    <div class="opts"><button class="${cls("a")}" data-hap="judge" data-duel="a" ${r?"disabled":""}><span>${ck("a")}${d.a}</span>${r?`<span class="bar"><span style="width:${pct(d.ak)}%"></span></span><span class="label num">rund ${kgTxt(d.ak)}</span>`:""}</button>
    <button class="${cls("b")}" data-hap="judge" data-duel="b" ${r?"disabled":""}><span>${ck("b")}${d.b}</span>${r?`<span class="bar"><span style="width:${pct(d.bk)}%"></span></span><span class="label num">rund ${kgTxt(d.bk)}</span>`:""}</button>
    <button class="${cls("eq")} eq" data-hap="judge" data-duel="eq" ${r?"disabled":""}>${ck("eq")}Etwa gleich viel</button></div>
