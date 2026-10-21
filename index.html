@@ -620,13 +620,65 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
 .exk h2{font-size:28px}
 .exk h2:focus{outline:none}
 .exk h2:focus-visible{outline:2px solid var(--wege);outline-offset:4px}
-.exnav{margin-top:2px}
-.exkeys{display:none;text-transform:none;letter-spacing:0}
+.exkeys{display:none;text-transform:none;letter-spacing:0;margin-top:-4px}
+/* J2: eine Karte pro Bildschirm. Kompakter Kopf, „Wie sicher?“ und Quelle zum Aufklappen,
+   Zurück, Stand und Weiter kleben über der Tableiste (am Desktop am unteren Rand). Waagerecht wischen blättert, senkrecht scrollt. */
+.exk{padding:14px 16px 0;gap:8px;touch-action:pan-y pinch-zoom}
+.exk .exbody{display:flex;flex-direction:column;gap:9px;min-width:0}
+.exmeta{justify-content:space-between;flex-wrap:nowrap;gap:10px}
+.exmeta>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exk .exhead{margin:-6px 0 -4px -5px;flex-wrap:nowrap}
+.exk .exhead .linkbtn{flex:none;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:10px 0}
+.exk h2{font-size:25px;line-height:1.08}
+.exkk{color:var(--c);font-weight:700}
+.exk .body{font-size:17px;line-height:1.5}
+.exwhy{border-top:1.5px solid var(--line)}
+.exwhy summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 0 6px;min-height:44px;cursor:pointer;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.exwhy summary::-webkit-details-marker{display:none}
+.exwhy summary>span:first-child{flex:none}
+.exwhy summary .ev{flex:1}
+.exwhy summary::after{content:"+";font-size:18px;line-height:1;transition:transform .25s}
+.exwhy[open] summary::after{transform:rotate(45deg)}
+.exwhy>p{margin-top:8px}
+.exwhy>.src{margin-bottom:4px}
+.exnav{position:sticky;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:6;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px -16px 0;padding:10px 16px 12px;background:var(--sheet);border-top:2px solid var(--ink)}
+.exnav .btn{padding:9px 13px;min-height:44px}
+.exnav #expos{text-align:center;letter-spacing:.04em;white-space:nowrap}
+@media (max-width:359px){.exnav #expos{font-size:11px;letter-spacing:0}}
+.exqtip{font-size:14.5px;color:var(--muted);margin-top:-2px}
+.exqtip b{color:var(--ink);font-weight:600}
+/* Einstiegs- und Schlussfrage als Antwortkacheln, ohne Punkte */
+.exq{font-size:17px;line-height:1.4;font-weight:600}
+.opts2.exqo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opts2.exqo button{min-height:52px;font-size:15.5px;line-height:1.25;padding:10px 12px}
+.opts2.exqo button.exright{border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.opts2.exqo button[aria-pressed="true"].exright{box-shadow:3px 3px 0 var(--ok)}
+.exqh{font-size:13.5px;margin-top:-2px}
+.exqend{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.exres{font-size:15.5px;line-height:1.5;border-left:3px solid var(--ok);padding-left:12px}
+.exres:focus{outline:none}
+.exteaser{gap:10px}
+.exteaser .exd{font-size:15.5px}
+.exorow{align-items:center;gap:14px}
+.exorow .pips{flex:1}
+@media (prefers-reduced-motion:no-preference){
+ .exk.exin-n .exbody{animation:exinn .28s cubic-bezier(.2,.8,.2,1) both}
+ .exk.exin-p .exbody{animation:exinp .28s cubic-bezier(.2,.8,.2,1) both}
+ .exk .exbody{transition:transform .2s}
+}
+@keyframes exinn{from{opacity:0;transform:translateX(28px)}}
+@keyframes exinp{from{opacity:0;transform:translateX(-28px)}}
+/* Wohnform: freiwillige Zusatzfrage nach dem Check, Hinweise für Mieterinnen und Mieter */
+.wohnq{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+.wohnq p{font-size:15.5px}
+.hebel small.rent{display:block;margin-top:4px;font-family:var(--f-body);font-size:14px;line-height:1.45;color:var(--muted);letter-spacing:0;text-transform:none}
+.ownif{font-size:12px;color:var(--muted);margin-left:2px}
+.wohnask{margin-top:10px}
 @media (hover:hover) and (pointer:fine){.exkeys{display:block}}
 .exdo{gap:10px}
 .exdo .chip{min-height:44px;text-align:left;font-size:14px}
 .exk .row .chip{text-align:left}
-.exg{margin:2px 0 0;display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--paper);border:1.5px solid var(--line)}
+.exg{margin:0;display:flex;flex-direction:column;gap:8px;padding:11px 12px;background:var(--paper);border:1.5px solid var(--line)}
 .exg figcaption.label{text-transform:none;letter-spacing:.02em}
 .exg .sqs{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
 .exg .sqi{display:flex;flex-direction:column;gap:3px;min-width:0}
@@ -651,11 +703,11 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
 .sg-b{background:var(--wege);color:#fff}
 .sg-y{background:radial-gradient(var(--ink) 1.1px,transparent 1.4px) 0 0/5px 5px,var(--wash);color:var(--ink)}
 .exv{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.exkey{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.exkey{display:flex;gap:4px 14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .exkey span{display:inline-flex;align-items:center;gap:6px}
 .exkey i{width:12px;height:12px;border:1.5px solid var(--ink);padding:0;display:block}
 .exnum{flex-direction:row;align-items:center;gap:16px}
-.exnum b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:44px;line-height:.9;color:var(--c);mix-blend-mode:var(--blend);white-space:nowrap;text-shadow:3px 2px 0 color-mix(in srgb,var(--dinge) 55%,transparent)}
+.exnum b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:40px;line-height:.9;color:var(--c);mix-blend-mode:var(--blend);white-space:nowrap;text-shadow:3px 2px 0 color-mix(in srgb,var(--dinge) 55%,transparent)}
 .exnum figcaption{font-size:15px;line-height:1.35}
 /* Desktop ab 900 px: Register als ruhige Leiste links, Startseite in zwei Spalten, übrige Register als lesbare Spalte. Das Handy bleibt unverändert. */
 @media (min-width:900px){
@@ -679,6 +731,9 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
   .toast{bottom:28px;left:calc(50% + 56px)}
   .moment.stagecard{padding-bottom:40px;padding-left:112px}
   .moment{padding-left:136px}
+  .exnav{bottom:0}
+  .exk h2{font-size:28px}
+  .exk .body{font-size:18px}
 }
 @media (min-width:900px) and (prefers-reduced-motion:no-preference){#main.anim .hdesk>.dcol>*{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}#main.anim .hdesk>.dr>*{animation-delay:.08s}}
 /* Gewählter Bereich: Punkt in einer Kontrastfarbe aus der Riso-Palette statt Ton in Ton */
@@ -744,7 +799,7 @@ const ACTS=[
 {id:"deckel",a:"wohnen",md:3,t:"Mit Deckel gekocht",k:0.05,n:"Spart rund ein Drittel der Energie beim Kochen, absolut aber wenig."},
 {id:"grad",a:"wohnen",g:1,t:"Raumtemperatur um 1 Grad gesenkt",y:110,n:"Ein Grad weniger spart rund 6 % Heizenergie."},
 {id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:100,n:"Gerechnet mit rund 100 kg im Jahr, die Spanne reicht von etwa 50 bis 150 kg. Wie viel ein Wechsel zusätzlich bewirkt, ist unter Fachleuten umstritten: Bei Anbietern, die in neue Anlagen investieren, ist es mehr, bei reinen Herkunftsnachweisen kaum etwas."},
-{id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:130,n:"Rund 350 kWh selbst genutzter Solarstrom im Jahr, die sonst aus dem Netz kämen."},
+{id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:130,n:"Rund 350 kWh selbst genutzter Solarstrom im Jahr, die sonst aus dem Netz kämen. Geht meist auch zur Miete: Seit Oktober 2024 haben Mieterinnen und Mieter in der Regel einen Anspruch auf die Erlaubnis. Fragen musst du vorher trotzdem."},
 {id:"pv",a:"wohnen",g:1,t:"Photovoltaik aufs Dach gebracht",y:1000,n:"Gerechnet für rund 8 kWp auf einem Haus mit drei Personen, Anteil pro Person. Der Solarstrom verdrängt Strom aus Kohle und Gas. In deiner Bilanz zählt davon höchstens so viel, wie dein eigener Strom verursacht. Der Überschuss, den die Anlage einspeist, ersetzt Strom anderer."},
 {id:"waermepumpe",a:"wohnen",g:1,t:"Heizung auf Wärmepumpe umgestellt",y:1000,n:"Anteil pro Person in einem durchschnittlichen Haushalt mit Gasheizung. Der Strom für die Wärmepumpe verursacht selbst noch rund 45 % der früheren Heizemissionen. Mehr als 55 % deiner Heizemissionen kann sie darum nicht sparen."},
 {id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
@@ -1085,45 +1140,47 @@ const TERMS=[
 /* Exkurse: kurze Folgen von Karten zu einem Thema, das außerhalb der CO₂e-Bilanz liegt oder sie ergänzt.
    Eine Karte: t Titel, x 2 bis 4 Sätze, ev/c/src/u wie bei den Häppchen, g optional eine kleine Grafik:
    sq = Flächen im Größenvergleich, bars = Balken (max optional), stack = Anteile in einer Zeile, num = eine große Zahl.
-   term/bite: passende Begriffe oder Häppchen. Am Ende: sum (Kurzfassung) und do: Schritte (acts), Mission (mis), Begriff, Häppchen.
+   term/bite: passende Begriffe oder Häppchen. k: kleine Kennzeichnung über dem Titel, etwa „Ausblick“. Am Ende: sum (Kurzfassung) und do: Schritte (acts), Mission (mis), Begriff, Häppchen.
+   quiz: Einstiegsfrage im Teaser, am Ende dieselbe Frage zur Selbstprüfung (q Frage, o Antworten, r richtige, x Auflösung). Ohne Punkte.
    Fortschritt liegt in S.exk[id].r (Karte → Zeitpunkt des ersten Lesens). Nichts verfällt. */
 const WF={g:["grün","var(--wir)"],b:["blau","var(--wege)"],y:["grau","var(--muted)"]};
 const EXKURSE=[
 {id:"wasser",a:"wege",t:"Wasser clever nutzen",d:"Wo Wassersparen dem Klima hilft, wo dem Wasser und wo es wenig bringt. Biotop zählt nur CO₂e, Wasser ist eine eigene Rechnung.",
+ quiz:{q:"Was spart mehr fürs Klima: seltener spülen oder kürzer warm duschen?",o:["Seltener spülen","Kürzer warm duschen"],r:1,
+  x:"Kürzer warm duschen. Fürs Klima zählt die Energie, mit der Wasser erwärmt wird: Zwei Minuten weniger sparen rund 0,15 kg CO₂e. Seltener spülen spart Wasser, aber kaum Energie."},
  cards:[
  {t:"Zwei Arten, Wasser zu zählen",ev:2,
-  x:"Aus dem Hahn nutzt jede Person in Deutschland im Schnitt rund 122 bis 126 Liter am Tag. Zählt man das Wasser mit, das für Essen, Kleidung und andere Waren gebraucht wurde, sind es nach einer Studie für das Umweltbundesamt rund 7.200 Liter. Etwa 86 % davon werden im Ausland verbraucht.",
+  x:"Aus dem Hahn nutzt jede Person in Deutschland rund 122 bis 126 Liter am Tag. Mit dem Wasser für Essen, Kleidung und andere Waren sind es rund 7.200 Liter, etwa 86 % davon im Ausland.",
   g:{k:"sq",u:"Liter pro Person und Tag",v:[[122,"Aus dem Hahn","rund 125"],[7200,"Für Essen und Waren","rund 7.200"]]},
-  c:"Die 7.200 Liter sind eine Modellrechnung mit Handelsdaten. Eine frühere Rechnung kam auf gut die Hälfte. Der größte Teil davon ist Regen, der auf Feldern fällt.",
+  c:"Die 7.200 Liter stammen aus einer Modellrechnung mit Handelsdaten, die eine Studie für das Umweltbundesamt aufgestellt hat. Eine frühere Rechnung kam auf gut die Hälfte. Der größte Teil davon ist Regen, der auf Feldern fällt.",
   src:"Umweltbundesamt (2022), Wasserfußabdruck; BDEW (2025), Wasserfakten im Überblick",u:"https://www.umweltbundesamt.de/themen/wasser/wasser-bewirtschaften/wasserfussabdruck",term:"wasser"},
  {t:"Warmes Wasser ist Energie",ev:2,
-  x:"Fürs Klima zählt vor allem das warme Wasser. Im Schnitt gehen rund 12 % der Energie eines Haushalts ins Warmwasser. Wasser zu fördern, aufzubereiten und zu klären braucht nach Schweizer Zahlen pro Kopf weniger als ein Zehntel der Energie, die das Erwärmen kostet. Kürzer oder kühler duschen und bei niedriger Temperatur waschen sind deshalb die eigentlichen Klimaschritte beim Wasser.",
+  x:"Fürs Klima zählt vor allem das warme Wasser: Rund 12 % der Energie eines Haushalts gehen ins Warmwasser. Wasser fördern, aufbereiten und klären braucht nach Schweizer Zahlen weniger als ein Zehntel der Energie fürs Erwärmen. Kürzer oder kühler duschen und kühler waschen sind deshalb die eigentlichen Klimaschritte.",
   g:{k:"bars",u:"Energie pro Kopf in der Schweiz, als Dauerleistung",v:[[180,"Wasser erwärmen","180 W"],[13.5,"Fördern, aufbereiten, klären","rund 14 W"]]},
-  c:"Die 12 % sind ein Mittelwert, den das Umweltbundesamt 2014 nannte. Der Anteil hängt stark von Heizung und Gewohnheiten ab. Die Werte zu Wasserwerken und Kläranlagen stammen aus der Schweiz.",
+  c:"Die 12 % sind ein Mittelwert, den das Umweltbundesamt 2014 nannte. Der Anteil hängt stark von Heizung und Gewohnheiten ab. Die Werte zu Wasserwerken und Kläranlagen stammen aus der Schweiz.",
   src:"Umweltbundesamt (2014), Wassersparen: sinnvoll, ausgereizt, übertrieben?; Eawag (2011), Faktenblatt Wasser und Energie",u:"https://www.umweltbundesamt.de/presse/pressemitteilungen/wassersparen-sinnvoll-ausgereizt-uebertrieben"},
  {t:"Kaltes Wasser: fürs Klima wenig",ev:2,
-  x:"Kaltes Wasser zu sparen, etwa bei der Toilettenspülung oder beim Zähneputzen, bringt fürs Klima kaum etwas. Deutschland nutzt nur rund 2,7 % seiner verfügbaren Wasservorkommen als Trinkwasser, und 95 % der Grundwasserkörper sind mengenmäßig in gutem Zustand. Örtlich und zeitweise kann es trotzdem eng werden, etwa in heißen, trockenen Sommern oder an Küsten, wo zu viel Entnahme Salzwasser ins Grundwasser zieht. Dann hilft Sparen vor Ort.",
-  g:{k:"num",n:"95 %",l:"der Grundwasserkörper in Deutschland sind mengenmäßig in gutem Zustand"},
-  c:"Die 2,7 % nannte das Umweltbundesamt 2014, die 95 % stammen aus der Bewertung von 2021. Sehr wenig Durchfluss kann örtlich Probleme in den Leitungen machen. Mehr Wasser zu verbrauchen ist laut Umweltbundesamt trotzdem keine Lösung, darum kümmern sich die Versorger.",
+  x:"Kaltes Wasser zu sparen, etwa bei der Toilettenspülung oder beim Zähneputzen, bringt fürs Klima kaum etwas. Deutschland nutzt nur rund 2,7 % seiner verfügbaren Wasservorkommen als Trinkwasser, und 95 % der Grundwasserkörper sind mengenmäßig in gutem Zustand. In heißen, trockenen Sommern kann es örtlich trotzdem eng werden, dann hilft Sparen vor Ort.",
+  g:{k:"num",n:"95 %",l:"der Grundwasserkörper in Deutschland sind mengenmäßig in gutem Zustand"},
+  c:"Die 2,7 % nannte das Umweltbundesamt 2014, die 95 % stammen aus der Bewertung von 2021. Eng werden kann es auch an Küsten, wo zu viel Entnahme Salzwasser ins Grundwasser zieht. Sehr wenig Durchfluss kann örtlich Probleme in den Leitungen machen. Mehr Wasser zu verbrauchen ist laut Umweltbundesamt trotzdem keine Lösung, darum kümmern sich die Versorger.",
   src:"Umweltbundesamt (2014), Wassersparen: sinnvoll, ausgereizt, übertrieben?; Umweltbundesamt, Die Wasserrahmenrichtlinie: Gewässer in Deutschland 2021",u:"https://www.umweltbundesamt.de/themen/wasser/wasserrahmenrichtlinie/die-wasserrahmenrichtlinie-gewaesser-in-deutschland"},
  {t:"Grün, blau, grau",ev:2,
-  x:"Grünes Wasser ist Regen, den Pflanzen auf dem Feld aufnehmen. Blaues Wasser wird Flüssen, Seen oder dem Grundwasser entnommen, etwa zum Bewässern. Graues Wasser ist die Menge, die nötig wäre, um Schadstoffe ausreichend zu verdünnen. Für die Knappheit vor Ort zählt vor allem das blaue Wasser.",
-  g:{k:"stack",u:"Anteile am Wasserfußabdruck des Konsums in Deutschland",v:[["Im Ausland verbraucht",[[83,"g"],[11,"b"],[6,"y"]]],["In Deutschland verbraucht",[[75,"g"],[4,"b"],[21,"y"]]]]},
+  x:"Grünes Wasser ist Regen, den Pflanzen auf dem Feld aufnehmen. Blaues Wasser kommt aus Flüssen, Seen oder Grundwasser, etwa zum Bewässern. Graues Wasser bräuchte es, um Schadstoffe ausreichend zu verdünnen. Für Knappheit vor Ort zählt vor allem das blaue.",
+  g:{k:"stack",u:"Fußabdruck des Konsums in Deutschland",v:[["Im Ausland verbraucht",[[83,"g"],[11,"b"],[6,"y"]]],["In Deutschland verbraucht",[[75,"g"],[4,"b"],[21,"y"]]]]},
   c:"Die Anteile stammen aus der Modellrechnung für das Umweltbundesamt. Wie schwer ein Liter blaues Wasser wiegt, hängt davon ab, wie knapp es am jeweiligen Ort ist.",
-  src:"Umweltbundesamt (2022), Factsheet zum Wasserfußabdruck (UBA-Texte 44/2022)",u:"https://www.umweltbundesamt.de/sites/default/files/medien/2875/dokumente/20220425_factsheet_fe_wasserfussabdruck.pdf",term:"wasser"},
+  src:"Umweltbundesamt (2022), Factsheet zum Wasserfußabdruck (UBA-Texte 44/2022)",u:"https://www.umweltbundesamt.de/sites/default/files/medien/2875/dokumente/20220425_factsheet_fe_wasserfussabdruck.pdf"},
  {t:"Rind, T-Shirt, Kaffee",ev:2,
-  x:"Ein Kilogramm Rindfleisch steht im weltweiten Mittel für rund 15.400 Liter Wasser, je nach Haltung und Land für etwa 4.000 bis 26.000 Liter. Über 90 % davon ist Regen auf Weiden und Futterfeldern. Ein Baumwoll-T-Shirt kommt auf rund 2.700 Liter, davon fast die Hälfte aus Bewässerung. Eine Tasse Kaffee steht für etwa 140 Liter.",
-  g:{k:"stack",u:"Woher das Wasser stammt",v:[["1 kg Rindfleisch · rund 15.400 l",[[93.5,"g"],[3.6,"b"],[2.9,"y"]]],["1 T-Shirt · rund 2.700 l",[[40.8,"g"],[45.2,"b"],[14,"y"]]]]},
-  c:"Weltweite Mittelwerte aus Modellen mit Daten aus den Jahren um 2000. Einzelne Betriebe weichen stark ab. Zählt man nur das blaue Wasser, bleiben beim Rind rund 550 Liter, beim T-Shirt rund 1.200.",
+  x:"Ein Kilogramm Rindfleisch steht im weltweiten Mittel für rund 15.400 Liter Wasser, über 90 % davon Regen auf Weiden und Futterfeldern. Ein Baumwoll-T-Shirt kommt auf rund 2.700 Liter, fast die Hälfte aus Bewässerung. Eine Tasse Kaffee steht für etwa 140 Liter.",
+  g:{k:"bars",u:"Liter Wasser pro Portion oder Stück",v:[[2310,"Rindfleisch, eine Portion von 150 g","rund 2.300 l"],[2700,"Ein Baumwoll-T-Shirt","rund 2.700 l"],[140,"Eine Tasse Kaffee","rund 140 l"]]},
+  c:"Weltweite Mittelwerte aus Modellen mit Daten aus den Jahren um 2000. Je nach Haltung und Land reicht Rindfleisch von etwa 4.000 bis 26.000 Litern pro Kilogramm, die Portion in der Grafik ist aus dem Mittelwert gerechnet. Zählt man nur das blaue Wasser, bleiben beim Rind rund 550 Liter pro Kilogramm, beim T-Shirt rund 1.200.",
   src:"Mekonnen & Hoekstra (2012), Ecosystems; Chapagain et al. (2006), Ecological Economics; Chapagain & Hoekstra (2007), Ecological Economics",u:"https://digitalcommons.unl.edu/wffdocs/83/"},
  {t:"Wo das Wasser knapp ist",ev:2,
-  x:"Entscheidend ist, wo etwas wächst. Knapp 10 % des blauen Wassers für den Konsum in Deutschland überschreiten die Belastungsgrenzen vor Ort, vor allem bei Obst, Gemüse und Nüssen aus Spanien und dem Mittleren Osten. Nüsse, Baumwolle und Reis machen nur etwa 3 % der Masse importierter Agrargüter aus, aber über die Hälfte des Wasserfußabdrucks, wenn man ihn nach Knappheit gewichtet. Verzichten muss deshalb niemand, doch bei solchen Produkten lohnt ein Blick auf die Herkunft.",
-  g:{k:"bars",max:100,u:"Nüsse, Baumwolle und Reis unter den Agrarimporten",v:[[3,"Anteil an der Masse","rund 3 %"],[50,"Anteil am Fußabdruck, nach Knappheit gewichtet","über 50 %"]]},
-  c:"Die Rechnung arbeitet mit Ländern und großen Flussgebieten. Ob ein einzelner Betrieb sparsam bewässert, zeigt sie nicht.",
+  x:"Entscheidend ist, wo etwas wächst. Knapp 10 % des blauen Wassers für den Konsum in Deutschland überschreiten die Belastungsgrenzen vor Ort, vor allem bei Obst, Gemüse und Nüssen aus Spanien und dem Mittleren Osten. Verzichten muss niemand, doch bei solchen Produkten lohnt ein Blick auf die Herkunft.",
+  g:{k:"bars",max:100,u:"Nüsse, Baumwolle und Reis unter den Agrarimporten",v:[[3,"Anteil an der Masse","rund 3 %"],[50,"Anteil am Fußabdruck, nach Knappheit gewichtet","über 50 %"]]},
+  c:"Nüsse, Baumwolle und Reis machen nur etwa 3 % der Masse importierter Agrargüter aus, aber über die Hälfte des nach Knappheit gewichteten Wasserfußabdrucks. Die Rechnung arbeitet mit Ländern und großen Flussgebieten. Ob ein einzelner Betrieb sparsam bewässert, zeigt sie nicht.",
   src:"Umweltbundesamt (2022), Wasserfußabdruck; UBA-Texte 44/2022",u:"https://www.umweltbundesamt.de/system/files/medien/479/publikationen/texte_44-2022_konzeptionelle_weiterentwicklung_des_wasserfussabdrucks.pdf"},
- {t:"Trockene Sommer, Garten und Balkon",ev:2,
-  x:"Die Dürre von 2018 bis 2020 war in Europa die heftigste seit Beginn der Vergleichsdaten im Jahr 1766. Ab 2019 sanken die Grundwasserstände in Nord- und Süddeutschland im Mittel auf Rekordtiefs. Wer gießt, gießt am besten früh am Morgen und direkt an die Wurzeln, gern mit aufgefangenem Regenwasser. Mulch hält die Feuchte im Boden.",
-  g:{k:"num",n:"seit 1766",l:"keine Dürre in Europa so heftig wie die von 2018 bis 2020"},
+ {t:"Wenn es bei dir trocken wird",k:"Ausblick",ev:2,
+  x:"In trockenen Sommern zählt Sparen vor Ort, auch wenn es fürs Klima wenig bringt. Die Dürre von 2018 bis 2020 war in Europa die heftigste seit 1766, ab 2019 sank das Grundwasser in Nord- und Süddeutschland im Mittel auf Rekordtiefs. Im Garten hilft es, früh direkt an die Wurzeln zu gießen, gern mit Regenwasser, und den Boden mit Mulch feucht zu halten.",
   c:"Die Einordnung der Dürre beruht auf Modellrechnungen, die bis 1766 zurückreichen. Die Grundwasserwerte sind Mittel über viele Messstellen der Länder, einzelne Orte weichen ab.",
   src:"Rakovec et al. (2022), Earth's Future; Umweltbundesamt (2023), Monitoringbericht zur Anpassung an den Klimawandel; NABU, Gießen im Sommer",u:"https://doaj.org/article/fd629009996048f1a1670386026e64f6"}
  ],
@@ -1245,16 +1302,17 @@ const CHECK=[
 ];
 const AVG={essen:1.7,wohnen:2.3,wege:2.0,dinge:3.4,oeff:0.9};
 
-/* Themen im Jahreslauf: Index 0 = Januar. Jedes Thema passt zu einem Entscheidungsmoment im Jahr. */
+/* Themen im Jahreslauf: Index 0 = Januar. Jedes Thema passt zu einem Entscheidungsmoment im Jahr.
+   exk: Exkurs, den „Gerade dran“ in diesem Monat anbietet (im Sommer „Wasser clever nutzen“, für heiße und trockene Wochen), solange er nicht ganz gelesen ist. */
 const THEMES=[
 {t:"Urlaub planen",x:"Im Januar werden viele Sommerreisen gebucht. Jetzt entscheidet sich, ob geflogen wird.",act:"bahn_eu",mis:"urlaubzug",bite:"flug"},
 {t:"Die Heizung prüfen",x:"Mitten im Winter merkst du am besten, welche Räume zu warm sind und wo die Wärme nicht ankommt.",act:"lueften",mis:"heizung",bite:"grad"},
 {t:"Ein Versuch beim Essen",x:"Viele nutzen die Fastenzeit für einen Versuch, zum Beispiel ein paar Tage ohne Fleisch.",act:"veg_tag",mis:"veg5",bite:"teller"},
 {t:"Das Rad startklar machen",x:"Die Tage werden länger und wärmer. Wer jetzt aufs Rad steigt, bleibt oft den ganzen Sommer dabei.",act:"rad5",mis:"radwoche",bite:"aktivwege"},
 {t:"Sanieren planen",x:"Handwerksbetriebe planen den Sommer früh. Eine Energieberatung jetzt hilft, vor dem nächsten Winter etwas zu verändern.",act:"daemmung",mis:"energieberatung",bite:"waermepumpe"},
-{t:"Sonne ernten",x:"Im Juni liefert eine Solaranlage am meisten Strom. Ein guter Moment, über eine eigene nachzudenken.",act:"balkon",mis:"stromcheck",bite:"pv"},
-{t:"Gelassen in die Ferien",x:"In den Ferien sind viele lange mit dem Auto unterwegs. Etwas langsamer spart spürbar Sprit.",act:"tempo",mis:"bahnplan",bite:"tempolimit"},
-{t:"Ernte und Reste",x:"Im Spätsommer gibt es von vielem zu viel. Einkochen, Einfrieren und Teilen retten die Ernte.",act:"retten",mis:"restewoche",bite:"verschwendung"},
+{t:"Sonne ernten",x:"Im Juni liefert eine Solaranlage am meisten Strom. Ein guter Moment, über eine eigene nachzudenken.",act:"balkon",mis:"stromcheck",bite:"pv",exk:"wasser"},
+{t:"Gelassen in die Ferien",x:"In den Ferien sind viele lange mit dem Auto unterwegs. Etwas langsamer spart spürbar Sprit.",act:"tempo",mis:"bahnplan",bite:"tempolimit",exk:"wasser"},
+{t:"Ernte und Reste",x:"Im Spätsommer gibt es von vielem zu viel. Einkochen, Einfrieren und Teilen retten die Ernte.",act:"retten",mis:"restewoche",bite:"verschwendung",exk:"wasser"},
 {t:"Das Auto stehen lassen",x:"Im September ist die Europäische Mobilitätswoche, und nach den Ferien beginnen die Wege des Alltags neu.",act:"dticket",mis:"autofasten",bite:"auto_steht"},
 {t:"Die Heizsaison beginnt",x:"Die Einstellung, mit der du jetzt in den Winter startest, gilt oft bis zum Frühjahr.",act:"grad",mis:"eingrad",bite:"wohnflaeche"},
 {t:"Weniger kaufen",x:"Rund um den Black Friday wird so viel gekauft wie sonst kaum im Jahr. Ein guter Moment für eine Pause.",act:"nichtgekauft",mis:"kaufpause",bite:"materialismus"},
@@ -1330,7 +1388,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="21.10.2026, 10:49";
+const BUILD="21.10.2026, 11:37";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1929,6 +1987,21 @@ const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","S
 const HEBEL={"Fliegen":{a:"wege",big:["keinflug"],small:["bahnflug","bahn"]},"Heizen":{a:"wohnen",big:["grad","daemmung","waermepumpe","kleiner"],small:["lueften","dusche"]},"Auto":{a:"wege",big:["autolos","pendeln","carsharing","lastenrad"],small:["rad5","oepnv","rad10"]},
   "Essen":{a:"essen",big:["fleisch_halb","veg_dauer"],small:["veg_tag","linsen"]},"Konsum":{a:"dinge",big:["nurgebraucht","handylang"],small:["nichtgekauft","kleid","repariert"]},"Strom":{a:"wohnen",big:["oekostrom","balkon"],small:["leine","kalt"]}};
 const lastCheck=()=>S.checks[S.checks.length-1];
+/* J4 Wohnform: freiwillige Zusatzfrage zum Hebel-Check (ans.wohn: 0 zur Miete, 1 im Eigentum). Es gilt die jüngste Antwort, ältere Checks ohne Antwort zählen als unbekannt.
+   Zur Miete schlägt Biotop nichts vor, was nur Eigentümer umsetzen können. Eintragen bleibt möglich und zählt wie bisher, etwa wenn die Vermieterin eine Wärmepumpe einbaut.
+   Unbekannt: Vorschläge bleiben, aber neutral mit „falls du im Eigentum wohnst“. */
+const OWNONLY=["waermepumpe","daemmung","pv"];
+const WOHN=["Zur Miete","Im Eigentum"];
+function tenureIdx(){for(let i=S.checks.length-1;i>=0;i--){const w=(S.checks[i].ans||{}).wohn;if(w===0||w===1)return w}return null}
+const tenure=()=>{const w=tenureIdx();return w===0?"miete":w===1?"eigen":null};
+const ownBlock=id=>OWNONLY.includes(id)&&tenure()==="miete";
+const ownIf=id=>OWNONLY.includes(id)&&!tenure()?", falls du im Eigentum wohnst":"";
+const ownTag=id=>ownIf(id)?` <small class="ownif">falls du im Eigentum wohnst</small>`:"";
+/* Für Mieterinnen und Mieter: was beim Heizen und beim Strom ohne Eigentum geht */
+const RENTTXT={Heizen:"Zur Miete: Thermostat und Raumtemperatur, Stoßlüften statt Kippen und ein Gespräch mit Vermieterin, Vermieter oder Hausgemeinschaft über Heizung, Abgleich und Dämmung.",
+  Strom:"Zur Miete: Ökostrom geht immer. Ein Balkonkraftwerk meist auch, seit Oktober 2024 haben Mieterinnen und Mieter in der Regel einen Anspruch auf die Erlaubnis. Fragen musst du vorher trotzdem."};
+function wohnAsk(){const lc=lastCheck();if(!lc||tenure()||!lc.top.some(([n])=>n==="Heizen"||n==="Strom"))return "";
+  return `<p class="hintline wohnask">Wohnst du zur Miete oder im Eigentum? Dann passen die Vorschläge besser. <button class="linkbtn inl" data-wohn="0">Zur Miete</button> · <button class="linkbtn inl" data-wohn="1">Im Eigentum</button></p>`}
 /* frei: weder aktiv noch Alltag, und keine laufende Änderung derselben Gruppe, die mindestens so viel bewirkt */
 const free=id=>A[id]&&!isBase(id)&&!activeBig().some(e=>e.act===id||(rivals(id).includes(e.act)&&(e.y||0)>=(A[id].y||0)));
 const noCar=()=>{const lc=lastCheck();return (lc&&lc.ans&&lc.ans.auto===0)||isBase("autolos")||isBase("keinauto")||activeBig().some(e=>e.act==="autolos")};
@@ -1976,14 +2049,15 @@ function quickCalc(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.a
 /* fortlaufende Wochennummer, für den leisen Wechsel auf der Startseite */
 const weekNo=()=>Math.round(weekStart()/(7*DAY));
 function hebelCard(){const lc=lastCheck();if(!lc)return "";
-  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(free),de=activeBig().find(e=>srcOfE(e)===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
-    return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b>${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden${(q=>q?`. „${A[q.id].t}“ brächte rund ${q.pct} % dieser Quelle im Jahr`:"")(srcPot(n,pg))}</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mid]&&misFits(mid)?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div></div>`}
+  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(id=>free(id)&&!ownBlock(id)),de=activeBig().find(e=>srcOfE(e)===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
+    return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b>${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden${(q=>q?`. „${A[q.id].t}“ brächte rund ${q.pct} % dieser Quelle im Jahr${ownIf(q.id)}`:"")(srcPot(n,pg))}</small>`:""}${tenure()==="miete"&&RENTTXT[n]?`<small class="rent">${RENTTXT[n]}</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${A[big].t}${ownTag(big)}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mid]&&misFits(mid)?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div>${wohnAsk()}</div>`}
 /* Gerade dran: Thema und Mission bleiben den Monat über, Schritt und Häppchen wechseln wöchentlich innerhalb desselben Bereichs */
 function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const wk=weekNo(),a0=A[th.act],b0=B[th.bite];
   const alt=(first,l,force)=>!l.length?first:force||wk%2?l[(wk>>1)%l.length]:first;
-  const a=a0?alt(a0,ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3),isBase(a0.id)||!!nfWhy(a0.id)):null,m=misFits(th.mis)?M[th.mis]:null;
-  const b=b0?alt(b0,BITES.filter(x=>x.a===b0.a&&x.id!==b0.id&&!S.read[x.id]&&x.ev>0),!!S.read[b0.id]):null;
-  return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}</p><div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}</div></div>`}
+  const a=a0?alt(a0,ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3),isBase(a0.id)||!!nfWhy(a0.id)||ownBlock(a0.id)):null,m=misFits(th.mis)?M[th.mis]:null;
+  const xk=th.exk&&X[th.exk]&&exRead(th.exk)<X[th.exk].cards.length?X[th.exk]:null;
+  const b=!xk&&b0?alt(b0,BITES.filter(x=>x.a===b0.a&&x.id!==b0.id&&!S.read[x.id]&&x.ev>0),!!S.read[b0.id]):null;
+  return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}${xk?" Und wenn es heiß und trocken wird: Wo Wassersparen dem Klima hilft und wo dem Wasser, zeigt ein kurzer Exkurs.":""}</p><div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}${xk?`<button class="chip" ${da(xk.a)} data-exopen="${xk.id}">${dot(xk.a)}Exkurs: ${xk.t}</button>`:""}</div></div>`}
 function weekCard(){const wk="w"+weekStart(),plan=S.plans[wk];let h="";
   if(plan&&A[plan]){const a=A[plan],n=S.log.filter(e=>e.act===plan&&e.ts>=weekStart()).length;h+=`<div class="nudge plan" ${da(a.a)}>${dot(a.a)}<span><b>Dein Schritt diese Woche:</b> ${a.t}${n?` · ${n}× geschafft`:""}</span><button class="chip" data-log="${plan}">Eintragen</button></div>`}
   return h}
@@ -2019,7 +2093,7 @@ function bestBig(n){const lc=lastCheck(),ids=n?(HEBEL[n]||{big:[]}).big:[...(lc?
 function persp(){const lc=lastCheck();if(!lc)return "";const yr=lc.total*1000,f=now()-365*DAY,days=(now()-Math.max(appStart(),f))/DAY,v=sumKg(f),out=[];
   if(days<330&&v>=.05)out.push(`Bleibt es bei diesem Tempo, sind es aufs Jahr gerechnet rund ${pctTxt(v/Math.max(30,days)*365/yr*100)} %.`);
   const run=perDay()*365/yr*100;if(run>=.1)out.push(`Deine laufenden dauerhaften Änderungen bringen allein rund ${pctTxt(run)} % in jedem Jahr.`);
-  const b=bestBig();if(b)out.push(`Eine dauerhafte Änderung wie „${A[b.id].t}“ brächte etwa ${pctTxt(b.y/yr*100)} % deines Jahres dazu.`);
+  const b=bestBig();if(b)out.push(`Eine dauerhafte Änderung wie „${A[b.id].t}“ brächte etwa ${pctTxt(b.y/yr*100)} % deines Jahres dazu${ownIf(b.id)}.`);
   return out.slice(0,2).join(" ")}
 const pctWhy=lc=>`So gerechnet: eingesparte Kilogramm geteilt durch deinen Fußabdruck von rund ${nf(lc.total,1)} t im Jahr laut Hebel-Check.`;
 function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=landCounts();
@@ -2061,7 +2135,7 @@ const ptxt=v=>(v>0?"+":"")+half(v);
 /* Passend: dauerhafte Änderungen zuerst zu den Hebeln aus dem Check, ohne, was laut Check nicht zutrifft (kein Auto, kein Flug, schon vegetarisch, schon Ökostrom).
    Kleine Schritte aus dem eigenen Alltag (Schnell eintragen), dazu eine Mission. Höchstens drei Wege, kein Abarbeiten. */
 const BIG_DEF=["fleisch_halb","oekostrom","grad","nurgebraucht","dticket","kaese_weniger","daemmung","handylang"];
-function unfit(id){const lc=lastCheck(),q=(lc&&lc.ans)||{};return (noCar()&&SRCOF[id]==="Auto")||(id==="keinflug"&&!(q.flug>=3))||(q.ess>=3&&["fleisch_halb","veg_dauer"].includes(id))||(q.ess===4&&id==="kaese_weniger")||(q.strom===0&&id==="oekostrom")||(q.heiz===3&&id==="waermepumpe")||(q.teilen===2&&id==="gemeinschaft")||!!(A[id]&&A[id].bo)}
+function unfit(id){const lc=lastCheck(),q=(lc&&lc.ans)||{};return (noCar()&&SRCOF[id]==="Auto")||(id==="keinflug"&&!(q.flug>=3))||(q.ess>=3&&["fleisch_halb","veg_dauer"].includes(id))||(q.ess===4&&id==="kaese_weniger")||(q.strom===0&&id==="oekostrom")||(q.heiz===3&&id==="waermepumpe")||(q.teilen===2&&id==="gemeinschaft")||ownBlock(id)||!!(A[id]&&A[id].bo)}
 function nextWays(st){if(!st.next)return [];const lc=lastCheck(),t=now(),miss=st.next[0]-st.g;
   const hb=lc?lc.top.flatMap(x=>(HEBEL[x[0]]||{big:[]}).big):[];
   const big=[...new Set([...hb,...BIG_DEF])].filter(id=>A[id]&&A[id].g&&free(id)&&!unfit(id)).map(id=>({id,kind:"big",p:gainOf((e=>(stampProfile(e,id),e))({id:"_",act:id,a:A[id].a,t:"",g:1,y:A[id].y||0,ts:t}))})).filter(x=>x.p>0);
@@ -2076,7 +2150,7 @@ function nextWays(st){if(!st.next)return [];const lc=lastCheck(),t=now(),miss=st
 function wayRow(w){const s=w.kind==="small",m=w.kind==="done"||w.kind==="mis",a=m?M[w.id].a:A[w.id].a;
   const attr=w.kind==="big"?`data-log="${w.id}"`:s?`data-actmenu="${w.id}"`:w.kind==="done"?`data-done="${w.id}"`:`data-misopen="${w.id}"`;
   const tt=m?(w.kind==="done"?`Mission „${M[w.id].t}“ abschließen`:`Mission: ${M[w.id].t}`):A[w.id].t;
-  const sub=w.kind==="big"?"dauerhaft, einmal eintragen":s?"kleiner Schritt, einmal am Tag":w.kind==="done"?"bereit zum Abschließen":`${M[w.id].d===1?"ein Tag":M[w.id].d+" Tage"}, zählt beim Abschluss`;
+  const sub=w.kind==="big"?"dauerhaft, einmal eintragen"+ownIf(w.id):s?"kleiner Schritt, einmal am Tag":w.kind==="done"?"bereit zum Abschließen":`${M[w.id].d===1?"ein Tag":M[w.id].d+" Tage"}, zählt beim Abschluss`;
   return `<button class="li way" ${da(a)} ${attr}>${dot(a)}<span class="tx"><b>${esc(tt)}</b><small>${sub}</small></span><span class="pts num">${ptxt(w.p)}${s?`<small>je Tag</small>`:""}</span></button>`}
 function nextBlock(st){if(!st.next)return `<div class="nextup" ${da("wir")}>${stageBar(st)}<p>Alle Stufen sind erreicht. Was du einträgst, wächst trotzdem weiter: der Wald über dem Hügel, neue Pflanzen, Bäume und Laternen.</p></div>`;
   const miss=stMiss(st),nx=stHint(st.i),ways=nextWays(st);
@@ -2215,12 +2289,12 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
      <p class="muted" style="font-size:14.5px">Kleine Schritte summieren sich langsam. Die großen Verschiebungen kommen meist aus dauerhaften Änderungen bei Wohnen, Wegen und Essen.</p>${lc?"":`<div class="row"><button class="btn go" ${da("dinge")} data-check="1">Eigenen Fußabdruck messen</button></div>`}`);return}
   const ab=activeBig().slice().sort((a,b)=>effY(b)-effY(a)),pd=perDay(),nb=Object.keys(S.base||{}).length;
   const capped=Object.keys(memo().caps).filter(n=>ab.some(e=>srcOfE(e)===n&&capFactor(e,now())<1));
-  const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(free)):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id)&&!unfit(id));
+  const sug=(lc?lc.top.map(([n])=>(HEBEL[n]||{big:[]}).big.find(id=>free(id)&&!ownBlock(id))):[]).concat(ACTS.filter(x=>x.g&&x.y).sort((a,b)=>b.y-a.y).map(x=>x.id)).filter(id=>id&&free(id)&&!unfit(id));
   sheet(`<span class="label">Wirkt jeden Tag weiter</span><h2>${kgTxt(pd)} am Tag</h2><p>${ab.length?`Das kommt aus ${ab.length===1?"deiner dauerhaften Änderung":`deinen ${ab.length} dauerhaften Änderungen`}. ${ab.length===1?"Sie zählt":"Sie zählen"} jeden Tag von selbst weiter, ohne dass du etwas einträgst. Im Jahr sind das rund ${kgTxt(pd*365)}${lc?`, ${nf(Math.min(100,pd*365/yr*100),pd*365/yr<.1?1:0)} % deines Fußabdrucks`:""}.`:"Hier zählen dauerhafte Änderungen, etwa ein Ökostromtarif oder weniger Fleisch als Grundregel. Einmal eingetragen, rechnen sie jeden Tag von selbst weiter."}</p>${pd>0?cmpBlock(pd*365,yrDay,!!lc,false,"Das ist im Jahr etwa so viel wie:"):""}
    ${ab.length?`<div class="list">${ab.map(e=>`<button class="li" ${da(e.a)} data-log="${e.act}">${dot(e.a)}<span class="tx"><b>${esc(e.t)}</b><small>seit ${fmtDate(e.ts)} · bisher ${kgTxt(eKg(e))}${e.nf?" · ohne kg, passt nicht zu deinem Check":capFactor(e,now())<1?" · zählt anteilig":""}</small></span><span class="aside num">${kgTxt(effY(e)/365)}</span></button>`).join("")}</div>`:""}
    ${capped.length?`<p class="muted" style="font-size:14.5px">Überschneidungen zählen nur einmal. ${capped.map(capNote).join(" ")} Darum zählen diese Änderungen anteilig.</p>`:""}
    ${nb?`<p class="muted" style="font-size:14.5px">Was du als „Schon Alltag“ abgehakt hast, wächst in deiner Landschaft, zählt hier aber nicht mit. Es steckt schon in deinem bisherigen Fußabdruck. Hier zählen nur Änderungen, die du neu angefangen hast.</p>`:""}
-   ${[...new Set(sug)].length?`<h3>${ab.length?"Was als Nächstes viel bewirkt":"Womit du anfangen könntest"}</h3><div class="row">${[...new Set(sug)].slice(0,3).map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div>`:""}`)}
+   ${[...new Set(sug)].length?`<h3>${ab.length?"Was als Nächstes viel bewirkt":"Womit du anfangen könntest"}</h3><div class="row">${[...new Set(sug)].slice(0,3).map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}${ownTag(id)}</button>`).join("")}</div>`:""}`)}
 
 /* ---------- Eintragen ---------- */
 function logAct(id,ev,el){const a=A[id];if(!a)return;
@@ -2331,10 +2405,14 @@ function biteCard(b){const t=b.term&&T[b.term],m=b.mis&&misFits(b.mis)?M[b.mis]:
    ${t||m?`<div class="row">${t?`<button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button>`:""}</div>`:""}
    <div class="row"><button class="btn primary" id="nextbite">Nächstes</button><button class="btn" id="savebite">${S.saved[b.id]?"Gemerkt ✓":"Merken"}</button><button class="btn" id="sharebite">Teilen</button><button class="linkbtn" id="backbite">Zur Übersicht</button></div></article>`}
 function filt(attr,cur0){return `<div class="inks six" role="group" aria-label="Bereich filtern"><button class="ink" data-${attr}="alle" aria-pressed="${cur0==="alle"}"><i></i>Alle</button>${AK.map(k=>`<button class="ink" ${da(k)} data-${attr}="${k}" aria-pressed="${cur0===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div>`}
-function viewKnow(){let h=`<section class="view"><h2 class="ph">Was steckt dahinter?</h2><div class="seg" role="group" aria-label="Wissen">${[["bites","Häppchen"],["duel","Was spart mehr?"],["terms","Begriffe"]].map(([k,n])=>`<button data-ktab="${k}" aria-pressed="${ktab===k}">${n}</button>`).join("")}</div>`;
+function viewKnow(){const exm=ktab==="bites"&&exo&&X[exo.id];let h=`<section class="view${exm?" exmode":""}"><h2 class="ph${exm?" sr":""}">Was steckt dahinter?</h2><div class="seg" role="group" aria-label="Wissen">${[["bites","Häppchen"],["duel","Was spart mehr?"],["terms","Begriffe"]].map(([k,n])=>`<button data-ktab="${k}" aria-pressed="${ktab===k}">${n}</button>`).join("")}</div>`;
   if(ktab==="bites"){if(exo&&X[exo.id])return h+exCard()+`</section>`;if(cur&&B[cur])return h+biteCard(B[cur])+`</section>`;
     const n=Object.keys(S.read).length,saved=Object.keys(S.saved).filter(id=>B[id]);
-    h+=`<div class="pull"><button class="stampbtn" id="pull" aria-label="Häppchen ziehen">Häppchen<br>ziehen</button><p class="muted" style="font-size:15px;max-width:34ch">Kurze Erkenntnisse aus Forschung und Praxis, jeweils mit Quelle und Beweislage. ${n} von ${BITES.length} gelesen.</p></div>${filt("bfilter",S.filter)}`+(EXKURSE.length?`<div class="sec exs"><h3 class="sr">Exkurse</h3>${exList()}</div>`:"");
+    /* J1: Was noch nicht ganz gelesen ist, steht als ruhiger Teaser direkt unter den Unterreitern. Gelesenes rückt nach unten.
+       Eine Rubrikenüberschrift gibt es erst ab zwei Exkursen, ein einzelner soll nicht wie ein Platzhalter wirken. */
+    const exOpenL=EXKURSE.filter(x=>exRead(x.id)<x.cards.length),exDoneL=EXKURSE.filter(x=>exRead(x.id)>=x.cards.length),exH=`<h3${EXKURSE.length>1?"":` class="sr"`}>Exkurse</h3>`;
+    if(exOpenL.length)h+=`<div class="exs extop">${exH}${exList(exOpenL,true)}</div>`;
+    h+=`<div class="pull"><button class="stampbtn" id="pull" aria-label="Häppchen ziehen">Häppchen<br>ziehen</button><p class="muted" style="font-size:15px;max-width:34ch">Kurze Erkenntnisse aus Forschung und Praxis, jeweils mit Quelle und Beweislage. ${n} von ${BITES.length} gelesen.</p></div>${filt("bfilter",S.filter)}`+(exDoneL.length?`<div class="sec exs">${exOpenL.length?"":exH}${exList(exDoneL)}</div>`:"");
     if(saved.length)h+=`<div class="sec"><h3>Gemerkt</h3><div class="list">${saved.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b><small>${B[id].src}</small></span></button>`).join("")}</div></div>`;
     const read=Object.keys(S.read).filter(id=>B[id]).sort((a,b)=>S.read[b]-S.read[a]);
     if(read.length)h+=`<details class="fold"><summary><span>Gelesen</span><span class="label">${read.length}</span></summary><div><div class="list">${read.map(id=>`<button class="li" data-bite="${id}" ${da(B[id].a)}>${dot(B[id].a)}<span class="tx"><b>${B[id].t}</b></span><span class="aside">${fmtDate(S.read[id])}</span></button>`).join("")}</div></div></details>`;
@@ -2377,34 +2455,58 @@ function termsView(){const F=[0,0,0];TERMS.forEach(t=>F[box(t.id)>=4?2:S.terms[t
    Ein Exkurs ist eine kurze Folge von Karten (EXKURSE in data.js). Gelesen heißt: einmal aufgeschlagen. Der Stand liegt in S.exk[id].r,
    nichts verfällt, es gibt keine Frist und keine Punkte. exo merkt sich, welcher Exkurs gerade offen ist. */
 const X=Object.fromEntries((typeof EXKURSE!=="undefined"?EXKURSE:[]).map(x=>[x.id,x]));
-let exo=null;
-function exS(id){if(!S.exk||typeof S.exk!=="object"||Array.isArray(S.exk))S.exk={};let v=S.exk[id];if(!v||typeof v!=="object"||!v.r||typeof v.r!=="object"||Array.isArray(v.r))v=S.exk[id]={r:{}};return v}
+let exo=null,exDir=0;
+function exS(id){if(!S.exk||typeof S.exk!=="object"||Array.isArray(S.exk))S.exk={};let v=S.exk[id];if(!v||typeof v!=="object"||!v.r||typeof v.r!=="object"||Array.isArray(v.r))v=S.exk[id]={r:{}};
+  /* Tipp am Anfang (q0) und am Ende (q1): nur gültige Antworten behalten */
+  const no=((X[id]||{}).quiz||{o:[]}).o.length;["q0","q1"].forEach(k=>{if(v[k]!=null&&!(Number.isInteger(v[k])&&v[k]>=0&&v[k]<no))delete v[k]});return v}
 const exRead=id=>{const v=exS(id);return X[id].cards.filter((_,i)=>v.r[i]).length};
 function exMark(){if(!exo||!X[exo.id])return;const v=exS(exo.id);if(!v.r[exo.i]){v.r[exo.i]=now();save()}}
 function exOpen(id,i){if(!X[id])return;const v=exS(id),n=X[id].cards.length;if(i==null){i=X[id].cards.findIndex((_,k)=>!v.r[k]);if(i<0)i=0}exo={id,i:Math.max(0,Math.min(n-1,i))};cur=null;Q=null;tab="know";ktab="bites";exMark();anim=true;render();window.scrollTo(0,0);exFocus()}
-function exGo(i){if(!exo)return;const n=X[exo.id].cards.length;if(i<0||i>=n)return;exo.i=i;exMark();render();const c=$("#exk");if(c&&c.getBoundingClientRect().top<0)c.scrollIntoView({block:"start"});exFocus()}
+function exGo(i){if(!exo)return;const n=X[exo.id].cards.length;if(i<0||i>=n)return;exDir=i>exo.i?1:i<exo.i?-1:0;exo.i=i;exMark();render();exDir=0;const c=$("#exk");if(c&&c.getBoundingClientRect().top<0)c.scrollIntoView({block:"start"});exFocus()}
+/* J2: Waagerecht wischen blättert. Entschieden wird nach den ersten 10 px: deutlich waagerecht heißt Blättern, sonst bleibt es beim Scrollen.
+   Die Karte folgt dem Finger nur leicht und nur ohne reduzierte Bewegung. Ein Tipp, der zum Wischen wird, löst nichts aus (siehe oben). */
+let exSw=null;
+const exSwReset=()=>{const b=$("#exk .exbody");if(b){b.style.transform="";b.style.transition=""}};
+document.addEventListener("touchstart",e=>{exSw=null;if(!exo||tab!=="know"||e.touches.length!==1||$("#layer").innerHTML)return;const c=e.target.closest&&e.target.closest("#exk");if(!c)return;const t=e.touches[0];exSw={x:t.clientX,y:t.clientY,dir:null}},{passive:true});
+document.addEventListener("touchmove",e=>{if(!exSw)return;const t=e.touches[0],dx=t.clientX-exSw.x,dy=t.clientY-exSw.y;if(!exSw.dir&&Math.hypot(dx,dy)>10)exSw.dir=Math.abs(dx)>Math.abs(dy)*1.3?"h":"v";
+  if(exSw.dir==="h"&&!calm()){const b=$("#exk .exbody");if(b){b.style.transition="none";b.style.transform=`translateX(${Math.max(-60,Math.min(60,dx*.3))}px)`}}},{passive:true});
+document.addEventListener("touchend",e=>{if(!exSw)return;const s0=exSw;exSw=null;exSwReset();if(s0.dir!=="h"||!exo)return;const t=e.changedTouches[0],dx=t.clientX-s0.x,dy=t.clientY-s0.y;
+  if(Math.abs(dx)>=48&&Math.abs(dx)>Math.abs(dy)*1.3){exGo(exo.i+(dx<0?1:-1))}},{passive:true});
+document.addEventListener("touchcancel",()=>{exSw=null;exSwReset()},{passive:true});
 function exFocus(){const h=$("#exh");if(h)try{h.focus({preventScroll:true})}catch(e){}}
 function exClose(){const id=exo&&exo.id;exo=null;anim=true;render();const b=id&&document.querySelector(`[data-exopen="${id}"]`);if(b){b.scrollIntoView({block:"center"});try{b.focus({preventScroll:true})}catch(e){}}}
 /* kleine Grafiken im Riso-Stil: Tinte als Kontur, Farbe mit Punktraster überdruckt */
 function exGraph(g){const cap=g.u?`<figcaption class="label">${g.u}</figcaption>`:"";
-  if(g.k==="sq"){const mx=Math.max(...g.v.map(v=>v[0]));return `<figure class="exg sq">${cap}<div class="sqs">${g.v.map(([v,l,s],i)=>{const px=Math.max(8,Math.round(128*Math.sqrt(v/mx)));return `<div class="sqi"><span class="sqb${i?" on":""}" style="width:${px}px;height:${px}px" aria-hidden="true"></span><b class="num">${s}</b><small>${l}</small></div>`}).join("")}</div></figure>`}
+  if(g.k==="sq"){const mx=Math.max(...g.v.map(v=>v[0]));return `<figure class="exg sq">${cap}<div class="sqs">${g.v.map(([v,l,s],i)=>{const px=Math.max(8,Math.round(100*Math.sqrt(v/mx)));return `<div class="sqi"><span class="sqb${i?" on":""}" style="width:${px}px;height:${px}px" aria-hidden="true"></span><b class="num">${s}</b><small>${l}</small></div>`}).join("")}</div></figure>`}
   if(g.k==="bars"){const mx=g.max||Math.max(...g.v.map(v=>v[0]));return `<figure class="exg bars">${cap}${g.v.map(([v,l,s],i)=>`<div class="exbar"><span class="exl"><span>${l}</span><b class="num">${s}</b></span><span class="bar" aria-hidden="true"><span class="${i?"":"hot"}" style="width:${Math.max(1.5,v/mx*100)}%"></span></span></div>`).join("")}</figure>`}
-  if(g.k==="stack"){const used=[...new Set(g.v.flatMap(r=>r[1].map(s=>s[1])))];return `<figure class="exg stack">${cap}${g.v.map(([l,segs])=>`<div class="exst"><span class="exl"><span>${l}</span></span><span class="seg3" aria-hidden="true">${segs.map(([p,k])=>`<span class="sg sg-${k}" style="flex:${p}">${p>=12&&k!=="y"?Math.round(p)+" %":""}</span>`).join("")}</span><small class="sr">${segs.map(([p,k])=>`${WF[k][0]} ${Math.round(p)} %`).join(", ")}</small><small class="exv" aria-hidden="true">${segs.map(([p,k])=>`${WF[k][0]} ${Math.round(p)} %`).join(" · ")}</small></div>`).join("")}<div class="exkey" aria-hidden="true">${used.map(k=>`<span><i class="sg sg-${k}"></i>${WF[k][0]}</span>`).join("")}</div></figure>`}
+  if(g.k==="stack"){return `<figure class="exg stack">${cap}${g.v.map(([l,segs])=>`<div class="exst"><span class="exl"><span>${l}</span></span><span class="seg3" aria-hidden="true">${segs.map(([p,k])=>`<span class="sg sg-${k}" style="flex:${p}">${p>=12&&k!=="y"?Math.round(p)+" %":""}</span>`).join("")}</span><small class="sr">${segs.map(([p,k])=>`${WF[k][0]} ${Math.round(p)} %`).join(", ")}</small><small class="exv exkey" aria-hidden="true">${segs.map(([p,k])=>`<span><i class="sg sg-${k}"></i>${WF[k][0]} ${Math.round(p)} %</span>`).join("")}</small></div>`).join("")}</figure>`}
   if(g.k==="num")return `<figure class="exg exnum"><b>${g.n}</b><figcaption>${g.l}</figcaption></figure>`;
   return ""}
 function exPips(x,on,cur0){const v=exS(x.id);return x.cards.map((c,i)=>on?`<button class="pip${v.r[i]?" on":""}" data-exgo="${i}" aria-label="Karte ${i+1}: ${c.t}${v.r[i]?", gelesen":""}"${i===cur0?' aria-current="step"':""}></button>`:`<i class="pip${v.r[i]?" on":""}"></i>`).join("")}
-function exList(){return EXKURSE.map(x=>{const n=x.cards.length,r=exRead(x.id);
-  return `<article class="plain exo" ${da(x.a)}><div class="sec-h"><span class="label">Exkurs · ${n} Karten</span><span class="label num">${r} von ${n} gelesen</span></div><h3>${x.t}</h3><p style="font-size:15.5px">${x.d}</p><div class="pips" aria-hidden="true">${exPips(x,false)}</div><div class="row"><button class="btn go" ${da(x.a)} data-exopen="${x.id}">${!r?"Lesen":r>=n?"Noch einmal lesen":"Weiterlesen"}</button></div></article>`}).join("")}
-function exCard(){const x=X[exo.id],n=x.cards.length,i=exo.i,c=x.cards[i],last=i===n-1,t=c.term&&T[c.term],dd=x.do||{};
+/* Teaser bzw. Übersicht. Solange noch nichts gelesen und nichts getippt ist, steht dort die Einstiegsfrage als Antwortkacheln.
+   Ein Tipp öffnet den Exkurs, die Auflösung kommt auf der letzten Karte. Es gibt keine Punkte. */
+function exList(l,top){return (l||EXKURSE).map(x=>{const n=x.cards.length,r=exRead(x.id),v=exS(x.id),qz=x.quiz,ask=qz&&v.q0==null&&!r;
+  return `<article class="plain exo${top?" exteaser":""}" ${da(x.a)}><div class="sec-h"><span class="label">Exkurs · ${n} Karten</span><span class="label num">${r} von ${n} gelesen</span></div><h3>${x.t}</h3>
+   ${ask?`<p class="exq" id="exq-${x.id}">${qz.q}</p><div class="opts2 exqo" role="group" aria-labelledby="exq-${x.id}">${qz.o.map((o,k)=>`<button data-hap="judge" data-exq="${k}" data-exid="${x.id}">${o}</button>`).join("")}</div><p class="muted exqh">Tippen öffnet den Exkurs. Die Auflösung steht auf der letzten Karte.</p>`:`<p class="exd">${x.d}</p>`}
+   <div class="row exorow"><button class="btn go" ${da(x.a)} data-exopen="${x.id}">${!r?"Lesen":r>=n?"Noch einmal lesen":"Weiterlesen"}</button><div class="pips" aria-hidden="true">${exPips(x,false)}</div></div></article>`}).join("")}
+/* Selbstprüfung am Ende: dieselbe Frage wie im Teaser, mit kurzer Auflösung. Der Tipp vom Anfang wird nur genannt, nicht bewertet. */
+function exQuizEnd(x){const qz=x.quiz;if(!qz)return "";const v=exS(x.id),a=v.q1;
+  return `<div class="exqend"><span class="label">${v.q0!=null?"Die Frage vom Anfang":"Zum Schluss eine Frage"}</span><p class="exq" id="exq1-${x.id}">${qz.q}</p>
+   <div class="opts2 exqo" role="group" aria-labelledby="exq1-${x.id}">${qz.o.map((o,k)=>`<button data-hap="judge" data-exq1="${k}" aria-pressed="${a===k}" ${a!=null&&k===qz.r?'class="exright"':""}>${a!=null&&k===qz.r?CHECK_SVG:""}${o}</button>`).join("")}</div>
+   ${a!=null?`<p class="exres" id="exres" tabindex="-1">${v.q0!=null?`Am Anfang hast du „${qz.o[v.q0]}“ getippt. `:""}${qz.x}</p>`:""}</div>`}
+function exCard(){const x=X[exo.id],n=x.cards.length,i=exo.i,c=x.cards[i],last=i===n-1,t=c.term&&T[c.term],dd=x.do||{},v=exS(x.id),qz=x.quiz;
   let doH="";if(last){const acts=(dd.acts||[]).filter(id=>A[id]&&!isBase(id)),m=dd.mis&&misFits(dd.mis)?M[dd.mis]:null,dt=dd.term&&T[dd.term],db=dd.bite&&B[dd.bite];
-    doH=`<div class="tip"><b>Kurz gesagt</b>${x.sum}</div>${acts.length||m?`<div class="sec exdo"><h3>Was du tun kannst</h3>${acts.length?`<p class="muted" style="font-size:14.5px">Antippen trägt den Schritt ein.</p><div class="row">${acts.map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div>`:""}${m?`<div class="row"><button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button></div>`:""}</div>`:""}
+    doH=`${exQuizEnd(x)}<div class="tip"><b>Kurz gesagt</b>${x.sum}</div>${acts.length||m?`<div class="sec exdo"><h3>Was du tun kannst</h3>${acts.length?`<p class="muted" style="font-size:14.5px">Antippen trägt den Schritt ein.</p><div class="row">${acts.map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${A[id].t}</button>`).join("")}</div>`:""}${m?`<div class="row"><button class="chip" data-misopen="${m.id}">${dot(m.a)}Mission: ${m.t}</button></div>`:""}</div>`:""}
       ${dt||db?`<div class="row">${dt&&dt!==t?`<button class="chip" data-term="${dt.id}">${dot(dt.a)}Begriff: ${dt.n}</button>`:""}${db?`<button class="chip" data-bite="${db.id}">${dot(db.a)}Häppchen: ${db.t}</button>`:""}</div>`:""}`}
-  return `<article class="card bite exk" ${da(x.a)} id="exk" aria-roledescription="Exkurs" aria-labelledby="exh"><div class="meta"><span>Exkurs · ${x.t}</span>${evHTML(c.ev)}</div>
-   <div class="exhead"><div class="pips" role="group" aria-label="Karten des Exkurses">${exPips(x,true,i)}</div><span class="label num" id="expos" aria-hidden="true">Karte ${i+1} von ${n}</span></div>
-   <h2 id="exh" tabindex="-1"><span class="sr">Karte ${i+1} von ${n}: </span>${c.t}</h2>${c.g?exGraph(c.g):""}<p class="body">${c.x}</p><p class="caveat"><b>Wie sicher?</b> ${c.c}</p><p class="src">Quelle: <a href="${esc(c.u)}" target="_blank" rel="noopener">${c.src} ↗</a></p>
-   ${t?`<div class="row"><button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button></div>`:""}${doH}
-   <div class="row exnav"><button class="btn" id="exprev" ${i?"":"disabled"}>Zurück</button>${last?`<button class="btn primary" id="exdone">Fertig</button>`:`<button class="btn primary" id="exnext">Weiter</button>`}<button class="linkbtn" id="exback">Zur Übersicht</button></div>
-   <p class="label exkeys" aria-hidden="true">Pfeiltasten blättern</p></article>`}
+  const tip=i===0&&qz&&v.q0!=null&&v.q1==null?`<p class="exqtip">Dein Tipp: <b>${qz.o[v.q0]}</b>. Auflösung am Ende.</p>`:"";
+  return `<article class="card bite exk${exDir&&!calm()?(exDir>0?" exin-n":" exin-p"):""}" ${da(x.a)} id="exk" aria-roledescription="Exkurs" aria-labelledby="exh">
+   <div class="meta exmeta"><span>Exkurs · ${x.t}</span></div>
+   <div class="exhead"><div class="pips" role="group" aria-label="Karten des Exkurses">${exPips(x,true,i)}</div><button class="linkbtn" id="exback">Zur Übersicht</button></div>
+   <div class="exbody">${c.k?`<span class="label exkk">${c.k}</span>`:""}<h2 id="exh" tabindex="-1"><span class="sr">Karte ${i+1} von ${n}: </span>${c.t}</h2>${c.g?exGraph(c.g):""}<p class="body">${c.x}</p>${tip}
+   <details class="exwhy"><summary><span>Wie sicher?</span>${evHTML(c.ev)}</summary><p class="caveat">${c.c}</p><p class="src">Quelle: <a href="${esc(c.u)}" target="_blank" rel="noopener">${c.src} ↗</a></p></details>
+   ${t?`<div class="row"><button class="chip" data-term="${t.id}">${dot(t.a)}Begriff: ${t.n}</button></div>`:""}${doH}</div>
+   <p class="label exkeys" aria-hidden="true">Pfeiltasten blättern</p>
+   <div class="exnav"><button class="btn" id="exprev" ${i?"":"disabled"}>Zurück</button><span class="label num" id="expos" aria-hidden="true">Karte ${i+1} von ${n}</span>${last?`<button class="btn primary" id="exdone">Fertig</button>`:`<button class="btn primary" id="exnext">Weiter</button>`}</div></article>`}
 /* ---------- Missionen ---------- */
 const MAXM=3;
 /* Vorzeitig abschließen geht ab etwa der Hälfte der Laufzeit, ohne Abzug. Davor fehlt nur der Knopf, nichts verfällt. */
@@ -2484,7 +2586,7 @@ function jumpSheet(J){const names=J.map(j=>"„"+j.n+"“");
    <p class="muted" style="font-size:14.5px">Ein höherer Wert gilt ab heute, nicht rückwirkend. Er vergrößert nur den Rahmen, in dem künftige Schritte bei dieser Quelle zählen.</p>
    <div class="row"><button class="btn primary" id="ckok">Ja, stimmt so</button><button class="btn" id="ckfix">Antworten ansehen</button></div>`)}
 function checkSheet(){if(!CK)CK={i:0,ans:{}};const q=CHECK[CK.i];
-  if(!q){const r=calcCheck(CK.ans);if(!CK.ok){const J=checkJumps(r);if(J.length){CK.jumps=J;jumpSheet(J);return}}S.checks.push(r);const hm=S.mis.hebelcheck,auto=!hm||hm.status!=="done";
+  if(!q){const r=calcCheck(CK.ans),tw=tenureIdx();if(tw!=null)r.ans.wohn=tw;if(!CK.ok){const J=checkJumps(r);if(J.length){CK.jumps=J;jumpSheet(J);return}}S.checks.push(r);const hm=S.mis.hebelcheck,auto=!hm||hm.status!=="done";
     /* Der Check selbst ist die Mission „Deine großen Hebel finden“ */
     if(auto)S.mis.hebelcheck={status:"done",start:(hm&&hm.start)||r.ts,end:r.ts,days:{},auto:1};save();momentFor("check");CK=null;render();checkResultSheet(r,auto);return}
   sheet(`<span class="label">Hebel-Check · Frage ${CK.i+1} von ${CHECK.length}</span><div class="qprog"><span style="width:${CK.i/CHECK.length*100}%"></span></div><div class="meta"><span class="tag">${dot(q.a)}${AREAS[q.a].n}</span></div><h2>${q.q}</h2><div class="opts2">${q.o.map((o,k)=>`<button data-ck="${k}" aria-pressed="${CK.ans[q.id]===k}">${o[0]}</button>`).join("")}</div>${CK.i?`<button class="linkbtn" id="ckback">Zurück</button>`:""}`)}
@@ -2507,7 +2609,7 @@ function srcBlock(lc){if(!lc||!lc.ans)return "";const rows=lc.top.map(([n])=>[n,
   const [en,ep]=rows.slice().sort((a,b)=>b[1].v-a[1].v)[0],pot=rows.map(([n,p])=>[n,srcPot(n,p)]).filter(r=>r[1]).sort((a,b)=>b[1].pct-a[1].pct)[0];
   return `<h3>An deinen drei größten Quellen</h3><div class="fp">${rows.map(([n,p])=>`<div class="fprow" ${da(SRCS[n].a)}><span>${n}</span><span class="track"><span style="width:${p.pct}%"></span></span><em>${p.pct} %</em></div>`).join("")}</div>
    <p class="muted" style="font-size:14px">Die Prozente zeigen, wie viel du seit dem Check an jeder Quelle vermieden hast, gemessen an dem, was sie in derselben Zeit bei dir verursacht. Beispiel ${en}: rund ${kgTxt(ep.cause)} verursacht${ep.days<=30.5&&now()-lc.ts<30*DAY?" (gerechnet wird mindestens ein Monat)":""}, ${kgTxt(ep.v)} vermieden, also ${ep.pct} %. Dauerhafte Änderungen und passende kleine Schritte zählen zusammen.</p>
-   ${pot?`<p class="tip persp" ${da(SRCS[pot[0]].a)}><b>Mit Blick nach vorn</b>Kleine Schritte bewegen hier wenig, dauerhafte Änderungen viel. „${A[pot[1].id].t}“ brächte bei „${pot[0]}“ etwa ${pot[1].pct} % dieser Quelle in jedem Jahr.</p>`:""}`}
+   ${pot?`<p class="tip persp" ${da(SRCS[pot[0]].a)}><b>Mit Blick nach vorn</b>Kleine Schritte bewegen hier wenig, dauerhafte Änderungen viel. „${A[pot[1].id].t}“ brächte bei „${pot[0]}“ etwa ${pot[1].pct} % dieser Quelle in jedem Jahr${ownIf(pot[1].id)}.</p>`:""}`}
 const nowTotal=()=>Math.max(.5,lastCheck().total-sinceCheck());
 function gcalLink(title,start,mins,details){const e=new Date(start.getTime()+(mins||15)*6e4),tz=Intl.DateTimeFormat().resolvedOptions().timeZone;return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${icsDate(start)}/${icsDate(e)}&ctz=${encodeURIComponent(tz)}&details=${encodeURIComponent((details||"")+"\n\n"+appUrl())}`}
 const at19=t=>{const d=new Date(t);d.setHours(19,0,0,0);return d};
@@ -2517,10 +2619,11 @@ function fpBars(r){const mx=Math.max(...AK.filter(k=>k!=="wir").map(k=>Math.max(
    ${r.share?`<div class="fprow" ${da("wir")}><span>Teilen</span><span class="track"></span><em>− ${nf(-r.share,1)} t</em></div>`:""}</div>
    <p class="label" style="text-transform:none;letter-spacing:0">Der Strich zeigt den deutschen Durchschnitt.</p>
    <p class="muted" style="font-size:14px">Öffentlich heißt: Staat, Straßen, Schulen und Gesundheitswesen. Diesen Anteil tragen alle in Deutschland etwa gleich, er sinkt nur gemeinsam.</p>`}
+function wohnBlock(){const w=tenureIdx();return `<div class="wohnq"><span class="label">Freiwillig, eine Frage noch</span><p id="wohnq-h">Wohnst du zur Miete oder im Eigentum? Dann schlägt Biotop nur vor, was du selbst umsetzen kannst.</p><div class="opts2 exqo" role="group" aria-labelledby="wohnq-h">${WOHN.map((o,k)=>`<button data-wohn="${k}" aria-pressed="${w===k}">${o}</button>`).join("")}</div></div>`}
 function checkResultSheet(r,auto){sheet(`<span class="label">Dein Ergebnis</span><div class="bigt num">${nf(r.total,1)}<small>t CO₂e im Jahr</small></div>
   <div class="cmp"><div><span>Du</span><span class="t" style="width:${Math.min(100,r.total/14*100)}%;background:var(--dinge)"></span><span class="num">${nf(r.total,1)} t</span></div><div><span>Durchschnitt DE</span><span class="t" style="width:${10.3/14*100}%"></span><span>10,3 t</span></div><div><span>Ziel langfristig</span><span class="t" style="width:${1/14*100}%;background:var(--wir)"></span><span>1 t</span></div></div>
   ${fpBars(r)}
-  ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}<h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>misFits(mid)?`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`:`<div class="li" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b></span></div>`).join("")}</div>
+  ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}${wohnBlock()}<h3>Deine drei größten Quellen</h3><div class="list">${r.top.map(([n,t,mid])=>misFits(mid)?`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`:`<div class="li" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b></span></div>`).join("")}</div>
   <div class="row"><a class="btn" href="${gcalLink("Biotop: Hebel-Check neu messen",at19(now()+90*DAY),15,"Fünf Minuten: Wie hat sich dein Fußabdruck verändert?")}" target="_blank" rel="noopener">In drei Monaten neu messen</a></div>
   <p class="caveat">Eine grobe Schätzung mit gerundeten Richtwerten nach dem CO₂-Rechner des Umweltbundesamts. Für eine genaue Rechnung lohnt sich der Rechner selbst: uba.co2-rechner.de</p>`)}
 function ringMonths(){const first=new Date(appStart()),months=[],end=new Date();let d=new Date(first.getFullYear(),first.getMonth(),1);
@@ -2698,7 +2801,7 @@ function sanitizeImport(){const t=now(),cl=(v,a,b)=>Math.min(b,Math.max(a,v)),nu
     if(a){e.t=a.t;e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=a.k||0}return}
     if(!AREAS[e.a])e.a="dinge";if(e.src==null||(e.src!==""&&!SRCS[e.src]))e.src=defSrc(e.a);
     if(e.g){e.g=1;e.y=cl(num(e.y,0),0,KMAX_Y);delete e.k}else{e.k=cl(num(e.k,0),0,KMAX_S);delete e.y}if((e.k||e.y)>0)e.est=1});
-  S.checks.forEach(c=>{c.ts=cl(c.ts,st,t);if(c.ans){CHECK.forEach(q=>{const v=c.ans[q.id];c.ans[q.id]=Number.isInteger(v)&&v>=0&&v<q.o.length?v:0});const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
+  S.checks.forEach(c=>{c.ts=cl(c.ts,st,t);if(c.ans){CHECK.forEach(q=>{const v=c.ans[q.id];c.ans[q.id]=Number.isInteger(v)&&v>=0&&v<q.o.length?v:0});if(c.ans.wohn!==0&&c.ans.wohn!==1)delete c.ans.wohn;const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
   S.checks.sort((a,b)=>a.ts-b.ts);
   Object.values(S.mis).forEach(v=>{if(!v||typeof v!=="object")return;if(v.start!=null)v.start=cl(num(v.start,t),st,t);
     if(v.notes!=null)v.notes=Array.isArray(v.notes)?v.notes.filter(x=>x&&typeof x.t==="string"&&x.t.trim()).slice(0,200).map(x=>({t:x.t.slice(0,140),ts:cl(num(x.ts,t),st,t)})):[];if(v.end!=null)v.end=cl(num(v.end,t),v.start||st,t)});
@@ -2813,9 +2916,13 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="ckback"&&CK){CK.i=Math.max(0,CK.i-1);checkSheet();return}
   if(t.id==="ckok"&&CK){CK.ok=1;checkSheet();return}
   if(t.id==="ckfix"&&CK){const J=CK.jumps||[];CK.i=Math.max(0,CHECK.findIndex(q=>q.id===SRCQ[(J[0]||{}).n]));checkSheet();return}
+  if(d.wohn!=null){const lc=lastCheck();if(!lc)return;if(!lc.ans)lc.ans={};lc.ans.wohn=+d.wohn;save();document.querySelectorAll("[data-wohn]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.wohn===d.wohn)));
+    if(!t.closest("#layer"))render();toast(d.wohn==="0"?"Gemerkt: zur Miete. Vorschläge, die nur Eigentümer umsetzen können, fallen weg.":"Gemerkt: im Eigentum.");return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
   if(d.ktab){ktab=d.ktab;cur=null;exo=null;anim=true;render();return}
   if(d.exopen){exOpen(d.exopen);return}
+  if(d.exq!=null&&X[d.exid]){const v=exS(d.exid);v.q0=+d.exq;save();exOpen(d.exid);return}
+  if(d.exq1!=null&&exo){const v=exS(exo.id);v.q1=+d.exq1;save();render();const r=$("#exres");if(r){try{r.focus({preventScroll:true})}catch(e){}r.scrollIntoView({block:"nearest"})}return}
   if(d.exgo!=null&&exo){exGo(+d.exgo);return}
   if(t.id==="exnext"){exGo(exo.i+1);return}
   if(t.id==="exprev"){exGo(exo.i-1);return}
