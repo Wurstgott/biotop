@@ -451,6 +451,7 @@ button.card:active:not(.nopress){transform:translate(3px,3px);box-shadow:3px 3px
 .moment.out{opacity:0;transition:opacity .2s ease-in}
 .hebel .li.hb{align-items:flex-start}
 .hebel .tx .row{margin-top:6px;gap:6px}
+.hebel .autostufen small{flex-basis:100%;font-family:var(--f-body);font-size:14px;color:var(--muted);letter-spacing:0;text-transform:none}
 .hebel .chip,.theme .chip,.week-card .chip{font-size:13.5px;text-align:left}
 .week-card .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .nudge.plan .chip{flex:none}
@@ -934,6 +935,11 @@ const BITES=[
  c:"Große Paneldaten über 18 Jahre, aber Beobachtung, kein Experiment.",
  src:"Martin, Goryakin & Suhrcke (2014), Preventive Medicine",u:SCH("Martin Goryakin Suhrcke 2014 does active commuting improve psychological wellbeing British Household Panel Survey"),
  tip:"Der Weg zur Arbeit kann der Teil des Tages sein, an dem man ankommt, bevor man ankommt.",term:"dividende",mis:"radwoche"},
+{id:"heizopt",a:"wohnen",ev:2,t:"Eine gut eingestellte Heizung braucht weniger",
+ x:"Beim hydraulischen Abgleich stellt ein Fachbetrieb die Heizung so ein, dass jeder Heizkörper so viel warmes Wasser bekommt, wie der Raum braucht. Laut Verbraucherzentrale spart das rund 5 % der Heizkosten im Jahr. Eine richtig eingestellte Heizungsregelung spart noch einmal etwa 5 %: Die Vorlauftemperatur sollte so niedrig sein, dass die Räume gerade noch warm genug werden. Das Gebäudeenergierecht (§ 60c) schreibt den Abgleich vor, wenn in einem Gebäude mit mindestens sechs Wohnungen eine Heizung eingebaut oder ausgetauscht wird.",
+ c:"Richtwerte der Verbraucherzentrale. Wie viel es bei dir bringt, hängt stark vom Gebäude und davon ab, wie die Heizung bisher eingestellt ist.",
+ src:"Verbraucherzentrale, Heizung optimieren und Heizkosten sparen",u:"https://www.verbraucherzentrale.de/wissen/energie/heizen-und-warmwasser/heizung-optimieren-und-heizkosten-sparen-30096",
+ tip:"Notier vorher, welche Räume nie richtig warm werden und welche zu warm. Das hilft beim Einstellen.",mis:"heizung"},
 {id:"grad",a:"wohnen",ev:2,t:"Ein Grad macht sechs Prozent",
  x:"Jedes Grad weniger Raumtemperatur spart rund 6 % Heizenergie. Heizen ist in deutschen Haushalten der größte Energieverbraucher, deutlich vor Strom.",
  c:"Faustregel aus der Energieberatung, gut durch Messungen gestützt.",
@@ -1246,8 +1252,9 @@ const MISS=[
 {id:"leinemonat",al:["leine"],a:"wohnen",d:30,t:"Ein Monat Wäscheleine",x:"Lass den Trockner einen Monat lang aus und trockne alles an der Luft.",s:["Wäscheständer oder Leine einrichten","Bei 30 Grad waschen, wo es geht","Trocknergänge zählen, die du gespart hast"]},
 {id:"zaehler",a:"wohnen",d:7,t:"Die Stromzähler-Woche",x:"Lies eine Woche lang jeden Abend den Stromzähler ab. Finde heraus, welche Geräte am meisten verbrauchen.",s:["Zählerstand jeden Abend notieren","An einem Tag alle Standby-Geräte ausschalten und vergleichen","Den größten Verbraucher aufschreiben"],b:"nachbarn_strom"},
 {id:"stromcheck",al:["oekostrom"],nf:["strom"],a:"wohnen",d:7,t:"Der Ökostrom-Check",x:"Prüfe deinen Stromtarif. Wechsle zu einem Anbieter, der in neue Anlagen investiert, wenn du es noch nicht bist.",s:["Den aktuellen Tarif nachschauen","Auf ein anerkanntes Ökostrom-Siegel achten","Den Wechsel online abschließen, das dauert etwa zehn Minuten"],b:"default"},
-{id:"energieberatung",a:"wohnen",d:21,t:"Eine Energieberatung buchen",x:"Lass dir von einer unabhängigen Energieberatung zeigen, wo dein Zuhause am meisten verbraucht und was sich lohnt. Bei der Verbraucherzentrale kostet das wenig oder nichts, auch für Mieterinnen und Mieter.",s:["Bei der Verbraucherzentrale oder einer Energieberatung in der Nähe einen Termin anfragen","Heizkosten- und Stromabrechnungen der letzten zwei Jahre heraussuchen","Nach der Beratung einen Schritt auswählen und eintragen"],b:"waermepumpe"},
-{id:"heizung",a:"wohnen",d:30,t:"Die Heizung einstellen lassen",x:"Viele Heizungen laufen mit zu hoher Vorlauftemperatur oder verteilen die Wärme ungleich. Ein hydraulischer Abgleich und eine passend eingestellte Heizkurve sparen oft spürbar Energie.",s:["Notieren, welche Räume zu warm werden und welche nie richtig warm","Beim Heizungsbetrieb oder der Hausverwaltung nach hydraulischem Abgleich und Heizkurve fragen","Heizzeiten und Nachtabsenkung einstellen, wo es eine Steuerung gibt"],b:"grad"},
+{id:"energieberatung",not:["weg"],a:"wohnen",d:21,t:"Eine Energieberatung buchen",x:"Lass dir von einer unabhängigen Energieberatung zeigen, wo dein Zuhause am meisten verbraucht und was sich lohnt. Bei der Verbraucherzentrale kostet das wenig oder nichts, auch für Mieterinnen und Mieter.",s:["Bei der Verbraucherzentrale oder einer Energieberatung in der Nähe einen Termin anfragen","Heizkosten- und Stromabrechnungen der letzten zwei Jahre heraussuchen","Nach der Beratung einen Schritt auswählen und eintragen"],b:"waermepumpe"},
+{id:"heizung",not:["weg"],a:"wohnen",d:30,t:"Die Heizung einstellen lassen",x:"Viele Heizungen laufen mit zu hoher Vorlauftemperatur oder verteilen die Wärme ungleich. Ein hydraulischer Abgleich und eine passend eingestellte Heizkurve sparen oft spürbar Energie.",s:["Notieren, welche Räume zu warm werden und welche nie richtig warm","Beim Heizungsbetrieb oder der Hausverwaltung nach hydraulischem Abgleich und Heizkurve fragen","Heizzeiten und Nachtabsenkung einstellen, wo es eine Steuerung gibt"],b:"heizopt"},
+{id:"versammlung",only:"weg",al:["waermepumpe","daemmung"],a:"wohnen",d:30,t:"Die Heizung auf die Tagesordnung",x:"Bei einer Zentralheizung entscheidet die Eigentümergemeinschaft über Heizung, Dämmung und Dach, der Weg dahin ist ein Punkt für die nächste Eigentümerversammlung. Eine eigene Etagenheizung ist meist Sondereigentum: Einstellen und Tauschen liegt dann bei dir, Außengeräte an Fassade oder Dach brauchen aber einen Beschluss.",s:["Klären, ob eine Zentralheizung das ganze Haus versorgt oder eine eigene Etagenheizung deine Wohnung","Bei Zentralheizung: die Hausverwaltung bitten, das Thema auf die Tagesordnung der nächsten Eigentümerversammlung zu setzen, und nach hydraulischem Abgleich und Heizkurve fragen","Bei Etagenheizung: den Heizungsbetrieb nach hydraulischem Abgleich und Heizkurve fragen, vor einem Tausch eine Energieberatung nutzen","Für ein Außengerät an Fassade oder Dach einen Beschluss der Eigentümerversammlung beantragen","Festhalten, was vereinbart wurde, und Umgesetztes später eintragen"],b:"heizopt"},
 {id:"radwoche",al:["rad5","rad10"],nf:["auto"],a:"wege",d:7,t:"Die Rad-Woche",x:"Fahr eine Woche lang jeden Weg unter fünf Kilometern mit dem Rad oder zu Fuß.",s:["Rad prüfen: Luft, Licht, Bremsen","Wege unter fünf Kilometern auflisten","Jeden Weg eintragen"],b:"aktivwege"},
 {id:"autofasten",nf:["auto"],a:"wege",d:14,t:"Autofasten",x:"Lass das Auto zwei Wochen lang stehen. Organisiere die Wege mit Rad, Bahn, Fahrgemeinschaft oder geteiltem Auto.",s:["Die festen Wege der nächsten zwei Wochen planen","Für jeden Weg eine Alternative finden","Notieren, was gefehlt hat und was nicht"],b:"hebel"},
 {id:"bahnplan",nf:["autoflug"],a:"wege",d:30,t:"Die nächste Reise mit der Bahn",x:"Plane deine nächste längere Reise mit der Bahn statt mit dem Flugzeug oder Auto. Rechne die Reisezeit einmal ehrlich mit An- und Abfahrt.",s:["Ein Ziel wählen, das per Zug erreichbar ist","Früh buchen, oft ist es dann günstiger","Die Zugfahrt als Teil der Reise planen: Buch, Essen, Ausblick"],b:"flug"},
@@ -1432,7 +1439,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="21.10.2026, 18:29";
+const BUILD="21.10.2026, 21:51";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -2046,32 +2053,58 @@ const lastCheck=()=>S.checks[S.checks.length-1];
 /* J4 Wohnform: freiwillige Zusatzfrage zum Hebel-Check. ans.wohn: 0 zur Miete, 3 eigenes Haus, 2 Eigentumswohnung,
    1 „im Eigentum“ aus der ersten Fassung (Haus oder Wohnung offen, bleibt gültig). Es gilt die jüngste Antwort, ältere Checks ohne Antwort zählen als unbekannt.
    Zur Miete schlägt Biotop nichts vor, was nur Eigentümer umsetzen können. Eintragen bleibt möglich und zählt wie bisher, etwa wenn die Vermieterin eine Wärmepumpe einbaut.
-   Eigentumswohnung: Wärmepumpe, Dämmung und Dach-PV brauchen einen Beschluss der Eigentümergemeinschaft (§ 20 WEG), sie stehen deshalb mit diesem Zusatz da.
+   Eigentumswohnung (L1): Wärmepumpe, Dämmung und Dach-PV beschließt die Eigentümergemeinschaft (§ 20 Abs. 1 WEG). Wie zur Miete schlägt Biotop sie nicht als eigenen Schritt vor,
+   eintragen bleibt möglich, mit dem Hinweis „Gemeinsam mit der Eigentümergemeinschaft“. Vorgeschlagen werden stattdessen: das Thema in die Eigentümerversammlung bringen
+   (Mission „versammlung“, darin Heizungsoptimierung und hydraulischer Abgleich über die Hausverwaltung), Balkonkraftwerk (§ 20 Abs. 2 Nr. 5 WEG) und Ökostrom.
+   Dieselbe Prüfung (ownBlock in unfit) gilt überall: Hebelkarte, Gerade dran, Was als Nächstes, bestBig, potY, srcPot, persp und Kennzahl-Sheets.
    Unbekannt oder Eigentum ohne Angabe: Vorschläge bleiben, mit „falls du ein eigenes Haus hast oder deine Eigentümergemeinschaft mitzieht“. */
 const OWNONLY=["waermepumpe","daemmung","pv"];
 const WOHN=[[0,"Zur Miete"],[3,"Eigenes Haus"],[2,"Eigentums&shy;wohnung"]],WOHNOK=[0,1,2,3];
 function tenureIdx(){for(let i=S.checks.length-1;i>=0;i--){const w=(S.checks[i].ans||{}).wohn;if(WOHNOK.includes(w))return w}return null}
 const tenure=()=>({0:"miete",1:"eigen",2:"weg",3:"haus"})[tenureIdx()]||null;
-const ownBlock=id=>OWNONLY.includes(id)&&tenure()==="miete";
-/* Wohnfläche: Vorschläge nur ab 50 m² pro Kopf laut Check und nicht in einer WG. Ein Umzug wird nie vorgeschlagen, eintragen bleibt möglich. */
-const roomBlock=id=>{if(id==="gemeinschaft")return true;if(id!=="kleiner")return false;const q=(lastCheck()||{}).ans||{},h=hhInfo();return !(q.flaeche>=2)||!!(h&&h.wg)};
-const actT=id=>id==="kleiner"?(tenure()==="miete"?"Zimmer untervermietet (§ 553 BGB)":"Einen Raum vermietet oder geteilt"):A[id].t;
+const ownBlock=id=>OWNONLY.includes(id)&&(tenure()==="miete"||tenure()==="weg");
+/* Wer entscheidet, wenn es nicht vorgeschlagen wird: Hinweis im Eintragen-Tab und im Eintrag selbst */
+const ownWho=id=>!ownBlock(id)?"":tenure()==="weg"?"Gemeinsam mit der Eigentümergemeinschaft":"Entscheidet die Vermieterseite";
+const OWNWHY={weg:"Darüber beschließt die Eigentümerversammlung (§ 20 Abs. 1 WEG). Eintragen kannst du es, sobald es umgesetzt ist, dann zählt es wie jede andere Änderung.",
+  weg_wp:"Bei Zentralheizung beschließt das die Eigentümerversammlung (§ 20 Abs. 1 WEG). Eine eigene Etagenheizung ist meist Sondereigentum: Den Tausch entscheidest du selbst, ein Außengerät an Fassade oder Dach braucht aber einen Beschluss. Eintragen kannst du es, sobald es umgesetzt ist.",
+  miete:"Das setzt die Vermieterseite um. Eintragen kannst du es, sobald es umgesetzt ist, dann zählt es wie jede andere Änderung."};
+const ownTip=id=>ownBlock(id)?`<p class="tip" ${da(A[id].a)}><b>${ownWho(id)}</b>${OWNWHY[tenure()==="weg"&&id==="waermepumpe"?"weg_wp":tenure()]}</p>`
+  :id==="balkon"&&tenure()==="weg"?`<p class="tip" ${da(A[id].a)}><b>In der Eigentumswohnung</b>Ein Balkonkraftwerk kannst du nach § 20 Abs. 2 Nr. 5 WEG von der Eigentümergemeinschaft verlangen. Über die Ausführung beschließt sie mit.</p>`:"";
+/* Wohnfläche: Vorschläge nur ab 50 m² pro Kopf laut Check und nicht in einer WG. Ein Umzug wird nie vorgeschlagen, eintragen bleibt möglich.
+   „Über 80 m²“ bei drei oder mehr Personen wären über 240 m² Wohnung. Das ist meist die ganze Wohnung statt pro Kopf (hhNote fragt dann nach), darum kein Vorschlag (L2). */
+const roomBlock=id=>{if(id==="gemeinschaft")return true;if(id!=="kleiner")return false;const q=(lastCheck()||{}).ans||{},h=hhInfo();return !(q.flaeche>=2)||!!(h&&h.wg)||(!!h&&h.hh>=2)||flUnsure()};
+/* v7-fixes 1: „Über 80 m²“ pro Kopf bei drei oder mehr Personen ist vermutlich die ganze Wohnung. Bis zur Antwort gilt Heizen als unsicher:
+   kein Top-Hebel mit Vorschlägen, sondern eine freundliche Rückfrage. Die Antwort korrigiert den letzten Check (flaeche) oder bestätigt ihn (flok). */
+const flUnsure=()=>{const lc=lastCheck(),q=(lc&&lc.ans)||{},h=hhInfo();return q.flaeche===3&&!q.flok&&!!h&&h.hh>=2};
+const flAsk=()=>flUnsure()?`<p class="hintline flask">Meintest du bei der Wohnfläche die ganze Wohnung? Gefragt war die Fläche pro Person. Pro Person wären es dann etwa: <button class="linkbtn inl" data-flfix="2">50 bis 80 m²</button> · <button class="linkbtn inl" data-flfix="1">30 bis 50 m²</button> · <button class="linkbtn inl" data-flfix="0">unter 30 m²</button> · <button class="linkbtn inl" data-flfix="ok">Nein, stimmt so</button></p>`:"";
+/* Im Eintragen-Tab: nicht verstecken, aber auch nicht anpreisen, also ans Ende der Liste */
+const quietAct=id=>ownBlock(id)||(id==="kleiner"&&roomBlock(id));
+const actT=id=>id==="kleiner"?(tenure()==="miete"?"Zimmer untervermietet":"Einen Raum vermietet oder geteilt"):A[id].t;
 const actN=id=>id==="kleiner"?(tenure()==="miete"?"Ein untervermietetes Zimmer senkt die beheizte Fläche pro Person, gerechnet mit etwa 20 m² weniger. Zur Miete brauchst du die Erlaubnis. Einen Anspruch darauf hast du, wenn nach Vertragsschluss ein berechtigtes Interesse entstanden ist (§ 553 BGB).":"Ein vermieteter oder geteilter Raum senkt die beheizte Fläche pro Person, gerechnet mit etwa 20 m² weniger."):A[id].n;
-const ownQ=id=>{if(!OWNONLY.includes(id))return "";const t=tenure();return t==="haus"||t==="miete"?"":t==="weg"?"falls deine Eigentümergemeinschaft mitzieht":"falls du ein eigenes Haus hast oder deine Eigentümergemeinschaft mitzieht"};
+const ownQ=id=>{if(!OWNONLY.includes(id))return "";const t=tenure();return t==="haus"||t==="miete"||t==="weg"?"":"falls du ein eigenes Haus hast oder deine Eigentümergemeinschaft mitzieht"};
 const ownIf=id=>ownQ(id)?", "+ownQ(id):"";
 const ownTag=id=>ownQ(id)?` <small class="ownif">${ownQ(id)}</small>`:"";
 /* Was beim Heizen und beim Strom ohne eigenes Haus geht (§ 554 BGB, § 20 WEG, § 6a HeizkostenV, CO2KostAufG) */
 const RENTTXT={Heizen:"Zur Miete: Thermostat und Raumtemperatur, Stoßlüften statt Kippen, die monatliche Verbrauchsinfo und der CO₂-Kostenanteil in der Heizkostenabrechnung. Über Heizung, Abgleich und Dämmung lohnt ein Gespräch mit Vermieterin, Vermieter oder Hausgemeinschaft.",
   Strom:"Zur Miete: Ökostrom geht immer. Für ein Balkonkraftwerk kannst du seit Oktober 2024 die Erlaubnis verlangen, verweigert werden darf sie nur, wenn sie unzumutbar ist. Hol sie vor der Montage ein und melde das Gerät danach im Marktstammdatenregister an."};
-const WEGTXT={Heizen:"In der Eigentumswohnung: Wärmepumpe, Dämmung und Dach-PV beschließt die Eigentümergemeinschaft. Ein Antrag für die nächste Versammlung ist ein guter Anfang, Thermostat und Lüften liegen bei dir.",
-  Strom:"In der Eigentumswohnung: Ein Balkonkraftwerk kannst du von der Eigentümergemeinschaft verlangen, über die Ausführung beschließt sie mit. Ökostrom geht sofort."};
-const tenTxt=n=>{const t=tenure();return t==="miete"?RENTTXT[n]:t==="weg"?WEGTXT[n]:null};
+/* v7-fixes 3: Eine Etagenheizung ist meist Sondereigentum (Haus & Grund, Infoblatt W17b; § 20 WEG für Eingriffe ins Gemeinschaftseigentum).
+   Der Hebel-Check fragt nicht nach Zentral- oder Etagenheizung, darum stehen beide Fälle kurz da. Bei Fernwärme gibt es nur die Zentralheizung. */
+/* Auf der Karte kurz (rund 20 Wörter), die Einzelheiten stehen in der Mission „Die Heizung auf die Tagesordnung“ und im Eintrageblatt */
+const WEGTXT={Heizen:"In der Eigentumswohnung: Bei Zentralheizung entscheidet die Gemeinschaft, über eine eigene Etagenheizung meist du selbst. Anstoßen kannst du es in der Eigentümerversammlung.",
+  HeizenZ:"In der Eigentumswohnung: Über Heizung, Dämmung und Dach beschließt die Gemeinschaft. Anstoßen kannst du das in der Eigentümerversammlung.",
+  Strom:"In der Eigentumswohnung: Ökostrom geht sofort. Ein Balkonkraftwerk kannst du von der Eigentümergemeinschaft verlangen, über die Ausführung beschließt sie mit."};
+/* v7-fixes 6: Läuft eine Wärmepumpe oder Dämmung schon (oder ist Alltag), entfällt der Hinweis auf die Eigentümerversammlung */
+const wegDone=()=>["waermepumpe","daemmung"].some(id=>isBase(id)||activeBig().some(e=>e.act===id));
+const tenTxt=n=>{const t=tenure();if(t==="miete")return RENTTXT[n];if(t!=="weg")return null;if(n==="Heizen"){if(wegDone())return null;return ((lastCheck()||{}).ans||{}).heiz===2?WEGTXT.HeizenZ:WEGTXT.Heizen}return WEGTXT[n]||null};
 function wohnAsk(){const lc=lastCheck(),t=tenure();if(!lc||(t&&t!=="eigen")||!lc.top.some(([n])=>n==="Heizen"||n==="Strom"))return "";
   if(t==="eigen")return `<p class="hintline wohnask">Eigenes Haus oder Eigentumswohnung? Dann passen die Vorschläge besser. <button class="linkbtn inl" data-wohn="3">Eigenes Haus</button> · <button class="linkbtn inl" data-wohn="2">Eigentumswohnung</button></p>`;
   return `<p class="hintline wohnask">Wie wohnst du? Dann passen die Vorschläge besser. <button class="linkbtn inl" data-wohn="0">Zur Miete</button> · <button class="linkbtn inl" data-wohn="3">Eigenes Haus</button> · <button class="linkbtn inl" data-wohn="2">Eigentumswohnung</button></p>`}
 /* Zur Miete: das Balkonkraftwerk aktiv vorschlagen, auch wenn Strom nicht unter den drei größten Quellen ist */
-function rentLine(){const lc=lastCheck();if(!lc||tenure()!=="miete"||lc.top.some(([n])=>n==="Strom")||!A.balkon||!free("balkon")||nfWhy("balkon"))return "";
+function rentLine(){const lc=lastCheck(),t=tenure();if(!lc||(t!=="miete"&&t!=="weg")||lc.top.some(([n])=>n==="Strom")||!A.balkon||!free("balkon")||nfWhy("balkon"))return "";
+  if(t==="weg")return `<p class="hintline rentline">In der Eigentumswohnung geht beim Strom auch ein Balkonkraftwerk: Du kannst es von der Eigentümergemeinschaft verlangen, über die Ausführung beschließt sie mit. <button class="linkbtn inl" data-log="balkon">Eintragen, sobald es läuft</button></p>`;
   return `<p class="hintline rentline">Zur Miete geht beim Strom auch ein Balkonkraftwerk: Die Erlaubnis kannst du seit Oktober 2024 verlangen, sie darf nur verweigert werden, wenn sie unzumutbar ist. Hol sie vor der Montage ein. <button class="linkbtn inl" data-log="balkon">Eintragen, sobald es läuft</button></p>`}
+/* Mission zur Quelle: in der Eigentumswohnung beim Heizen die Eigentümerversammlung statt „Ein Grad weniger“, wenn diese noch offen ist */
+const misFor=(n,mid)=>n==="Heizen"&&tenure()==="weg"&&!wegDone()&&misOffer("versammlung")?"versammlung":mid;
 /* K Haushaltsgröße: jüngste Angabe (neue Checks übernehmen sie, ältere ohne Angabe gelten als unbekannt) */
 function hhInfo(){for(let i=S.checks.length-1;i>=0;i--){const q=S.checks[i].ans||{};if(hhOk(q.hh)||q.wg===0||q.wg===1)return {hh:hhOk(q.hh)?q.hh:null,wg:q.wg===1}}return null}
 const HHT=["allein","zu zweit","3 bis 4 Personen","5 oder mehr Personen"];
@@ -2079,25 +2112,25 @@ const gemFree=()=>{const q=(lastCheck()||{}).ans||{};return !!A.gemeinschaft&&!i
 /* Einordnung im Check-Ergebnis: sachlich, ohne Wertung der Lebensform. Vorschläge nur zum Teilen, nie zum Umziehen. */
 function hhNote(){const h=hhInfo(),lc=lastCheck();if(!h||!lc)return "";const q=lc.ans||{},more=[];let head="";
   if(h.wg&&!(h.hh>=1))head="Wie viele seid ihr insgesamt? Dann zählt der Strom pro Kopf passend.";
-  else if(h.wg){head="Ihr teilt Fläche und Geräte.";more.push("Für Mehrpersonenhaushalte zeigen EU-Auswertungen einen kleineren Fußabdruck pro Kopf, WGs selbst sind darin kaum erfasst.")}
-  else if(h.hh===0){head="Allein zu wohnen hat viele Gründe.";more.push("Pro Kopf kommen dann meist mehr Fläche und Geräte zusammen, das zeigt sich vor allem beim Strom.")}
-  else if(h.hh===1)head="Zu zweit ist der Durchschnitt, beim Strom ändert sich nichts.";
-  else if(h.hh!=null)head="Zu mehreren teilt ihr Fläche und Geräte.";
+  else if(h.wg){head="In der WG: Beim Strom teilt ihr euch den Haushalt, deshalb liegt der Wert pro Kopf etwas niedriger.";more.push("Für Mehrpersonenhaushalte zeigen EU-Auswertungen einen kleineren Fußabdruck pro Kopf, WGs selbst sind darin kaum erfasst.")}
+  else if(h.hh===0)head="Allein wohnend: Beim Strom zählt dein Haushalt ganz für dich, deshalb liegt der Wert pro Kopf etwas höher.";
+  else if(h.hh===1)head="Zu zweit: Beim Strom teilt ihr euch den Haushalt. Das ist der Bezugswert, dein Wert pro Kopf bleibt gleich.";
+  else if(h.hh!=null)head="Zu mehreren: Beim Strom teilt ihr euch den Haushalt, deshalb liegt der Wert pro Kopf etwas niedriger.";
   if(h.hh!=null&&!(h.wg&&h.hh===0)){const f=HHF[h.hh],s0=CHECK.find(x=>x.id==="strom").o[q.strom??0][1];
-    if(q.hhr===h.hh)more.push(f===1?"Beim Strom ist der Zweipersonenhaushalt der Bezugswert, dein Strom zählt wie bisher.":`Strom pro Kopf laut Stromspiegel: ${nf(s0*f,1)} t statt ${nf(s0,1)} t im Jahr${f<1&&q.teilen===2?". Das steckt schon in deiner Angabe „sehr viel teilen“, dein Wert ändert sich dadurch nicht":""}.`);
+    if(q.hhr===h.hh)more.push(f===1?"Bezugswert ist der Zweipersonenhaushalt laut Stromspiegel, dein Strom zählt wie bisher.":`Strom pro Kopf laut Stromspiegel: ${nf(s0*f,1)} t statt ${nf(s0,1)} t im Jahr${f<1&&q.teilen===2?". Das steckt schon in deiner Angabe „sehr viel teilen“, dein Wert ändert sich dadurch nicht":""}.`);
     else if(hhOk(q.hhr))more.push(`In diesem Check zählt beim Strom noch „${HHT[q.hhr]}“, die neue Angabe ab deinem nächsten Hebel-Check.`);
     else more.push("Beim Strom zählt das ab deinem nächsten Hebel-Check.");
-    if(q.flaeche===3&&h.hh>=2)head+=` Kurz geprüft: Die Fläche im Check ist pro Kopf gemeint, bei ${HHN[h.hh]} Personen wären das über ${HHN[h.hh]*80} m².`}
-  if(!head)return "";
-  return `<p class="hhtx">${head}</p>${more.length||B.zusammen?`<details class="hhmore"><summary>Mehr dazu</summary><p class="hhtx">${more.join(" ")}${B.zusammen?` <button class="linkbtn inl" data-bite="zusammen">Häppchen: ${B.zusammen.t}</button>`:""}</p></details>`:""}`}
+  }
+  if(!head)return flAsk();
+  return `${flAsk()}<p class="hhtx">${head}</p>${more.length||B.zusammen?`<details class="hhmore"><summary>Mehr dazu</summary><p class="hhtx">${more.join(" ")}${B.zusammen?` <button class="linkbtn inl" data-bite="zusammen">Häppchen: ${B.zusammen.t}</button>`:""}</p></details>`:""}`}
 /* Leise Zeilen in der Hebelkarte: erst die Nachfragen, danach höchstens ein Vorschlag, der von Tag zu Tag wechselt */
 function hhAsk(){const lc=lastCheck();if(!lc)return "";const h=hhInfo();if(h&&h.hh!=null)return "";
   return `<p class="hintline hhask">Wie viele Menschen leben in deinem Haushalt? Dann rechnet Biotop deinen Strom pro Kopf genauer. ${HH.map((o,k)=>`<button class="linkbtn inl" data-hh="${k}">${o}</button>`).join(" · ")}</p>`}
 function hhSug(){const h=hhInfo();if(!h)return "";
-  if(h.wg&&gemFree())return `<p class="hintline hhline">Ihr teilt Fläche und Geräte. Ist gemeinschaftliches Wohnen für dich schon Alltag? <button class="linkbtn inl" data-setbase="gemeinschaft">Als „Schon Alltag“ markieren</button></p>`;
+  if(h.wg&&gemFree())return `<p class="hintline hhline">In der WG: Gehört gemeinschaftliches Wohnen für dich schon zum Alltag? <button class="linkbtn inl" data-setbase="gemeinschaft">Als „Schon Alltag“ markieren</button></p>`;
   if(h.hh===0&&!h.wg&&misFits("teilenliste"))return `<p class="hintline hhline">Wer allein wohnt, kann vieles mit Nachbarn teilen, etwa Werkzeug, Räume oder ein Lastenrad. <button class="linkbtn inl" data-misopen="teilenliste">Mission: ${M.teilenliste.t}</button></p>`;
   return ""}
-function quietLine(){const ask=wohnAsk()||hhAsk();if(ask)return ask;const l=[rentLine(),hhSug()].filter(Boolean);return l.length?l[Math.floor(now()/DAY)%l.length]:""}
+function quietLine(){const ask=flAsk()||wohnAsk()||hhAsk();if(ask)return ask;const l=[rentLine(),hhSug()].filter(Boolean);return l.length?l[Math.floor(now()/DAY)%l.length]:""}
 /* frei: weder aktiv noch Alltag, und keine laufende Änderung derselben Gruppe, die mindestens so viel bewirkt */
 const free=id=>A[id]&&!isBase(id)&&!activeBig().some(e=>e.act===id||(rivals(id).includes(e.act)&&(e.y||0)>=(A[id].y||0)));
 const noCar=()=>{const lc=lastCheck();return (lc&&lc.ans&&lc.ans.auto===0)||isBase("autolos")||isBase("keinauto")||activeBig().some(e=>e.act==="autolos")};
@@ -2144,13 +2177,24 @@ function quickCalc(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.a
   return out.slice(0,6)}
 /* fortlaufende Wochennummer, für den leisen Wechsel auf der Startseite */
 const weekNo=()=>Math.round(weekStart()/(7*DAY));
+/* L5 Familie mit Auto (ab drei Personen): „Auto abgeschafft“ bleibt stehen, daneben ruhig die Stufen, die im Familienalltag oft eher gehen */
+const famCar=()=>{const h=hhInfo();return !!h&&h.hh>=2&&!noCar()};
+/* v7-fixes 5: höchstens eine Stufe, wöchentlich reihum. Pendeln nur bei viel Autofahrt (ab 10.000 km), sonst der allgemeinere Schritt mit dem Deutschlandticket. */
+const STUFT={carsharing:"Carsharing statt Zweitwagen",eauto:"E-Auto beim fälligen Neukauf",pendeln:"Pendeln mit Bus und Bahn",dticket:"Mehr Wege mit dem Deutschlandticket"};
+const autoSteps=big=>{if(!famCar())return [];const q=(lastCheck()||{}).ans||{},l=[q.auto>=3?"pendeln":"dticket","carsharing","eauto"].filter(id=>A[id]&&id!==big&&free(id)&&!unfit(id)&&!nfWhy(id));return l.length?[l[weekNo()%l.length]]:[]};
+/* Mission als Vorschlag: passt zum Profil und läuft nicht schon oder ist geschafft */
+const misOffer=id=>misFits(id)&&!(S.mis[id]&&["active","done"].includes(S.mis[id].status));
 function hebelCard(){const lc=lastCheck();if(!lc)return "";
-  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const h=HEBEL[n]||{a:"dinge",big:[]},big=h.big.find(id=>free(id)&&!unfit(id)),de=activeBig().find(e=>srcOfE(e)===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
-    return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b>${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden${(q=>q?`. „${actT(q.id)}“ brächte rund ${q.pct} % dieser Quelle im Jahr${ownIf(q.id)}`:"")(srcPot(n,pg))}</small>`:""}${tenTxt(n)?`<small class="rent">${tenTxt(n)}${n==="Heizen"&&tenure()==="miete"&&B.miete_heizen?` <button class="linkbtn inl" data-bite="miete_heizen">Mehr dazu</button>`:""}</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${actT(big)}${ownTag(big)}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mid]&&misFits(mid)?`<button class="chip" data-misopen="${mid}">Mission: ${M[mid].t}</button>`:""}</span></span></div>`}).join("")}</div>${quietLine()}</div>`}
+  return `<div class="plain hebel"><div class="sec-h"><h3>Deine drei Hebel</h3><span class="label">Check vom ${fmtDate(lc.ts)}${now()-lc.ts>90*DAY?` · <button class="linkbtn inl" data-check="1">Neu messen</button>`:""}</span></div><div class="list">${lc.top.map(([n,t,mid])=>{const fu=n==="Heizen"&&flUnsure(),h=HEBEL[n]||{a:"dinge",big:[]},big=fu?null:h.big.find(id=>free(id)&&!unfit(id)),st=n==="Auto"?autoSteps(big):[],mi=fu||st.length?null:misFor(n,mid),de=activeBig().find(e=>srcOfE(e)===n),db=h.big.find(isBase),done=de?de.t:db?A[db].t:null,pg=srcProg(lc,n);
+    return `<div class="li hb" ${da(h.a)}>${dot(h.a)}<span class="tx"><b>${n} · ${fu?"bis zu ":""}${nf(t,1)} t</b>${fu?`<small class="rent">Vermutlich weniger: Gefragt war die Fläche pro Person. Die Rückfrage dazu steht unten.</small>`:""}${pg&&pg.pct>=1?`<small>Seit dem Check rund ${pg.pct} % davon vermieden${(q=>q?`. „${actT(q.id)}“ brächte rund ${q.pct} % dieser Quelle im Jahr${ownIf(q.id)}`:"")(srcPot(n,pg))}</small>`:""}${!fu&&tenTxt(n)?`<small class="rent">${tenTxt(n)}${n==="Heizen"&&tenure()==="miete"&&B.miete_heizen?` <button class="linkbtn inl" data-bite="miete_heizen">Mehr dazu</button>`:""}</small>`:""}<span class="row">${big?`<button class="chip" data-log="${big}">${actT(big)}${ownTag(big)}</button>`:done?`<span class="state">✓ ${esc(done)}</span>`:""}${M[mi]&&misOffer(mi)?`<button class="chip" data-misopen="${mi}">Mission: ${M[mi].t}</button>`:""}</span>${st.length?`<span class="row autostufen"><small>Es geht auch in Stufen:</small>${st.map(id=>`<button class="chip" data-log="${id}">${STUFT[id]||actT(id)}</button>`).join("")}</span>`:""}</span></div>`}).join("")}</div>${quietLine()}</div>`}
 /* Gerade dran: Thema und Mission bleiben den Monat über, Schritt und Häppchen wechseln wöchentlich innerhalb desselben Bereichs */
 function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const wk=weekNo(),a0=A[th.act],b0=B[th.bite];
   const alt=(first,l,force)=>!l.length?first:force||wk%2?l[(wk>>1)%l.length]:first;
-  const a=a0?alt(a0,ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3),isBase(a0.id)||!!nfWhy(a0.id)||ownBlock(a0.id)):null,m=misFits(th.mis)?M[th.mis]:null;
+  /* L3: Was schon läuft, Alltag ist oder nicht zum Profil passt, wird nicht vorgeschlagen. Ohne Ersatz im selben Bereich bleibt die Zeile leer. */
+  const off=a0&&(isBase(a0.id)||!!nfWhy(a0.id)||(a0.g&&(!free(a0.id)||unfit(a0.id)))),alts0=a0?ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3):[],
+    /* v7-fixes 7: Ersatz zuerst aus derselben Quelle, in der Heizsaison also ein Heizschritt statt eines Stromschritts */
+    sq=a0&&(SRCOF[a0.id]||SMALLOF[a0.id]),same=sq?alts0.filter(x=>SMALLOF[x.id]===sq):[],alts=same.length?same:alts0;
+  const a=a0&&!(off&&!alts.length)?alt(a0,alts,off):null,m=misOffer(th.mis)?M[th.mis]:null;
   const xk=th.exk&&X[th.exk]&&exRead(th.exk)<X[th.exk].cards.length?X[th.exk]:null;
   const b=!xk&&b0?alt(b0,BITES.filter(x=>x.a===b0.a&&x.id!==b0.id&&!S.read[x.id]&&x.ev>0),!!S.read[b0.id]):null;
   return `<div class="plain theme" ${da(a?a.a:"wege")}><span class="label">Gerade dran · ${MONTHS[mo]}</span><h3>${th.t}</h3><p style="font-size:15.5px">${th.x}</p>${xk?`<p class="exhint">Für heiße, trockene Wochen gibt es einen kurzen Exkurs: wann Wassersparen dem Klima hilft und wann dem Wasser vor Ort.</p>`:""}<div class="row">${a?`<button class="chip" data-log="${a.id}">${dot(a.a)}${a.t}</button>`:""}${m?`<button class="chip" data-misopen="${m.id}">Mission: ${m.t}</button>`:""}${b?`<button class="chip" data-bite="${b.id}">Häppchen: ${b.t}</button>`:""}${xk?`<button class="chip exchip" data-exopen="${xk.id}"><span class="exmark" aria-hidden="true"></span>Exkurs: ${xk.t}</button>`:""}</div></div>`}
@@ -2427,7 +2471,7 @@ function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);if(a.bo&
   const rep=activeBig().filter(x=>rivals(id).includes(x.act)),sn=SRCOF[id],cap=sn?memo().caps[sn]:null,lc=lastCheck(),nfw=nfWhy(id),
     sumA=sn?activeBig().filter(e=>srcOfE(e)===sn&&!rep.includes(e)).reduce((q,e)=>q+yOf(e),0):0,pr=nfw?null:profileOf(id,now()),pf=pr&&pr.pf<1?pr.pf:1,root=chainRoot(id),
     rootT=root?((S.log.filter(x=>(x.rep||x.id)===root).sort((p,q)=>q.ts-p.ts)[0])||{}).t:null;
-  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${actT(id)}</h2><p>${nfw?"Das trägst du einmal ein. Ab dann wächst ein Baum in deiner Landschaft.":`Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)*pf/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt((a.y||0)*pf)}`:""}.`}</p><p class="caveat">${actN(id)}</p>
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Dauerhafte Änderung</span></div><h2>${actT(id)}</h2><p>${nfw?"Das trägst du einmal ein. Ab dann wächst ein Baum in deiner Landschaft.":`Das trägst du einmal ein. Ab dann rechnet das Logbuch jeden Tag rund <b>${kgTxt((a.y||0)*pf/365)}</b> dazu${a.y?`, im Jahr etwa ${kgTxt((a.y||0)*pf)}`:""}.`}</p><p class="caveat">${actN(id)}</p>${ownTip(id)}
    ${pf<1?`<p class="tip" ${da(a.a)}><b>Bei dir zählt das zu ${Math.round(pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    ${rep.length?`<p class="tip" ${da(a.a)}><b>Ersetzt ${rep.length===1?"eine laufende Änderung":"laufende Änderungen"}</b>${rep.map(x=>"„"+esc(x.t)+"“").join(" und ")} und diese Änderung würden sich überschneiden und doppelt zählen. Darum endet ${rep.length===1?"die alte":"die alten"} mit dem Eintrag. Die bisherige Einsparung bleibt im Logbuch.</p>`:""}
    ${root&&rootT?`<p class="muted" style="font-size:14px">Dein Baum für „${esc(rootT)}“ wandelt sich dann, statt dass ein zweiter wächst. Neue Wachstumspunkte gibt es nur, wenn diese Änderung mehr bewirkt, und dann für den Unterschied.</p>`:""}
@@ -2438,7 +2482,7 @@ function bigSheet(id){const a=A[id],cur=activeBig().find(e=>e.act===id);if(a.bo&
    <div class="row"><button class="btn go" ${da(a.a)} data-addbig="${id}">Eintragen</button><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div><p class="muted" style="font-size:13.5px">„Schon Alltag“ lässt einen Baum wachsen, zählt aber keine neuen Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
 function actMenu(id){const a=A[id],b=isBase(id),nfw=b?null:nfWhy(id),pr=b||nfw?null:profileOf(id,now());
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>${a.g?"Dauerhafte Änderung":"Kleiner Schritt"}</span></div><h2>${actT(id)}</h2><p class="caveat">${actN(id)}${a.yr?` In kg zählt das höchstens ${a.yr===1?"einmal":a.yr+"-mal"} in 12 Monaten, öfter ersetzt es kaum noch einen Neukauf.`:""}</p>
-   ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
+   ${ownTip(id)}${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    ${b?`<p>Das gehört schon zu deinem Alltag. In deiner Landschaft wächst es mit, als Schritt taucht es nicht mehr auf.</p><div class="row"><button class="btn" data-unbase="${id}">Doch wieder als Schritt zeigen</button></div>`
    :`<div class="row">${a.bo?"":`<button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button>`}<button class="btn${a.bo?" go":""}" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`}
    <p class="muted" style="font-size:14px">„Schon Alltag“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
@@ -2480,12 +2524,12 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now()
   const today=S.log.filter(e=>e.ts>=ts&&!e.g).slice().reverse();
   const cntToday=id=>S.log.filter(e=>e.act===id&&e.ts>=ts).length;
   const item=x=>{const big=x.g,cur=big&&activeBig().find(e=>e.act===x.id),c=!big&&cntToday(x.id);
-    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
+    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(ownWho(x.id)?ownWho(x.id)+" · ":"")+(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
   const hist=S.log.slice().reverse().slice(0,40);
   return `<section class="view">
    <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
    <div class="sec"><div class="sec-h"><h3>Kleine Schritte</h3><span class="label">pro Mal</span></div><div class="acts">${acts.filter(x=>!x.g&&!isBase(x.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div>${acts.some(x=>!x.g&&!x.k&&!isBase(x.id))?`<p class="muted" style="font-size:14px">Handabdruck heißt: Wirkung über den eigenen Fußabdruck hinaus, etwa wenn du anderen etwas leihst oder Regeln mitveränderst. Sie lässt sich kaum in kg messen und zählt deshalb ohne kg.</p>`:""}</div>
-   <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g&&!x.bo&&!isBase(x.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
+   <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g&&!x.bo&&!isBase(x.id)).sort((p,q)=>quietAct(p.id)-quietAct(q.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
    ${(()=>{const b=acts.filter(x=>isBase(x.id));return b.length?`<div class="sec"><div class="sec-h"><h3>Schon Alltag</h3><span class="label">wächst mit</span></div><div class="row">${b.map(x=>`<button class="chip" ${da(x.a)} data-actmenu="${x.id}">${dot(x.a)}${x.t}</button>`).join("")}</div></div>`:""})()}
    <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was ist schon Alltag?</button></div>
    ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${enKg(e)}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div>`:""}
@@ -2627,18 +2671,22 @@ const MISNF={auto:()=>noCar(),flug:()=>noFly(),autoflug:()=>noCar()&&noFly(),veg
 const MISNFTXT={auto:"Laut Hebel-Check oder „Schon Alltag“ hast du kein eigenes Auto.",flug:"Laut Hebel-Check fliegst du nicht.",autoflug:"Laut Hebel-Check hast du kein eigenes Auto und fliegst nicht.",
   veg:"Laut Hebel-Check isst du schon vegetarisch oder vegan.",strom:"Laut Hebel-Check beziehst du schon Ökostrom.",rest:"Laut Hebel-Check wirfst du fast nie Lebensmittel weg.",check:"Deinen Hebel-Check hast du schon gemacht."};
 /* Grund, warum eine Mission gerade nicht zu dir passt, oder null */
-const misWhyNot=id=>{const m=M[id];if(!m)return "";const k=(m.nf||[]).find(x=>MISNF[x]&&MISNF[x]());if(k)return MISNFTXT[k];
+const ONLYTXT={weg:"Diese Mission ist für Eigentumswohnungen gedacht. Wie du wohnst, kannst du im Ergebnis deines Hebel-Checks angeben."},
+  NOTTXT={weg:"In der Eigentumswohnung steckt das in der Mission „Die Heizung auf die Tagesordnung“."};
+const misWhyNot=id=>{const m=M[id];if(!m)return "";if(m.only&&tenure()!==m.only)return ONLYTXT[m.only]||"";if(m.not&&m.not.includes(tenure()))return NOTTXT[tenure()]||"";const k=(m.nf||[]).find(x=>MISNF[x]&&MISNF[x]());if(k)return MISNFTXT[k];
   return (m.al||[]).some(x=>isBase(x)||activeBig().some(e=>e.act===x))?"Das ist bei dir schon Alltag oder läuft als dauerhafte Änderung.":null};
 const misFits=id=>!!M[id]&&misWhyNot(id)==null;
+/* v7-fixes 8: Geht es um etwas, das schon läuft oder Alltag ist, steht das so da */
+const misAl=id=>{const l=(M[id]&&M[id].al)||[];return l.some(x=>activeBig().some(e=>e.act===x))?"läuft schon":l.some(isBase)?"schon Alltag":""};
 let misFilter="alle";
 function suggestMis(){const free=MISS.filter(m=>(!S.mis[m.id]||["dropped","closed"].includes(S.mis[m.id].status))&&misFits(m.id));if(!free.length)return null;
   // passend zu den größten Hebeln, sonst nach Tag
-  const lastCheck=S.checks[S.checks.length-1];let pref=[];if(lastCheck)pref=lastCheck.top.map(q=>q[2]).filter(id=>free.some(m=>m.id===id));
+  const lastCheck=S.checks[S.checks.length-1];let pref=[];if(lastCheck)pref=lastCheck.top.map(q=>misFor(q[0],q[2])).filter(id=>free.some(m=>m.id===id));
   const l=pref.length?free.filter(m=>pref.includes(m.id)):free;return l[(Math.floor(now()/DAY)+(S.skip||0))%l.length]}
 /* Notizen in der Mission (Wunsch aus dem Test): wo die Anleitung „notieren“ sagt, eine kleine Liste direkt in der Karte. Bleibt auf diesem Gerät. */
 const MNOTE={kaufpause:{l:"Deine Kaufimpulse",p:"Was, und warum gerade?"},restewoche:{l:"Fast weggeworfen",p:"Was wäre fast im Müll gelandet?"},
   wasser:{l:"Gesparte Flaschen",p:"Zum Beispiel: zwei Flaschen Sprudel"},zaehler:{l:"Zählerstände",p:"Zum Beispiel: Montag 12 345 kWh"},autofasten:{l:"Was gefehlt hat",p:"Welcher Weg war schwierig?"},
-  gebrauchtzuerst:{l:"Gebraucht gefunden",p:"Was, und wo?"},heizung:{l:"Deine Räume",p:"Zu warm oder zu kalt?"},genug:{l:"Deine Genug-Zahlen",p:"Etwa: Jacken 3, gezählt 5"},
+  gebrauchtzuerst:{l:"Gebraucht gefunden",p:"Was, und wo?"},heizung:{l:"Deine Räume",p:"Zu warm oder zu kalt?"},versammlung:{l:"Für die Versammlung",p:"Zum Beispiel: Frage zum hydraulischen Abgleich"},genug:{l:"Deine Genug-Zahlen",p:"Etwa: Jacken 3, gezählt 5"},
   gruppe:{l:"Deine Eindrücke",p:"Wie hat es sich angefühlt?"}};
 const noteList=(id,l,del)=>`<ul class="mnlist" aria-labelledby="mnl-${id}">${l.map((x,i)=>`<li><span class="tx">${esc(x.t)}</span><small class="num">${fmtDate(x.ts)}</small>${del?`<button class="x" data-mnotedel="${id}" data-i="${i}" aria-label="Notiz löschen: ${esc(x.t)}">×</button>`:""}</li>`).join("")}</ul>`;
 function noteBox(id,v){const n=MNOTE[id],l=v.notes||[];
@@ -2653,12 +2701,12 @@ function misCard(m,mode){const v=S.mis[m.id];let extra="";
      <div class="row"><a class="linkbtn" href="${gcalLink("Biotop: "+m.t+" abschließen",at19(v.start+(m.d-1)*DAY),15,m.x)}" target="_blank" rel="noopener">Ende in den Kalender</a><button class="linkbtn" data-drop="${m.id}">Abbrechen</button></div>`}
   else extra=`<div class="row"><button class="btn go" ${da(m.a)} data-accept="${m.id}" ${activeMis().length>=MAXM?"disabled":""}>Annehmen</button><button class="btn" data-misopen="${m.id}">Mehr dazu</button>${mode==="suggest"?`<button class="linkbtn" id="other">Anderer Vorschlag</button>`:""}</div>${activeMis().length>=MAXM?`<p class="muted" style="font-size:14px">Drei Missionen laufen schon. Schließ zuerst eine ab.</p>`:""}`;
   return `<article class="card mis" ${da(m.a)} data-misid="${m.id}" data-mode="${mode}"><div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2 style="font-size:23px">${m.t}</h2><p style="font-size:16px">${m.x}</p>${extra}</article>`}
-function viewMis(){const act=activeMis(),sug=suggestMis(),list=MISS.filter(m=>misFilter==="alle"||m.a===misFilter);
+function viewMis(){const act=activeMis(),sug=suggestMis(),list=MISS.filter(m=>(misFilter==="alle"||m.a===misFilter)&&!(m.only&&tenure()!=="eigen"&&tenure()!==m.only&&!S.mis[m.id])&&!(m.not&&m.not.includes(tenure())&&!S.mis[m.id]));
   return `<section class="view">
    <h2 class="ph">Was probierst du aus?</h2>
    <div class="sec"><div class="sec-h"><h3>Läuft gerade</h3><span class="label">${act.length} von ${MAXM}</span></div>${act.length?act.map(id=>misCard(M[id],"active")).join(""):`<p class="empty">Missionen sind kleine Versuche für einen Tag bis einen Monat. Nichts davon muss perfekt gelingen.</p>`}</div>
    ${sug?`<div class="sec"><h3>Vorschlag für dich</h3>${misCard(sug,"suggest")}</div>`:""}
-   <div class="sec"><h3>Alle Missionen</h3>${filt("mfilter",misFilter)}<div class="list">${list.map(m=>{const v=S.mis[m.id];const st=v?(v.status==="active"?"läuft":v.status==="done"?"geschafft ✓":v.status==="closed"?"abgeschlossen":"abgebrochen"):misFits(m.id)?(m.d===1?"heute":m.d+" Tage"):m.id==="hebelcheck"&&checksA().length?"erledigt":"passt nicht";return `<button class="li" data-misopen="${m.id}" ${da(m.a)}>${dot(m.a)}<span class="tx"><b>${m.t}</b></span><span class="aside">${st}</span></button>`}).join("")}</div></div>
+   <div class="sec"><h3>Alle Missionen</h3>${filt("mfilter",misFilter)}<div class="list">${list.map(m=>{const v=S.mis[m.id];const st=v?(v.status==="active"?"läuft":v.status==="done"?"geschafft ✓":v.status==="closed"?"abgeschlossen":"abgebrochen"):misFits(m.id)?(m.d===1?"heute":m.d+" Tage"):m.id==="hebelcheck"&&checksA().length?"erledigt":misAl(m.id)||"passt nicht";return `<button class="li" data-misopen="${m.id}" ${da(m.a)}>${dot(m.a)}<span class="tx"><b>${m.t}</b></span><span class="aside">${st}</span></button>`}).join("")}</div></div>
   </section>`}
 function misSheet(id){const m=M[id],v=S.mis[id],b=m.b&&B[m.b],wn=(!v||v.status==="dropped")&&invited!==id?misWhyNot(id):null;
   sheet(`${invited===id?`<div class="plain"><b>Eine Einladung</b><span class="muted">Jemand möchte diese Mission gemeinsam mit dir machen. Sie stammt aus „Biotop“, einer kostenlosen App ohne Anmeldung.</span></div>`:""}<div class="meta"><span class="tag">${dot(m.a)}${AREAS[m.a].n}</span><span>${m.d===1?"Heute":m.d+" Tage"}</span></div><h2>${m.t}</h2><p>${m.x}</p><h3>So gehst du vor</h3><ol class="steps">${m.s.map(s=>`<li>${s}</li>`).join("")}</ol>
@@ -2730,7 +2778,7 @@ function wohnBlock(){const w=tenureIdx(),h=hhInfo()||{};return `<div class="wohn
 const ckFig=r=>`<div class="bigt num">${nf1(r.total)}<small>t CO₂e im Jahr</small></div>
   <div class="cmp"><div><span>Du</span><span class="t" style="width:${Math.min(100,r.total/14*100)}%;background:var(--dinge)"></span><span class="num">${nf1(r.total)} t</span></div><div><span>Durchschnitt DE</span><span class="t" style="width:${10.3/14*100}%"></span><span>10,3 t</span></div><div><span>Ziel langfristig</span><span class="t" style="width:${1/14*100}%;background:var(--wir)"></span><span>1 t</span></div></div>
   ${fpBars(r)}`;
-const ckTop=r=>r.top.map(([n,t,mid])=>misFits(mid)?`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`:`<div class="li" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b></span></div>`).join("");
+const ckTop=r=>r.top.map(([n,t,m0])=>n==="Heizen"&&r===lastCheck()&&flUnsure()?`<div class="li" ${da("wohnen")}>${dot("wohnen")}<span class="tx"><b>Heizen · bis zu ${nf(t,1)} t</b><small>Vermutlich weniger: Gefragt war die Fläche pro Person, siehe Rückfrage oben.</small></span></div>`:(mid=>misFits(mid)?`<button class="li" data-misopen="${mid}" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b><small>Mission: ${M[mid].t}</small></span><span class="aside">→</span></button>`:`<div class="li" ${da(M[mid].a)}>${dot(M[mid].a)}<span class="tx"><b>${n} · ${nf(t,1)} t</b></span></div>`)(misFor(n,m0))).join("");
 function checkResultSheet(r,auto){sheet(`<span class="label">Dein Ergebnis</span><div id="ckfig">${ckFig(r)}</div>
   ${auto?`<p class="muted" style="font-size:14.5px">Damit ist die Mission „${M.hebelcheck.t}“ erledigt.</p>`:""}${wohnBlock()}<h3>Deine drei größten Quellen</h3><div class="list" id="cktop">${ckTop(r)}</div>
   <div class="row"><a class="btn" href="${gcalLink("Biotop: Hebel-Check neu messen",at19(now()+90*DAY),15,"Fünf Minuten: Wie hat sich dein Fußabdruck verändert?")}" target="_blank" rel="noopener">In drei Monaten neu messen</a></div>
@@ -3027,9 +3075,14 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(t.id==="ckfix"&&CK){const J=CK.jumps||[];CK.i=Math.max(0,CHECK.findIndex(q=>q.id===SRCQ[(J[0]||{}).n]));checkSheet();return}
   if(d.wohn!=null){const lc=lastCheck(),k=+d.wohn;if(!lc||!WOHNOK.includes(k))return;if(!lc.ans)lc.ans={};lc.ans.wohn=k;save();document.querySelectorAll("[data-wohn]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.wohn===k)));
     /* Startseite sofort neu, auch wenn die Frage im Check-Ergebnis beantwortet wurde */
-    render();const wm=k===0?"Gemerkt: zur Miete. Vorschläge, die nur Eigentümer umsetzen können, fallen weg.":k===2?"Gemerkt: Eigentumswohnung. Bei Wärmepumpe, Dämmung und Dach-PV entscheidet die Eigentümergemeinschaft mit.":k===3?"Gemerkt: eigenes Haus.":"Gemerkt: im Eigentum.";
+    render();const wm=k===0?"Gemerkt: zur Miete. Vorschläge, die nur Eigentümer umsetzen können, fallen weg.":k===2?"Gemerkt: Eigentumswohnung. Was die Eigentümergemeinschaft beschließt, etwa Wärmepumpe, Dämmung und Dach-PV, schlägt Biotop nicht als eigenen Schritt vor.":k===3?"Gemerkt: eigenes Haus.":"Gemerkt: im Eigentum.";
     if($("#hhval")){$("#hhnote").innerHTML=hhNote();$("#hhval").textContent=wm;const hs=$("#hhsec");if(hs&&hs.hidden){hs.hidden=false;if(!calm()){hs.classList.add("rev")}}return}
-    toast(k===0?"Gemerkt: zur Miete. Vorschläge, die nur Eigentümer umsetzen können, fallen weg.":k===2?"Gemerkt: Eigentumswohnung. Bei Wärmepumpe, Dämmung und Dach-PV entscheidet die Eigentümergemeinschaft mit.":k===3?"Gemerkt: eigenes Haus.":"Gemerkt: im Eigentum.");return}
+    toast(k===0?"Gemerkt: zur Miete. Vorschläge, die nur Eigentümer umsetzen können, fallen weg.":k===2?"Gemerkt: Eigentumswohnung. Was die Eigentümergemeinschaft beschließt, etwa Wärmepumpe, Dämmung und Dach-PV, schlägt Biotop nicht als eigenen Schritt vor.":k===3?"Gemerkt: eigenes Haus.":"Gemerkt: im Eigentum.");return}
+  if(d.flfix!=null){const lc=lastCheck();if(!lc||!lc.ans)return;const q=lc.ans,t0=lc.total,h0=srcMeasured(lc).Heizen;
+    if(d.flfix==="ok")q.flok=1;else{const k=+d.flfix;if(![0,1,2].includes(k))return;q.flaeche=k;Object.assign(lc,calcCheck(q),{ts:lc.ts})}save();
+    const m=d.flfix==="ok"?"Gemerkt: Die Fläche stimmt so.":`Neu gerechnet: Heizen ${nf(srcMeasured(lc).Heizen,1)} t statt ${nf(h0,1)} t, insgesamt ${nf1(lc.total)} t im Jahr (vorher ${nf1(t0)} t).`;
+    if(t.closest("#layer")&&$("#hhnote")){$("#hhnote").innerHTML=hhNote();if($("#ckfig")){$("#ckfig").innerHTML=ckFig(lc);$("#cktop").innerHTML=ckTop(lc)}$("#hhval").textContent=m;render();return}
+    render();toast(m);return}
   if(d.hh!=null||d.hhwg!=null){const lc=lastCheck();if(!lc)return;if(!lc.ans)lc.ans={};const q=lc.ans,t0=lc.total,today=dayStart(lc.ts)===dayStart(now());let msg;
     if(d.hh!=null){const k=+d.hh;if(!hhOk(k))return;q.hh=k;if(k===0&&q.wg===1)q.wg=0;if(today)q.hhr=k;msg=today?"":`Gemerkt: ${HHT[k]}. Beim Strom zählt das ab deinem nächsten Hebel-Check.`}
     else{q.wg=q.wg===1?0:1;
@@ -3040,7 +3093,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
     if(t.closest("#layer")&&$("#hhnote")){document.querySelectorAll("#sh [data-hh]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.hh===q.hh)));const w=$("#sh [data-hhwg]");if(w)w.setAttribute("aria-pressed",String(q.wg===1));
       $("#hhnote").innerHTML=hhNote();if($("#ckfig")){$("#ckfig").innerHTML=ckFig(lc);$("#cktop").innerHTML=ckTop(lc)}
       /* Neuberechnung sichtbar im Block, ohne Toast */
-      const a=nf1(t0),b2=nf1(lc.total);$("#hhval").textContent=a!==b2?`Dein Wert: ${b2} t im Jahr (vorher ${a} t).`:msg||(q.hh===1&&!q.wg?`Zu zweit ist der Bezugswert beim Strom, dein Wert bleibt bei ${b2} t im Jahr.`:`Dein Wert bleibt bei ${b2} t im Jahr.`);
+      const a=nf1(t0),b2=nf1(lc.total);$("#hhval").textContent=a!==b2?`Dein Wert: ${b2} t im Jahr (vorher ${a} t).`:msg||(q.hh===1&&!q.wg?`Zu zweit: Das ist der Bezugswert beim Strom, dein Wert bleibt bei ${b2} t im Jahr.`:`Dein Wert bleibt bei ${b2} t im Jahr.`);
       const hw=$("#sh [data-hhwg]");if(hw)hw.hidden=!(q.hh>=1);render();return}
     render();toast(msg||`Gemerkt: ${HHT[q.hh]}.`);return}
   if(d.checkres){checkResultSheet(S.checks[S.checks.length-1]);return}
