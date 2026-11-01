@@ -249,6 +249,12 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .act:active:not(.nopress) .plus::after{opacity:1}
 .act.on .plus{background:var(--c);color:var(--on)}
 .cnt{font-family:var(--f-mono);font-size:12px;background:var(--c);color:var(--on);padding:1px 6px}
+/* Auswahlblatt für Varianten: dieselben Zeilen wie im Eintragen-Tab, die zuletzt gewählte trägt „zuletzt“ und einen Rand in der Bereichsfarbe */
+.vq{margin:4px 0 10px;font-size:15.5px}
+.vopts{margin-bottom:16px}
+.vopts .act{padding:13px 2px;min-height:52px}
+.vopts .act.last .plus{box-shadow:inset 0 0 0 3px var(--c)}
+.vlast{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:none;border:1px solid var(--line);padding:1px 6px}
 .state{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
 
 .entries{display:flex;flex-direction:column;gap:0}
@@ -809,15 +815,21 @@ const EV=["Denkanstoß","Vorläufig","Solide","Gut belegt"];
 /* Einträge: k = kg pro Mal (kleine Schritte), y = kg pro Jahr (dauerhafte Änderungen), w = zählt als Begegnung.
    md = so oft am Tag zählt ein kleiner Schritt in kg (Standard 3). Wer öfter einträgt, sieht den Eintrag im Logbuch, er zählt aber ohne kg.
    bo = nur als „Schon Alltag“ wählbar, nicht als neue Änderung.
-   yr = so oft zählt ein vermiedener Neukauf in 12 Monaten in kg. Öfter ersetzt er kaum noch einen echten Kauf, eintragen lässt er sich trotzdem. */
+   yr = so oft zählt ein vermiedener Neukauf in 12 Monaten in kg. Öfter ersetzt er kaum noch einen echten Kauf, eintragen lässt er sich trotzdem.
+   Varianten (v): Wo die Wirkung stark von der Sache oder der Strecke abhängt, wählt man beim Eintragen eine Variante (q = Frage im Auswahlblatt).
+     Jede Variante hat eigene kg (k), optional eine Angabe zur Menge (d), eine eigene Jahresgrenze (yr) und eine Sache (s).
+     Dieselbe Sache am selben Tag aus zwei verschiedenen Schritten (etwa „Pullover gebraucht“ und „Spontankauf Pullover gelassen“) zählt zusammen nur so viel wie der größere Wert.
+     Tagesgrenze (md), Pflanzengruppe und Quelle gelten für den Schritt, alle Varianten zählen gemeinsam.
+     lt = Titel, k = Wert, lv = Variante älterer Einträge ohne Variante. Sie behalten Titel und Wert.
+   h = nur noch für ältere Einträge (to = Schritt, über den neue Einträge laufen; yk = Jahresgrenze, die er mit dieser Variante teilt). */
 const ACTS=[
 {id:"veg_tag",a:"essen",md:1,t:"Ein Tag vegetarisch",k:1.5,n:"Verglichen mit einem durchschnittlichen Tag mit Fleisch."},
 {id:"vegan_tag",a:"essen",md:1,t:"Ein Tag vegan",k:2.2,n:"Verglichen mit einem durchschnittlichen Tag. Wer ohnehin vegetarisch lebt, spart damit noch rund 0,7 kg, so wird es dann auch gezählt."},
-{id:"linsen",a:"essen",md:2,t:"Hülsenfrüchte statt Rindfleisch",k:2.6,n:"200 g Rindfleisch verursachen rund 2,7 kg, eine Portion Linsen rund 0,1 kg."},
-{id:"hafer",a:"essen",md:3,t:"Pflanzendrink statt Kuhmilch, ein Glas",k:0.2,n:"Ein Liter Kuhmilch liegt bei rund 1,4 kg, Haferdrink bei rund 0,3 kg."},
-{id:"retten",a:"essen",md:2,t:"Rund 1 kg Lebensmittel gerettet",k:1.5,n:"Mittelwert über typische Lebensmittel. Bei Fleisch und Käse ist es deutlich mehr."},
-{id:"reste",a:"essen",md:2,t:"Aus Resten gekocht",k:0.8,n:"Eine Mahlzeit, für die nichts neu gekauft werden musste."},
-{id:"saison",a:"essen",md:1,t:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,n:"Grobe Schätzung pro Einkauf. Flugware und beheizte Gewächshäuser sind die großen Ausreißer."},
+{id:"linsen",a:"essen",md:2,t:"Hülsenfrüchte statt Fleisch, eine Portion",lt:"Hülsenfrüchte statt Rindfleisch",k:2.6,q:"Statt welchem Fleisch?",v:[{id:"rind",t:"Rindfleisch",d:"150 g",k:1.9},{id:"hack",t:"Rinderhack",d:"150 g",k:1.3},{id:"gefl",t:"Geflügel",d:"150 g",k:0.7},{id:"schwein",t:"Schweinefleisch",d:"150 g",k:0.6}],n:"Gerechnet für 150 g Fleisch gegen rund 60 g getrocknete Linsen. Je Kilogramm verursachen Rindfleisch 13,6 kg, Rinderhack 9,2 kg, Geflügel 5,5 kg, Schweinefleisch 4,6 kg und getrocknete Linsen 1,2 kg (ifeu 2020)."},
+{id:"hafer",a:"essen",md:3,t:"Haferdrink statt Kuhmilch, ein Glas",k:0.2,n:"Ein Glas sind 200 ml. Ein Liter Kuhmilch verursacht rund 1,4 kg, Haferdrink rund 0,3 kg (ifeu 2020)."},
+{id:"retten",a:"essen",md:2,t:"Lebensmittel gerettet",lt:"Rund 1 kg Lebensmittel gerettet",k:1.5,q:"Was hast du gerettet?",v:[{id:"brot",t:"Brot oder Brötchen",d:"500 g",k:0.3},{id:"obst",t:"Obst oder Gemüse",d:"1 kg",k:0.4},{id:"milch",t:"Milch oder Joghurt",d:"1 kg",k:1.5},{id:"kaese",t:"Käse",d:"250 g",k:1.4},{id:"fleisch",t:"Fleisch oder Wurst",d:"250 g",k:1.2}],n:"Gerettet heißt: Es wäre sonst im Müll gelandet, und du kaufst dafür nichts neu. Gezählt wird, was die Lebensmittel bis zur Ladenkasse verursacht haben. Je Kilogramm: Brot 0,6 bis 0,7 kg, Obst und Gemüse meist 0,2 bis 0,8 kg, Milch und Joghurt 1,4 bis 1,7 kg, Käse 5,7 kg, Schwein und Geflügel 4,6 bis 5,5 kg (ifeu 2020). Rindfleisch läge mehr als doppelt so hoch."},
+{id:"reste",a:"essen",md:2,t:"Aus Resten gekocht, eine Mahlzeit",k:0.8,n:"Grobe Schätzung. Essen verursacht in Deutschland im Schnitt rund 1,75 t im Jahr pro Person, also rund 1,6 kg pro Mahlzeit. Gezählt wird die Hälfte, weil Reste nicht immer im Müll gelandet wären."},
+{id:"saison",a:"essen",md:2,t:"Saisonal statt Gewächshaus oder Flugware gekauft",lt:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,q:"Was hast du gekauft?",v:[{id:"tomate",t:"Freilandtomaten statt Tomaten aus beheiztem Gewächshaus",d:"500 g",k:1.2},{id:"erdbeer",t:"Erdbeeren in der Saison statt im Winter",d:"500 g",k:1.5},{id:"flug",t:"Obst per Schiff statt eingeflogen, etwa Ananas",d:"500 g",k:7}],n:"Je Kilogramm (ifeu 2020): Tomaten aus beheiztem Gewächshaus 2,9 kg, aus Freiland in Südeuropa 0,4 kg. Erdbeeren im Winter 3,4 kg, in der Saison 0,3 kg. Ananas per Flugzeug 15,1 kg, per Schiff 0,6 kg. Ob Ware geflogen ist, steht selten drauf. Frische, empfindliche Ware von weit her außerhalb der Saison ist es oft."},
 {id:"milchfrei_tag",a:"essen",md:1,t:"Ein Tag ohne Milchprodukte und Käse",k:0.5,n:"Gerechnet mit pflanzlichem Ersatz. Käse und Butter sind die größten Posten."},
 {id:"leitung",a:"essen",md:3,t:"Leitungswasser statt Flaschenwasser, 1 Liter",k:0.15,n:"Flaschenwasser liegt je nach Transport und Verpackung bei rund 0,1 bis 0,2 kg pro Liter, Leitungswasser fast bei null. Gerechnet mit 0,15 kg."},
 {id:"veg_dauer",a:"essen",g:1,t:"Dauerhaft vegetarisch",y:450,n:"Mittelwert aus mehreren Studien. Je nachdem, was das Fleisch ersetzt, sind es 300 bis 700 kg im Jahr."},
@@ -826,12 +838,12 @@ const ACTS=[
 {id:"kaese_weniger",a:"essen",g:1,t:"Milchprodukte und Käse dauerhaft halbiert",y:150,n:"Milch, Käse und Butter verursachen zusammen rund 0,3 Tonnen im Jahr pro Person."},
 {id:"foodcoop",a:"essen",g:1,w:1,t:"Mitglied einer Solawi oder Foodcoop",y:60,n:"Der Klimaeffekt ist eher klein. Wichtiger sind weniger Verschwendung, Saisonalität und die Gemeinschaft."},
 
-{id:"leine",a:"wohnen",md:2,t:"Wäsche an der Luft getrocknet",k:1,n:"Ein Trocknergang braucht rund 2,5 kWh Strom."},
-{id:"kalt",a:"wohnen",md:2,t:"Bei 30 statt 60 Grad gewaschen",k:0.3,n:"Der größte Teil des Waschstroms geht ins Aufheizen."},
-{id:"dusche",a:"wohnen",md:2,t:"Kürzer oder kühler geduscht",k:0.15,n:"Rund zwei Minuten weniger warmes Wasser, mit Gas erwärmt. Das sind etwa 0,15 kg."},
-{id:"lueften",a:"wohnen",md:1,t:"Stoßgelüftet statt gekippt, ein Heiztag",k:0.4,n:"Grobe Schätzung. Gekippte Fenster kühlen die Wände aus."},
-{id:"standby",a:"wohnen",md:1,t:"Geräte ganz ausgeschaltet, ein Tag",k:0.05,n:"Ein kleiner Schritt. Er zeigt, wie viel größer Heizen und Wohnfläche sind."},
-{id:"deckel",a:"wohnen",md:3,t:"Mit Deckel gekocht",k:0.05,n:"Spart rund ein Drittel der Energie beim Kochen, absolut aber wenig."},
+{id:"leine",a:"wohnen",md:2,t:"Wäsche an der Luft getrocknet statt im Trockner",lt:"Wäsche an der Luft getrocknet",k:1,q:"Welchen Trockner hättest du sonst genutzt?",v:[{id:"wp",t:"Wärmepumpentrockner",d:"rund 2 kWh",k:0.7},{id:"kond",t:"Kondens- oder Ablufttrockner",d:"rund 3,8 kWh",k:1.4},{id:"wn",t:"Weiß ich nicht",d:"wie Wärmepumpe",k:0.7}],n:"Ein Trockengang braucht mit Wärmepumpe 1,5 bis 2,5 kWh, mit Kondens- oder Abluftgerät 3,25 bis 4,4 kWh (Öko-Institut). Gerechnet mit 0,36 kg je kWh Strom (UBA: 363 g CO₂ je kWh im Strommix 2024)."},
+{id:"kalt",a:"wohnen",md:2,t:"Kühler gewaschen, eine Ladung",lt:"Bei 30 statt 60 Grad gewaschen",k:0.3,q:"Wie kühl?",v:[{id:"60",t:"30 statt 60 Grad",d:"0,75 kWh weniger",k:0.25},{id:"40",t:"30 statt 40 Grad",d:"0,25 kWh weniger",k:0.09},{id:"20",t:"20 statt 40 Grad",d:"0,4 kWh weniger",k:0.14}],n:"Eine Ladung von 5 kg braucht bei 60 Grad rund 1,15 kWh, bei 40 Grad 0,65, bei 30 Grad 0,4 und bei 20 Grad 0,25 kWh (Topten). Fast der ganze Waschstrom geht ins Aufheizen. Gerechnet mit 0,36 kg je kWh."},
+{id:"dusche",a:"wohnen",md:2,t:"Zwei Minuten kürzer geduscht",k:0.15,n:"Zwei Minuten bei rund 8 Litern pro Minute sind 16 Liter warmes Wasser. Mit Gas erwärmt sind das etwa 0,6 kWh Gas und rund 0,15 kg. Mit Strom erwärmt ist es mehr, mit Wärmepumpe weniger."},
+{id:"lueften",a:"wohnen",md:1,t:"Stoßgelüftet statt Fenster stundenlang gekippt",k:0.4,n:"Grobe Schätzung für ein Zimmer an einem Heiztag: Ein Fenster, das sonst rund acht Stunden gekippt wäre, kostet dort etwa 1,5 kWh Heizwärme, mit Gas rund 0,4 kg. Je nach Wind, Kälte und Raum sind es 0,2 bis 1 kg. Gekippte Fenster kühlen außerdem die Wände aus."},
+{id:"standby",a:"wohnen",md:1,t:"Fernseher oder Computer über Nacht ganz ausgeschaltet",k:0.05,n:"Fernseher, Spielkonsole, Router oder Computer mit Zubehör brauchen in Bereitschaft zusammen oft 5 bis 10 Watt. Über 16 Stunden sind das 0,1 bis 0,15 kWh, rund 0,05 kg. Ein kleiner Schritt, er zeigt, wie viel größer Heizen und Wohnfläche sind."},
+{id:"deckel",a:"wohnen",md:3,t:"Mit Deckel gekocht, ein Topf",k:0.05,n:"Ein Deckel spart rund ein Drittel der Energie beim Kochen. Bei einem Topf Nudeln oder Kartoffeln sind das etwa 0,1 bis 0,15 kWh, absolut also wenig."},
 {id:"grad",a:"wohnen",g:1,t:"Raumtemperatur um 1 Grad gesenkt",y:110,n:"Ein Grad weniger spart rund 6 % Heizenergie."},
 {id:"oekostrom",a:"wohnen",g:1,t:"Zu echtem Ökostrom gewechselt",y:100,n:"Gerechnet mit rund 100 kg im Jahr, die Spanne reicht von etwa 50 bis 150 kg. Wie viel ein Wechsel zusätzlich bewirkt, ist unter Fachleuten umstritten: Bei Anbietern, die in neue Anlagen investieren, ist es mehr, bei reinen Herkunftsnachweisen kaum etwas."},
 {id:"balkon",a:"wohnen",g:1,t:"Balkonkraftwerk angeschlossen",y:130,n:"Rund 350 kWh selbst genutzter Solarstrom im Jahr, die sonst aus dem Netz kämen. Geht meist auch zur Miete: Seit Oktober 2024 kannst du die Erlaubnis verlangen, verweigert werden darf sie nur, wenn sie unzumutbar ist. Hol sie vor der Montage ein und melde das Gerät danach im Marktstammdatenregister an. In der Eigentumswohnung gilt dasselbe gegenüber der Eigentümergemeinschaft."},
@@ -840,32 +852,32 @@ const ACTS=[
 {id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
 {id:"kleiner",a:"wohnen",g:1,t:"Weniger Wohnfläche pro Person",y:600,n:"Etwa 20 m² weniger beheizte Fläche pro Person."},
 
-{id:"rad5",a:"wege",md:3,t:"5 km Rad oder zu Fuß statt Auto",k:0.85,n:"Ein durchschnittliches Auto verursacht rund 0,17 kg pro Kilometer und Person."},
-{id:"rad10",a:"wege",md:2,t:"10 km Rad statt Auto",k:1.7,n:"Rund 0,17 kg pro Kilometer."},
-{id:"oepnv",a:"wege",md:2,t:"Bus oder Bahn statt Auto, 10 km",k:1,n:"Der Nahverkehr liegt bei rund 0,07 kg pro Kilometer und Person."},
-{id:"bahn",a:"wege",md:1,t:"Bahn statt Auto, 300 km",k:37,n:"Der Fernzug liegt bei rund 0,05 kg pro Kilometer und Person."},
+{id:"rad5",a:"wege",md:3,t:"Rad oder zu Fuß statt Auto",lt:"5 km Rad oder zu Fuß statt Auto",k:0.85,q:"Wie weit?",v:[{id:"2",t:"2 km",k:0.3},{id:"5",t:"5 km",k:0.8},{id:"10",t:"10 km",k:1.6},{id:"20",t:"20 km",k:3.2}],n:"Ein Auto verursacht im Schnitt rund 0,16 kg pro Kilometer und Person (UBA 2024: 164 g mit Vorketten, bei 1,4 Personen pro Auto). Wer allein fährt, verursacht mehr."},
+{id:"rad10",a:"wege",md:2,h:1,to:"rad5",t:"10 km Rad statt Auto",k:1.7,n:"Rund 0,17 kg pro Kilometer. Neue Einträge gehen über „Rad oder zu Fuß statt Auto“ mit Wahl der Strecke."},
+{id:"oepnv",a:"wege",md:2,t:"Bus oder Bahn statt Auto",lt:"Bus oder Bahn statt Auto, 10 km",k:1,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.5},{id:"10",t:"10 km",k:1},{id:"20",t:"20 km",k:2},{id:"50",t:"50 km",k:5}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, Bus und Bahn im Nahverkehr bei 0,04 bis 0,09 kg, im Mittel rund 0,06 kg (UBA 2024). Der Umstieg spart rund 0,1 kg pro Kilometer."},
+{id:"bahn",a:"wege",md:1,t:"Fernzug statt Auto",lt:"Bahn statt Auto, 300 km",k:37,q:"Wie weit?",v:[{id:"100",t:"100 km",k:11},{id:"300",t:"300 km",k:34},{id:"600",t:"600 km",k:68}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, der Fernzug laut UBA 2024 bei 0,026 kg. Gerechnet wird vorsichtig mit 0,05 kg für den Zug, so wie beim Vergleich mit dem Flug."},
 {id:"bahnflug",a:"wege",md:1,t:"Bahn statt Inlandsflug, eine Strecke",k:75,n:"Gerechnet für rund 500 km. Der Flug liegt mit Nicht-CO₂-Effekten bei rund 0,2 kg pro Kilometer, der Fernzug bei rund 0,05 kg."},
 {id:"bahn_eu",a:"wege",md:1,t:"Bahn statt Flug in Europa, eine Strecke",k:150,n:"Gerechnet für rund 1.000 km, mit denselben Werten pro Kilometer wie beim Inlandsflug. Hin und zurück verursacht der Flug rund 0,4 t, so wie die Kurzstrecke im Hebel-Check."},
 {id:"tempo",a:"wege",md:2,t:"Auf der Autobahn 120 statt rund 140 gefahren, 100 km",k:2,n:"Bei 120 statt 140 km/h braucht ein Auto rund 10 bis 20 % weniger Sprit."},
-{id:"mitfahren",a:"wege",md:2,w:1,t:"Fahrgemeinschaft statt allein, 50 km",k:4,n:"Die Hälfte der Fahrt geht auf die andere Person."},
-{id:"wegspar",a:"wege",md:2,t:"Eine Autofahrt von 20 km gespart",k:3.4,n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen. Wer schon mit Bus und Bahn pendelt, spart mit einem Homeoffice-Tag nur noch die Bahnfahrt. Dann zählt der Schritt mit rund 40 %."},
-{id:"rad_oepnv",a:"wege",md:2,t:"10 km mit dem Rad statt mit Bus oder Bahn",k:0.6,n:"Bus und Bahn liegen im Nahverkehr bei rund 0,05 bis 0,08 kg pro Kilometer und Person. Der Schritt ist kleiner als beim Auto, weil du schon klimafreundlich unterwegs bist."},
-{id:"taxi",a:"wege",md:2,t:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst, 10 km",k:1.5,n:"Ein Taxi verursacht mit Leerfahrten rund 0,2 kg pro Kilometer, Bus und Bahn rund 0,05 bis 0,08 kg."},
+{id:"mitfahren",a:"wege",md:2,w:1,t:"Fahrgemeinschaft statt allein gefahren",lt:"Fahrgemeinschaft statt allein, 50 km",k:4,q:"Wie weit?",v:[{id:"20",t:"20 km",k:1.6},{id:"50",t:"50 km",k:4},{id:"200",t:"200 km",k:16}],n:"Die Hälfte der Fahrt geht auf die andere Person. Gerechnet mit 0,08 kg pro Kilometer, der Hälfte des Durchschnitts pro Person und Kilometer. Ein allein gefahrenes Auto verursacht mehr, darum ist das vorsichtig gerechnet."},
+{id:"wegspar",a:"wege",md:2,t:"Autofahrt ganz eingespart",lt:"Eine Autofahrt von 20 km gespart",k:3.4,q:"Wie weit wäre die Fahrt gewesen, hin und zurück?",v:[{id:"5",t:"5 km",k:0.8},{id:"10",t:"10 km",k:1.6},{id:"20",t:"20 km",k:3.2},{id:"50",t:"50 km",k:8}],n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen. Gerechnet mit 0,16 kg pro Kilometer (UBA 2024). Wer schon mit Bus und Bahn pendelt, spart mit einem Homeoffice-Tag nur noch die Bahnfahrt. Dann zählt der Schritt mit rund 40 %."},
+{id:"rad_oepnv",a:"wege",md:2,t:"Rad statt Bus oder Bahn",lt:"10 km mit dem Rad statt mit Bus oder Bahn",k:0.6,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.3},{id:"10",t:"10 km",k:0.6},{id:"20",t:"20 km",k:1.2}],n:"Bus und Bahn liegen im Nahverkehr bei 0,04 bis 0,09 kg pro Kilometer und Person (UBA 2024), gerechnet mit 0,06 kg. Der Schritt ist kleiner als beim Auto, weil du schon klimafreundlich unterwegs bist."},
+{id:"taxi",a:"wege",md:2,t:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst",lt:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst, 10 km",k:1.5,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.7},{id:"10",t:"10 km",k:1.4},{id:"20",t:"20 km",k:2.8}],n:"Ein Taxi mit einem Fahrgast verursacht pro Kilometer mindestens so viel wie ein Auto, rund 0,2 kg, dazu kommen Leerfahrten. Bus und Bahn liegen bei rund 0,06 kg. Gerechnet wird mit 0,14 kg Unterschied pro Kilometer."},
 {id:"keinauto",a:"wege",g:1,bo:1,t:"Kein eigenes Auto",y:0,n:"Wer kein Auto hat, spart nichts Neues ein, lebt aber schon mit einem der größten Hebel. Das wächst in deiner Landschaft, zählt aber keine kg."},
 {id:"dticket",a:"wege",g:1,t:"Freizeit und Erledigungen mit Deutschlandticket statt Auto",y:200,n:"Gerechnet für rund 2.000 Autokilometer im Jahr, die du stattdessen mit Bus und Bahn fährst. Pro Kilometer spart das rund 0,1 kg. Für den Arbeitsweg gibt es einen eigenen Eintrag."},
 {id:"autolos",a:"wege",g:1,t:"Auto abgeschafft",y:1500,n:"Mittelwert. Je nach Fahrleistung sind es 1 bis 3 Tonnen im Jahr. Wer nie ein Auto hatte, wählt unter „Schon Alltag“ besser „Kein eigenes Auto“."},
 {id:"eauto",a:"wege",g:1,t:"E-Auto statt Verbrenner beim ohnehin fälligen Neukauf",y:900,n:"Gilt nur, wenn ohnehin ein neues Auto fällig war. Mit heutigem Strommix und eingerechneter Batterieherstellung verursacht ein E-Auto noch rund ein Drittel, mehr als zwei Drittel deiner Autoemissionen spart es also nicht. Ein gut laufendes Auto vorzeitig zu ersetzen spart wegen der Herstellung deutlich weniger."},
-{id:"pendeln",a:"wege",g:1,t:"Pendeln mit Bus und Bahn statt Auto",y:600,n:"Gerechnet für rund 15 km Arbeitsweg einfach an 200 Tagen, also 6.000 km im Jahr. Das Auto liegt bei rund 0,17 kg pro Kilometer, Bus und Bahn bei rund 0,07 kg. Der Umstieg spart also rund 0,1 kg pro Kilometer."},
+{id:"pendeln",a:"wege",g:1,t:"Pendeln mit Bus und Bahn statt Auto",y:600,n:"Gerechnet für rund 15 km Arbeitsweg einfach an 200 Tagen, also 6.000 km im Jahr. Das Auto liegt bei rund 0,16 kg pro Kilometer, Bus und Bahn bei rund 0,06 kg (UBA 2024). Der Umstieg spart also rund 0,1 kg pro Kilometer."},
 {id:"keinflug",a:"wege",g:1,t:"Auf die jährliche Fernreise im Flugzeug verzichtet",y:2500,n:"Eine Langstrecke hin und zurück, mit Nicht-CO₂-Effekten. Zählt nur, wenn laut Hebel-Check sonst eine Fernreise im Jahr anstünde."},
 {id:"lastenrad",a:"wege",g:1,t:"Lastenrad statt Zweitwagen",y:800,n:"Gerechnet für einen wenig gefahrenen Zweitwagen."},
 
-{id:"kleid",a:"dinge",md:3,yr:20,t:"Ein Kleidungsstück gebraucht statt neu",k:5,n:"Ein neues Kleidungsstück verursacht rund 5 bis 15 kg, gerechnet mit 10 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"jeans",a:"dinge",md:1,yr:3,t:"Eine Jeans gebraucht statt neu",k:12.5,n:"Die Herstellung einer Jeans verursacht rund 25 kg. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"repariert",a:"dinge",md:2,yr:12,t:"Etwas repariert statt ersetzt",k:15,n:"Mittelwert für kleinere Geräte und Gegenstände."},
-{id:"handyrep",a:"dinge",md:1,yr:1,t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung."},
-{id:"laptop",a:"dinge",md:1,yr:1,t:"Laptop gebraucht statt neu",k:100,n:"Die Herstellung eines Laptops verursacht rund 200 bis 300 kg. Gezählt wird die Hälfte von 200 kg, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{id:"geliehen",a:"dinge",md:2,yr:12,w:1,t:"Gerät geliehen statt gekauft",k:15,n:"Grobe Schätzung für ein Werkzeug oder Küchengerät, das du sonst gekauft hättest."},
-{id:"nichtgekauft",a:"dinge",md:3,t:"Einen Spontankauf gelassen",k:3,n:"Grober Mittelwert für kleine Spontankäufe."},
+{id:"kleid",a:"dinge",md:3,yr:20,t:"Kleidung gebraucht statt neu",lt:"Ein Kleidungsstück gebraucht statt neu",k:5,q:"Was hast du gebraucht gekauft?",v:[{id:"shirt",t:"T-Shirt oder Bluse",k:3,s:"shirt"},{id:"pulli",t:"Pullover oder Sweatshirt",k:15,s:"pulli",yr:6},{id:"jeans",t:"Jeans oder Hose",k:12.5,yr:3},{id:"jacke",t:"Jacke",k:13.5,s:"jacke",yr:3},{id:"schuhe",t:"Schuhe",k:7.5,s:"schuhe",yr:4}],n:"Gezählt wird die Hälfte dessen, was ein neues Stück verursacht: Ein gebrauchtes ersetzt nicht immer einen Neukauf und hat schon ein Leben hinter sich. So rechnet auch das ifeu für Re-Use Berlin. Neu (ADEME): T-Shirt 6,4 kg, Pullover 29 bis 57 kg, Jeans 25 kg, Jacke 27 bis 41 kg, Schuhe 15 bis 20 kg. Gerechnet jeweils am unteren Rand."},
+{id:"jeans",a:"dinge",md:1,yr:3,h:1,to:"kleid",yk:"kleid.jeans",t:"Eine Jeans gebraucht statt neu",k:12.5,n:"Eine neue Jeans verursacht rund 25 kg (ADEME). Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt. Neue Einträge gehen über „Kleidung gebraucht statt neu“."},
+{id:"repariert",a:"dinge",md:2,yr:12,t:"Repariert statt ersetzt",lt:"Etwas repariert statt ersetzt",k:15,q:"Was hast du repariert?",v:[{id:"kleid",t:"Kleidungsstück",k:10},{id:"schuhe",t:"Schuhe",k:7.5,yr:4},{id:"elek",t:"Kleines Elektrogerät",d:"etwa Wasserkocher",k:5,s:"elek"},{id:"moebel",t:"Möbelstück",d:"etwa Stuhl",k:9},{id:"rad",t:"Fahrrad statt neu gekauft",k:48,yr:1,s:"rad"},{id:"handy",t:"Smartphone",k:30,yr:1}],n:"Gezählt wird die Hälfte dessen, was ein neues Stück verursacht, weil eine Reparatur den Neukauf oft nur hinausschiebt (wie beim Gebrauchtkauf, ifeu für Re-Use Berlin). Neu: Kleidungsstück rund 20 kg, Schuhe 15 kg, Wasserkocher 10 kg und Holzstuhl 19 kg (ADEME), Fahrrad rund 96 kg (ECF), Smartphone 45 bis 80 kg (Apple, ADEME), gerechnet mit 60 kg."},
+{id:"handyrep",a:"dinge",md:1,yr:1,h:1,to:"repariert",yk:"repariert.handy",t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung. Neue Einträge gehen über „Repariert statt ersetzt“."},
+{id:"laptop",a:"dinge",md:1,lv:"lap",t:"Technik gebraucht statt neu",lt:"Laptop gebraucht statt neu",k:100,q:"Was hast du gebraucht gekauft?",v:[{id:"phone",t:"Smartphone",k:30,yr:1},{id:"tab",t:"Tablet",k:30,yr:1},{id:"lap",t:"Laptop",k:90,yr:1}],n:"Gezählt wird die Hälfte der Herstellung eines neuen Geräts, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt. Herstellung: Smartphone 45 bis 80 kg (Apple iPhone 16: 45 kg, ADEME: 79 kg), Tablet 56 bis 87 kg (Apple iPad, ADEME), Laptop rund 180 kg (ADEME). Gerechnet mit 60, 60 und 180 kg. In kg zählt jedes Gerät höchstens einmal in 12 Monaten."},
+{id:"geliehen",a:"dinge",md:2,yr:12,w:1,t:"Geliehen statt gekauft",lt:"Gerät geliehen statt gekauft",k:15,q:"Was hast du geliehen?",v:[{id:"werk",t:"Werkzeug",d:"etwa Bohrmaschine oder Stichsäge",k:6,s:"elek"},{id:"kueche",t:"Küchengerät",d:"etwa Mixer oder Waffeleisen",k:5,s:"elek"},{id:"fest",t:"Festliche Kleidung",d:"etwa Anzug oder Kleid",k:25,yr:2}],n:"Gezählt wird die Hälfte dessen, was ein neues Stück verursacht, weil Leihen nicht immer einen Kauf ersetzt. Neu: Akkuschrauber 9 kg, Stichsäge 16 kg (Wuppertal Institut), Wasserkocher 10 kg Herstellung, Kleid 52 bis 58 kg (ADEME). Gerechnet mit 12, 10 und 50 kg."},
+{id:"nichtgekauft",a:"dinge",md:3,t:"Spontankauf gelassen",lt:"Einen Spontankauf gelassen",k:3,q:"Was hättest du gekauft?",v:[{id:"shirt",t:"T-Shirt",k:6,s:"shirt",yr:12},{id:"pulli",t:"Pullover",k:30,s:"pulli",yr:6},{id:"jacke",t:"Jacke",k:27,s:"jacke",yr:3},{id:"schuhe",t:"Schuhe",k:15,s:"schuhe",yr:4},{id:"elek",t:"Kleines Elektrogerät",d:"etwa Wasserkocher oder Lautsprecher",k:10,s:"elek",yr:6},{id:"klein",t:"Kleinkram",d:"etwa Deko oder Spielzeug",k:1}],n:"Gezählt wird der ganze Fußabdruck des neuen Stücks, denn es wird gar nicht erst hergestellt. Neu (ADEME): T-Shirt 6,4 kg, Pullover 29 bis 57 kg, Jacke 27 bis 41 kg, Schuhe 15 bis 20 kg, Wasserkocher 10 kg Herstellung, vernetzter Lautsprecher 26 kg. Kleinkram wie Bilderrahmen, Gießkanne oder Spielfigur 0,4 bis 4 kg (Wuppertal Institut). Gerechnet jeweils am unteren Rand."},
 {id:"weiter",a:"dinge",t:"Etwas weitergegeben statt weggeworfen",k:0,n:"Ein Schritt für den Handabdruck, also für das, was du über deinen eigenen Fußabdruck hinaus bewirkst. Die Einsparung zählt bei der Person, die es gebraucht nutzt statt neu zu kaufen. So wird sie nicht doppelt gezählt."},
 {id:"handylang",a:"dinge",g:1,t:"Smartphone mindestens ein Jahr länger nutzen",y:8,n:"Die Herstellung verteilt sich auf mehr Jahre. Das sind rund 5 bis 10 kg im Jahr."},
 {id:"nurgebraucht",a:"dinge",g:1,t:"Kleidung nur noch gebraucht",y:75,n:"Bei durchschnittlichem Kleidungskauf verursacht neue Kleidung rund 150 kg im Jahr. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
@@ -1117,15 +1129,15 @@ const BITES=[
    Liegen sie weiter auseinander, ist „Etwa gleich viel“ falsch. Die Grenze rechnet die App aus den Werten, die Texte sind darauf abgestimmt. */
 const DUEL_EQ=.3;
 const DUELS=[
-{a:"Ein Jahr lang keine Plastiktüte",ak:3,b:"Einmal Bahn statt Auto auf 300 km",bk:37,x:"Plastiktüten sind ein sehr kleiner Hebel. Eine einzige lange Autofahrt wiegt schwerer als ein Jahr Tütenverzicht."},
+{a:"Ein Jahr lang keine Plastiktüte",ak:3,b:"Einmal Bahn statt Auto auf 300 km",bk:34,x:"Plastiktüten sind ein sehr kleiner Hebel. Eine einzige lange Autofahrt wiegt schwerer als ein Jahr Tütenverzicht."},
 {a:"Ein Jahr Ökostrom",ak:100,b:"Ein Jahr lang einmal pro Woche vegetarisch statt Fleisch",bk:80,x:"Fast gleich, der Ökostrom liegt knapp vorn. Wie viel ein Wechsel zusätzlich bewirkt, ist umstritten. Gerechnet ist mit rund 100 kg, je nach Anbieter sind es etwa 50 bis 150 kg."},
 {a:"Eine Langstreckenreise im Flugzeug weniger",ak:2500,b:"Ein Jahr komplett vegan",bk:800,x:"Ein Langstreckenflug hin und zurück wiegt mit seinen Nicht-CO₂-Effekten mehr als ein ganzes Jahr pflanzliche Ernährung."},
 {a:"Eine Jeans gebraucht statt neu",ak:12.5,b:"100 Gläser Haferdrink statt Kuhmilch",bk:20,x:"Der Haferdrink spart mehr. Eine neue Jeans verursacht rund 25 kg. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{a:"Ein Jahr jeden Tag eine Stunde weniger streamen",ak:13,b:"Einmal 10 km Rad statt Auto pro Woche, ein Jahr",bk:88,x:"Streaming liegt bei rund 36 Gramm pro Stunde. Das Rad gewinnt deutlich."},
+{a:"Ein Jahr jeden Tag eine Stunde weniger streamen",ak:13,b:"Einmal 10 km Rad statt Auto pro Woche, ein Jahr",bk:83,x:"Streaming liegt bei rund 36 Gramm pro Stunde. Das Rad gewinnt deutlich."},
 {a:"Heizung ein Jahr lang 1 Grad kühler",ak:110,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Heizen ist in deutschen Haushalten der größte Energieverbraucher. Standby ist dagegen klein."},
-{a:"Smartphone ein Jahr länger nutzen",ak:8,b:"Laptop gebraucht statt neu kaufen",bk:100,x:"Laptops sind in der Herstellung viel aufwendiger als Smartphones. Beim gebrauchten Laptop ist die Hälfte der Herstellung gezählt, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{a:"Smartphone ein Jahr länger nutzen",ak:8,b:"Laptop gebraucht statt neu kaufen",bk:90,x:"Laptops sind in der Herstellung viel aufwendiger als Smartphones. Beim gebrauchten Laptop ist die Hälfte der Herstellung gezählt, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
 {a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Im Sommer ein Kilo Tomaten aus der Region statt aus Spanien",bk:0.1,x:"Was man isst, zählt meist mehr als die Herkunft. Der Lkw-Transport von Tomaten ist klein. Im Winter können regionale Tomaten aus dem beheizten Gewächshaus sogar schlechter abschneiden."},
-{a:"Auto abschaffen",ak:1500,b:"Ein Jahr lang Wäsche an der Luft trocknen",bk:100,x:"Beides ist gut. Das Auto ist einer der größten Einzelhebel überhaupt."},
+{a:"Auto abschaffen",ak:1500,b:"Ein Jahr lang Wäsche an der Luft trocknen statt im Wärmepumpentrockner, 100 Ladungen",bk:70,x:"Beides ist gut. Das Auto ist einer der größten Einzelhebel überhaupt."},
 {a:"Einmal Bahn statt Inlandsflug, eine Strecke",ak:75,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:55,x:"Nah beieinander, die Bahnfahrt liegt etwas vorn. Beim Flaschenwasser reicht die Spanne von rund 37 bis 73 kg im Jahr, je nach Transport und Verpackung."},
 {a:"Ein Jahr lang wöchentlich 1 kg Lebensmittel retten",ak:78,b:"Ein Jahr lang wöchentlich mit Deckel kochen",bk:3,x:"Lebensmittel tragen den ganzen Aufwand von Anbau, Transport und Kühlung in sich."},
 {a:"Raumtemperatur 1 Grad kühler",ak:110,b:"20 m² weniger Wohnfläche pro Person",bk:600,x:"Die Fläche ist der stille Riese. Was nicht beheizt wird, verbraucht gar nichts."},
@@ -1135,8 +1147,8 @@ const DUELS=[
 {a:"Photovoltaik aufs Dach, ein Jahr, Anteil pro Person",ak:1000,b:"Ein Jahr komplett vegetarisch",bk:450,x:"Eine Solaranlage auf dem Dach ist einer der größten Einzelschritte im Haushalt. Der größte Teil ihres Stroms wird eingespeist und ersetzt Strom anderer. In deiner eigenen Bilanz zählt sie darum höchstens so viel, wie dein Strom verursacht, im Schnitt rund 600 kg. Die vegetarische Ernährung ist trotzdem ein kräftiger Hebel."},
 {a:"Ein Jahr komplett vegetarisch",ak:450,b:"Eine Kurzstrecke in Europa hin und zurück weniger fliegen, rund 1.000 km pro Weg",bk:400,x:"Fast gleich. Ein einziger kurzer Flug hin und zurück wiegt fast so viel wie ein ganzes Jahr ohne Fleisch."},
 {a:"Ein Rindersteak durch Linsen ersetzen",ak:2.6,b:"Ein Jahr lang jeden Tag eine Stunde weniger streamen",bk:13,x:"Ein Jahr Streaming-Verzicht wiegt mehr als ein Steak. Aber ein Steak ist eine einzige Mahlzeit, Streaming ein ganzes Jahr."},
-{a:"Ein T-Shirt gebraucht statt neu",ak:2.5,b:"Einmal 50 km Bahn statt Auto",bk:6,x:"Die Bahnfahrt spart mehr. Ein neues T-Shirt verursacht rund 5 kg, so viel wie etwa 30 km Autofahrt. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{a:"Ein Smartphone reparieren statt neu kaufen",ak:60,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:55,x:"Erstaunlich nah beieinander. Beim Handy steckt fast alles in der Herstellung."},
+{a:"Ein T-Shirt gebraucht statt neu",ak:3,b:"Einmal 50 km Bahn statt Auto",bk:6,x:"Die Bahnfahrt spart mehr. Ein neues T-Shirt verursacht rund 6 kg, so viel wie etwa 40 km Autofahrt. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{a:"Ein Smartphone reparieren statt neu kaufen",ak:30,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:55,x:"Das Leitungswasser spart übers Jahr mehr. Beim Handy steckt zwar fast alles in der Herstellung, gezählt ist aber nur die Hälfte, weil eine Reparatur den Neukauf oft nur hinausschiebt."},
 {a:"Einen Winter lang stoßlüften statt Fenster kippen",ak:70,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Gekippte Fenster lassen über Stunden Wärme entweichen. Heizen ist der größere Posten."},
 {a:"Eine Fernreise im Flugzeug weniger",ak:2500,b:"Ein Jahr Wärmepumpe statt Gasheizung, Anteil pro Person",bk:1000,x:"Die Wärmepumpe ist ein großer Hebel. Eine einzige Fernreise wiegt trotzdem mehr als doppelt so viel."},
 {a:"1.000 km Autobahn mit 120 statt 140 km/h",ak:20,b:"Eine Jeans gebraucht statt neu",bk:12.5,x:"Das langsamere Fahren spart mehr. Bei der Jeans ist die Hälfte der Herstellung gezählt, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
@@ -1149,14 +1161,14 @@ const DUELS=[
 {a:"Ein Kleidungsstück gebraucht statt neu",ak:5,b:"Ein Monat Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:4.5,x:"Fast gleich. Beim Kleidungsstück ist die Hälfte der Herstellung gezählt, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
 {a:"Ein Jahr lang wöchentlich 10 km Bus statt Auto",ak:52,b:"Ein Jahr lang wöchentlich einmal aus Resten kochen",bk:42,x:"Fast gleich. Kleine Schritte summieren sich übers Jahr."},
 {a:"Lastenrad statt Zweitwagen, ein Jahr",ak:800,b:"Ein Jahr Ökostrom",bk:100,x:"Ein Zweitwagen kostet nicht nur Sprit, sondern auch seine Herstellung. Wie viel ein Ökostrom-Wechsel zusätzlich bewirkt, ist umstritten, gerechnet sind rund 100 kg, die Spanne reicht von etwa 50 bis 150 kg."},
-{a:"Einen Laptop gebraucht statt neu kaufen",ak:100,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:55,x:"In einem Laptop steckt viel Herstellungsaufwand. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
-{a:"Einmal kürzer duschen",ak:0.15,b:"Einmal Wäsche an der Luft statt im Trockner",bk:1,x:"Der Trockner braucht viel Strom. Beim Duschen zählt vor allem, wie oft."},
+{a:"Einen Laptop gebraucht statt neu kaufen",ak:90,b:"Ein Jahr lang Leitungswasser statt Flaschenwasser, 1 Liter am Tag",bk:55,x:"In einem Laptop steckt viel Herstellungsaufwand. Gezählt ist die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
+{a:"Einmal kürzer duschen",ak:0.15,b:"Einmal Wäsche an der Luft statt im Wärmepumpentrockner",bk:0.7,x:"Der Trockner braucht viel Strom. Beim Duschen zählt vor allem, wie oft."},
 {a:"Ein Jahr lang täglich ein Glas Haferdrink statt Kuhmilch",ak:73,b:"Ein Jahr lang alle Geräte nachts ganz aus",bk:18,x:"Kuhmilch hat einen größeren Fußabdruck, als die meisten denken."},
 {a:"Ein Jahr Ökostrom",ak:100,b:"Ein Jahr lang Fleisch halbiert",bk:250,x:"Das halbierte Fleisch wiegt mehr. Beim Ökostrom ist umstritten, wie viel ein Wechsel zusätzlich bewirkt, gerechnet sind rund 100 kg, die Spanne reicht von etwa 50 bis 150 kg. Dafür ist er ein einziger Schritt."},
 {a:"Das Auto abschaffen",ak:1500,b:"Photovoltaik aufs Dach, Anteil pro Person",bk:1000,x:"Beides gehört zu den größten Hebeln. Das Auto liegt um rund die Hälfte höher. Von der Solaranlage zählt in deiner eigenen Bilanz höchstens, was dein Strom verursacht, im Schnitt rund 600 kg. Der eingespeiste Rest ersetzt Strom anderer."},
 {q:"v",a:"Eine Stunde Videostreaming",ak:0.036,b:"Einen Kilometer allein Auto fahren",bk:0.17,x:"Ein Kilometer Autofahrt verursacht etwa so viel wie fünf Stunden Streaming."},
 {a:"Einmal Bahn statt Inlandsflug, 500 km",ak:75,b:"Ein Jahr lang einmal pro Woche vegetarisch",bk:80,x:"Fast gleich. Eine Strecke mit der Bahn statt mit dem Flugzeug spart etwa so viel wie ein Jahr lang ein fleischfreier Tag pro Woche."},
-{a:"Ein Jahr lang Wäsche bei 30 statt 60 Grad, 100 Ladungen",ak:30,b:"Eine Jeans gebraucht statt neu",bk:12.5,x:"Das kühlere Waschen spart mehr. Beim Waschen geht der meiste Strom ins Aufheizen."},
+{a:"Ein Jahr lang Wäsche bei 30 statt 60 Grad, 100 Ladungen",ak:25,b:"Eine Jeans gebraucht statt neu",bk:12.5,x:"Das kühlere Waschen spart mehr. Beim Waschen geht der meiste Strom ins Aufheizen."},
 {q:"v",a:"Hundert Fragen an einen KI-Chat",ak:0.1,b:"Ein Kilometer im Auto",bk:0.17,x:"Bei kurzen Antworten wiegen hundert Textfragen weniger als ein Kilometer Autofahrt, auch mit Mistrals höherer Schätzung von rund 1 g pro Antwort. Bei langen Antworten, Modellen mit Denkschritten oder Agenten kann es ein Vielfaches sein. Bilder und Videos brauchen deutlich mehr."}
 ];
 const TERMS=[
@@ -1371,7 +1383,8 @@ const THEMES=[
 ];
 
 /* Dauerhafte Änderungen und die kleinen Schritte, deren Kilogramm sie schon enthalten.
-   Solange eine dieser Änderungen läuft, zählen die kleinen Schritte sichtbar, aber ohne Kilogramm. */
+   Solange eine dieser Änderungen läuft, zählen die kleinen Schritte sichtbar, aber ohne Kilogramm.
+   „Schritt.Variante“ gilt nur für diese Variante: Wer Kleidung nur noch gebraucht kauft, hätte ein gelassenes T-Shirt ohnehin nicht neu gekauft. */
 const COVER={
 autolos:["rad5","rad10","oepnv","wegspar","mitfahren","tempo","bahn"],
 pendeln:["oepnv"],
@@ -1379,14 +1392,14 @@ dticket:["oepnv"],
 veg_dauer:["veg_tag","linsen"],
 vegan_dauer:["veg_tag","vegan_tag","linsen","hafer","milchfrei_tag"],
 kaese_weniger:["milchfrei_tag","hafer"],
-nurgebraucht:["kleid","jeans","tausch"],
-handylang:["handyrep"],
+nurgebraucht:["kleid","jeans","tausch","nichtgekauft.shirt","nichtgekauft.pulli","nichtgekauft.jacke","nichtgekauft.schuhe"],
+handylang:["handyrep","repariert.handy"],
 gemeinschaft:["mahlzeit","geteilt"]
 };
 /* Teilweise enthalten: Solange die dauerhafte Änderung läuft, zählt der kleine Schritt nur mit diesem Anteil.
    fleisch_halb: Fleischfreie Tage sind oft genau die Halbierung, darum die Hälfte.
    veg_dauer: Ein veganer Tag spart gegenüber einem vegetarischen nur noch rund 0,7 von 2,2 kg. Ein Tag ohne Milch und Käse bleibt voll, denn Milchprodukte stecken nicht in „Dauerhaft vegetarisch“.
-   pendeln: Ein Homeoffice-Tag spart dann nur die Bahnfahrt, rund 0,07 statt 0,17 kg pro km.
+   pendeln: Ein Homeoffice-Tag spart dann nur die Bahnfahrt, rund 0,06 statt 0,16 kg pro km.
    oekostrom: Gesparter Strom zählt mit Ökostrom zu 80 %. Ein Tarifwechsel allein verändert den Strommix nur wenig (siehe „oekostrom“, rund 100 von 600 kg). */
 const COVER_PART={
 fleisch_halb:{veg_tag:.5,linsen:.5},
@@ -1439,7 +1452,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="21.10.2026, 21:51";
+const BUILD="01.11.2026, 11:33";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1452,6 +1465,15 @@ let kv=0;
 const save=()=>{kv++;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const A=Object.fromEntries(ACTS.map(a=>[a.id,a])),B=Object.fromEntries(BITES.map(b=>[b.id,b])),T=Object.fromEntries(TERMS.map(t=>[t.id,t])),M=Object.fromEntries(MISS.map(m=>[m.id,m]));
 const uid=()=>now().toString(36)+Math.random().toString(36).slice(2,6);
+/* Varianten eines kleinen Schritts (v in ACTS): Auswahl beim Eintragen, eigene kg, Titel „Schritt: Variante“ im Logbuch.
+   Ältere Einträge ohne Variante behalten Titel und Wert; für Jahresgrenze und gleiche Sache gilt bei ihnen lv. */
+const VAR=a=>a&&!a.g&&Array.isArray(a.v)&&a.v.length?a.v:null;
+const varOf=(a,vid)=>vid==null?null:(VAR(a)||[]).find(x=>x.id===String(vid))||null;
+const vTitle=(a,v)=>a.t+": "+v.t;
+const effV=e=>e.v||(A[e.act]||{}).lv||null;
+const lastVar=id=>{for(let i=S.log.length-1;i>=0;i--){const e=S.log[i];if(e.act===id&&e.v&&varOf(A[id],e.v))return varOf(A[id],e.v)}return null};
+/* Untertitel einer Kachel mit Varianten: zuletzt gewählt, sonst die Spanne */
+function vSub(a){const l=lastVar(a.id);if(l)return "zuletzt: "+l.t;const ks=VAR(a).map(v=>v.k||0).filter(k=>k>0);if(!ks.length)return "Auswählen";const lo=Math.min(...ks),hi=Math.max(...ks);const a0=kgTxt(lo),b0=kgTxt(hi);return lo===hi?"− "+a0:"− "+(a0.slice(-3)===" kg"&&b0.slice(-3)===" kg"?a0.slice(0,-3):a0)+" bis "+b0}
 const da=a=>`data-a="${a}"`;
 const dot=a=>`<span class="dot" ${da(a)}></span>`;
 const nf=(v,d)=>v.toLocaleString("de-DE",{maximumFractionDigits:d,minimumFractionDigits:0});
@@ -1472,7 +1494,7 @@ const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+
 const COV=typeof COVER!=="undefined"?COVER:{},COVBY={};Object.entries(COV).forEach(([big,l])=>l.forEach(sm=>(COVBY[sm]=COVBY[sm]||[]).push(big)));
 const CPART=typeof COVER_PART!=="undefined"?COVER_PART:{},DGR=typeof DAYGROUP!=="undefined"?DAYGROUP:{},DGOF={};Object.entries(DGR).forEach(([g,x])=>x.ids.forEach(id=>DGOF[id]=g));
 const runsAt=(id,t)=>S.log.some(x=>x.g&&x.act===id&&x.ts<=t&&(!x.end||x.end>t));
-function coveredBy(e){const l=COVBY[e.act];if(!l||e.g)return null;for(const big of l){if(isBase(big)||runsAt(big,e.ts))return big}return null}
+function coveredBy(e){if(e.g)return null;const v=effV(e),l=(COVBY[e.act]||[]).concat(v?COVBY[e.act+"."+v]||[]:[]);if(!l.length)return null;for(const big of l){if(isBase(big)||runsAt(big,e.ts))return big}return null}
 /* teilweise enthalten (COVER_PART): der kleinste Anteil gilt, dazu die Änderung, die ihn bewirkt */
 function partOf(e){let f=1,by=null;Object.entries(CPART).forEach(([big,m])=>{if(m[e.act]!=null&&m[e.act]<f&&(isBase(big)||runsAt(big,e.ts))){f=m[e.act];by=big}});return {f,by}}
 /* Überschneidungen: Aus jeder Gruppe in EXCL läuft höchstens eine dauerhafte Änderung */
@@ -1551,23 +1573,28 @@ const slide=(w,t)=>{while(w.i<w.l.length&&w.l[w.i].ts<=t-365*DAY){w.sum-=w.l[w.i
    1. nicht passend zum eigenen Alltag (e.nf, beim Eintragen festgehalten): 0 kg; Profil (e.pf): anteilig
    2. schon in einer laufenden Änderung enthalten (COVER): 0 kg, teilweise enthalten (COVER_PART): anteilig
    3. Tagesgrenze: derselbe Schritt zählt höchstens md-mal am Tag (Standard 3), ein Esstag höchstens 2,2 kg
-   4. vermiedene Neukäufe höchstens yr-mal in 12 Monaten
+   4. dieselbe Sache (Variante mit s) am selben Tag aus zwei Schritten: zusammen nur der größere Wert
+      vermiedene Neukäufe höchstens yr-mal in 12 Monaten, je Schritt und je Variante
    5. eigene Schätzungen zusammen höchstens 50 kg am Tag und 1 t im Jahr, mit der Zeit wachsend
    6. Restwert der Quelle (etwa neben einem E-Auto rund ein Drittel)
    7. Rahmen der Quelle: in 365 Tagen zusammen mit den dauerhaften Änderungen höchstens so viel, wie die Quelle in der Zeit verursacht */
 function smallRaw(e){if(e.nf)return {k:0,why:"nf"};const cb=coveredBy(e);if(cb)return {k:0,why:"cov",by:cb};
   let k=e.k||0;if(e.act==="custom")k=Math.min(k,KMAX_S);const p=partOf(e),pf=e.pf!=null?e.pf:1;
   if(pf<1&&pf<=p.f)return {k:k*pf,why:"prof",pw:e.pw};return p.f<1?{k:k*p.f,why:"part",by:p.by}:{k,why:null}}
-function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={},yrc={},cday={},cw={l:[],i:0,sum:0};
-  L.forEach(e=>{const r=smallRaw(e),a=A[e.act],d=dayStart(e.ts);let k=r.k,why=r.why,by=r.by;
+function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={},yrc={},cday={},cw={l:[],i:0,sum:0},same={};
+  L.forEach(e=>{const r=smallRaw(e),a=A[e.act],d=dayStart(e.ts),vv=a?varOf(a,effV(e)):null;let k=r.k,why=r.why,by=r.by,lim=null;
     {const key=(a?e.act:"c:"+e.t)+"|"+d;day[key]=(day[key]||0)+1;if(k>0&&day[key]>((a&&a.md)||3)){k=0;why="day"}}
     const g=DGOF[e.act];if(g&&k>0){const key=g+"|"+d,u=grp[key]||0,lim=DGR[g].kg;if(u+k>lim){k=Math.max(0,lim-u);why="grp"}grp[key]=u+k}
-    if(a&&a.yr&&k>0){const q=yrc[e.act]=yrc[e.act]||[];while(q.length&&q[0]<=e.ts-365*DAY)q.shift();if(q.length>=a.yr){k=0;why="yr"}else q.push(e.ts)}
+    /* dieselbe Sache am selben Tag aus zwei Schritten (s): Das Paar zählt so viel wie der größere Wert */
+    if(vv&&vv.s&&k>0){const l=same[vv.s+"|"+d]=same[vv.s+"|"+d]||[],m=l.find(x=>!x.u&&x.act!==e.act);if(m){m.u=1;const k2=Math.max(0,k-m.k);if(k2<k){k=k2;why="same";by=m.act}}else l.push({act:e.act,k})}
+    /* Jahresgrenze für den Schritt (yr) und für die Variante (v.yr); ältere Schritte teilen sie über yk */
+    if(a&&k>0){const Q=[];if(a.yr)Q.push([e.act,a.yr]);if(a.yk){const [p,q]=a.yk.split("."),x=varOf(A[p],q);if(x&&x.yr)Q.push([a.yk,x.yr])}else if(vv&&vv.yr)Q.push([e.act+"."+vv.id,vv.yr]);
+      if(Q.length){const full=Q.find(([key,n])=>{const q=yrc[key]=yrc[key]||[];while(q.length&&q[0]<=e.ts-365*DAY)q.shift();return q.length>=n});if(full){k=0;why="yr";lim=full[1]}else Q.forEach(([key])=>yrc[key].push(e.ts))}}
     if(e.act==="custom"&&k>0){const u=cday[d]||0;if(u+k>CUST_DAY+1e-9){k=Math.max(0,CUST_DAY-u);why="cday"}cday[d]=u+k;
       slide(cw,e.ts);const av=Math.max(0,budget("_c",e.ts,M0)-cw.sum);if(k>av+1e-9){k=av;why="cyr"}cw.l.push({ts:e.ts,k});cw.sum+=k}
     const n=srcOfE(e);if(n&&k>0&&M0.caps[n]!=null){const s=srcState(n,e.ts);if(s.f<1){k*=s.f;why=why||"rest";by=by||s.rest[0]}
       const w=win[n]=win[n]||{l:[],i:0,sum:0};slide(w,e.ts);const av=Math.max(0,budget(n,e.ts,M0)-w.sum);if(k>av+1e-9){k=av;why="cap"}w.l.push({ts:e.ts,k});w.sum+=k}
-    M0.small[e.id]=k;M0.why[e.id]={why,by,n,pw:r.pw}})}
+    M0.small[e.id]=k;M0.why[e.id]={why,by,n,pw:r.pw,lim}})}
 function eKg(e,from,to){from=from||0;
   if(!e.g){if(!(e.ts>=from&&(to==null||e.ts<to)))return 0;const v=memo().small[e.id];return v!=null?v:smallRaw(e).k}
   const s=Math.max(e.ts,from,appStart()),en=Math.min(e.end||now(),to==null?now():to);if(en<=s)return 0;
@@ -1585,7 +1612,7 @@ const meets=()=>S.log.filter(e=>e.w).length;
 const misDone=()=>Object.values(S.mis).filter(v=>v.status==="done").length;
 /* Wachstum nach Wirkung, etwa logarithmisch: kleine Schritte ½ bis 3 Punkte je nach gezählten kg, eine Begegnung oder ein Handabdruck 1,
    dauerhafte Änderungen 2 bis 10 nach kg im Jahr (höchstens so viel, wie die Quelle verursacht).
-   Derselbe kleine Schritt zählt fürs Wachstum höchstens einmal am Tag; eintragen lässt er sich beliebig oft.
+   Derselbe kleine Schritt zählt fürs Wachstum höchstens einmal am Tag, mit dem Eintrag, der am meisten bringt (Varianten zählen gemeinsam); eintragen lässt er sich beliebig oft.
    Ein Wechsel innerhalb einer Gruppe (EXCL) oder ein neuer Anlauf derselben Änderung setzt die Kette fort (e.rep = erster Baum der Kette):
    Es wächst kein neuer Baum, der bestehende wandelt sich, und es gibt nur die Punkte, die über den bisher besten der Kette hinausgehen.
    Wer schon länger dabei ist, verliert durch neue Rechnungen nichts: gAdd und gFloor halten die erreichte Stufe (Migrationen gv 3 bis 5).
@@ -1597,8 +1624,8 @@ function ptsOf(e){if(e.g){let y;if(PTS_MODE<5)y=e.nf?0:Math.min(e.y||0,e.act==="
   const raw=e.nf&&PTS_MODE<5?0:Math.min(e.k||0,e.act==="custom"&&PTS_MODE>3?KMAX_S:1e9);if(e.w&&raw<.5)return 1;if(raw<=0)return 1;
   const k=PTS_MODE<5?raw:(v=>v!=null?v:smallRaw(e).k)(memo().small[e.id]);return k<.5?.5:k<10?1:k<100?2:3}
 const basePts=()=>Object.keys(S.base||{}).reduce((s,id)=>s+(A[id]&&A[id].g?2:1),0);
-function growthRaw(){const seen=new Set(),chain={};let g=0;S.log.map((e,i)=>[e,i]).sort((a,b)=>(a[0].ts-b[0].ts)||(a[1]-b[1])).forEach(([e])=>{
-    if(!e.g){const key=clumpKey(e)+"|"+dayStart(e.ts);if(seen.has(key))return;seen.add(key);g+=ptsOf(e);return}
+function growthRaw(){const seen=new Map(),chain={};let g=0;S.log.map((e,i)=>[e,i]).sort((a,b)=>(a[0].ts-b[0].ts)||(a[1]-b[1])).forEach(([e])=>{
+    if(!e.g){const key=clumpKey(e)+"|"+dayStart(e.ts),p=ptsOf(e),b=seen.get(key);if(b==null){seen.set(key,p);g+=p}else if(p>b){seen.set(key,p);g+=p-b}return}
     const p=ptsOf(e);if(PTS_MODE<5){g+=p;return}const r=e.rep||e.id,best=chain[r]||0;g+=Math.max(0,p-best);chain[r]=Math.max(best,p)});
   return g+misDone()*4+basePts()}
 function growth(){return Math.round(Math.max(growthRaw()+(S.gAdd||0),S.gFloor||0)*10)/10}
@@ -2047,7 +2074,7 @@ $("#tabs").addEventListener("keydown",e=>{const b=e.target.closest("[role=tab]")
 /* ---------- Biotop ---------- */
 const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
 /* Hebel aus dem Check: Quelle → Bereich, passende dauerhafte Änderungen und kleine Schritte */
-const HEBEL={"Fliegen":{a:"wege",big:["keinflug"],small:["bahnflug","bahn"]},"Heizen":{a:"wohnen",big:["grad","daemmung","waermepumpe","kleiner"],small:["lueften","dusche"]},"Auto":{a:"wege",big:["autolos","pendeln","carsharing","lastenrad"],small:["rad5","oepnv","rad10"]},
+const HEBEL={"Fliegen":{a:"wege",big:["keinflug"],small:["bahnflug","bahn"]},"Heizen":{a:"wohnen",big:["grad","daemmung","waermepumpe","kleiner"],small:["lueften","dusche"]},"Auto":{a:"wege",big:["autolos","pendeln","carsharing","lastenrad"],small:["rad5","oepnv","wegspar"]},
   "Essen":{a:"essen",big:["fleisch_halb","veg_dauer"],small:["veg_tag","linsen"]},"Konsum":{a:"dinge",big:["nurgebraucht","handylang"],small:["nichtgekauft","kleid","repariert"]},"Strom":{a:"wohnen",big:["oekostrom","balkon"],small:["leine","kalt"]}};
 const lastCheck=()=>S.checks[S.checks.length-1];
 /* J4 Wohnform: freiwillige Zusatzfrage zum Hebel-Check. ans.wohn: 0 zur Miete, 3 eigenes Haus, 2 Eigentumswohnung,
@@ -2167,7 +2194,7 @@ function stampProfile(en,id){const nf=nfWhy(id);if(nf){en.nf=nf;return}const p=p
    Neu berechnet wird beim nächsten Öffnen, am nächsten Tag oder wenn sich Check oder „Schon Alltag“ ändern. */
 let QK=null;
 function quickIds(){const k=todayKey()+"|"+S.checks.length+"|"+Object.keys(S.base||{}).length+"|"+(S.chkSkip?1:0);if(QK&&QK.k===k)return QK.ids;const ids=quickCalc();QK={k,ids};return ids}
-function quickCalc(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>c[e.act]=(c[e.act]||0)+1);
+function quickCalc(){const c={};S.log.filter(e=>!e.g&&A[e.act]).forEach(e=>{const id=A[e.act].h&&A[A[e.act].to]?A[e.act].to:e.act;c[id]=(c[id]||0)+1});
   const lc=lastCheck(),hb=lc?lc.top.flatMap(t=>(HEBEL[t[0]]||{small:[]}).small):[];
   const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).filter(id=>!isBase(id));const nc=noCar(),def=[nc?"rad_oepnv":"rad5","veg_tag","leine",nc?"taxi":"oepnv","mahlzeit","repariert","retten","kleid","geteilt","reste","linsen","lueften","nichtgekauft","saison","dusche","weiter"].filter(id=>A[id]);
   /* Wechsel von Woche zu Woche: die drei häufigsten Schritte bleiben vorn, dazu zwei Schritte zu den Hebeln aus dem Check und einer aus dem übrigen Vorrat, jeweils reihum */
@@ -2191,7 +2218,7 @@ function hebelCard(){const lc=lastCheck();if(!lc)return "";
 function themeCard(mo){const th=typeof THEMES!=="undefined"?THEMES[mo]:null;if(!th)return "";const wk=weekNo(),a0=A[th.act],b0=B[th.bite];
   const alt=(first,l,force)=>!l.length?first:force||wk%2?l[(wk>>1)%l.length]:first;
   /* L3: Was schon läuft, Alltag ist oder nicht zum Profil passt, wird nicht vorgeschlagen. Ohne Ersatz im selben Bereich bleibt die Zeile leer. */
-  const off=a0&&(isBase(a0.id)||!!nfWhy(a0.id)||(a0.g&&(!free(a0.id)||unfit(a0.id)))),alts0=a0?ACTS.filter(x=>x.a===a0.a&&!x.g&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3):[],
+  const off=a0&&(isBase(a0.id)||!!nfWhy(a0.id)||(a0.g&&(!free(a0.id)||unfit(a0.id)))),alts0=a0?ACTS.filter(x=>x.a===a0.a&&!x.g&&!x.h&&x.id!==a0.id&&!isBase(x.id)&&!nfWhy(x.id)&&(x.k||0)>=.3):[],
     /* v7-fixes 7: Ersatz zuerst aus derselben Quelle, in der Heizsaison also ein Heizschritt statt eines Stromschritts */
     sq=a0&&(SRCOF[a0.id]||SMALLOF[a0.id]),same=sq?alts0.filter(x=>SMALLOF[x.id]===sq):[],alts=same.length?same:alts0;
   const a=a0&&!(off&&!alts.length)?alt(a0,alts,off):null,m=misOffer(th.mis)?M[th.mis]:null;
@@ -2255,7 +2282,7 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
      <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length||st.i>0?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>`,kpis:`
    <div class="kpis"><button class="kpi" data-kpi="m"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></button><button class="kpi" data-kpi="y"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${sinceStart()?"seit deinem Start":"in 12 Monaten"}</span></button><button class="kpi" data-kpi="d">${perDay()>0?`<b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span>`:`<b class="kpi0">Noch keine</b><span>dauerhafte Änderung, die täglich wirkt</span>`}</button></div>`,quick:`
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
-     ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"><b>${a.t}</b><span>${a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>`,slot:`
+     ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"${VAR(a)?' aria-haspopup="dialog"':""}><b>${a.t}</b><span>${VAR(a)?esc(vSub(a)):a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>`,slot:`
    ${slot}`,bite:`
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>`,sz:`
    <section class="sec saisonsec" id="saison" aria-labelledby="saison-h"><div class="sec-h"><h3 id="saison-h">Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<button class="sz" data-saison="${esc(x)}">${x}</button>`).join("")}</div><p class="muted szhint">Antippen für Saison, Lagerung und Küchentipps.</p></section>`};
@@ -2437,10 +2464,19 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
    ${[...new Set(sug)].length?`<h3>${ab.length?"Was als Nächstes viel bewirkt":"Womit du anfangen könntest"}</h3><div class="row">${[...new Set(sug)].slice(0,3).map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${actT(id)}${ownTag(id)}</button>`).join("")}</div>`:""}`)}
 
 /* ---------- Eintragen ---------- */
-function logAct(id,ev,el){const a=A[id];if(!a)return;
+function logAct(id,ev,el,vid){const a=A[id];if(!a)return;
   if(a.g){bigSheet(id);return}
-  const e={id:uid(),act:id,a:a.a,t:a.t,k:a.k||0,ts:now()};if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();momentFor("small");
+  const v=VAR(a)?varOf(a,vid):null;if(VAR(a)&&!v){varSheet(id);return}
+  const e={id:uid(),act:id,a:a.a,t:v?vTitle(a,v):a.t,k:v?v.k||0:a.k||0,ts:now()};if(v)e.v=v.id;if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();momentFor("small");
   render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+kgNote(e),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
+/* Auswahlblatt für Schritte mit Varianten: ein Tipp auf die Kachel öffnet es, ein Tipp auf eine Variante trägt ein.
+   Die zuletzt gewählte Variante ist markiert und hat den Fokus. Was nicht zum eigenen Alltag passt oder nur anteilig zählt, steht darunter wie im Schritt selbst. */
+function varSheet(id){const a=A[id],l=lastVar(id),nfw=nfWhy(id),pr=nfw?null:profileOf(id,now());
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Kleiner Schritt</span></div><h2>${actT(id)}</h2><p class="vq" id="vq">${a.q||"Was genau?"}</p>
+   <div class="acts vopts" role="group" aria-labelledby="vq">${VAR(a).map(v=>{const on=l&&l.id===v.id;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small>${v.d?v.d+" · ":""}<span class="nw">${v.k?"− "+kgTxt(v.k):"ohne kg"}</span></small></span>${on?`<span class="vlast">zuletzt</span>`:""}</button>`}).join("")}</div>
+   ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
+   <p class="caveat">${actN(id)}</p>`);
+  const f=$("#sh .vopts .act.last")||$("#sh .vopts .act");if(f)try{f.focus({preventScroll:true})}catch(x){}}
 /* Was ein kleiner Schritt in kg zählt, kurz und sachlich, mit Grund, wenn es weniger ist als sein Richtwert */
 function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${kgTxt(k)} gespart`:"zählt ohne kg";
   if(w.why==="nf")return ` · zählt ohne kg. ${NFTXT[e.nf]||""}`;
@@ -2448,7 +2484,8 @@ function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${k
   if(w.why==="prof")return ` · ${kgTxt(k)} gespart, anteilig. ${PFTXT[w.pw]||""}`;
   if(w.why==="day")return ` · heute schon ${a&&a.md||3}× gezählt, dieser Eintrag zählt ohne kg`;
   if(w.why==="grp")return k>0?` · ${kgTxt(k)} gespart, mehr zählt an einem Tag nicht`:` · für heute ist schon ein ganzer Esstag gezählt, dieser Eintrag zählt ohne kg`;
-  if(w.why==="yr")return ` · zählt ohne kg. Ein vermiedener Neukauf dieser Art zählt höchstens ${a.yr===1?"einmal":a.yr+"-mal"} in 12 Monaten`;
+  if(w.why==="yr"){const n=w.lim||(a&&a.yr)||1;return ` · zählt ohne kg. Ein vermiedener Neukauf dieser Art zählt höchstens ${n===1?"einmal":n+"-mal"} in 12 Monaten`}
+  if(w.why==="same")return ` · ${k>0?kgTxt(k)+" gespart":"zählt ohne kg"}: „${A[w.by].t}“ ist heute vermutlich dieselbe Sache, gezählt wird nur der größere Wert`;
   if(w.why==="cday")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${CUST_DAY} kg am Tag`;
   if(w.why==="cyr")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${kgTxt(CUST_Y)} im Jahr, und dieser Rahmen wächst mit der Zeit seit deinem Start`;
   if(w.why==="cap")return k>0?` · ${kgTxt(k)} gespart. Mehr gibt die Quelle „${w.n}“ bisher nicht her, ihr Rahmen wächst mit jedem Tag`:` · zählt ohne kg: Bei „${w.n}“ ist schon gezählt, was die Quelle in dieser Zeit verursacht. Der Rahmen wächst mit jedem Tag`;
@@ -2495,7 +2532,7 @@ function invSuggest(){const lc=lastCheck(),q=(lc&&lc.ans)||{},l=[];
   if(q.gebraucht===0)l.push("kleid");if(q.rest===2)l.push("reste","retten");if(q.teilen===2)l.push("gemeinschaft","geteilt");
   const nc=noCar();return [...new Set([...l,...INV_TYP])].filter(id=>A[id]&&!activeBig().some(e=>e.act===id)&&!(nc&&["rad5","rad10","oepnv","wegspar","tempo","autolos"].includes(id))).slice(0,12)}
 function invSheet(){const sug=invSuggest(),lc=lastCheck(),chip=x=>`<button class="chip inv" ${da(x.a)} data-invt="${x.id}" aria-pressed="${isBase(x.id)}">${x.t}</button>`;
-  const more=k=>ACTS.filter(x=>x.a===k&&!sug.includes(x.id)&&!activeBig().some(e=>e.act===x.id)),on=k=>more(k).filter(x=>isBase(x.id)).length;
+  const more=k=>ACTS.filter(x=>x.a===k&&(!x.h||isBase(x.id))&&!sug.includes(x.id)&&!activeBig().some(e=>e.act===x.id)),on=k=>more(k).filter(x=>isBase(x.id)).length;
   sheet(`<span class="label">Einmal abhaken</span><h2>Was ist bei dir schon Alltag?</h2><p>Hak an, was ohnehin zu deinem Alltag gehört. Du kannst es jederzeit wieder ändern.</p>
    <div class="sec"><h3>${lc&&lc.ans?"Passend zu deinem Check":"Häufig schon Alltag"}</h3><div class="row">${sug.map(id=>chip(A[id])).join("")}</div></div>
    <div class="sec"><span class="label">Alles Weitere nach Bereichen</span>${AK.map(k=>more(k).length?`<details class="fold invfold" ${da(k)}><summary>${dot(k)}<span>${AREAS[k].n}</span><span class="label">${on(k)?on(k)+" abgehakt":more(k).length}</span></summary><div><div class="row">${more(k).map(chip).join("")}</div></div></details>`:"").join("")}</div>
@@ -2520,11 +2557,11 @@ const nAll=id=>S.log.filter(e=>e.act===id&&!e.g).length;
 /* kg eines Eintrags für Listen: was er wirklich zählt, „ohne kg“, wenn er laut Richtwert etwas zählen würde, aber nicht zählt, und die Kennzeichnung eigener Schätzungen */
 /* Der Wert bricht nie um („− 400 g“ bleibt zusammen) */
 function enKg(e){const k=eKg(e),v=k>=.0005||(e.g&&!e.nf)?"− "+kgTxt(k):(e.k>0||e.nf)?"ohne kg":"";return (v?`<span class="nw">${v}</span>`:"")+(e.est?" · eigene Schätzung":"")}
-function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a),ts=dayStart(now());
+function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a&&(!x.h||isBase(x.id))),ts=dayStart(now());
   const today=S.log.filter(e=>e.ts>=ts&&!e.g).slice().reverse();
   const cntToday=id=>S.log.filter(e=>e.act===id&&e.ts>=ts).length;
   const item=x=>{const big=x.g,cur=big&&activeBig().find(e=>e.act===x.id),c=!big&&cntToday(x.id);
-    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(ownWho(x.id)?ownWho(x.id)+" · ":"")+(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
+    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"${VAR(x)?' aria-haspopup="dialog"':""}><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(ownWho(x.id)?ownWho(x.id)+" · ":"")+(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):VAR(x)?esc(vSub(x)):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
   const hist=S.log.slice().reverse().slice(0,40);
   return `<section class="view">
    <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
@@ -2955,7 +2992,7 @@ function sanitizeImport(){const t=now(),cl=(v,a,b)=>Math.min(b,Math.max(a,v)),nu
     if(e.pf!=null){e.pf=cl(num(e.pf,1),0,1);if(!PFTXT[e.pw])e.pw="strom"}
     if(e.act!=="custom"&&!A[e.act]){e.act="custom";if(typeof e.t!=="string")e.t="Eigener Schritt"}
     const a=A[e.act];
-    if(a){e.t=a.t;e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=a.k||0}return}
+    if(a){const v=a.g?null:varOf(a,e.v);if(!v)delete e.v;else e.v=v.id;e.t=v?vTitle(a,v):(a.lt||a.t);e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=v?v.k||0:a.k||0}return}
     if(!AREAS[e.a])e.a="dinge";if(e.src==null||(e.src!==""&&!SRCS[e.src]))e.src=defSrc(e.a);
     if(e.g){e.g=1;e.y=cl(num(e.y,0),0,KMAX_Y);delete e.k}else{e.k=cl(num(e.k,0),0,KMAX_S);delete e.y}if((e.k||e.y)>0)e.est=1});
   S.checks.forEach(c=>{c.ts=cl(c.ts,st,t);if(c.ans){CHECK.forEach(q=>{const v=c.ans[q.id];c.ans[q.id]=Number.isInteger(v)&&v>=0&&v<q.o.length?v:0});if(!WOHNOK.includes(c.ans.wohn))delete c.ans.wohn;if(!hhOk(c.ans.hh))delete c.ans.hh;if(!hhOk(c.ans.hhr))delete c.ans.hhr;if(c.ans.wg!==0&&c.ans.wg!==1)delete c.ans.wg;const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
@@ -3037,7 +3074,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.ringm){monthSheet(+d.ringm);return}
   if(t.id==="home"){tab="home";anim=true;render();window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});return}
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
-  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t);return}
+  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t,d.v);return}
   if(d.actmenu){actMenu(d.actmenu);return}
   if(d.setbase){S.base[d.setbase]=now();save();momentFor("base");closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit, ohne neue kg: Die stecken schon in deinem bisherigen Fußabdruck.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
@@ -3185,7 +3222,7 @@ function migrate3(){if(S.gv>=3){if(!S.start){S.start=now();save()}return}
   let i=0;OLD.forEach((v,k)=>{if(gOld>=v)i=k});
   const tgt=i<OLD.length-1?STAGES[i][0]+(gOld-OLD[i])/(OLD[i+1]-OLD[i])*(STAGES[i+1][0]-STAGES[i][0]):STAGES[i][0]+(gOld-OLD[i]);
   /* korrigierte Richtwerte gelten auch für frühere Einträge aus dem Katalog */
-  S.log.forEach(e=>{const a=A[e.act];if(!a||e.act==="custom")return;e.t=a.t;if(e.g){if(a.y!=null)e.y=a.y}else e.k=a.k||0});
+  S.log.forEach(e=>{const a=A[e.act];if(!a||e.act==="custom"||e.v)return;e.t=a.lt||a.t;if(e.g){if(a.y!=null)e.y=a.y}else e.k=a.k||0});
   /* gestapelte Änderungen derselben Gruppe: die frühere endet, wenn die spätere beginnt */
   XG.forEach(g=>{const l=S.log.filter(e=>e.g&&g.includes(e.act)).sort((a,b)=>a.ts-b.ts);for(let k=0;k<l.length-1;k++){const nx=l[k+1];if(!l[k].end||l[k].end>nx.ts)l[k].end=Math.max(l[k].ts,nx.ts)}});
   (S.checks||[]).forEach(c=>{if(c.ans){const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
@@ -3201,7 +3238,7 @@ migrate3();
    gFloor und gAdd halten das bisherige Wachstum, neues Wachstum bleibt sofort sichtbar. */
 function migrate4(){if(S.gv>=4)return;PTS_MODE=3;MEMO={k:""};const g0=growth(),st0=stage().i;PTS_MODE=4;MEMO={k:""};
   S.log.forEach(e=>{if(e.act==="custom"){if(e.g){if((e.y||0)>KMAX_Y)e.y=KMAX_Y;if(e.y>0)e.est=1}else{if((e.k||0)>KMAX_S)e.k=KMAX_S;if(e.k>0)e.est=1}return}
-    const a=A[e.act];if(!a)return;e.t=a.t;if(e.g){if(a.y!=null)e.y=a.y}else e.k=a.k||0});
+    const a=A[e.act];if(!a||e.v)return;e.t=a.lt||a.t;if(e.g){if(a.y!=null)e.y=a.y}else e.k=a.k||0});
   /* Zeiträume derselben Änderung und ihrer Gegenstücke: Ein späterer beginnt frühestens, wo ein früherer endet */
   const bl=S.log.filter(e=>e.g&&e.act!=="custom").sort((a,b)=>a.ts-b.ts);
   bl.forEach((e,i)=>{const rv=rivals(e.act);bl.slice(0,i).forEach(x=>{if(x.act!==e.act&&!rv.includes(x.act))return;
