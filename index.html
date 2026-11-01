@@ -770,6 +770,57 @@ button,summary,label.hap,.rhit{-webkit-user-select:none;user-select:none;-webkit
 .exnum{flex-direction:row;align-items:center;gap:16px}
 .exnum b{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;font-size:40px;line-height:.9;color:var(--c);mix-blend-mode:var(--blend);white-space:nowrap;text-shadow:3px 2px 0 color-mix(in srgb,var(--dinge) 55%,transparent)}
 .exnum figcaption{font-size:15px;line-height:1.35}
+/* v10 Kalender der Einsparungen: Monatsgitter ab Montag, je Tag ein Punkt im 5-px-Riso-Raster, Größe nach kg, Farbe nach Bereich. Leere Tage bleiben neutral. */
+.cal{display:flex;flex-direction:column;gap:10px;min-width:0}
+.calh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.calh h3{text-align:center;flex:1}
+.calnav{width:44px;height:44px;border:2px solid var(--ink);background:var(--sheet);font-family:var(--f-mono);font-size:22px;line-height:1;display:grid;place-items:center;padding:0;touch-action:manipulation}
+.calnav:disabled{opacity:.28;cursor:default}
+.calg{display:flex;flex-direction:column;gap:2px;touch-action:pan-y;min-width:0}
+.calr{display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) 40px;gap:2px 1px}
+.calhd>span{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;padding:2px 0}
+.calhd>.cws{text-align:right;font-size:10px;letter-spacing:.02em;line-height:1.1}
+.cd{min-height:44px;display:flex;min-width:0}
+.cd.off{justify-content:center;padding-top:4px;font-family:var(--f-mono);font-size:12px;line-height:1;color:var(--muted);opacity:.45}
+.cday{flex:1;min-width:0;min-height:44px;border:0;background:var(--sheet);position:relative;padding:0;display:block;touch-action:manipulation}
+.cday .cdn{position:absolute;left:0;right:0;top:4px;font-family:var(--f-mono);font-size:11px;line-height:1;color:var(--muted);z-index:1}
+.cd.today .cday{box-shadow:inset 0 0 0 2px var(--ink)}
+.cd.today .cdn{color:var(--ink);font-weight:500}
+.cday:active:not(.nopress){background-color:color-mix(in srgb,var(--ink) 8%,var(--sheet))}
+.mk{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);margin-top:3px;border-radius:50%;background:radial-gradient(var(--c) 1.5px,transparent 1.8px) 0 0/5px 5px;mix-blend-mode:var(--blend)}
+.mk.t1{width:11px;height:11px}
+.mk.t2{width:17px;height:17px}
+.mk.t3{width:21px;height:21px;background:radial-gradient(circle,var(--c) 0 40%,transparent 42%),radial-gradient(var(--c) 1.5px,transparent 1.8px) 0 0/5px 5px}
+.mk.t4{width:25px;height:25px;background:radial-gradient(circle,var(--c) 0 58%,transparent 60%),radial-gradient(var(--c) 1.5px,transparent 1.8px) 0 0/5px 5px}
+.mk.t0{width:7px;height:7px;background:none;border:1.5px solid var(--muted);mix-blend-mode:normal}
+.cws{font-family:var(--f-mono);font-size:11px;line-height:1;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;align-self:stretch;white-space:nowrap;min-width:0;font-variant-numeric:tabular-nums}
+.calsum{font-family:var(--f-mono);font-size:14px;color:var(--muted)}
+.calsum b{color:var(--ink);font-weight:500}
+.calnote{font-size:14px}
+.calhow summary{font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 0;list-style:none;display:inline-block}
+.calhow summary::-webkit-details-marker{display:none}
+.calhow[open]{display:flex;flex-direction:column;gap:8px}
+.remrow{display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:2px solid var(--ink);padding:10px 2px}
+.remrow .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.remrow b{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 85;font-size:17px;text-transform:uppercase;line-height:1.15}
+.remrow small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.remrow .btn{flex:none;min-height:44px}
+.calleg{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.calleg span{display:inline-flex;align-items:center;gap:6px}
+.calleg .mk{position:relative;left:auto;top:auto;transform:none;display:inline-block;flex:none}
+.daybig{font-size:14.5px}
+.nachdays .chip,.rem .chip{min-height:44px}
+.nachfor{margin:0}
+.vhint{font-size:14.5px;color:var(--muted);margin-top:-4px}
+/* v10 Erinnerung in meinen Kalender */
+.rem .rgrp{display:flex;flex-direction:column;gap:6px}
+.rem .row>.btn,#icsdl,#icscopy{min-height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.rem .chip small{font-family:var(--f-mono);font-size:11px;opacity:.75}
+.rem .chip.rwd{min-width:44px;justify-content:center}
+.rprev{font-size:14.5px;border-left:3px solid var(--wege);padding-left:12px}
+.rhelp{margin:0;padding-left:20px;font-size:14.5px;display:flex;flex-direction:column;gap:4px}
+.icsta{width:100%;font-family:var(--f-mono);font-size:11px;line-height:1.4;min-height:120px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:8px;resize:vertical}
+
 /* Desktop ab 900 px: Register als ruhige Leiste links, Startseite in zwei Spalten, übrige Register als lesbare Spalte. Das Handy bleibt unverändert. */
 @media (min-width:900px){
   body{font-size:17px}
@@ -900,7 +951,7 @@ const ACTS=[
 {id:"handyrep",a:"dinge",md:1,yr:1,h:1,to:"repariert",yk:"repariert.handy",t:"Smartphone repariert statt neu gekauft",k:60,n:"Rund 80 % des Fußabdrucks eines Smartphones entstehen bei der Herstellung. Neue Einträge gehen über „Repariert statt ersetzt“."},
 {id:"laptop",a:"dinge",md:1,lv:"lap",t:"Technik gebraucht statt neu",lt:"Laptop gebraucht statt neu",k:100,q:"Was hast du gebraucht gekauft?",v:[{id:"phone",t:"Smartphone",k:30,yr:1},{id:"tab",t:"Tablet",k:30,yr:1},{id:"lap",t:"Laptop",k:90,yr:1}],n:"Gezählt wird die Hälfte der Herstellung eines neuen Geräts, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt. Herstellung: Smartphone 45 bis 80 kg (Apple iPhone 16: 45 kg, ADEME: 79 kg), Tablet 56 bis 87 kg (Apple iPad, ADEME), Laptop rund 180 kg (ADEME). Gerechnet mit 60, 60 und 180 kg. In kg zählt jedes Gerät höchstens einmal in 12 Monaten."},
 {id:"geliehen",a:"dinge",md:2,yr:12,w:1,t:"Geliehen statt gekauft",lt:"Gerät geliehen statt gekauft",k:15,q:"Was hast du geliehen?",v:[{id:"werk",t:"Werkzeug",d:"etwa Bohrmaschine oder Stichsäge",k:6,s:"elek"},{id:"kueche",t:"Küchengerät",d:"etwa Mixer oder Waffeleisen",k:5,s:"elek"},{id:"fest",t:"Festliche Kleidung",d:"etwa Anzug oder Kleid",k:25,yr:2}],n:"Gezählt wird die Hälfte dessen, was ein neues Stück verursacht, weil Leihen nicht immer einen Kauf ersetzt. Neu: Akkuschrauber 9 kg, Stichsäge 16 kg (Wuppertal Institut), Wasserkocher 10 kg Herstellung, Kleid 52 bis 58 kg (ADEME). Gerechnet mit 12, 10 und 50 kg."},
-{id:"nichtgekauft",a:"dinge",md:3,t:"Spontankauf gelassen",lt:"Einen Spontankauf gelassen",k:3,q:"Was hättest du gekauft?",v:[{id:"shirt",t:"T-Shirt",k:6,s:"shirt",yr:12},{id:"pulli",t:"Pullover",k:30,s:"pulli",yr:6},{id:"jacke",t:"Jacke",k:27,s:"jacke",yr:3},{id:"schuhe",t:"Schuhe",k:15,s:"schuhe",yr:4},{id:"elek",t:"Kleines Elektrogerät",d:"etwa Wasserkocher oder Lautsprecher",k:10,s:"elek",yr:6},{id:"klein",t:"Kleinkram",d:"etwa Deko oder Spielzeug",k:1}],n:"Gezählt wird der ganze Fußabdruck des neuen Stücks, denn es wird gar nicht erst hergestellt. Neu (ADEME): T-Shirt 6,4 kg, Pullover 29 bis 57 kg, Jacke 27 bis 41 kg, Schuhe 15 bis 20 kg, Wasserkocher 10 kg Herstellung, vernetzter Lautsprecher 26 kg. Kleinkram wie Bilderrahmen, Gießkanne oder Spielfigur 0,4 bis 4 kg (Wuppertal Institut). Gerechnet jeweils am unteren Rand."},
+{id:"nichtgekauft",a:"dinge",md:3,t:"Spontankauf gelassen",lt:"Einen Spontankauf gelassen",k:3,q:"Was hättest du gekauft?",vh:"Nur eintragen, wenn du es wirklich gekauft hättest.",vyr:1,v:[{id:"shirt",t:"T-Shirt",k:6,s:"shirt",yr:12},{id:"pulli",t:"Pullover",k:30,s:"pulli",yr:6},{id:"jacke",t:"Jacke",k:27,s:"jacke",yr:3},{id:"schuhe",t:"Schuhe",k:15,s:"schuhe",yr:4},{id:"elek",t:"Kleines Elektrogerät",d:"etwa Wasserkocher oder Lautsprecher",k:10,s:"elek",yr:6},{id:"klein",t:"Kleinkram",d:"etwa Deko oder Spielzeug",k:1}],n:"Gezählt wird der ganze Fußabdruck des neuen Stücks, denn es wird gar nicht erst hergestellt. Neu (ADEME): T-Shirt 6,4 kg, Pullover 29 bis 57 kg, Jacke 27 bis 41 kg, Schuhe 15 bis 20 kg, Wasserkocher 10 kg Herstellung, vernetzter Lautsprecher 26 kg. Kleinkram wie Bilderrahmen, Gießkanne oder Spielfigur 0,4 bis 4 kg (Wuppertal Institut). Gerechnet jeweils am unteren Rand."},
 {id:"weiter",a:"dinge",t:"Etwas weitergegeben statt weggeworfen",k:0,n:"Ein Schritt für den Handabdruck, also für das, was du über deinen eigenen Fußabdruck hinaus bewirkst. Die Einsparung zählt bei der Person, die es gebraucht nutzt statt neu zu kaufen. So wird sie nicht doppelt gezählt."},
 {id:"handylang",a:"dinge",g:1,t:"Smartphone mindestens ein Jahr länger nutzen",y:8,n:"Die Herstellung verteilt sich auf mehr Jahre. Das sind rund 5 bis 10 kg im Jahr."},
 {id:"nurgebraucht",a:"dinge",g:1,t:"Kleidung nur noch gebraucht",y:75,n:"Bei durchschnittlichem Kleidungskauf verursacht neue Kleidung rund 150 kg im Jahr. Gezählt wird die Hälfte, weil ein Gebrauchtkauf nicht immer einen Neukauf ersetzt."},
@@ -1475,10 +1526,10 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="01.11.2026, 14:27";
+const BUILD="01.11.2026, 15:20";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
-let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
+let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:30"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 S.base=S.base||{};S.plans=S.plans||{};
 function migrate2(){S.base=S.base||{};S.plans=S.plans||{};if(!(S.gv>=2)){S.gFloor=S.log.filter(e=>!e.g).length+S.log.filter(e=>e.g).length*6+Object.values(S.mis||{}).filter(v=>v.status==="done").length*4+Object.keys(S.base).length*3;S.gv=2}}
@@ -1527,7 +1578,7 @@ const dot=a=>`<span class="dot" ${da(a)}></span>`;
 const nf=(v,d)=>v.toLocaleString("de-DE",{maximumFractionDigits:d,minimumFractionDigits:0});
 /* immer genau eine Nachkommastelle, etwa „7,0“ */
 const nf1=v=>(Math.round(v*10)/10).toLocaleString("de-DE",{maximumFractionDigits:1,minimumFractionDigits:1});
-function kgTxt(v){v=Math.max(0,v);if(v>=1000)return nf(v/1000,v>=10000?0:1)+" t";if(v>=100)return nf(Math.round(v),0)+" kg";if(v>=10)return nf(v,0)+" kg";if(v>=1)return nf(v,1)+" kg";if(v>0)return nf(v*1000,0)+" g";return "0 kg"}
+function kgTxt(v){v=Math.max(0,v);if(v>=1000)return nf(v/1000,v>=10000?0:1)+" t";if(v>=100)return nf(Math.round(v),0)+" kg";if(v>=10)return nf(v,0)+" kg";if(v>=1)return nf(v,1)+" kg";if(v>0){const g=Math.round(v*100)*10;return g>=1000?"1 kg":g<10?"unter 10 g":nf(g,0)+" g"}return "0 kg"}
 const fmtDate=t=>new Date(t).toLocaleDateString("de-DE",{day:"numeric",month:"short"});
 /* Datum am Satzende: „20. Sept.“ trägt den Punkt schon, „20. Mai“ bekommt einen */
 const fdEnd=t=>fmtDate(t).replace(/\.?$/,".");
@@ -2326,6 +2377,8 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
   if(invOpen()){if(few&&!slot)slot=`<div class="plain" ${da("wir")}><h3>Was ist bei dir schon Alltag?</h3><p>Manches gehört längst zu deinem Alltag, etwa Rad statt Auto oder kein Trockner. Hak es einmal ab. Dann wächst es von Anfang an in deiner Landschaft und taucht nicht mehr als Schritt auf.</p><div class="row"><button class="btn go" data-inv="1" ${da("wir")}>Abhaken, was schon Alltag ist</button></div></div>`;
     else lines.push(`Steht hier etwas, das du sowieso immer tust? <button class="linkbtn inl" data-inv="1">Schon Alltag abhaken</button> · <button class="linkbtn inl" data-invskip="1">Passt so</button>`)}
   if(!slot)slot=hintCard(mo);
+  /* v10: einmaliger Vorschlag für die Kalender-Erinnerung, nur wenn sonst keine leise Zeile steht */
+  if(!lines.length&&remHint()){if(!S.remHint){S.remHint={d:todayKey()};save()}lines.push(`Wenn du magst, erinnert dich dein Kalender ans Eintragen. Die App selbst schickt nichts. <button class="linkbtn inl" data-remgo="1">Erinnerung einrichten</button> · <button class="linkbtn inl" data-remx="1">Nein danke</button>`)}
   /* Desktop (ab 900 px): links die Landschaft mit Kennzahlen und Häppchen, rechts Eintragen, Hinweis und Saison. Auf dem Handy bleibt alles in einer Spalte wie bisher. */
   const H={hi:`${backHi?`<p class="backhi" role="status">Schön, dass du wieder da bist. Alles ist noch da.</p>`:""}`,land:`
    <div class="land" id="landbox" role="button" tabindex="0" aria-label="Deine Landschaft: ${st.n}. Antippen für Erklärung."><canvas id="land" aria-hidden="true"></canvas>
@@ -2515,46 +2568,51 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
 
 /* ---------- Eintragen ---------- */
 let lastLogKey="",lastLogT=0;
-function logAct(id,ev,el,vid,qs){const a=A[id];if(!a)return;{const key=id+"|"+(vid||"")+"|"+(qs==null?"":qs),now=Date.now();if(key===lastLogKey&&now-lastLogT<400)return;lastLogKey=key;lastLogT=now}
-  if(a.g){bigSheet(id);return}
+function logAct(id,ev,el,vid,qs,day){const a=A[id];if(!a)return;{const d0=day;day=nachDay(d0);if(d0!=null&&d0!==""&&!day&&dayStart(+d0)!==dayStart(now()))return}{const key=id+"|"+(vid||"")+"|"+(qs==null?"":qs)+"|"+(day||""),now=Date.now();if(key===lastLogKey&&now-lastLogT<400)return;lastLogKey=key;lastLogT=now}
+  if(a.g){if(!day)bigSheet(id);return}
   let v=VAR(a)?varOf(a,vid):null,q=null,cut=null;const qu=QU(a);
   /* v9 Menge: aus dem Blatt (data-q), sonst die zuletzt gewählte oder übliche. Außerhalb der Grenzen wird sie auf mn bis mx gesetzt. */
   if(qu){const n=qNum(qs);if(n!=null){q=qClamp(a,n);if(qRound(a,n)!==q)cut=q}
-    if(a.kq!=null){if(q==null&&v)q=v.q;if(q==null){varSheet(id);return}v=VAR(a)?VAR(a).find(x=>x.q===q)||null:null}
-    else{if(VAR(a)&&!v){varSheet(id);return}if(q==null)q=qNow(a,v)}}
-  else if(VAR(a)&&!v){varSheet(id);return}
-  const e={id:uid(),act:id,a:a.a,t:qu?qTitle(a,v,q):v?vTitle(a,v):a.t,k:qu?kOf(a,v,q):v?v.k||0:a.k||0,ts:now()};if(v)e.v=v.id;if(qu)e.q=q;if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();momentFor("small");
+    if(a.kq!=null){if(q==null&&v)q=v.q;if(q==null){varSheet(id,day);return}v=VAR(a)?VAR(a).find(x=>x.q===q)||null:null}
+    else{if(VAR(a)&&!v){varSheet(id,day);return}if(q==null)q=qNow(a,v)}}
+  else if(VAR(a)&&!v){varSheet(id,day);return}
+  const e={id:uid(),act:id,a:a.a,t:qu?qTitle(a,v,q):v?vTitle(a,v):a.t,k:qu?kOf(a,v,q):v?v.k||0:a.k||0,ts:day?nachTs(day):now()};if(v)e.v=v.id;if(qu)e.q=q;if(a.w)e.w=1;if(day)e.lt=now();stampProfile(e,id);S.log.push(e);save();
+  /* Nachtrag: zählt wie gewohnt für Wachstum und Momente, aber ohne Feuerwerk. Fällige Momente kommen später, wenn es ruhig ist, und tragen das heutige Datum. */
+  if(day){mWhy="rest";render();daySheet(day,true);toast(`Nachgetragen für ${dayName(day)}. `+growMsg(e)+kgNote(e)+(cut!=null?`. Eingetragen mit ${fmtQ(a,cut)}, ${cut===qu.mx?"mehr fasst ein Eintrag nicht":"das ist die kleinste Menge"}`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render();if($("#sh [data-dayof]"))daySheet(day,true)},true);return}
+  momentFor("small");
   render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+kgNote(e)+(cut!=null?`. Eingetragen mit ${fmtQ(a,cut)}, ${cut===qu.mx?"mehr fasst ein Eintrag nicht":"das ist die kleinste Menge"}`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
 /* Auswahlblatt für Schritte mit Varianten: ein Tipp auf die Kachel öffnet es, ein Tipp auf eine Variante trägt ein.
    Die zuletzt gewählte Variante ist markiert und hat den Fokus. Was nicht zum eigenen Alltag passt oder nur anteilig zählt, steht darunter wie im Schritt selbst. */
-function varSheet(id){const a=A[id],l=lastPick(id),nfw=nfWhy(id),pr=nfw?null:profileOf(id,now()),qu=QU(a);
-  const vlast=`<span class="vlast">zuletzt</span>`;let rows;
+function varSheet(id,day){const a=A[id],l=lastPick(id),nfw=nfWhy(id),pr=nfw?null:profileOf(id,now()),qu=QU(a);
+  const vlast=`<span class="vlast">zuletzt</span>`,dd=day?` data-day="${day}"`:"";let rows;
   if(qu&&a.kq!=null){
     /* Strecken: übliche Strecken als Zeilen, die zuletzt gewählte eigene Strecke als weitere Zeile, darunter „Andere Strecke“ mit Feld und Knöpfen */
     const lq=l?(l.q!=null?l.q:l.v?l.v.q:null):null,qs=VAR(a).map(v=>v.q);if(lq!=null&&!qs.includes(lq))qs.push(lq);qs.sort((x,y)=>x-y);
-    rows=qs.map(q=>{const v=VAR(a).find(x=>x.q===q),on=lq===q;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${fmtQ(a,q)}</b><small><span class="nw">− ${kgTxt(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button>`}).join("")
+    rows=qs.map(q=>{const v=VAR(a).find(x=>x.q===q),on=lq===q;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1"${dd}><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${fmtQ(a,q)}</b><small><span class="nw">${sav(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button>`}).join("")
      +`<button class="act qother" ${da(a.a)} data-qopen="${id}" aria-expanded="false" aria-controls="qed"><span class="plus" aria-hidden="true">±</span><span class="tx"><b>Andere Strecke</b><small>${qRange(a)}</small></span></button>`}
   else if(qu){
     /* Lebensmittel: Zeile trägt mit der üblichen oder zuletzt gewählten Menge ein, der Knopf rechts daneben öffnet die genaue Menge */
-    rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id,q=qNow(a,v);return `<div class="vrow" ${da(a.a)}><button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-q="${q}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small><span class="nw">− ${kgTxt(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button><button class="qbtn" ${da(a.a)} data-qopen="${id}" data-qv="${v.id}" aria-expanded="false" aria-controls="qed" aria-label="Menge ändern: ${esc(v.t)}, jetzt ${fmtQ(a,q)}">${fmtQ(a,q)}</button></div>`}).join("")}
-  else rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small>${v.d?v.d+" · ":""}<span class="nw">${v.k?"− "+kgTxt(v.k):"ohne kg"}</span></small></span>${on?vlast:""}</button>`}).join("");
-  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Kleiner Schritt</span></div><h2>${actT(id)}</h2><p class="vq" id="vq">${a.q||"Was genau?"}</p>
-   <div class="acts vopts" role="group" aria-labelledby="vq">${rows}</div>
+    rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id,q=qNow(a,v);return `<div class="vrow" ${da(a.a)}><button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-q="${q}" data-close="1"${dd}><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small><span class="nw">${sav(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button><button class="qbtn" ${da(a.a)} data-qopen="${id}" data-qv="${v.id}" aria-expanded="false" aria-controls="qed" aria-label="Menge ändern: ${esc(v.t)}, jetzt ${fmtQ(a,q)}">${fmtQ(a,q)}</button></div>`}).join("")}
+  else rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-close="1"${dd}><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small>${v.d?v.d+" · ":""}<span class="nw">${v.k?sav(v.k):"ohne kg"}</span>${a.vyr&&v.yr?` · <span class="nw">bis ${v.yr}× im Jahr</span>`:""}</small></span>${on?vlast:""}</button>`}).join("");
+  sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Kleiner Schritt</span></div><h2>${actT(id)}</h2>${day?`<p class="label nachfor">Nachtragen für ${dayName(day)}</p>`:""}<p class="vq" id="vq">${a.q||"Was genau?"}</p>${a.vh?`<p class="vhint">${a.vh}</p>`:""}
+   <div class="acts vopts" role="group" aria-labelledby="vq"${dd}>${rows}</div>
    ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    <p class="caveat">${actN(id)}</p>`);
   const f=$("#sh .vopts .act.last")||$("#sh .vopts .act");if(f)try{f.focus({preventScroll:true})}catch(x){}}
 /* v9 Genaue Menge: Feld mit Zahl (Ziffernblock) und Knöpfen − und +, darunter die gerundete Wirkung und „Eintragen“.
    Kein Schieber: Er kämpft im Blatt mit dem Wischen und Scrollen, trifft mit dem Daumen keine genaue Zahl und täuscht eine Genauigkeit vor, die die Faktoren nicht haben. */
-function qEd(a,v,q,lab,go){const qu=QU(a),un=QUN[qu.u],ui=qu.u==="g"||qu.u==="ml";
+function qEd(a,v,q,lab,go,day){const qu=QU(a),un=QUN[qu.u],ui=qu.u==="g"||qu.u==="ml";
   return `<div class="qed" id="qed" role="group" aria-labelledby="qedl" ${da(a.a)} data-act="${a.id}"${v?` data-qv="${v.id}"`:""}><p class="label" id="qedl">${lab}</p>
    <div class="qrow"><button class="qstep" data-qs="-1" aria-controls="qin" aria-label="${nf(qu.st,1)} ${un} weniger">−</button><span class="qbox"><input type="text" id="qin" value="${qVal(q)}" autocomplete="off" spellcheck="false" inputmode="${ui?"numeric":"decimal"}" role="spinbutton" aria-valuemin="${qu.mn}" aria-valuemax="${qu.mx}" aria-valuenow="${q}" aria-label="Menge in ${un}" aria-describedby="qhint"><span class="qu" aria-hidden="true">${qu.u}</span></span><button class="qstep" data-qs="1" aria-controls="qin" aria-label="${nf(qu.st,1)} ${un} mehr">+</button></div>
    <p class="qhint" id="qhint"><output id="qout" aria-live="polite">${qOutTxt(a,v,q)}</output><span class="qlim">${qRange(a)} je Eintrag</span>${a.qx?`<span class="qx" id="qxs">${qxTxt(a,q)}</span>`:""}</p>
-   <button class="btn go wide" id="qgo" ${da(a.a)} data-log="${a.id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1">${go||"Eintragen"}</button></div>`}
+   <button class="btn go wide" id="qgo" ${da(a.a)} data-log="${a.id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1"${day?` data-day="${day}"`:""}>${go||(day?"Nachtragen":"Eintragen")}</button></div>`}
 /* „1 bis 100 km“ statt „1 km bis 100 km“ */
 const qRange=a=>{const qu=QU(a),x=fmtQ(a,qu.mn),y=fmtQ(a,qu.mx),u=x.split(" ").pop();return (u===y.split(" ").pop()?x.slice(0,-u.length-1):x)+" bis "+y};
 /* Entsprechung des Ersatzes, auf 5 g gerundet: „entspricht rund 60 g Linsen, getrocknet“ */
 const qxTxt=(a,q)=>a.qx.t.replace("{x}",fmtQ(a,Math.max(5,Math.round(q*a.qx.f/5)*5)));
-const qOutTxt=(a,v,q)=>`${fmtQ(a,q)} spart rund ${kgTxt(kOf(a,v,q))}`;
+const qOutTxt=(a,v,q)=>`${fmtQ(a,q)} ${sav(kOf(a,v,q))}`;
+/* Einsparung im Auswahlblatt und Mengenfeld als CO₂ gekennzeichnet, damit sie nicht mit der Menge verwechselt wird („150 g“ neben „spart rund 750 g CO₂“) */
+const sav=k=>`spart rund ${kgTxt(k)} CO₂`;
 /* Wert im Feld lesen, begrenzen und Ausgabe sowie Knopf „Eintragen“ nachziehen */
 function qUpd(){const ed=$("#qed"),inp=$("#qin");if(!ed||!inp)return;const a=A[ed.dataset.act],v=varOf(a,ed.dataset.qv),n=qNum(inp.value),qu=QU(a);
   const q=n==null?null:qClamp(a,n),go=$("#qgo"),o=$("#qout"),lim=ed.querySelector(".qlim");
@@ -2572,7 +2630,7 @@ function qOpen(t,ev){const id=t.dataset.qopen,a=A[id],vid=t.dataset.qv||"",ed=$(
   /* geschlossen ohne Eintrag: Mengenknöpfe zeigen wieder die Menge, mit der ihre Zeile einträgt */
   document.querySelectorAll(".vrow").forEach(r=>{const b=r.querySelector(".qbtn"),z=r.querySelector(".act[data-q]");if(b&&z){const vv=varOf(a,b.dataset.qv);b.textContent=fmtQ(a,+z.dataset.q);b.setAttribute("aria-label",`Menge ändern: ${vv?vv.t:a.t}, jetzt ${fmtQ(a,+z.dataset.q)}`)}});if(was)return;
   const v=varOf(a,vid),l=lastPick(id),q=a.kq!=null?(l&&l.q!=null?l.q:l&&l.v?l.v.q:qDef(a,null)):qNow(a,v);
-  (t.closest(".vrow")||t).insertAdjacentHTML("afterend",qEd(a,v,q,a.kq!=null?"Strecke in Kilometern":a.ql?esc(a.ql.replace("{v}",v?v.t:"")):"Menge: "+esc(v?v.t:a.t)));t.setAttribute("aria-expanded","true");
+  (t.closest(".vrow")||t).insertAdjacentHTML("afterend",qEd(a,v,q,a.kq!=null?"Strecke in Kilometern":a.ql?esc(a.ql.replace("{v}",v?v.t:"")):"Menge: "+esc(v?v.t:a.t),null,(t.closest(".vopts")||{dataset:{}}).dataset.day));t.setAttribute("aria-expanded","true");
   /* mit der Tastatur geöffnet: gleich ins Feld; mit dem Finger: kein Ziffernblock, der das Blatt verdeckt */
   const inp=$("#qin");if(inp&&ev&&ev.detail===0)try{inp.focus({preventScroll:true});inp.select()}catch(x){}
   const n=$("#qed");if(n&&n.scrollIntoView)try{n.scrollIntoView({block:"nearest",behavior:calm()?"auto":"smooth"})}catch(x){}}
@@ -2581,15 +2639,15 @@ document.addEventListener("input",e=>{if(e.target&&e.target.id==="qin")qUpd()});
 document.addEventListener("wheel",e=>{const t=e.target;if(t&&t.id==="qin"&&document.activeElement===t)t.blur()},{passive:true});
 document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="qin"&&(e.key==="ArrowUp"||e.key==="ArrowDown")){e.preventDefault();qStep(e.key==="ArrowUp"?1:-1);return}if(e.key==="Enter"&&e.target&&e.target.id==="qin"){e.preventDefault();const g=$("#qgo");if(g&&!g.disabled)g.click()}});
 /* Was ein kleiner Schritt in kg zählt, kurz und sachlich, mit Grund, wenn es weniger ist als sein Richtwert */
-function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${kgTxt(k)} gespart`:"zählt ohne kg";
+function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${kgTxt(k)} gespart`:"zählt ohne kg",td=dayStart(e.ts)===dayStart(now());
   if(w.why==="nf")return ` · zählt ohne kg. ${NFTXT[e.nf]||""}`;
   if(w.why==="cov")return ` · zählt schon über „${A[w.by].t}“`;
   if(w.why==="prof")return ` · ${kgTxt(k)} gespart, anteilig. ${PFTXT[w.pw]||""}`;
-  if(w.why==="day")return ` · heute schon ${a&&a.md||3}× gezählt, dieser Eintrag zählt ohne kg`;
+  if(w.why==="day")return ` · ${td?"heute":"an diesem Tag"} schon ${a&&a.md||3}× gezählt, dieser Eintrag zählt ohne kg`;
   if(w.why==="qday")return ` · ${k>0?kgTxt(k)+" gespart, anteilig":"zählt ohne kg"}. Mehr als ${fmtQ(a,w.lim)} am Tag zählen bei diesem Schritt nicht`;
-  if(w.why==="grp")return k>0?` · ${kgTxt(k)} gespart, mehr zählt an einem Tag nicht`:` · für heute ist schon ein ganzer Esstag gezählt, dieser Eintrag zählt ohne kg`;
+  if(w.why==="grp")return k>0?` · ${kgTxt(k)} gespart, mehr zählt an einem Tag nicht`:` · für ${td?"heute":"diesen Tag"} ist schon ein ganzer Esstag gezählt, dieser Eintrag zählt ohne kg`;
   if(w.why==="yr"){const n=w.lim||(a&&a.yr)||1;return ` · zählt ohne kg. Ein vermiedener Neukauf dieser Art zählt höchstens ${n===1?"einmal":n+"-mal"} in 12 Monaten`}
-  if(w.why==="same")return ` · ${k>0?kgTxt(k)+" gespart":"zählt ohne kg"}: „${A[w.by].t}“ ist heute vermutlich dieselbe Sache, gezählt wird nur der größere Wert`;
+  if(w.why==="same")return ` · ${k>0?kgTxt(k)+" gespart":"zählt ohne kg"}: „${A[w.by].t}“ ist ${td?"heute":"an diesem Tag"} vermutlich dieselbe Sache, gezählt wird nur der größere Wert`;
   if(w.why==="cday")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${CUST_DAY} kg am Tag`;
   if(w.why==="cyr")return ` · ${got}. Eigene Schätzungen zählen zusammen höchstens ${kgTxt(CUST_Y)} im Jahr, und dieser Rahmen wächst mit der Zeit seit deinem Start`;
   if(w.why==="cap")return k>0?` · ${kgTxt(k)} gespart. Mehr gibt die Quelle „${w.n}“ bisher nicht her, ihr Rahmen wächst mit jedem Tag`:` · zählt ohne kg: Bei „${w.n}“ ist schon gezählt, was die Quelle in dieser Zeit verursacht. Der Rahmen wächst mit jedem Tag`;
@@ -2673,7 +2731,7 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a&&(!x.h||isBase(x.i
    <div class="sec"><div class="sec-h"><h3>Kleine Schritte</h3><span class="label">pro Mal</span></div><div class="acts">${acts.filter(x=>!x.g&&!isBase(x.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div>${acts.some(x=>!x.g&&!x.k&&!isBase(x.id))?`<p class="muted" style="font-size:14px">Handabdruck heißt: Wirkung über den eigenen Fußabdruck hinaus, etwa wenn du anderen etwas leihst oder Regeln mitveränderst. Sie lässt sich kaum in kg messen und zählt deshalb ohne kg.</p>`:""}</div>
    <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g&&!x.bo&&!isBase(x.id)).sort((p,q)=>quietAct(p.id)-quietAct(q.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
    ${(()=>{const b=acts.filter(x=>isBase(x.id));return b.length?`<div class="sec"><div class="sec-h"><h3>Schon Alltag</h3><span class="label">wächst mit</span></div><div class="row">${b.map(x=>`<button class="chip" ${da(x.a)} data-actmenu="${x.id}">${dot(x.a)}${x.t}</button>`).join("")}</div></div>`:""})()}
-   <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was ist schon Alltag?</button></div>
+   <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was ist schon Alltag?</button>${nachMin()<dayStart(now())?`<button class="linkbtn" data-nach="${dayAdd(now(),-1)}">Für einen vergangenen Tag nachtragen</button>`:""}</div>
    ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${enKg(e)}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen: ${esc(e.t)}">×</button></div>`).join("")}</div></div>`:""}
    ${hist.length?`<details class="fold" id="histfold"><summary><span>Logbuch</span><span class="label">${plu(S.log.length,"Eintrag","Einträge")}</span></summary><div><div class="entries">${hist.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${fmtDate(e.ts)}${e.g?(e.end?" bis "+fmtDate(e.end):" · dauerhaft"):""} · ${enKg(e)||"0 kg"}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen: ${esc(e.t)}">×</button></div>`).join("")}</div></div></details>`:""}
   </section>`}
@@ -2966,14 +3024,12 @@ function viewYear(){const RM=S.log.length?ringMonths():[],last=S.checks[S.checks
    <div class="sec"><div class="sec-h"><h2>Dein Fußabdruck</h2>${last?`<span class="label">${fmtDate(last.ts)}</span>`:""}</div>
     ${last?`<div class="plain" ${da("dinge")}><div class="bigt num">${nf(nowTotal(),1)}<small>t im Jahr</small></div>${sinceCheck()>0?`<p style="font-size:15px">Gemessen ${nf(last.total,1)} t. Seit der Messung wirken dauerhafte Änderungen mit <b>${nf(sinceCheck(),1)} t</b> pro Jahr, also heute etwa ${nf(nowTotal(),1)} t.</p>`:""}${share()!=null?`<p style="font-size:15px">${periodTxt(true)} hast du ${kgTxt(sumKg(now()-365*DAY))} eingespart, das sind ${share()} % deines Jahres.</p>${(pp=>pp?`<p class="tip persp" ${da("wir")}><b>Mit Blick nach vorn</b>${pp}</p>`:"")(persp())}<p class="muted" style="font-size:14px">${pctWhy(last)}</p>`:""}${now()-last.ts>90*DAY?`<p class="tip" ${da("dinge")}><b>Zeit für eine neue Messung</b>Dein letzter Check ist über drei Monate her.</p>`:""}${fpBars(last)}${srcBlock(last)}<div class="row"><button class="btn" data-checkres="1">Quellen ansehen</button><button class="btn go" ${da("dinge")} data-check="1">Neu messen</button></div>${S.checks.length>1?`<p class="muted" style="font-size:14.5px">Erste Messung am ${fmtDate(S.checks[0].ts)}: ${nf(S.checks[0].total,1)} t. Jetzt ${nf(last.total,1)} t.</p>`:""}</div>`
     :`<div class="plain"><p>Zehn kurze Fragen schätzen deinen Fußabdruck und zeigen deine drei größten Quellen. Nach ein paar Monaten kannst du neu messen und vergleichen.</p><div class="row"><button class="btn go" ${da("dinge")} data-check="1">Hebel-Check starten</button></div></div>`}</div>
+   <div class="sec" id="calsec"><div class="sec-h"><h2>Kalender</h2><span class="label">gespart je Tag</span></div>${calHTML()}</div>
    <div class="sec"><div class="sec-h"><h2>Jahresringe</h2><span class="label num">− ${kgTxt(sumKg(y0))} ${y0>jan?"seit "+fmtDate(y0):"seit Januar"}</span></div>
     ${S.log.length?`<div class="rings">${ringsSVG(RM)}</div>${ringList(RM)}<p class="muted" style="font-size:14.5px">Jeder Ring ist ein Monat, innen der erste. Je breiter der Ring, desto mehr hast du in dem Monat eingespart. Ganz breit wird er ab rund 150 kg oder in deinem besten Monat. Die Farben zeigen die Bereiche. Ein Tipp auf einen Ring oder Monat zeigt die Details.</p><div class="legend">${AK.map(k=>`<span ${da(k)}>${dot(k)}${AREAS[k].n}</span>`).join("")}</div>`:`<p class="empty">Wenn du Schritte einträgst, wächst hier jeden Monat ein Ring.</p>`}</div>
    <div class="sec"><h2>Rückblick</h2>${weekView()}${prevWeeks.length?`<details class="fold"><summary><span>Frühere Wochen</span><span class="label">${prevWeeks.length}</span></summary><div><div class="entries">${prevWeeks.map(([k,v])=>`<div class="en"><span class="tx"><small>Woche ab ${fmtDate(+k.slice(1))}</small><br>${esc(v)}</span></div>`).join("")}</div></div></details>`:""}</div>
    ${got.length?`<div class="sec"><div class="sec-h"><h3>Momente</h3><span class="label">${got.length} von ${MOMENTS.length}</span></div><div class="moms">${got.map(m=>`<span class="mom" title="${fmtDate(S.moments[m.id])}"><i></i>${m.t}</span>`).join("")}</div></div>`:""}
-   <details class="fold" id="setfold"><summary><span>Erinnerung</span><span class="label">Rückblick am Sonntag</span></summary><div class="sec">
-     <p style="font-size:15.5px">Die App schickt keine Nachrichten. Wenn du möchtest, legst du dir einen wöchentlichen Termin für den Rückblick in deinem Kalender an.</p>
-     ${remindRow()}
-     <div class="row"><a class="btn" id="gcal" href="${gcal()}" target="_blank" rel="noopener">Google Kalender</a>${framed?"":`<button class="btn" id="ics">Apple- oder anderer Kalender</button>`}</div></div></details>
+   <div class="remrow" id="setfold"><span class="tx"><b>Erinnerung in meinen Kalender</b><small>${remLabel()}</small></span><button class="btn" id="remopen" aria-haspopup="dialog">${S.settings.ron?"Ändern":"Einrichten"}</button></div>
    <details class="fold" id="setfold2"><summary><span>Einstellungen</span><span class="label">Vibration · Daten</span></summary><div class="sec">
      <div class="setrow"><span><b>Vibration</b><br><span class="muted" style="font-size:14px">Ein kurzer Tick bei jedem Tippen. Bei „Bewegung reduzieren“ ist sie immer aus.</span></span><button class="toggle" role="switch" aria-checked="${S.settings.hap!==false}" id="haptgl" aria-label="Vibration"><span class="knob"></span></button></div>
      <div class="setdata"><b>Daten sichern</b><span class="muted" style="font-size:14px">Alles liegt nur in diesem Browser. Eine Sicherung bewahrt es auf, etwa vor einem Gerätewechsel, und lässt sich hier wieder laden.</span>
@@ -2996,13 +3052,164 @@ let confirmReset=false;
 const framed=(()=>{try{return window.top!==window.self}catch(e){return true}})();
 const pad=n=>String(n).padStart(2,"0");
 const icsDate=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-/* Uhrzeit immer im 24-Stunden-Format: zwei Auswahlfelder statt eines Zeitfelds, das je nach System „07:00 PM“ zeigt */
-function remindRow(){const [h,mi]=(S.settings.remind||"19:00").split(":").map(Number),mins=[...new Set([0,15,30,45,mi])].sort((a,b)=>a-b);
-  return `<div class="row rtime" role="group" aria-labelledby="rtl"><span class="label" id="rtl">Sonntags um</span><select id="rhour" aria-label="Stunde">${[...Array(24)].map((_,k)=>`<option value="${k}" ${k===h?"selected":""}>${pad(k)}</option>`).join("")}</select><span aria-hidden="true">:</span><select id="rmin" aria-label="Minute">${mins.map(k=>`<option value="${k}" ${k===mi?"selected":""}>${pad(k)}</option>`).join("")}</select><span class="label">Uhr</span></div>`}
-function nextSunday(){const [h,mi]=(S.settings.remind||"19:00").split(":").map(Number);const d=new Date();d.setDate(d.getDate()+((7-d.getDay())%7));d.setHours(h,mi,0,0);if(d<new Date())d.setDate(d.getDate()+7);return d}
-function gcal(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4),tz=Intl.DateTimeFormat().resolvedOptions().timeZone;return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Biotop: Wochenrückblick")}&dates=${icsDate(s)}/${icsDate(e)}&ctz=${encodeURIComponent(tz)}&details=${encodeURIComponent("Fünf Minuten: Was hast du diese Woche getan, was hat sich gut angefühlt?\n\n"+appUrl())}&recur=${encodeURIComponent("RRULE:FREQ=WEEKLY")}`}
-function ics(){const s=nextSunday(),e=new Date(s.getTime()+15*6e4);const t=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Biotop//DE","BEGIN:VEVENT",`UID:wr-${now()}@biotop`,`DTSTAMP:${icsDate(new Date())}`,`DTSTART:${icsDate(s)}`,`DTEND:${icsDate(e)}`,"RRULE:FREQ=WEEKLY","SUMMARY:Biotop: Wochenrückblick",`URL:${appUrl()}`,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Biotop: Wochenrückblick","TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
-  const u=URL.createObjectURL(new Blob([t],{type:"text/calendar;charset=utf-8"})),l=document.createElement("a");l.href=u;l.download="biotop-rueckblick.ics";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("Kalenderdatei geöffnet. Füg den Termin nur noch hinzu.")}
+/* ---------- v10 K1 Kalender der Einsparungen ----------
+   Ort: „Dein Weg“, zwischen Fußabdruck und Jahresringen. Dort liegt schon der Rückblick über die Zeit, kein neues Register nötig, die Startseite bleibt kurz.
+   Je Tag eine Markierung im Riso-Raster, ihre Größe folgt den gesparten kg, die Farbe dem Bereich mit dem größten Anteil.
+   Gerechnet wird mit sumKg wie bei den Kennzahlen, dauerhafte Änderungen also anteilig je Tag. Leere Tage bleiben neutral.
+   Geblättert wird vom Monat des Starts in der App bis heute, nie in die Zukunft. */
+const WDL=["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"],WDK=["Mo","Di","Mi","Do","Fr","Sa","So"];
+/* Tage und Monate über das Datum rechnen, nicht über 24 Stunden: Bei der Zeitumstellung hat ein Tag 23 oder 25 Stunden */
+const dayAdd=(t,n)=>{const d=new Date(t);d.setDate(d.getDate()+n);d.setHours(0,0,0,0);return d.getTime()};
+const monAdd=(t,n)=>{const d=new Date(t);return new Date(d.getFullYear(),d.getMonth()+n,1).getTime()};
+const wdIdx=t=>(new Date(t).getDay()+6)%7;
+const monday=t=>dayAdd(dayStart(t),-wdIdx(t));
+const calMin=()=>monthStart(new Date(appStart()));
+const dayLong=t=>WDL[wdIdx(t)]+", "+new Date(t).toLocaleDateString("de-DE",{day:"numeric",month:"long"});
+const cap1=s=>s.charAt(0).toUpperCase()+s.slice(1);
+/* „gestern“, „vorgestern“ oder „Mittwoch, 28. Oktober“ */
+function dayName(t){const n=Math.round((dayStart(now())-dayStart(t))/DAY);return n===0?"heute":n===1?"gestern":n===2?"vorgestern":dayLong(t)}
+/* Nachtragen: höchstens 7 Tage zurück und nicht vor dem Start in der App (F2: Angerechnet wird frühestens ab dem Start) */
+const NACH_D=7;
+const nachMin=()=>Math.max(dayAdd(now(),-NACH_D),dayStart(appStart()));
+/* gültiger vergangener Tag zum Nachtragen oder null; heute ist ein gewöhnlicher Eintrag */
+function nachDay(day){if(day==null||day==="")return null;const d=dayStart(+day);if(!isFinite(d)||d>=dayStart(now())||d<nachMin())return null;return d}
+/* Zeitstempel eines Nachtrags: Mittag des gewählten Tags. Am Tag des Starts frühestens der Start selbst, damit sich der Start in der App nicht verschiebt. */
+const nachTs=d=>Math.min(dayAdd(d,1)-6e4,Math.max(d+12*36e5,appStart()));
+/* gespart an einem Tag, je Bereich; dieselbe Rechnung wie sumKg */
+function dayKgBy(a,b){const by={};let sum=0,n=0;S.log.forEach(e=>{const v=eKg(e,a,b);if(v>0){by[e.a]=(by[e.a]||0)+v;sum+=v}if(!e.g&&e.ts>=a&&e.ts<b)n++});return {by,sum,n}}
+/* Stärke der Markierung: ruhig gestuft statt fein skaliert, die Faktoren sind Richtwerte */
+const calTier=k=>k<.0005?0:k<.5?1:k<2?2:k<5?3:4;
+const CALTIER=["","unter 500 g","500 g bis 2 kg","2 bis 5 kg","5 kg und mehr"];
+let calM=null,calFoc=null;
+const calCur=()=>{const mn=calMin(),mx=monthStart();if(calM==null||calM>mx)calM=mx;if(calM<mn)calM=mn;return calM};
+function calHTML(){const m=calCur(),mn=calMin(),mx=monthStart(),nx=monAdd(m,1),td=dayStart(now()),st=dayStart(appStart()),d0=new Date(m),mo=d0.getMonth();
+  const on=[];let rows="",w=monday(m);
+  while(w<nx){let cells="";for(let i=0;i<7;i++){const t=dayAdd(w,i);
+      if(t<m||t>=nx){cells+=`<span role="gridcell" class="cd out"></span>`;continue}
+      const dn=new Date(t).getDate();
+      if(t>td||t<st){cells+=`<span role="gridcell" class="cd off" aria-disabled="true">${dn}</span>`;continue}
+      on.push(t);const r=dayKgBy(t,dayAdd(t,1)),tr=calTier(r.sum),top=Object.entries(r.by).sort((x,y)=>y[1]-x[1])[0];
+      const lab=`${dayLong(t)}${t===td?", heute":""}: ${r.sum>=.0005?kgTxt(r.sum)+" gespart":r.n?"eingetragen, ohne kg":"nichts eingetragen"}${r.n?", "+plu(r.n,"Eintrag","Einträge"):""}`;
+      cells+=`<span role="gridcell" class="cd${t===td?" today":""}"><button class="cday" data-calday="${t}" tabindex="-1" aria-label="${lab}"${t===td?' aria-current="date"':""}><span class="cdn" aria-hidden="true">${dn}</span>${tr?`<i class="mk t${tr}" ${da(top[0])} aria-hidden="true"></i>`:r.n?`<i class="mk t0" aria-hidden="true"></i>`:""}</button></span>`}
+    const wk=sumKg(w,dayAdd(w,7)),wt=kgTxt(wk);
+    rows+=`<div role="row" class="calr">${cells}${w>td?`<span role="gridcell" class="cws"></span>`:`<span role="gridcell" class="cws num" aria-label="Woche ab ${fmtDate(w)}: ${wk>=.0005?wt:"0 kg"}">${wk>=100?nf(Math.round(wk),0):nf1(wk)}</span>`}</div>`;w=dayAdd(w,7)}
+  const f=on.includes(calFoc)?calFoc:on.includes(td)?td:on[on.length-1];if(f!=null)rows=rows.replace(`data-calday="${f}" tabindex="-1"`,`data-calday="${f}" tabindex="0"`);
+  const ms=sumKg(m,nx),pm=monAdd(m,-1),pv=pm>=mn?sumKg(pm,m):null,pmo=new Date(pm).getMonth();
+  return `<div class="cal" id="cal" data-m="${m}">
+   <div class="calh"><button class="calnav" data-calm="-1" aria-label="Voriger Monat${pm>=mn?": "+MONTHS[pmo]:""}"${m<=mn?" disabled":""}>‹</button><h3 id="calt" aria-live="polite">${MONTHS[mo]} ${d0.getFullYear()}</h3><button class="calnav" data-calm="1" aria-label="Nächster Monat${m<mx?": "+MONTHS[new Date(nx).getMonth()]:""}"${m>=mx?" disabled":""}>›</button></div>
+   <div class="calg" role="grid" aria-labelledby="calt" aria-describedby="calhelp">
+    <div role="row" class="calr calhd">${WDK.map((k,i)=>`<span role="columnheader" aria-label="${WDL[i]}">${k}</span>`).join("")}<span role="columnheader" class="cws" aria-label="Summe der Woche in kg">Woche<br>kg</span></div>
+    ${rows}</div>
+   <p class="calsum num">${m===mx?`<b>${MONTHS[mo]} bisher ${kgTxt(ms)}</b>`:`<b>${MONTHS[mo]} ${kgTxt(ms)}</b>${pv!=null?` · ${MONTHS[pmo]} ${kgTxt(pv)}`:""}`}</p>
+   <details class="calhow"><summary>Wie lese ich das?</summary><p class="muted calnote" id="calhelp">Je größer der Punkt, desto mehr hast du an dem Tag gespart. Dauerhafte Änderungen zählen jeden Tag anteilig mit. Rechts steht die Summe der Woche in kg. Ein Tipp auf einen Tag zeigt seine Einträge, für die letzten ${NACH_D} Tage kannst du dort nachtragen.</p>
+   <div class="calleg" aria-hidden="true">${[1,2,3,4].map(i=>`<span><i class="mk t${i}" ${da("wir")}></i>${CALTIER[i]}</span>`).join("")}</div></details></div>`}
+/* Monat wechseln, ohne die ganze Ansicht neu zu zeichnen; der Fokus bleibt im Kalender */
+function calRe(focusDay,navDir){const c=$("#cal");if(!c)return;if(focusDay!=null)calFoc=focusDay;c.outerHTML=calHTML();
+  if(navDir){const b=document.querySelector(`#cal [data-calm="${navDir}"]`);if(b&&!b.disabled){try{b.focus({preventScroll:true})}catch(e){}return}}
+  const g=document.querySelector('#cal .cday[tabindex="0"]');if(g&&(focusDay!=null||navDir))try{g.focus({preventScroll:true})}catch(e){}}
+function calGo(dir){const m=monAdd(calCur(),dir);if(m<calMin()||m>monthStart())return;calM=m;calFoc=null;calRe(null,dir>0?"1":"-1")}
+function calFocusDay(n,keepMonth){const td=dayStart(now()),st=dayStart(appStart());n=Math.min(td,Math.max(st,n));const ms=monthStart(new Date(n));
+  if(keepMonth&&ms!==calCur())return;calFoc=n;if(ms!==calCur()){calM=ms;calRe(n);return}
+  document.querySelectorAll("#cal .cday").forEach(b=>b.tabIndex=+b.dataset.calday===n?0:-1);const b=document.querySelector(`#cal .cday[data-calday="${n}"]`);if(b)try{b.focus({preventScroll:true})}catch(e){}}
+document.addEventListener("keydown",e=>{const b=e.target;if(!b||!b.classList||!b.classList.contains("cday")||e.altKey||e.ctrlKey||e.metaKey)return;const t=+b.dataset.calday,m=calCur(),nx=monAdd(m,1);let n=null,keep=false;
+  switch(e.key){case "ArrowLeft":n=dayAdd(t,-1);break;case "ArrowRight":n=dayAdd(t,1);break;case "ArrowUp":n=dayAdd(t,-7);break;case "ArrowDown":n=dayAdd(t,7);break;
+    case "Home":n=Math.max(m,monday(t));keep=true;break;case "End":n=Math.min(dayAdd(nx,-1),dayAdd(monday(t),6));keep=true;break;
+    case "PageUp":case "PageDown":{const d=new Date(t),k=e.key==="PageUp"?-1:1,last=new Date(d.getFullYear(),d.getMonth()+k+1,0).getDate();n=new Date(d.getFullYear(),d.getMonth()+k,Math.min(d.getDate(),last)).getTime();break}
+    default:return}
+  e.preventDefault();calFocusDay(n,keep)});
+/* Wischen nach links oder rechts blättert den Monat. Ein Tipp, aus dem ein Wischen wird, löst nichts aus (siehe oben). */
+{let sw=null;document.addEventListener("touchstart",e=>{const g=e.target.closest&&e.target.closest(".calg");sw=g&&e.touches.length===1?{x:e.touches[0].clientX,y:e.touches[0].clientY}:null},{passive:true});
+  document.addEventListener("touchend",e=>{if(!sw)return;const t=e.changedTouches[0],dx=t.clientX-sw.x,dy=t.clientY-sw.y;sw=null;if(Math.abs(dx)>50&&Math.abs(dx)>1.5*Math.abs(dy))calGo(dx<0?1:-1)},{passive:true})}
+/* Tagesblatt: Einträge des Tags mit Bereich und kg, Löschen mit Rückgängig wie im Logbuch, dazu der Anteil dauerhafter Änderungen */
+function daySheet(t){t=dayStart(+t);const b=dayAdd(t,1),td=dayStart(now()),L=S.log.filter(e=>!e.g&&e.ts>=t&&e.ts<b).sort((x,y)=>x.ts-y.ts),big=S.log.filter(e=>e.g).map(e=>[e,eKg(e,t,b)]).filter(x=>x[1]>=.0005);
+  const sum=sumKg(t,b),bk=big.reduce((q,x)=>q+x[1],0),can=t===td||nachDay(t)!=null;
+  sheet(`<div data-dayof="${t}"><span class="label">${dayLong(t)}${t===td?" · heute":""}</span><h2>${sum>=.0005?kgTxt(sum)+" gespart":L.length?"Eingetragen, ohne kg":"Nichts eingetragen"}</h2>
+   ${L.length?`<div class="entries">${L.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${AREAS[e.a]?AREAS[e.a].n:""} · ${enKg(e)||"0 kg"}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen: ${esc(e.t)}">×</button></div>`).join("")}</div>`:""}
+   ${bk>=.0005?`<p class="muted daybig">${L.length?"Dazu":"Hier zählen"} ${kgTxt(bk)} aus ${big.length===1?"deiner dauerhaften Änderung":"deinen dauerhaften Änderungen"}, anteilig für diesen Tag: ${big.map(([e])=>"„"+esc(e.t)+"“").join(", ")}.</p>`:""}
+   ${can?`<div class="row"><button class="btn go" ${da("wir")} data-nach="${t}">${t===td?"Schritt eintragen":"Schritt nachtragen"}</button></div>`:`<p class="muted" style="font-size:14px">Nachtragen geht für die letzten ${NACH_D} Tage${dayStart(appStart())>dayAdd(td,-NACH_D)?`, frühestens ab deinem Start am ${fdEnd(appStart())}`:""}.</p>`}</div>`)}
+/* Nachtragen: Tag und Bereich wählen, dann ein Tipp wie im Register „Eintragen“. Es gelten dieselben Grenzen, bezogen auf den gewählten Tag. */
+let nachA=null,nachCur=null;
+const dayChip=d=>{const n=Math.round((dayStart(now())-d)/DAY);return n===0?"Heute":n===1?"Gestern":n===2?"Vorgestern":WDK[wdIdx(d)]+", "+fmtDate(d)};
+function nachSheet(day){const td=dayStart(now());day=nachDay(day)||td;nachCur=day;const a=nachA||S.area,acts=ACTS.filter(x=>x.a===a&&!x.g&&!x.h&&!isBase(x.id)),days=[];for(let d=td;d>=nachMin();d=dayAdd(d,-1))days.push(d);
+  const dd=day<td?` data-day="${day}"`:"",st=dayStart(appStart());
+  sheet(`<span class="label">${day<td?"Nachtragen":"Eintragen"}</span><h2>${cap1(dayName(day))}</h2>
+   ${days.length>1?`<div class="row nachdays" role="group" aria-label="Tag wählen">${days.map(d=>`<button class="chip" data-nach="${d}" aria-pressed="${d===day}">${dayChip(d)}</button>`).join("")}</div>`:""}
+   <div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-nacha="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div>
+   <div class="acts">${acts.map(x=>`<button class="act" ${da(x.a)} data-log="${x.id}"${VAR(x)?' aria-haspopup="dialog"':' data-close="1"'}${dd}><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${x.t}</b><small>${VAR(x)?esc(vSub(x)):QU(x)?esc(qSub(x)):x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck"}</small></span></button>`).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div>
+   <p class="muted" style="font-size:14px">Ein Nachtrag zählt wie ein Eintrag an diesem Tag, mit denselben Grenzen. Nachtragen geht für die letzten ${NACH_D} Tage${st>dayAdd(td,-NACH_D)?`, frühestens ab deinem Start am ${fdEnd(st)}`:""}. Dauerhafte Änderungen trägst du im Register „Eintragen“ mit ihrem Beginn ein.</p>`)}
+
+/* ---------- v10 K2 Erinnerung in meinen Kalender ----------
+   Kein Server und keine Mitteilungen der App: Biotop erzeugt eine Kalenderdatei nach RFC 5545 mit wiederkehrendem Termin (RRULE) und Erinnerung (VALARM).
+   Die Mitteilung kommt dann vom Kalender. Ändern: neue Datei mit derselben UID und höherer SEQUENCE ersetzt den Termin, wo der Kalender das unterstützt.
+   Abschalten: Termin im Kalender löschen. Ton: keine Zähler, nichts reißt ab, nichts verfällt. */
+const APP_URL="https://wurstgott.github.io/biotop/";
+const ICSD=["MO","TU","WE","TH","FR","SA","SU"];
+const RF={daily:{t:"Täglich"},work:{t:"Werktags",d:"Mo bis Fr"},mwf:{t:"3× pro Woche",d:"Mo, Mi, Fr"},weekly:{t:"Wöchentlich"}};
+const RTXT=["Biotop: Was hast du heute gespart?","Biotop: Magst du kurz eintragen, was heute war?","Biotop: Wie warst du heute unterwegs?","Biotop: Ein Schritt von heute fürs Logbuch?","Biotop: Was stand heute auf dem Teller?","Biotop: Kurz eintragen, wenn dir danach ist","Biotop: Ein Blick auf deine Landschaft?"];
+const RTXTW=["Biotop: Was hast du diese Woche gespart?","Biotop: Ein Blick auf deine Woche?","Biotop: Was hat sich diese Woche gut angefühlt?","Biotop: Magst du die Woche kurz nachtragen?"];
+function remS(){const s=S.settings||{};return {f:RF[s.rf]?s.rf:"daily",wd:Number.isInteger(s.rwd)&&s.rwd>=0&&s.rwd<7?s.rwd:6,t:/^\d\d:\d\d$/.test(s.remind||"")?s.remind:"19:30",rot:!!s.rrot}}
+const remDays=r=>r.f==="weekly"?[r.wd]:r.f==="work"?[0,1,2,3,4]:r.f==="mwf"?[0,2,4]:[0,1,2,3,4,5,6];
+const remFreq=r=>r.f==="weekly"?WDL[r.wd]+"s":r.f==="mwf"?"Mo, Mi, Fr":r.f==="work"?"Werktags":"Täglich";
+/* nächster Termin ab jetzt an einem der Wochentage (0 = Montag) zur gewählten Uhrzeit */
+function remNext(days,r){const [h,mi]=r.t.split(":").map(Number);for(let i=0;i<8;i++){const d=new Date(dayAdd(now(),i));d.setHours(h,mi,0,0);if(d.getTime()>now()&&days.includes(wdIdx(d.getTime())))return d}return null}
+/* Termine der Datei. Ohne Textwechsel einer; mit Textwechsel einer je Wochentag (fester Text je Tag) oder bei „wöchentlich“ vier im Wechsel alle vier Wochen. */
+function remEvents(r){const days=remDays(r),wk=r.f==="weekly";
+  if(!r.rot){const rr=r.f==="daily"?"FREQ=DAILY":"FREQ=WEEKLY;BYDAY="+days.map(i=>ICSD[i]).join(",");return [{k:0,rr,s:remNext(days,r),sum:wk?RTXTW[0]:RTXT[0]}]}
+  if(wk){const s0=remNext(days,r);return RTXTW.map((sum,k)=>({k,rr:`FREQ=WEEKLY;INTERVAL=${RTXTW.length};BYDAY=${ICSD[r.wd]}`,s:new Date(new Date(s0).setDate(s0.getDate()+7*k)),sum}))}
+  return days.map((i,k)=>({k,rr:"FREQ=WEEKLY;BYDAY="+ICSD[i],s:remNext([i],r),sum:RTXT[i%RTXT.length]}))}
+const icsEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
+/* Zeilen höchstens 75 Oktette, Folgezeilen beginnen mit einem Leerzeichen; Umlaute werden nicht zerteilt */
+function icsFold(line){const enc=new TextEncoder();if(enc.encode(line).length<=75)return line;const out=[];let cur="",n=0;for(const ch of line){const b=enc.encode(ch).length;if(n+b>75){out.push(cur);cur=" ";n=1}cur+=ch;n+=b}out.push(cur);return out.join("\r\n")}
+const icsUtc=d=>`${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
+function icsText(r,seq,id,prevK){const wk=r.f==="weekly",st=icsUtc(new Date(now())),desc=`Kurz in Biotop eintragen, was du ${wk?"diese Woche":"heute"} gespart hast. Wenn nichts war, ist das auch in Ordnung: In Biotop verfällt nichts.\nAbschalten: diesen Termin im Kalender löschen.\n${APP_URL}`;
+  /* Ortszeit ohne Zeitzone (floating, RFC 5545 3.3.5): Die Erinnerung kommt immer zur gewählten Uhrzeit dort, wo das Gerät gerade ist, auch auf Reisen */
+  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Biotop//Erinnerung//DE","CALSCALE:GREGORIAN","METHOD:PUBLISH"],E=remEvents(r),uidK=k=>`UID:${id}${k?"-"+k:""}@wurstgott.github.io`;
+  E.forEach(ev=>{const en=new Date(ev.s.getTime()+5*6e4);L.push("BEGIN:VEVENT",uidK(ev.k),`SEQUENCE:${seq}`,`DTSTAMP:${st}`,`DTSTART:${icsDate(ev.s)}`,`DTEND:${icsDate(en)}`,`RRULE:${ev.rr}`,`SUMMARY:${icsEsc(ev.sum)}`,`DESCRIPTION:${icsEsc(desc)}`,`URL:${APP_URL}`,"TRANSP:TRANSPARENT","BEGIN:VALARM","ACTION:DISPLAY",`DESCRIPTION:${icsEsc(ev.sum)}`,"TRIGGER;RELATED=START:PT0S","END:VALARM","END:VEVENT")});
+  /* Termine einer früheren Datei, die es jetzt nicht mehr gibt (etwa nach dem Ausschalten des Textwechsels), werden mit derselben UID abgesagt */
+  for(let k=E.length;k<(prevK||0);k++){const s0=E[0].s;L.push("BEGIN:VEVENT",uidK(k),`SEQUENCE:${seq}`,`DTSTAMP:${st}`,`DTSTART:${icsDate(s0)}`,`DTEND:${icsDate(new Date(s0.getTime()+5*6e4))}`,"STATUS:CANCELLED","SUMMARY:Biotop: Erinnerung (entfällt)","TRANSP:TRANSPARENT","END:VEVENT")}
+  L.push("END:VCALENDAR");return L.map(icsFold).join("\r\n")+"\r\n"}
+const remPrev=r=>`„${r.f==="weekly"?RTXTW[0]:RTXT[0]}“${r.rot?" und ruhige Varianten":""} · ${remFreq(r)} um ${r.t} Uhr · 5 Minuten, blockiert keine Zeit`;
+function remindRow(){const [h,mi]=remS().t.split(":").map(Number),mins=[...new Set([0,15,30,45,mi])].sort((a,b)=>a-b);
+  return `<div class="row rtime" role="group" aria-labelledby="rtl"><span class="label" id="rtl">Um</span><select id="rhour" aria-label="Stunde">${[...Array(24)].map((_,k)=>`<option value="${k}" ${k===h?"selected":""}>${pad(k)}</option>`).join("")}</select><span aria-hidden="true">:</span><select id="rmin" aria-label="Minute">${mins.map(k=>`<option value="${k}" ${k===mi?"selected":""}>${pad(k)}</option>`).join("")}</select><span class="label">Uhr</span></div>`}
+const remLabel=()=>{const r=remS();return S.settings.ron?`${remFreq(r)} · ${r.t} Uhr`:"Kalender statt Mitteilungen"};
+/* Einstellungen der Erinnerung im Blatt; nach einer Änderung wird es neu gezeichnet, der Fokus bleibt auf dem gewählten Knopf */
+function remSheet(keep){const a=document.activeElement,sel=keep&&a&&a.closest&&a.closest("#sh")?(a.id?"#"+a.id:a.dataset.rf?`[data-rf="${a.dataset.rf}"]`:a.dataset.rwd!=null?`[data-rwd="${a.dataset.rwd}"]`:null):null;
+  sheet(`<span class="label">Erinnerung</span><h2>In meinen Kalender</h2><div class="sec rem">${remBlock()}</div>`);if(sel){const b=document.querySelector("#sh "+sel);if(b)try{b.focus({preventScroll:true})}catch(e){}}}
+const hasBadge=()=>typeof navigator!=="undefined"&&"setAppBadge" in navigator;
+function remBlock(){const r=remS();
+  return `<p style="font-size:15.5px">Biotop schickt keine Nachrichten. Wenn du magst, legt eine Kalenderdatei einen wiederkehrenden Termin mit Erinnerung in deinem Kalender an. Die Mitteilung kommt dann von deinem Kalender.</p>
+   <div class="rgrp"><span class="label" id="rfl">Wie oft</span><div class="row" role="group" aria-labelledby="rfl">${Object.entries(RF).map(([k,x])=>`<button class="chip" data-rf="${k}" aria-pressed="${r.f===k}">${x.t}${x.d?` <small>${x.d}</small>`:""}</button>`).join("")}</div></div>
+   ${r.f==="weekly"?`<div class="rgrp"><span class="label" id="rwl">Wochentag</span><div class="row" role="group" aria-labelledby="rwl">${WDK.map((k,i)=>`<button class="chip rwd" data-rwd="${i}" aria-pressed="${r.wd===i}" aria-label="${WDL[i]}">${k}</button>`).join("")}</div></div>`:""}
+   ${remindRow()}
+   <div class="setrow"><span><b>Text wechseln</b><br><span class="muted" style="font-size:14px">Statt immer derselben Frage wechseln ruhige Varianten, etwa „${(r.f==="weekly"?RTXTW:RTXT)[1].replace("Biotop: ","")}“</span></span><button class="toggle" role="switch" aria-checked="${r.rot}" id="rrot" aria-label="Text wechseln"><span class="knob"></span></button></div>
+   <p class="rprev" id="rprev">${esc(remPrev(r))}</p>
+   <div class="row"><button class="btn go" ${da("wege")} id="ics">${S.settings.ron?"Neue Kalenderdatei laden":"Kalenderdatei laden"}</button><a class="btn" id="gcal" href="${gcal()}" target="_blank" rel="noopener">Google Kalender im Browser</a></div>
+   <ul class="rhelp"><li><b>iPhone:</b> Datei öffnen und „Alle hinzufügen“ tippen.</li><li><b>Android:</b> Datei mit Google Kalender oder deiner Kalender-App öffnen.</li></ul>
+   <p class="muted" style="font-size:14px">Ändern: hier anpassen und eine neue Datei laden. Sie ersetzt den bisherigen Termin, wo dein Kalender das unterstützt, sonst lösche den alten zuerst. Abschalten: Termin im Kalender löschen.</p>
+   <p class="muted" style="font-size:14px">Die Datei funktioniert in der veröffentlichten App, im Browser oder vom Startbildschirm. In einer eingebetteten Vorschau ist ein Download eventuell gesperrt, dann zeigt Biotop den Text zum Kopieren.</p>
+   ${hasBadge()?`<div class="setrow"><span><b>Punkt am App-Symbol</b><br><span class="muted" style="font-size:14px">Nur mit Erinnerung und nur an Tagen, an denen noch nichts eingetragen ist. Biotop fragt dafür keine Erlaubnis an.</span></span><button class="toggle" role="switch" aria-checked="${!!S.settings.rbadge}" id="rbadge" aria-label="Punkt am App-Symbol"><span class="knob"></span></button></div>`:""}`}
+/* Google Kalender im Browser: derselbe Termin ohne Datei, ein Text */
+function gcal(){const r=remS(),days=remDays(r),s=remNext(days,r)||new Date(),e=new Date(s.getTime()+5*6e4),tz=Intl.DateTimeFormat().resolvedOptions().timeZone,rr=remEvents(Object.assign({},r,{rot:false}))[0].rr;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(r.f==="weekly"?RTXTW[0]:RTXT[0])}&dates=${icsDate(s)}/${icsDate(e)}&ctz=${encodeURIComponent(tz)}&details=${encodeURIComponent("Kurz eintragen, was du gespart hast. Wenn nichts war, ist das auch in Ordnung.\n\n"+APP_URL)}&recur=${encodeURIComponent("RRULE:"+rr)}`}
+let ICS_T="";
+function icsDownload(txt){try{const u=URL.createObjectURL(new Blob([txt],{type:"text/calendar;charset=utf-8"})),l=document.createElement("a");l.href=u;l.download="biotop-erinnerung.ics";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true}catch(e){return false}}
+function ics(){const st=S.settings;if(!st.ruid)st.ruid="biotop-erinnerung-"+uid();st.rseq=st.rseq==null?0:(st.rseq|0)+1;st.ron=now();
+  if(S.remHint&&!S.remHint.x)S.remHint.x=1;const r=remS(),n=remEvents(r).length;ICS_T=icsText(r,st.rseq,st.ruid,st.rk||0);st.rk=Math.max(st.rk||0,n);save();
+  if(framed||!icsDownload(ICS_T)){icsFallback();return}
+  render();remSheet(true);toast("Kalenderdatei geladen. Öffne sie und füge den Termin in deinem Kalender hinzu.")}
+function icsFallback(){sheet(`<span class="label">Erinnerung in meinen Kalender</span><h2>Kalenderdatei</h2>
+   <p>In dieser Vorschau lässt sich die Datei vielleicht nicht laden. In der veröffentlichten App unter wurstgott.github.io/biotop oder vom Startbildschirm klappt es.</p>
+   <div class="row"><button class="btn go" ${da("wege")} id="icsdl">Trotzdem als Datei laden</button><button class="btn" id="icscopy">Text kopieren</button></div>
+   <label class="label" for="icsta">Inhalt der Datei</label><textarea id="icsta" class="icsta" readonly rows="6" spellcheck="false">${esc(ICS_T)}</textarea>
+   <p class="muted" style="font-size:14px">Ohne Download: Text kopieren, als Datei „biotop-erinnerung.ics“ sichern und mit deinem Kalender öffnen. Oder den Termin von Hand anlegen: ${esc(remPrev(remS()))}.</p>`)}
+/* Punkt am App-Symbol: nur wenn unterstützt, eingeschaltet und die Erinnerung eingerichtet ist, und nur solange heute noch nichts eingetragen ist. Keine Anfrage nach Erlaubnis. */
+function appBadge(){try{if(!hasBadge())return;const t0=dayStart(now()),r=remS(),[h,mi]=r.t.split(":").map(Number),at=new Date(t0);at.setHours(h,mi,0,0);
+  /* nur an einem gewählten Erinnerungstag und erst ab der gewählten Uhrzeit */
+  const want=!!(S.settings.rbadge&&S.settings.ron)&&remDays(r).includes(wdIdx(t0))&&now()>=at.getTime()&&!S.log.some(e=>Math.max(e.ts||0,e.lt||0)>=t0);
+  const p=want?navigator.setAppBadge():navigator.clearAppBadge();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)appBadge()});setInterval(()=>{if(!document.hidden)appBadge()},5*6e4);
+/* Vorschlag höchstens einmal: frühestens nach 3 Tagen mit Einträgen, als leise Zeile zum Wegtippen. Er bleibt an diesem einen Tag, danach nie wieder ungefragt. */
+function remHint(){if(S.settings.ron)return false;const h=S.remHint;if(h)return h.d===todayKey()&&!h.x;return new Set(S.log.map(e=>dayStart(e.ts))).size>=3}
 
 /* ---------- Momente ---------- */
 const MOMENTS=[
@@ -3177,15 +3384,19 @@ function render(){misTidy();if(tab!=="home")backHi=null;const v={home:viewHome,l
   Mn.classList.remove("anim");Mn.innerHTML=`<div id="panel" role="tabpanel" aria-labelledby="tab-${tab}"><h1 class="sr vh" id="vh" tabindex="-1">${VIEWNAME[tab]}</h1>${v}</div>`;
   if(changed&&!$("#sh")&&!document.querySelector(".moment:not(.out)")){try{$("#vh").focus({preventScroll:true})}catch(e){}}else if(fk)focusRestore(fk,Mn);openF.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true});if(confirmReset){const d=$("#aboutfold");if(d)d.open=true}void Mn.offsetWidth;if(anim)Mn.classList.add("anim");anim=false;renderTabs();
   $("#tl").innerHTML=`<b>${stage().n}</b>Landschaft: Stufe ${stage().i+1} von ${STAGES.length}`;fillBars();
-  if(tab==="home"){startLand();setTimeout(checkMoments,0)}else if(raf){cancelAnimationFrame(raf);raf=0}}
+  if(tab==="home"){startLand();setTimeout(checkMoments,0)}else if(raf){cancelAnimationFrame(raf);raf=0}appBadge()}
 
 document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-gotab],#landbox,[data-ringm]");if(!t)return;const d=t.dataset;
   if(t.id==="landbox"){landSheet();return}
   if(d.saison){saisonSheet(d.saison);return}
   if(d.ringm){monthSheet(+d.ringm);return}
+  if(d.calday){calFoc=+d.calday;daySheet(+d.calday);return}
+  if(d.calm){calGo(+d.calm);return}
+  if(d.nach){nachSheet(+d.nach);return}
+  if(d.nacha){nachA=d.nacha;nachSheet(nachCur);return}
   if(t.id==="home"){tab="home";anim=true;render();window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});return}
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
-  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t,d.v,d.q);return}
+  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t,d.v,d.q,d.day);return}
   if(d.qopen){qOpen(t,e);return}
   if(d.qs){qStep(+d.qs);return}
   if(d.actmenu){actMenu(d.actmenu);return}
@@ -3203,7 +3414,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
     const yr=effY(en),nf=en.nf,kgs=nf?`${NFTXT[nf]} Die Änderung wächst als Baum, zählt aber ohne kg.`:`Zählt rund ${kgTxt(yr)} im Jahr${yr<yOf(en)-.5?`, anteilig wegen Überschneidungen bei „${srcOfE(en)}“`:en.pf<1?`, anteilig. ${PFTXT[en.pw]||""}`:""}.`.replace("..",".");
     toast(`Eingetragen. ${kgs}${rep.length?` Ersetzt ${rep.map(x=>"„"+esc(x.t)+"“").join(" und ")}, die bisherige Einsparung bleibt.`:""}${root?" Der Baum wandelt sich.":""}${after?` Gezählt ab ${fmtDate(ts)}, denn bis dahin lief diese oder eine überschneidende Änderung schon.`:early?` Gezählt ab deinem Start am ${fdEnd(st)}`:""}`,null,true);checkMoments();return}
   if(d.endbig){const en=S.log.find(x=>x.id===d.endbig);if(en)en.end=now();save();closeSheet();render();toast("Beendet. Die bisherige Einsparung bleibt.");return}
-  if(d.del){const en=S.log.find(x=>x.id===d.del);S.log=S.log.filter(x=>x.id!==d.del);save();render();toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render()});return}
+  if(d.del){const en=S.log.find(x=>x.id===d.del),ds=t.closest("[data-dayof]"),dy=ds?+ds.dataset.dayof:null;S.log=S.log.filter(x=>x.id!==d.del);save();render();if(dy)daySheet(dy,true);toast("Gelöscht.",()=>{S.log.push(en);S.log.sort((a,b)=>a.ts-b.ts);save();render();if(dy&&$("#sh [data-dayof]"))daySheet(dy,true)});return}
   if(d.area){S.area=d.area;save();render();return}
   if(t.id==="custom"){customSheet();return}
   if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));if(!csrcTouched)csrcSet(defSrc(d.carea));return}
@@ -3288,6 +3499,15 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.sharemis){const m=M[d.sharemis];shareOut(m.t,`Hast du Lust, mit mir eine kleine Mission zu machen? Sie heißt „${m.t}“: ${m.x.split(/(?<=\.)\s/)[0]} Zu zweit fällt es leichter. Die Anleitung steht in Biotop, einer kostenlosen App ohne Anmeldung:`,appUrl()+"#m-"+m.id);return}
   if(t.id==="haptgl"){S.settings.hap=S.settings.hap===false;save();t.setAttribute("aria-checked",S.settings.hap!==false);armHaptics();return}
   if(t.id==="ics"){ics();return}
+  if(t.id==="icsdl"){if(ICS_T&&icsDownload(ICS_T))toast("Kalenderdatei geladen.");return}
+  if(t.id==="icscopy"){const ta=$("#icsta");(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(ICS_T):Promise.reject()).then(()=>toast("Text kopiert.")).catch(()=>{if(ta){ta.focus();ta.select()}toast("Kopieren ging nicht automatisch. Der Text ist markiert.")});return}
+  if(t.id==="remopen"){remSheet();return}
+  if(d.rf){S.settings.rf=d.rf;save();render();remSheet(true);return}
+  if(d.rwd!=null){S.settings.rwd=+d.rwd;save();render();remSheet(true);return}
+  if(t.id==="rrot"){S.settings.rrot=!S.settings.rrot;save();t.setAttribute("aria-checked",!!S.settings.rrot);const pv=$("#rprev");if(pv)pv.textContent=remPrev(remS());return}
+  if(t.id==="rbadge"){S.settings.rbadge=!S.settings.rbadge;save();t.setAttribute("aria-checked",!!S.settings.rbadge);appBadge();return}
+  if(d.remx){S.remHint=Object.assign(S.remHint||{d:todayKey()},{x:1});save();render();return}
+  if(d.remgo){S.remHint=Object.assign(S.remHint||{d:todayKey()},{x:1});save();tab="year";anim=true;render();const f=$("#setfold");if(f){f.scrollIntoView({block:"center",behavior:"auto"});try{$("#remopen").focus({preventScroll:true})}catch(x){}}remSheet();return}
   if(t.id==="bkfile"){backupFile();return}
   if(t.id==="bkpick"){const i=$("#bkin");if(i)i.click();return}
   if(t.id==="bkcopy"){backupCopy();return}
@@ -3308,7 +3528,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Tab"){trapTab(e);return}cons
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.mnin&&!e.isComposing){e.preventDefault();const b=document.querySelector(`[data-mnote="${e.target.dataset.mnin}"]`);if(b)b.click()}});
 document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.week){S.weeks[e.target.dataset.week]=e.target.value;save()}});
 document.addEventListener("change",e=>{if(e.target.id==="bkin"){const f=e.target.files&&e.target.files[0];if(!f)return;if(f.size>5e6){loadSheet("Die Datei ist zu groß für eine Biotop-Sicherung.");return}const r=new FileReader();r.onload=()=>bkTry(r.result);r.onerror=()=>loadSheet("Die Datei ließ sich nicht lesen.");r.readAsText(f);return}
-  if(e.target.id==="rhour"||e.target.id==="rmin"){const h=+(($("#rhour")||{}).value||19),mi=+(($("#rmin")||{}).value||0);S.settings.remind=pad(h)+":"+pad(mi);save();const g=$("#gcal");if(g)g.href=gcal()}});
+  if(e.target.id==="rhour"||e.target.id==="rmin"){const h=+(($("#rhour")||{}).value||19),mi=+(($("#rmin")||{}).value||0);S.settings.remind=pad(h)+":"+pad(mi);save();const g=$("#gcal");if(g)g.href=gcal();const pv=$("#rprev");if(pv)pv.textContent=remPrev(remS())}});
 
 function welcome(){if(S.welcomed||invited)return;S.welcomed=now();save();if(tab==="home")render();
   sheet(`<div class="mseal" aria-hidden="true"></div><span class="label">Willkommen</span><h2>Schön, dass du da bist.</h2><p>Hier trägst du kleine und große Schritte ein, mit denen du nachhaltiger lebst. Mit jedem Schritt wächst deine Landschaft. Dazu gibt es kurze Erkenntnisse mit Quellen, ein Quiz für Größenordnungen und kleine Missionen.</p><p class="muted" style="font-size:15px">Nichts verfällt, wenn du eine Pause machst. Alles bleibt auf deinem Gerät.</p>
