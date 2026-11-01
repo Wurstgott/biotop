@@ -255,6 +255,26 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .vopts .act{padding:13px 2px;min-height:52px}
 .vopts .act.last .plus{box-shadow:inset 0 0 0 3px var(--c)}
 .vlast{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);flex:none;border:1px solid var(--line);padding:1px 6px}
+/* v9 Menge: Zeile trägt ein, der Mengenknopf rechts öffnet Feld und Knöpfe −/+. Keine Schieber, keine Farbe außer der Bereichsfarbe. */
+.vrow{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);min-width:0}
+.vrow .act{border-bottom:0;flex:1}
+.qbtn{flex:none;min-width:64px;min-height:44px;padding:0 10px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap;touch-action:manipulation}
+.qbtn[aria-expanded="true"]{background:var(--c);color:var(--on)}
+.qother .plus{font-size:17px}
+.qed{padding:12px 0 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.qed .label{margin:0}
+.qrow{display:flex;align-items:stretch;min-width:0}
+.qstep{flex:none;width:56px;min-height:52px;border:2px solid var(--ink);background:var(--sheet);color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1;touch-action:manipulation}
+.qstep:active:not(.nopress){background:color-mix(in srgb,var(--c) 35%,var(--sheet))}
+.qbox{flex:1;min-width:0;display:flex;align-items:center;border-block:2px solid var(--ink);background:var(--paper)}
+.qbox input[type=number]{border:0;min-width:0;flex:1;text-align:right;padding:0 6px 0 8px;font-family:var(--f-mono);font-size:22px;font-variant-numeric:tabular-nums;background:transparent;-moz-appearance:textfield;appearance:textfield}
+.qbox input::-webkit-inner-spin-button,.qbox input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.qbox:focus-within{outline:3px solid var(--c);outline-offset:-5px}
+.qbox input:focus{outline:none}
+.qu{flex:1;font-family:var(--f-mono);font-size:16px;color:var(--muted);padding-right:10px}
+.qhint{margin:0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.qhint output{color:var(--ink)}
+.qlim.warn{color:var(--ink);text-decoration:underline;text-decoration-color:var(--c);text-decoration-thickness:2px}
 .state{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--c);font-weight:500}
 
 .entries{display:flex;flex-direction:column;gap:0}
@@ -821,17 +841,20 @@ const EV=["Denkanstoß","Vorläufig","Solide","Gut belegt"];
      Dieselbe Sache am selben Tag aus zwei verschiedenen Schritten (etwa „Pullover gebraucht“ und „Spontankauf Pullover gelassen“) zählt zusammen nur so viel wie der größere Wert.
      Tagesgrenze (md), Pflanzengruppe und Quelle gelten für den Schritt, alle Varianten zählen gemeinsam.
      lt = Titel, k = Wert, lv = Variante älterer Einträge ohne Variante. Sie behalten Titel und Wert.
+   Mengen (qu): Wo die Menge sinnvoll variiert (Lebensmittel, Getränke, Strecken), lässt sie sich beim Eintragen genau angeben. qu = {u: Einheit g, ml, l oder km, st: Schritt der Knöpfe −/+, mn/mx: kleinste und größte Menge je Eintrag, dx: so viel zählt an einem Tag zusammen}.
+     q = übliche Menge einer Variante, qd = übliche Menge eines Schritts ohne Varianten (q beim Schritt bleibt die Frage im Auswahlblatt). Gerechnet wird linear: kg je Einheit × Menge, bei Strecken mit kq (kg je km), sonst k/q der Variante.
+     tq = Titel im Logbuch mit {t} Schritt, {v} Variante, {q} Menge. Einträge ohne Menge (vor v9) behalten Titel und Wert.
    h = nur noch für ältere Einträge (to = Schritt, über den neue Einträge laufen; yk = Jahresgrenze, die er mit dieser Variante teilt). */
 const ACTS=[
 {id:"veg_tag",a:"essen",md:1,t:"Ein Tag vegetarisch",k:1.5,n:"Verglichen mit einem durchschnittlichen Tag mit Fleisch."},
 {id:"vegan_tag",a:"essen",md:1,t:"Ein Tag vegan",k:2.2,n:"Verglichen mit einem durchschnittlichen Tag. Wer ohnehin vegetarisch lebt, spart damit noch rund 0,7 kg, so wird es dann auch gezählt."},
-{id:"linsen",a:"essen",md:2,t:"Hülsenfrüchte statt Fleisch, eine Portion",lt:"Hülsenfrüchte statt Rindfleisch",k:2.6,q:"Statt welchem Fleisch?",v:[{id:"rind",t:"Rindfleisch",d:"150 g",k:1.9},{id:"hack",t:"Rinderhack",d:"150 g",k:1.3},{id:"gefl",t:"Geflügel",d:"150 g",k:0.7},{id:"schwein",t:"Schweinefleisch",d:"150 g",k:0.6}],n:"Gerechnet für 150 g Fleisch gegen rund 60 g getrocknete Linsen. Je Kilogramm verursachen Rindfleisch 13,6 kg, Rinderhack 9,2 kg, Geflügel 5,5 kg, Schweinefleisch 4,6 kg und getrocknete Linsen 1,2 kg (ifeu 2020)."},
-{id:"hafer",a:"essen",md:3,t:"Haferdrink statt Kuhmilch, ein Glas",k:0.2,n:"Ein Glas sind 200 ml. Ein Liter Kuhmilch verursacht rund 1,4 kg, Haferdrink rund 0,3 kg (ifeu 2020)."},
-{id:"retten",a:"essen",md:2,t:"Lebensmittel gerettet",lt:"Rund 1 kg Lebensmittel gerettet",k:1.5,q:"Was hast du gerettet?",v:[{id:"brot",t:"Brot oder Brötchen",d:"500 g",k:0.3},{id:"obst",t:"Obst oder Gemüse",d:"1 kg",k:0.4},{id:"milch",t:"Milch oder Joghurt",d:"1 kg",k:1.5},{id:"kaese",t:"Käse",d:"250 g",k:1.4},{id:"fleisch",t:"Fleisch oder Wurst",d:"250 g",k:1.2}],n:"Gerettet heißt: Es wäre sonst im Müll gelandet, und du kaufst dafür nichts neu. Gezählt wird, was die Lebensmittel bis zur Ladenkasse verursacht haben. Je Kilogramm: Brot 0,6 bis 0,7 kg, Obst und Gemüse meist 0,2 bis 0,8 kg, Milch und Joghurt 1,4 bis 1,7 kg, Käse 5,7 kg, Schwein und Geflügel 4,6 bis 5,5 kg (ifeu 2020). Rindfleisch läge mehr als doppelt so hoch."},
+{id:"linsen",a:"essen",md:2,t:"Hülsenfrüchte statt Fleisch",lt:"Hülsenfrüchte statt Rindfleisch",k:2.6,q:"Statt welchem Fleisch?",qu:{u:"g",st:25,mn:50,mx:400,dx:600},ql:"Wie viel Fleisch hast du ersetzt?",qx:{f:0.4,k:1.2,t:"entspricht rund {x} Linsen, getrocknet"},tq:"Hülsenfrüchte statt {v}, {q}",v:[{id:"rind",t:"Rindfleisch",q:150,kf:13.6,k:1.9},{id:"hack",t:"Rinderhack",q:150,kf:9.2,k:1.3},{id:"gefl",t:"Geflügel",q:150,kf:5.5,k:0.7},{id:"schwein",t:"Schweinefleisch",q:150,kf:4.6,k:0.6}],n:"Gerechnet wird Fleisch minus Linsen. Je Kilogramm verursachen Rindfleisch 13,6 kg, Rinderhack 9,2 kg, Geflügel 5,5 kg, Schweinefleisch 4,6 kg und getrocknete Linsen 1,2 kg (ifeu 2020). Statt 100 g Fleisch rechnet die App mit 40 g getrockneten Linsen (0,05 kg). Für 100 g Rindfleisch sind das 1,36 kg minus 0,05 kg, also rund 1,3 kg, für 100 g Geflügel rund 0,5 kg. Üblich ist eine Portion von 150 g."},
+{id:"hafer",a:"essen",md:3,t:"Haferdrink statt Kuhmilch, ein Glas",k:0.2,qd:200,qu:{u:"ml",st:50,mn:100,mx:1000,dx:1000},tq:"Haferdrink statt Kuhmilch, {q}",n:"Ein Glas sind 200 ml, gerechnet mit 1 kg je Liter. Ein Liter Kuhmilch verursacht rund 1,4 kg, Haferdrink rund 0,3 kg (ifeu 2020)."},
+{id:"retten",a:"essen",md:2,t:"Lebensmittel gerettet",lt:"Rund 1 kg Lebensmittel gerettet",k:1.5,q:"Was hast du gerettet?",qu:{u:"g",st:50,mn:50,mx:2000,dx:2000},v:[{id:"brot",t:"Brot oder Brötchen",q:500,k:0.3},{id:"obst",t:"Obst oder Gemüse",q:1000,k:0.4},{id:"milch",t:"Milch oder Joghurt",q:1000,k:1.5},{id:"kaese",t:"Käse",q:250,k:1.4},{id:"fleisch",t:"Fleisch oder Wurst",q:250,k:1.2}],n:"Gerettet heißt: Es wäre sonst im Müll gelandet, und du kaufst dafür nichts neu. Gezählt wird, was die Lebensmittel bis zur Ladenkasse verursacht haben. Je Kilogramm: Brot 0,6 bis 0,7 kg, Obst und Gemüse meist 0,2 bis 0,8 kg, Milch und Joghurt 1,4 bis 1,7 kg, Käse 5,7 kg, Schwein und Geflügel 4,6 bis 5,5 kg (ifeu 2020). Rindfleisch läge mehr als doppelt so hoch. Ein Eintrag fasst höchstens 2 kg, an einem Tag zählen zusammen höchstens 2 kg."},
 {id:"reste",a:"essen",md:2,t:"Aus Resten gekocht, eine Mahlzeit",k:0.8,n:"Grobe Schätzung. Essen verursacht in Deutschland im Schnitt rund 1,75 t im Jahr pro Person, also rund 1,6 kg pro Mahlzeit. Gezählt wird die Hälfte, weil Reste nicht immer im Müll gelandet wären."},
-{id:"saison",a:"essen",md:2,t:"Saisonal statt Gewächshaus oder Flugware gekauft",lt:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,q:"Was hast du gekauft?",v:[{id:"tomate",t:"Freilandtomaten statt Tomaten aus beheiztem Gewächshaus",d:"500 g",k:1.2},{id:"erdbeer",t:"Erdbeeren in der Saison statt im Winter",d:"500 g",k:1.5},{id:"flug",t:"Obst per Schiff statt eingeflogen, etwa Ananas",d:"500 g",k:7}],n:"Je Kilogramm (ifeu 2020): Tomaten aus beheiztem Gewächshaus 2,9 kg, aus Freiland in Südeuropa 0,4 kg. Erdbeeren im Winter 3,4 kg, in der Saison 0,3 kg. Ananas per Flugzeug 15,1 kg, per Schiff 0,6 kg. Ob Ware geflogen ist, steht selten drauf. Frische, empfindliche Ware von weit her außerhalb der Saison ist es oft."},
+{id:"saison",a:"essen",md:2,t:"Saisonal statt Gewächshaus oder Flugware gekauft",lt:"Saisonal statt Flugware oder beheiztem Gewächshaus",k:0.5,q:"Was hast du gekauft?",qu:{u:"g",st:100,mn:100,mx:2000,dx:2000},v:[{id:"tomate",t:"Freilandtomaten statt Tomaten aus beheiztem Gewächshaus",q:500,k:1.2},{id:"erdbeer",t:"Erdbeeren in der Saison statt im Winter",q:500,k:1.5},{id:"flug",t:"Obst per Schiff statt eingeflogen, etwa Ananas",q:500,k:7}],n:"Je Kilogramm (ifeu 2020): Tomaten aus beheiztem Gewächshaus 2,9 kg, aus Freiland in Südeuropa 0,4 kg. Erdbeeren im Winter 3,4 kg, in der Saison 0,3 kg. Ananas per Flugzeug 15,1 kg, per Schiff 0,6 kg. Ob Ware geflogen ist, steht selten drauf. Frische, empfindliche Ware von weit her außerhalb der Saison ist es oft."},
 {id:"milchfrei_tag",a:"essen",md:1,t:"Ein Tag ohne Milchprodukte und Käse",k:0.5,n:"Gerechnet mit pflanzlichem Ersatz. Käse und Butter sind die größten Posten."},
-{id:"leitung",a:"essen",md:3,t:"Leitungswasser statt Flaschenwasser, 1 Liter",k:0.15,n:"Flaschenwasser liegt je nach Transport und Verpackung bei rund 0,1 bis 0,2 kg pro Liter, Leitungswasser fast bei null. Gerechnet mit 0,15 kg."},
+{id:"leitung",a:"essen",md:3,t:"Leitungswasser statt Flaschenwasser, 1 Liter",k:0.15,qd:1,qu:{u:"l",st:0.5,mn:0.5,mx:3,dx:3},tq:"Leitungswasser statt Flaschenwasser, {q}",n:"Flaschenwasser liegt je nach Transport und Verpackung bei rund 0,1 bis 0,2 kg pro Liter, Leitungswasser fast bei null. Gerechnet mit 0,15 kg."},
 {id:"veg_dauer",a:"essen",g:1,t:"Dauerhaft vegetarisch",y:450,n:"Mittelwert aus mehreren Studien. Je nachdem, was das Fleisch ersetzt, sind es 300 bis 700 kg im Jahr."},
 {id:"vegan_dauer",a:"essen",g:1,t:"Dauerhaft vegan",y:800,n:"Rund 0,6 bis 1 Tonne im Jahr, je nach vorheriger Ernährung."},
 {id:"fleisch_halb",a:"essen",g:1,t:"Fleisch dauerhaft halbiert",y:250,n:"Etwa die Hälfte des Effekts einer vegetarischen Ernährung. Fleischfreie Tage und Linsen statt Rind zählen daneben zur Hälfte, weil sie oft genau die Halbierung sind."},
@@ -852,17 +875,17 @@ const ACTS=[
 {id:"daemmung",a:"wohnen",g:1,t:"Fenster, Dach oder Wände gedämmt",y:300,n:"Anteil pro Person. Hängt stark vom Gebäude ab."},
 {id:"kleiner",a:"wohnen",g:1,t:"Weniger Wohnfläche pro Person",y:600,n:"Etwa 20 m² weniger beheizte Fläche pro Person."},
 
-{id:"rad5",a:"wege",md:3,t:"Rad oder zu Fuß statt Auto",lt:"5 km Rad oder zu Fuß statt Auto",k:0.85,q:"Wie weit?",v:[{id:"2",t:"2 km",k:0.3},{id:"5",t:"5 km",k:0.8},{id:"10",t:"10 km",k:1.6},{id:"20",t:"20 km",k:3.2}],n:"Ein Auto verursacht im Schnitt rund 0,16 kg pro Kilometer und Person (UBA 2024: 164 g mit Vorketten, bei 1,4 Personen pro Auto). Wer allein fährt, verursacht mehr."},
+{id:"rad5",a:"wege",md:3,t:"Rad oder zu Fuß statt Auto",lt:"5 km Rad oder zu Fuß statt Auto",k:0.85,q:"Wie weit?",kq:0.16,qu:{u:"km",st:1,mn:1,mx:100,dx:100},v:[{id:"2",t:"2 km",q:2,k:0.3},{id:"5",t:"5 km",q:5,k:0.8},{id:"10",t:"10 km",q:10,k:1.6},{id:"20",t:"20 km",q:20,k:3.2}],n:"Ein Auto verursacht im Schnitt rund 0,16 kg pro Kilometer und Person (UBA 2024: 164 g mit Vorketten, bei 1,4 Personen pro Auto). Wer allein fährt, verursacht mehr."},
 {id:"rad10",a:"wege",md:2,h:1,to:"rad5",t:"10 km Rad statt Auto",k:1.7,n:"Rund 0,17 kg pro Kilometer. Neue Einträge gehen über „Rad oder zu Fuß statt Auto“ mit Wahl der Strecke."},
-{id:"oepnv",a:"wege",md:2,t:"Bus oder Bahn statt Auto",lt:"Bus oder Bahn statt Auto, 10 km",k:1,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.5},{id:"10",t:"10 km",k:1},{id:"20",t:"20 km",k:2},{id:"50",t:"50 km",k:5}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, Bus und Bahn im Nahverkehr bei 0,04 bis 0,09 kg, im Mittel rund 0,06 kg (UBA 2024). Der Umstieg spart rund 0,1 kg pro Kilometer."},
-{id:"bahn",a:"wege",md:1,t:"Fernzug statt Auto",lt:"Bahn statt Auto, 300 km",k:37,q:"Wie weit?",v:[{id:"100",t:"100 km",k:11},{id:"300",t:"300 km",k:34},{id:"600",t:"600 km",k:68}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, der Fernzug laut UBA 2024 bei 0,026 kg. Gerechnet wird vorsichtig mit 0,05 kg für den Zug, so wie beim Vergleich mit dem Flug."},
+{id:"oepnv",a:"wege",md:2,t:"Bus oder Bahn statt Auto",lt:"Bus oder Bahn statt Auto, 10 km",k:1,q:"Wie weit?",kq:0.1,qu:{u:"km",st:1,mn:1,mx:150,dx:150},v:[{id:"5",t:"5 km",q:5,k:0.5},{id:"10",t:"10 km",q:10,k:1},{id:"20",t:"20 km",q:20,k:2},{id:"50",t:"50 km",q:50,k:5}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, Bus und Bahn im Nahverkehr bei 0,04 bis 0,09 kg, im Mittel rund 0,06 kg (UBA 2024). Der Umstieg spart rund 0,1 kg pro Kilometer."},
+{id:"bahn",a:"wege",md:1,t:"Fernzug statt Auto",lt:"Bahn statt Auto, 300 km",k:37,q:"Wie weit?",kq:0.114,qu:{u:"km",st:10,mn:20,mx:1000,dx:1000},v:[{id:"100",t:"100 km",q:100,k:11},{id:"300",t:"300 km",q:300,k:34},{id:"600",t:"600 km",q:600,k:68}],n:"Das Auto liegt bei rund 0,16 kg pro Kilometer und Person, der Fernzug laut UBA 2024 bei 0,026 kg. Gerechnet wird vorsichtig mit 0,05 kg für den Zug, so wie beim Vergleich mit dem Flug, also rund 0,11 kg pro Kilometer."},
 {id:"bahnflug",a:"wege",md:1,t:"Bahn statt Inlandsflug, eine Strecke",k:75,n:"Gerechnet für rund 500 km. Der Flug liegt mit Nicht-CO₂-Effekten bei rund 0,2 kg pro Kilometer, der Fernzug bei rund 0,05 kg."},
 {id:"bahn_eu",a:"wege",md:1,t:"Bahn statt Flug in Europa, eine Strecke",k:150,n:"Gerechnet für rund 1.000 km, mit denselben Werten pro Kilometer wie beim Inlandsflug. Hin und zurück verursacht der Flug rund 0,4 t, so wie die Kurzstrecke im Hebel-Check."},
 {id:"tempo",a:"wege",md:2,t:"Auf der Autobahn 120 statt rund 140 gefahren, 100 km",k:2,n:"Bei 120 statt 140 km/h braucht ein Auto rund 10 bis 20 % weniger Sprit."},
-{id:"mitfahren",a:"wege",md:2,w:1,t:"Fahrgemeinschaft statt allein gefahren",lt:"Fahrgemeinschaft statt allein, 50 km",k:4,q:"Wie weit?",v:[{id:"20",t:"20 km",k:1.6},{id:"50",t:"50 km",k:4},{id:"200",t:"200 km",k:16}],n:"Die Hälfte der Fahrt geht auf die andere Person. Gerechnet mit 0,08 kg pro Kilometer, der Hälfte des Durchschnitts pro Person und Kilometer. Ein allein gefahrenes Auto verursacht mehr, darum ist das vorsichtig gerechnet."},
-{id:"wegspar",a:"wege",md:2,t:"Autofahrt ganz eingespart",lt:"Eine Autofahrt von 20 km gespart",k:3.4,q:"Wie weit wäre die Fahrt gewesen, hin und zurück?",v:[{id:"5",t:"5 km",k:0.8},{id:"10",t:"10 km",k:1.6},{id:"20",t:"20 km",k:3.2},{id:"50",t:"50 km",k:8}],n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen. Gerechnet mit 0,16 kg pro Kilometer (UBA 2024). Wer schon mit Bus und Bahn pendelt, spart mit einem Homeoffice-Tag nur noch die Bahnfahrt. Dann zählt der Schritt mit rund 40 %."},
-{id:"rad_oepnv",a:"wege",md:2,t:"Rad statt Bus oder Bahn",lt:"10 km mit dem Rad statt mit Bus oder Bahn",k:0.6,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.3},{id:"10",t:"10 km",k:0.6},{id:"20",t:"20 km",k:1.2}],n:"Bus und Bahn liegen im Nahverkehr bei 0,04 bis 0,09 kg pro Kilometer und Person (UBA 2024), gerechnet mit 0,06 kg. Der Schritt ist kleiner als beim Auto, weil du schon klimafreundlich unterwegs bist."},
-{id:"taxi",a:"wege",md:2,t:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst",lt:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst, 10 km",k:1.5,q:"Wie weit?",v:[{id:"5",t:"5 km",k:0.7},{id:"10",t:"10 km",k:1.4},{id:"20",t:"20 km",k:2.8}],n:"Ein Taxi mit einem Fahrgast verursacht pro Kilometer mindestens so viel wie ein Auto, rund 0,2 kg, dazu kommen Leerfahrten. Bus und Bahn liegen bei rund 0,06 kg. Gerechnet wird mit 0,14 kg Unterschied pro Kilometer."},
+{id:"mitfahren",a:"wege",md:2,w:1,t:"Fahrgemeinschaft statt allein gefahren",lt:"Fahrgemeinschaft statt allein, 50 km",k:4,q:"Wie weit?",kq:0.08,qu:{u:"km",st:5,mn:5,mx:500,dx:500},v:[{id:"20",t:"20 km",q:20,k:1.6},{id:"50",t:"50 km",q:50,k:4},{id:"200",t:"200 km",q:200,k:16}],n:"Die Hälfte der Fahrt geht auf die andere Person. Gerechnet mit 0,08 kg pro Kilometer, der Hälfte des Durchschnitts pro Person und Kilometer. Ein allein gefahrenes Auto verursacht mehr, darum ist das vorsichtig gerechnet."},
+{id:"wegspar",a:"wege",md:2,t:"Autofahrt ganz eingespart",lt:"Eine Autofahrt von 20 km gespart",k:3.4,q:"Wie weit wäre die Fahrt gewesen, hin und zurück?",kq:0.16,qu:{u:"km",st:1,mn:1,mx:100,dx:100},v:[{id:"5",t:"5 km",q:5,k:0.8},{id:"10",t:"10 km",q:10,k:1.6},{id:"20",t:"20 km",q:20,k:3.2},{id:"50",t:"50 km",q:50,k:8}],n:"Zum Beispiel durch Homeoffice oder gebündelte Erledigungen. Gerechnet mit 0,16 kg pro Kilometer (UBA 2024). Wer schon mit Bus und Bahn pendelt, spart mit einem Homeoffice-Tag nur noch die Bahnfahrt. Dann zählt der Schritt mit rund 40 %."},
+{id:"rad_oepnv",a:"wege",md:2,t:"Rad statt Bus oder Bahn",lt:"10 km mit dem Rad statt mit Bus oder Bahn",k:0.6,q:"Wie weit?",kq:0.06,qu:{u:"km",st:1,mn:1,mx:50,dx:50},v:[{id:"5",t:"5 km",q:5,k:0.3},{id:"10",t:"10 km",q:10,k:0.6},{id:"20",t:"20 km",q:20,k:1.2}],n:"Bus und Bahn liegen im Nahverkehr bei 0,04 bis 0,09 kg pro Kilometer und Person (UBA 2024), gerechnet mit 0,06 kg. Der Schritt ist kleiner als beim Auto, weil du schon klimafreundlich unterwegs bist."},
+{id:"taxi",a:"wege",md:2,t:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst",lt:"Rad, Bus oder Bahn statt Taxi oder Fahrdienst, 10 km",k:1.5,q:"Wie weit?",kq:0.14,qu:{u:"km",st:1,mn:1,mx:50,dx:50},v:[{id:"5",t:"5 km",q:5,k:0.7},{id:"10",t:"10 km",q:10,k:1.4},{id:"20",t:"20 km",q:20,k:2.8}],n:"Ein Taxi mit einem Fahrgast verursacht pro Kilometer mindestens so viel wie ein Auto, rund 0,2 kg, dazu kommen Leerfahrten. Bus und Bahn liegen bei rund 0,06 kg. Gerechnet wird mit 0,14 kg Unterschied pro Kilometer."},
 {id:"keinauto",a:"wege",g:1,bo:1,t:"Kein eigenes Auto",y:0,n:"Wer kein Auto hat, spart nichts Neues ein, lebt aber schon mit einem der größten Hebel. Das wächst in deiner Landschaft, zählt aber keine kg."},
 {id:"dticket",a:"wege",g:1,t:"Freizeit und Erledigungen mit Deutschlandticket statt Auto",y:200,n:"Gerechnet für rund 2.000 Autokilometer im Jahr, die du stattdessen mit Bus und Bahn fährst. Pro Kilometer spart das rund 0,1 kg. Für den Arbeitsweg gibt es einen eigenen Eintrag."},
 {id:"autolos",a:"wege",g:1,t:"Auto abgeschafft",y:1500,n:"Mittelwert. Je nach Fahrleistung sind es 1 bis 3 Tonnen im Jahr. Wer nie ein Auto hatte, wählt unter „Schon Alltag“ besser „Kein eigenes Auto“."},
@@ -1452,7 +1475,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const DAY=864e5,now=()=>Date.now(),RREF=150;
 const KEY="biotop-v1";
-const BUILD="01.11.2026, 11:33";
+const BUILD="01.11.2026, 14:27";
 const calm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
 const AK=Object.keys(AREAS);
 let S={log:[],read:{},saved:{},terms:{},duel:{n:0,r:0,i:0},mis:{},checks:[],weeks:{},moments:{},settings:{remind:"19:00"},area:"essen",filter:"alle",lastSeen:0,welcomed:0};
@@ -1471,9 +1494,34 @@ const VAR=a=>a&&!a.g&&Array.isArray(a.v)&&a.v.length?a.v:null;
 const varOf=(a,vid)=>vid==null?null:(VAR(a)||[]).find(x=>x.id===String(vid))||null;
 const vTitle=(a,v)=>a.t+": "+v.t;
 const effV=e=>e.v||(A[e.act]||{}).lv||null;
-const lastVar=id=>{for(let i=S.log.length-1;i>=0;i--){const e=S.log[i];if(e.act===id&&e.v&&varOf(A[id],e.v))return varOf(A[id],e.v)}return null};
+/* v9 Mengen (qu in ACTS): Lebensmittel in g, Getränke in ml oder l, Strecken in km. Gerechnet wird linear, kg je Einheit × Menge.
+   Die Faktoren sind Richtwerte mit rund ±25 % Unsicherheit, darum zeigt die App kg gerundet. Die Menge selbst darf genau sein.
+   Einträge ohne q (vor v9) behalten Titel und Wert. Die zuletzt gewählte Menge steht im Logbuch (e.q) und wird von dort gelesen:
+   je Schritt, und je Variante nur dort, wo die Varianten unterschiedliche übliche Mengen haben (250 g Käse, 500 g Brot). */
+const QU=a=>a&&!a.g&&a.qu?a.qu:null;
+const QUN={g:"Gramm",ml:"Milliliter",l:"Liter",km:"Kilometer"};
+const qDef=(a,v)=>v&&v.q!=null?v.q:a.qd!=null?a.qd:VAR(a)?VAR(a)[Math.min(1,VAR(a).length-1)].q:QU(a).mn;
+/* kf: kg CO₂e je kg der Variante; qx: Ersatz, der davon abgeht (etwa 0,4 kg getrocknete Linsen je kg Fleisch mit 1,2 kg CO₂e je kg) */
+const kpu=(a,v)=>a.kq!=null?a.kq:v&&v.kf!=null?(v.kf-(a.qx?a.qx.f*a.qx.k:0))/(QU(a).u==="g"||QU(a).u==="ml"?1000:1):v&&v.q?(v.k||0)/v.q:a.qd?(a.k||0)/a.qd:0;
+const kOf=(a,v,q)=>Math.round(kpu(a,v)*q*1e6)/1e6;
+const qRound=(a,q)=>{const u=QU(a).u;return u==="g"||u==="ml"?Math.round(q):Math.round(q*10)/10};
+const qClamp=(a,q)=>{const u=QU(a);return Math.min(u.mx,Math.max(u.mn,qRound(a,q)))};
+const qNum=x=>{let t=String(x==null?"":x).trim().replace(/\s/g,"");if(/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(t))t=t.replace(/\./g,"");t=t.replace(",",".");if(!/^\d*\.?\d+$|^\d+\.$/.test(t))return null;const n=parseFloat(t);return isFinite(n)&&n>0?n:null};
+const qVal=n=>String(n).replace(".",",");
+function fmtQ(a,q){const u=QU(a).u;if(u==="g")return q>=1000?nf(q/1000,3)+" kg":nf(q,0)+" g";if(u==="ml")return q>=1000?nf(q/1000,2)+" l":nf(q,0)+" ml";return nf(q,1)+" "+u}
+const qKeyV=a=>!!(VAR(a)&&a.kq==null&&new Set(VAR(a).map(v=>v.q)).size>1);
+const lastQ=(id,vid)=>{const a=A[id],kv=qKeyV(a);for(let i=S.log.length-1;i>=0;i--){const e=S.log[i];if(e.act===id&&typeof e.q==="number"&&(!kv||e.v===vid))return qClamp(a,e.q)}return null};
+const qNow=(a,v)=>{const l=lastQ(a.id,v&&v.id);return l!=null?l:qDef(a,v)};
+function qTitle(a,v,q){const tp=a.tq||(a.kq!=null?"{t}: {q}":v?"{t}: {v}, {q}":"{t}, {q}");return tp.replace("{t}",a.t).replace("{v}",v?v.t:"").replace("{q}",fmtQ(a,q))}
+/* zuletzt gewählt: Variante und, falls vorhanden, Menge */
+const lastPick=id=>{const a=A[id];for(let i=S.log.length-1;i>=0;i--){const e=S.log[i];if(e.act!==id)continue;const v=varOf(a,e.v);if(v||(QU(a)&&typeof e.q==="number"))return {v,q:QU(a)&&typeof e.q==="number"?qClamp(a,e.q):null}}return null};
+const lastVar=id=>{const p=lastPick(id);return p&&p.v};
+/* Untertitel eines Schritts mit Menge, aber ohne Varianten: „200 ml · − 0,2 kg“ */
+const qSub=a=>{const q=qNow(a,null);return fmtQ(a,q).replace(" ","\u00a0")+" · − "+kgTxt(kOf(a,null,q))};
 /* Untertitel einer Kachel mit Varianten: zuletzt gewählt, sonst die Spanne */
-function vSub(a){const l=lastVar(a.id);if(l)return "zuletzt: "+l.t;const ks=VAR(a).map(v=>v.k||0).filter(k=>k>0);if(!ks.length)return "Auswählen";const lo=Math.min(...ks),hi=Math.max(...ks);const a0=kgTxt(lo),b0=kgTxt(hi);return lo===hi?"− "+a0:"− "+(a0.slice(-3)===" kg"&&b0.slice(-3)===" kg"?a0.slice(0,-3):a0)+" bis "+b0}
+/* Menge mit geschütztem Leerzeichen, damit „200 g“ nicht umbricht (nur in der Anzeige, Titel bleiben unverändert) */
+const fmtQn=(a,q)=>fmtQ(a,q).replace(" ","\u00a0");
+function vSub(a){const p=lastPick(a.id);if(p){const lb=a.kq!=null&&p.q!=null?fmtQn(a,p.q):p.v?p.v.t+(QU(a)&&p.q!=null&&a.kq==null?", "+fmtQn(a,p.q):""):p.q!=null?fmtQn(a,p.q):"";if(lb)return "zuletzt: "+lb}const ks=VAR(a).map(v=>QU(a)?kOf(a,v,v.q):v.k||0).filter(k=>k>0);if(!ks.length)return "Auswählen";const lo=Math.min(...ks),hi=Math.max(...ks);const a0=kgTxt(lo),b0=kgTxt(hi);return lo===hi?"− "+a0:"− "+(a0.slice(-3)===" kg"&&b0.slice(-3)===" kg"?a0.slice(0,-3):a0)+" bis "+b0}
 const da=a=>`data-a="${a}"`;
 const dot=a=>`<span class="dot" ${da(a)}></span>`;
 const nf=(v,d)=>v.toLocaleString("de-DE",{maximumFractionDigits:d,minimumFractionDigits:0});
@@ -1581,9 +1629,11 @@ const slide=(w,t)=>{while(w.i<w.l.length&&w.l[w.i].ts<=t-365*DAY){w.sum-=w.l[w.i
 function smallRaw(e){if(e.nf)return {k:0,why:"nf"};const cb=coveredBy(e);if(cb)return {k:0,why:"cov",by:cb};
   let k=e.k||0;if(e.act==="custom")k=Math.min(k,KMAX_S);const p=partOf(e),pf=e.pf!=null?e.pf:1;
   if(pf<1&&pf<=p.f)return {k:k*pf,why:"prof",pw:e.pw};return p.f<1?{k:k*p.f,why:"part",by:p.by}:{k,why:null}}
-function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={},yrc={},cday={},cw={l:[],i:0,sum:0},same={};
+function smallPass(M0){const L=S.log.filter(e=>!e.g).sort((a,b)=>a.ts-b.ts),day={},grp={},win={},yrc={},cday={},cw={l:[],i:0,sum:0},same={},qday={};
   L.forEach(e=>{const r=smallRaw(e),a=A[e.act],d=dayStart(e.ts),vv=a?varOf(a,effV(e)):null;let k=r.k,why=r.why,by=r.by,lim=null;
     {const key=(a?e.act:"c:"+e.t)+"|"+d;day[key]=(day[key]||0)+1;if(k>0&&day[key]>((a&&a.md)||3)){k=0;why="day"}}
+    /* v9 Tagesmenge (qu.dx): Einträge mit Menge zählen an einem Tag zusammen höchstens dx, etwa 100 km Rad oder 2 kg gerettete Lebensmittel */
+    {const qu=QU(a);if(qu&&qu.dx&&typeof e.q==="number"&&k>0){const key=e.act+"|"+d,u=qday[key]||0,fr=Math.max(0,qu.dx-u);if(e.q>fr+1e-9){k=fr>0?k*fr/e.q:0;why="qday";lim=qu.dx}qday[key]=u+Math.min(e.q,fr)}}
     const g=DGOF[e.act];if(g&&k>0){const key=g+"|"+d,u=grp[key]||0,lim=DGR[g].kg;if(u+k>lim){k=Math.max(0,lim-u);why="grp"}grp[key]=u+k}
     /* dieselbe Sache am selben Tag aus zwei Schritten (s): Das Paar zählt so viel wie der größere Wert */
     if(vv&&vv.s&&k>0){const l=same[vv.s+"|"+d]=same[vv.s+"|"+d]||[],m=l.find(x=>!x.u&&x.act!==e.act);if(m){m.u=1;const k2=Math.max(0,k-m.k);if(k2<k){k=k2;why="same";by=m.act}}else l.push({act:e.act,k})}
@@ -1672,8 +1722,8 @@ function fillBars(){requestAnimationFrame(()=>requestAnimationFrame(()=>document
    den der Finger selbst umlegt. Das gibt genau einen Tick, sofort. Programmatisch ausgelöste oder verzögerte Ticks spielt iOS nicht ab.
    Android: navigator.vibrate mit einem Muster je Klickfamilie. Pro Tippen genau eine Rückmeldung. */
 const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-const HAPSEL='.btn:not(a),.chip,.hhwg,.opt,.opts2>button,.ink,.qa,.act,.toggle,button.card,.stampbtn,.mok,.x';
-const SELSEL='.chip,.hhwg,.ink,.opts2>button';
+const HAPSEL='.btn:not(a),.chip,.hhwg,.opt,.opts2>button,.ink,.qa,.act,.qbtn,.qstep,.toggle,button.card,.stampbtn,.mok,.x';
+const SELSEL='.chip,.hhwg,.ink,.opts2>button,.qstep';
 const OKSEL='[data-log],[data-addbig],[data-setbase],[data-start],#savedone,#csave,#invsave,[data-tick]';
 const VIB={sel:10,act:12,ok:[10,60,14],err:[24,60,24]};
 const hapOn=()=>S.settings.hap!==false&&!calm();
@@ -2282,7 +2332,7 @@ function viewHome(){const st=stage(),{plants:small,trees,houses,lights,birds}=la
      <div class="landfoot">${stageBar(st,true)}${parts.length?`<div class="lcnt">${parts.join(" · ")}</div>`:""}</div>${S.log.length||Object.keys(S.base).length||st.i>0?"":`<p class="landempty">Noch ist hier Brache. Trag deinen ersten Schritt ein, dann wächst etwas.</p>`}</div>`,kpis:`
    <div class="kpis"><button class="kpi" data-kpi="m"><b class="num">${kgTxt(sumKg(m))}</b><span>gespart im ${MONTHS[mo]}</span></button><button class="kpi" data-kpi="y"><b class="num">${kgTxt(sumKg(now()-365*DAY))}</b><span>${sinceStart()?"seit deinem Start":"in 12 Monaten"}</span></button><button class="kpi" data-kpi="d">${perDay()>0?`<b class="num">${kgTxt(perDay())}</b><span>wirkt jeden Tag weiter</span>`:`<b class="kpi0">Noch keine</b><span>dauerhafte Änderung, die täglich wirkt</span>`}</button></div>`,quick:`
    <div class="sec"><div class="sec-h"><h3>Schnell eintragen</h3><button class="linkbtn" data-gotab="log">Alle Schritte</button></div>
-     ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"${VAR(a)?' aria-haspopup="dialog"':""}><b>${a.t}</b><span>${VAR(a)?esc(vSub(a)):a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>`,slot:`
+     ${weekCard()}<div class="quick">${quickIds().map(id=>{const a=A[id];return `<button class="qa" ${da(a.a)} data-log="${id}"${VAR(a)?' aria-haspopup="dialog"':""}><b>${a.t}</b><span>${VAR(a)?esc(vSub(a)):QU(a)?esc(qSub(a)):a.k?"− "+kgTxt(a.k):a.w?"Begegnung":"Handabdruck"}</span></button>`}).join("")}</div>${lines.length?`<p class="hintline">${lines.join("<br>")}</p>`:""}</div>`,slot:`
    ${slot}`,bite:`
    <button class="card bite-mini" ${da(db.a)} data-bite="${db.id}" style="text-align:left;cursor:pointer"><div class="meta"><span class="tag">${dot(db.a)}Häppchen des Tages</span>${evHTML(db.ev)}</div><h2>${db.t}</h2><span class="muted" style="font-size:15px">${S.read[db.id]?"Gelesen. Noch einmal lesen →":"Lesen →"}</span></button>`,sz:`
    <section class="sec saisonsec" id="saison" aria-labelledby="saison-h"><div class="sec-h"><h3 id="saison-h">Saison im ${MONTHS[mo]}</h3><span class="label">Freiland und Lager</span></div><div class="saison">${SAISON[mo].map(x=>`<button class="sz" data-saison="${esc(x)}">${x}</button>`).join("")}</div><p class="muted szhint">Antippen für Saison, Lagerung und Küchentipps.</p></section>`};
@@ -2464,25 +2514,79 @@ function kpiSheet(k){const mo=new Date().getMonth(),lc=lastCheck(),yr=lc?lc.tota
    ${[...new Set(sug)].length?`<h3>${ab.length?"Was als Nächstes viel bewirkt":"Womit du anfangen könntest"}</h3><div class="row">${[...new Set(sug)].slice(0,3).map(id=>`<button class="chip" data-log="${id}">${dot(A[id].a)}${actT(id)}${ownTag(id)}</button>`).join("")}</div>`:""}`)}
 
 /* ---------- Eintragen ---------- */
-function logAct(id,ev,el,vid){const a=A[id];if(!a)return;
+let lastLogKey="",lastLogT=0;
+function logAct(id,ev,el,vid,qs){const a=A[id];if(!a)return;{const key=id+"|"+(vid||"")+"|"+(qs==null?"":qs),now=Date.now();if(key===lastLogKey&&now-lastLogT<400)return;lastLogKey=key;lastLogT=now}
   if(a.g){bigSheet(id);return}
-  const v=VAR(a)?varOf(a,vid):null;if(VAR(a)&&!v){varSheet(id);return}
-  const e={id:uid(),act:id,a:a.a,t:v?vTitle(a,v):a.t,k:v?v.k||0:a.k||0,ts:now()};if(v)e.v=v.id;if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();momentFor("small");
-  render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+kgNote(e),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
+  let v=VAR(a)?varOf(a,vid):null,q=null,cut=null;const qu=QU(a);
+  /* v9 Menge: aus dem Blatt (data-q), sonst die zuletzt gewählte oder übliche. Außerhalb der Grenzen wird sie auf mn bis mx gesetzt. */
+  if(qu){const n=qNum(qs);if(n!=null){q=qClamp(a,n);if(qRound(a,n)!==q)cut=q}
+    if(a.kq!=null){if(q==null&&v)q=v.q;if(q==null){varSheet(id);return}v=VAR(a)?VAR(a).find(x=>x.q===q)||null:null}
+    else{if(VAR(a)&&!v){varSheet(id);return}if(q==null)q=qNow(a,v)}}
+  else if(VAR(a)&&!v){varSheet(id);return}
+  const e={id:uid(),act:id,a:a.a,t:qu?qTitle(a,v,q):v?vTitle(a,v):a.t,k:qu?kOf(a,v,q):v?v.k||0:a.k||0,ts:now()};if(v)e.v=v.id;if(qu)e.q=q;if(a.w)e.w=1;stampProfile(e,id);S.log.push(e);save();momentFor("small");
+  render();if(tab==="home"&&LC&&LC.lay){const it=LC.lay.find(q=>q.k===clumpKey(e));if(it)ring={x:it.x,y:it.y-10,r:16,t0:performance.now()+250,fin:250,hold:1300,out:450}}toast(growMsg(e)+kgNote(e)+(cut!=null?`. Eingetragen mit ${fmtQ(a,cut)}, ${cut===qu.mx?"mehr fasst ein Eintrag nicht":"das ist die kleinste Menge"}`:""),()=>{S.log=S.log.filter(x=>x.id!==e.id);save();render()},true);checkMoments(true)}
 /* Auswahlblatt für Schritte mit Varianten: ein Tipp auf die Kachel öffnet es, ein Tipp auf eine Variante trägt ein.
    Die zuletzt gewählte Variante ist markiert und hat den Fokus. Was nicht zum eigenen Alltag passt oder nur anteilig zählt, steht darunter wie im Schritt selbst. */
-function varSheet(id){const a=A[id],l=lastVar(id),nfw=nfWhy(id),pr=nfw?null:profileOf(id,now());
+function varSheet(id){const a=A[id],l=lastPick(id),nfw=nfWhy(id),pr=nfw?null:profileOf(id,now()),qu=QU(a);
+  const vlast=`<span class="vlast">zuletzt</span>`;let rows;
+  if(qu&&a.kq!=null){
+    /* Strecken: übliche Strecken als Zeilen, die zuletzt gewählte eigene Strecke als weitere Zeile, darunter „Andere Strecke“ mit Feld und Knöpfen */
+    const lq=l?(l.q!=null?l.q:l.v?l.v.q:null):null,qs=VAR(a).map(v=>v.q);if(lq!=null&&!qs.includes(lq))qs.push(lq);qs.sort((x,y)=>x-y);
+    rows=qs.map(q=>{const v=VAR(a).find(x=>x.q===q),on=lq===q;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${fmtQ(a,q)}</b><small><span class="nw">− ${kgTxt(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button>`}).join("")
+     +`<button class="act qother" ${da(a.a)} data-qopen="${id}" aria-expanded="false" aria-controls="qed"><span class="plus" aria-hidden="true">±</span><span class="tx"><b>Andere Strecke</b><small>${qRange(a)}</small></span></button>`}
+  else if(qu){
+    /* Lebensmittel: Zeile trägt mit der üblichen oder zuletzt gewählten Menge ein, der Knopf rechts daneben öffnet die genaue Menge */
+    rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id,q=qNow(a,v);return `<div class="vrow" ${da(a.a)}><button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-q="${q}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small><span class="nw">− ${kgTxt(kOf(a,v,q))}</span></small></span>${on?vlast:""}</button><button class="qbtn" ${da(a.a)} data-qopen="${id}" data-qv="${v.id}" aria-expanded="false" aria-controls="qed" aria-label="Menge ändern: ${esc(v.t)}, jetzt ${fmtQ(a,q)}">${fmtQ(a,q)}</button></div>`}).join("")}
+  else rows=VAR(a).map(v=>{const on=l&&l.v&&l.v.id===v.id;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small>${v.d?v.d+" · ":""}<span class="nw">${v.k?"− "+kgTxt(v.k):"ohne kg"}</span></small></span>${on?vlast:""}</button>`}).join("");
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>Kleiner Schritt</span></div><h2>${actT(id)}</h2><p class="vq" id="vq">${a.q||"Was genau?"}</p>
-   <div class="acts vopts" role="group" aria-labelledby="vq">${VAR(a).map(v=>{const on=l&&l.id===v.id;return `<button class="act${on?" last":""}" ${da(a.a)} data-log="${id}" data-v="${v.id}" data-close="1"><span class="plus" aria-hidden="true">+</span><span class="tx"><b>${v.t}</b><small>${v.d?v.d+" · ":""}<span class="nw">${v.k?"− "+kgTxt(v.k):"ohne kg"}</span></small></span>${on?`<span class="vlast">zuletzt</span>`:""}</button>`}).join("")}</div>
+   <div class="acts vopts" role="group" aria-labelledby="vq">${rows}</div>
    ${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    <p class="caveat">${actN(id)}</p>`);
   const f=$("#sh .vopts .act.last")||$("#sh .vopts .act");if(f)try{f.focus({preventScroll:true})}catch(x){}}
+/* v9 Genaue Menge: Feld mit Zahl (Ziffernblock) und Knöpfen − und +, darunter die gerundete Wirkung und „Eintragen“.
+   Kein Schieber: Er kämpft im Blatt mit dem Wischen und Scrollen, trifft mit dem Daumen keine genaue Zahl und täuscht eine Genauigkeit vor, die die Faktoren nicht haben. */
+function qEd(a,v,q,lab,go){const qu=QU(a),un=QUN[qu.u],ui=qu.u==="g"||qu.u==="ml";
+  return `<div class="qed" id="qed" role="group" aria-labelledby="qedl" ${da(a.a)} data-act="${a.id}"${v?` data-qv="${v.id}"`:""}><p class="label" id="qedl">${lab}</p>
+   <div class="qrow"><button class="qstep" data-qs="-1" aria-controls="qin" aria-label="${nf(qu.st,1)} ${un} weniger">−</button><span class="qbox"><input type="text" id="qin" value="${qVal(q)}" autocomplete="off" spellcheck="false" inputmode="${ui?"numeric":"decimal"}" role="spinbutton" aria-valuemin="${qu.mn}" aria-valuemax="${qu.mx}" aria-valuenow="${q}" aria-label="Menge in ${un}" aria-describedby="qhint"><span class="qu" aria-hidden="true">${qu.u}</span></span><button class="qstep" data-qs="1" aria-controls="qin" aria-label="${nf(qu.st,1)} ${un} mehr">+</button></div>
+   <p class="qhint" id="qhint"><output id="qout" aria-live="polite">${qOutTxt(a,v,q)}</output><span class="qlim">${qRange(a)} je Eintrag</span>${a.qx?`<span class="qx" id="qxs">${qxTxt(a,q)}</span>`:""}</p>
+   <button class="btn go wide" id="qgo" ${da(a.a)} data-log="${a.id}"${v?` data-v="${v.id}"`:""} data-q="${q}" data-close="1">${go||"Eintragen"}</button></div>`}
+/* „1 bis 100 km“ statt „1 km bis 100 km“ */
+const qRange=a=>{const qu=QU(a),x=fmtQ(a,qu.mn),y=fmtQ(a,qu.mx),u=x.split(" ").pop();return (u===y.split(" ").pop()?x.slice(0,-u.length-1):x)+" bis "+y};
+/* Entsprechung des Ersatzes, auf 5 g gerundet: „entspricht rund 60 g Linsen, getrocknet“ */
+const qxTxt=(a,q)=>a.qx.t.replace("{x}",fmtQ(a,Math.max(5,Math.round(q*a.qx.f/5)*5)));
+const qOutTxt=(a,v,q)=>`${fmtQ(a,q)} spart rund ${kgTxt(kOf(a,v,q))}`;
+/* Wert im Feld lesen, begrenzen und Ausgabe sowie Knopf „Eintragen“ nachziehen */
+function qUpd(){const ed=$("#qed"),inp=$("#qin");if(!ed||!inp)return;const a=A[ed.dataset.act],v=varOf(a,ed.dataset.qv),n=qNum(inp.value),qu=QU(a);
+  const q=n==null?null:qClamp(a,n),go=$("#qgo"),o=$("#qout"),lim=ed.querySelector(".qlim");
+  if(q==null){go.disabled=true;o.textContent="Bitte eine Menge eingeben";return}go.disabled=false;go.dataset.q=qRound(a,n);inp.setAttribute("aria-valuenow",q);
+  /* Distanz: passt sie zu einer üblichen Strecke, trägt sie deren Variante */
+  if(a.kq!=null){const pv=VAR(a).find(x=>x.q===q);if(pv)go.dataset.v=pv.id;else delete go.dataset.v}
+  const off=qRound(a,n)!==q;o.textContent=(off?`Gezählt: `:"")+qOutTxt(a,v,q);lim.classList.toggle("warn",off);
+  const xs=$("#qxs");if(xs&&a.qx)xs.textContent=qxTxt(a,q);
+  /* der geöffnete Mengenknopf zeigt die Menge, die gerade eingestellt ist */
+  const cb=document.querySelector('.qbtn[aria-expanded="true"]');if(cb){cb.textContent=fmtQ(a,q);cb.setAttribute("aria-label",`Menge ändern: ${v?v.t:a.t}, jetzt ${fmtQ(a,q)}`)}}
+function qStep(dir){const ed=$("#qed"),inp=$("#qin");if(!ed||!inp)return;const a=A[ed.dataset.act],st=QU(a).st,c=qNum(inp.value)??qDef(a,varOf(a,ed.dataset.qv)),r=c/st,eps=1e-9;
+  const nx=dir>0?(Math.floor(r+eps)+1)*st:(Math.ceil(r-eps)-1)*st;inp.value=qVal(qClamp(a,nx));qUpd()}
+function qOpen(t,ev){const id=t.dataset.qopen,a=A[id],vid=t.dataset.qv||"",ed=$("#qed"),was=ed&&ed.dataset.act===id&&(ed.dataset.qv||"")===vid&&t.getAttribute("aria-expanded")==="true";
+  if(ed)ed.remove();document.querySelectorAll("[data-qopen]").forEach(b=>b.setAttribute("aria-expanded","false"));
+  /* geschlossen ohne Eintrag: Mengenknöpfe zeigen wieder die Menge, mit der ihre Zeile einträgt */
+  document.querySelectorAll(".vrow").forEach(r=>{const b=r.querySelector(".qbtn"),z=r.querySelector(".act[data-q]");if(b&&z){const vv=varOf(a,b.dataset.qv);b.textContent=fmtQ(a,+z.dataset.q);b.setAttribute("aria-label",`Menge ändern: ${vv?vv.t:a.t}, jetzt ${fmtQ(a,+z.dataset.q)}`)}});if(was)return;
+  const v=varOf(a,vid),l=lastPick(id),q=a.kq!=null?(l&&l.q!=null?l.q:l&&l.v?l.v.q:qDef(a,null)):qNow(a,v);
+  (t.closest(".vrow")||t).insertAdjacentHTML("afterend",qEd(a,v,q,a.kq!=null?"Strecke in Kilometern":a.ql?esc(a.ql.replace("{v}",v?v.t:"")):"Menge: "+esc(v?v.t:a.t)));t.setAttribute("aria-expanded","true");
+  /* mit der Tastatur geöffnet: gleich ins Feld; mit dem Finger: kein Ziffernblock, der das Blatt verdeckt */
+  const inp=$("#qin");if(inp&&ev&&ev.detail===0)try{inp.focus({preventScroll:true});inp.select()}catch(x){}
+  const n=$("#qed");if(n&&n.scrollIntoView)try{n.scrollIntoView({block:"nearest",behavior:calm()?"auto":"smooth"})}catch(x){}}
+document.addEventListener("input",e=>{if(e.target&&e.target.id==="qin")qUpd()});
+/* Mausrad über dem fokussierten Zahlfeld würde die Zahl ändern statt das Blatt zu scrollen: Feld verliert den Fokus, das Blatt scrollt */
+document.addEventListener("wheel",e=>{const t=e.target;if(t&&t.id==="qin"&&document.activeElement===t)t.blur()},{passive:true});
+document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="qin"&&(e.key==="ArrowUp"||e.key==="ArrowDown")){e.preventDefault();qStep(e.key==="ArrowUp"?1:-1);return}if(e.key==="Enter"&&e.target&&e.target.id==="qin"){e.preventDefault();const g=$("#qgo");if(g&&!g.disabled)g.click()}});
 /* Was ein kleiner Schritt in kg zählt, kurz und sachlich, mit Grund, wenn es weniger ist als sein Richtwert */
 function kgNote(e){const k=eKg(e),w=memo().why[e.id]||{},a=A[e.act],got=k>0?`${kgTxt(k)} gespart`:"zählt ohne kg";
   if(w.why==="nf")return ` · zählt ohne kg. ${NFTXT[e.nf]||""}`;
   if(w.why==="cov")return ` · zählt schon über „${A[w.by].t}“`;
   if(w.why==="prof")return ` · ${kgTxt(k)} gespart, anteilig. ${PFTXT[w.pw]||""}`;
   if(w.why==="day")return ` · heute schon ${a&&a.md||3}× gezählt, dieser Eintrag zählt ohne kg`;
+  if(w.why==="qday")return ` · ${k>0?kgTxt(k)+" gespart, anteilig":"zählt ohne kg"}. Mehr als ${fmtQ(a,w.lim)} am Tag zählen bei diesem Schritt nicht`;
   if(w.why==="grp")return k>0?` · ${kgTxt(k)} gespart, mehr zählt an einem Tag nicht`:` · für heute ist schon ein ganzer Esstag gezählt, dieser Eintrag zählt ohne kg`;
   if(w.why==="yr"){const n=w.lim||(a&&a.yr)||1;return ` · zählt ohne kg. Ein vermiedener Neukauf dieser Art zählt höchstens ${n===1?"einmal":n+"-mal"} in 12 Monaten`}
   if(w.why==="same")return ` · ${k>0?kgTxt(k)+" gespart":"zählt ohne kg"}: „${A[w.by].t}“ ist heute vermutlich dieselbe Sache, gezählt wird nur der größere Wert`;
@@ -2521,6 +2625,7 @@ function actMenu(id){const a=A[id],b=isBase(id),nfw=b?null:nfWhy(id),pr=b||nfw?n
   sheet(`<div class="meta"><span class="tag">${dot(a.a)}${AREAS[a.a].n}</span><span>${a.g?"Dauerhafte Änderung":"Kleiner Schritt"}</span></div><h2>${actT(id)}</h2><p class="caveat">${actN(id)}${a.yr?` In kg zählt das höchstens ${a.yr===1?"einmal":a.yr+"-mal"} in 12 Monaten, öfter ersetzt es kaum noch einen Neukauf.`:""}</p>
    ${ownTip(id)}${nfw?`<p class="tip" ${da(a.a)}><b>Zählt bei dir ohne kg</b>${NFTXT[nfw]||""}</p>`:pr&&pr.pf<1?`<p class="tip" ${da(a.a)}><b>Zählt bei dir zu ${Math.round(pr.pf*100)} %</b>${PFTXT[pr.pw]||""}</p>`:""}
    ${b?`<p>Das gehört schon zu deinem Alltag. In deiner Landschaft wächst es mit, als Schritt taucht es nicht mehr auf.</p><div class="row"><button class="btn" data-unbase="${id}">Doch wieder als Schritt zeigen</button></div>`
+   :QU(a)&&!VAR(a)?`${qEd(a,null,qNow(a,null),"Menge","Jetzt eintragen")}<div class="row"><button class="btn" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`
    :`<div class="row">${a.bo?"":`<button class="btn go" ${da(a.a)} data-log="${id}" data-close="1">${a.g?"Als neue Änderung eintragen":"Jetzt eintragen"}</button>`}<button class="btn${a.bo?" go":""}" data-setbase="${id}">Ist bei mir schon Alltag</button></div>`}
    <p class="muted" style="font-size:14px">„Schon Alltag“ heißt: Es wächst von Anfang an in deiner Landschaft, zählt aber keine eingesparten Kilogramm. Die stecken schon in deinem bisherigen Fußabdruck.</p>`)}
 const invOpen=()=>!Object.keys(S.base).length&&!S.invDone;
@@ -2549,7 +2654,7 @@ function customSheet(){csrcTouched=false;const a0=S.area,s0=defSrc(a0);sheet(`<d
   <div class="label" id="csrcl">Wo sparst du? Quelle</div><div class="row" id="csrc" role="group" aria-labelledby="csrcl">${csrcChips(a0,s0)}</div>
   <p class="muted" id="csrcn" style="font-size:13.5px">${esc(SRC_NOTE[s0]||"")}. Für die Quelle gilt derselbe Rahmen wie für die Schritte aus dem Katalog.</p>
   <div class="label">Art</div><div class="row" id="ckind"><button class="chip" data-ckind="0" aria-pressed="true">Kleiner Schritt</button><button class="chip" data-ckind="1" aria-pressed="false">Dauerhafte Änderung</button></div>
-  <label class="label" for="ckg">Geschätzte Einsparung in kg, wenn du es weißt</label><input type="number" id="ckg" min="0" step="0.1" inputmode="decimal" placeholder="Leer lassen, wenn unklar">
+  <label class="label" for="ckg">Geschätzte Einsparung in kg, wenn du es weißt</label><input type="text" id="ckg" inputmode="decimal" autocomplete="off" placeholder="Leer lassen, wenn unklar">
   <p class="muted" style="font-size:13.5px">Bei einer dauerhaften Änderung gilt der Wert pro Jahr. Ein kleiner Schritt zählt höchstens ${KMAX_S} kg, eine dauerhafte Änderung höchstens ${kgTxt(KMAX_Y)} im Jahr. Alle eigenen Schätzungen zusammen zählen höchstens ${CUST_DAY} kg am Tag und ${kgTxt(CUST_Y)} im Jahr. Dieser Rahmen wächst wie der jeder Quelle mit der Zeit seit deinem Start. Größere Brocken wie Flüge oder das Auto stehen mit geprüften Werten im Katalog. Im Logbuch ist der Wert als eigene Schätzung gekennzeichnet.</p>
   <div class="row"><button class="btn primary" id="csave">Eintragen</button></div>`)}
 function csrcSet(n){document.querySelectorAll("[data-csrc]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.csrc===n));const p=$("#csrcn");if(p)p.textContent=(SRC_NOTE[n]||"")+". Für die Quelle gilt derselbe Rahmen wie für die Schritte aus dem Katalog."}
@@ -2561,7 +2666,7 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a&&(!x.h||isBase(x.i
   const today=S.log.filter(e=>e.ts>=ts&&!e.g).slice().reverse();
   const cntToday=id=>S.log.filter(e=>e.act===id&&e.ts>=ts).length;
   const item=x=>{const big=x.g,cur=big&&activeBig().find(e=>e.act===x.id),c=!big&&cntToday(x.id);
-    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"${VAR(x)?' aria-haspopup="dialog"':""}><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(ownWho(x.id)?ownWho(x.id)+" · ":"")+(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):VAR(x)?esc(vSub(x)):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
+    return `<div class="actrow" ${da(x.a)}><button class="act ${cur?"on":""}" ${da(x.a)} data-log="${x.id}"${VAR(x)?' aria-haspopup="dialog"':""}><span class="plus" aria-hidden="true">${cur?"✓":"+"}</span><span class="tx"><b>${x.t}</b>${cur?`<span class="state">wirkt seit ${fmtDate(cur.ts)}</span>`:`<small>${big?(ownWho(x.id)?ownWho(x.id)+" · ":"")+(x.y?"− "+kgTxt(x.y)+" pro Jahr":"zählt als Gemeinschaft"):VAR(x)?esc(vSub(x)):QU(x)?esc(qSub(x)):(x.k?"− "+kgTxt(x.k):x.w?"zählt als Begegnung":"zählt als Handabdruck")}</small>`}${!big&&nAll(x.id)?lvlBoxes(nAll(x.id),x.a):""}</span>${c?`<span class="cnt">${c}× heute</span>`:""}</button><button class="more" data-actmenu="${x.id}" aria-label="Mehr zu: ${esc(x.t)}">⋯</button></div>`};
   const hist=S.log.slice().reverse().slice(0,40);
   return `<section class="view">
    <div class="sec"><h2>Was hast du getan?</h2><div class="inks" role="group" aria-label="Bereich wählen">${AK.map(k=>`<button class="ink" ${da(k)} data-area="${k}" aria-pressed="${a===k}"><i></i>${AREAS[k].s}</button>`).join("")}</div><p class="muted" style="font-size:14.5px">${AREAS[a].d}</p></div>
@@ -2569,8 +2674,8 @@ function viewLog(){const a=S.area,acts=ACTS.filter(x=>x.a===a&&(!x.h||isBase(x.i
    <div class="sec"><div class="sec-h"><h3>Dauerhafte Änderungen</h3><span class="label">wirkt jeden Tag</span></div><div class="acts">${acts.filter(x=>x.g&&!x.bo&&!isBase(x.id)).sort((p,q)=>quietAct(p.id)-quietAct(q.id)).map(item).join("")||`<p class="empty">Alles hier gehört schon zu deinem Alltag.</p>`}</div></div>
    ${(()=>{const b=acts.filter(x=>isBase(x.id));return b.length?`<div class="sec"><div class="sec-h"><h3>Schon Alltag</h3><span class="label">wächst mit</span></div><div class="row">${b.map(x=>`<button class="chip" ${da(x.a)} data-actmenu="${x.id}">${dot(x.a)}${x.t}</button>`).join("")}</div></div>`:""})()}
    <div class="row"><button class="btn" id="custom">Eigenen Schritt eintragen</button><button class="linkbtn" data-inv="1">Was ist schon Alltag?</button></div>
-   ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${enKg(e)}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div>`:""}
-   ${hist.length?`<details class="fold" id="histfold"><summary><span>Logbuch</span><span class="label">${plu(S.log.length,"Eintrag","Einträge")}</span></summary><div><div class="entries">${hist.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${fmtDate(e.ts)}${e.g?(e.end?" bis "+fmtDate(e.end):" · dauerhaft"):""} · ${enKg(e)||"0 kg"}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen">×</button></div>`).join("")}</div></div></details>`:""}
+   ${today.length?`<div class="sec"><div class="sec-h"><h3>Heute</h3><span class="label num">− ${kgTxt(sumKg(ts))}</span></div><div class="entries">${today.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)} <small>${enKg(e)}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen: ${esc(e.t)}">×</button></div>`).join("")}</div></div>`:""}
+   ${hist.length?`<details class="fold" id="histfold"><summary><span>Logbuch</span><span class="label">${plu(S.log.length,"Eintrag","Einträge")}</span></summary><div><div class="entries">${hist.map(e=>`<div class="en" ${da(e.a)}>${dot(e.a)}<span class="tx">${esc(e.t)}<br><small>${fmtDate(e.ts)}${e.g?(e.end?" bis "+fmtDate(e.end):" · dauerhaft"):""} · ${enKg(e)||"0 kg"}</small></span><button class="x" data-del="${e.id}" aria-label="Eintrag löschen: ${esc(e.t)}">×</button></div>`).join("")}</div></div></details>`:""}
   </section>`}
 
 /* ---------- Wissen ---------- */
@@ -2992,7 +3097,13 @@ function sanitizeImport(){const t=now(),cl=(v,a,b)=>Math.min(b,Math.max(a,v)),nu
     if(e.pf!=null){e.pf=cl(num(e.pf,1),0,1);if(!PFTXT[e.pw])e.pw="strom"}
     if(e.act!=="custom"&&!A[e.act]){e.act="custom";if(typeof e.t!=="string")e.t="Eigener Schritt"}
     const a=A[e.act];
-    if(a){const v=a.g?null:varOf(a,e.v);if(!v)delete e.v;else e.v=v.id;e.t=v?vTitle(a,v):(a.lt||a.t);e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=v?v.k||0:a.k||0}return}
+    if(a){let v=a.g?null:varOf(a,e.v);if(!v)delete e.v;else e.v=v.id;
+      /* v9 Menge: auf die Grenzen des Schritts gesetzt, Wert und Titel aus dem Katalog. Ohne gültige Menge bleibt der Eintrag wie vor v9. */
+      const qu=QU(a),qn=qu&&typeof e.q==="number"?qNum(e.q):null;
+      if(qn!=null&&(a.kq!=null||!VAR(a)||v)){const q=qClamp(a,qn);if(a.kq!=null){v=VAR(a)?VAR(a).find(x=>x.q===q)||null:null;if(v)e.v=v.id;else delete e.v}
+        e.q=q;e.t=qTitle(a,v,q);e.k=kOf(a,v,q);e.a=a.a;delete e.g;delete e.end;delete e.y;if(a.w)e.w=1;return}
+      delete e.q;
+      e.t=v?vTitle(a,v):(a.lt||a.t);e.a=a.a;if(a.w)e.w=1;if(a.g){e.g=1;e.y=e.nf?0:(a.y||0);delete e.k}else{delete e.g;delete e.end;e.k=v?v.k||0:a.k||0}return}
     if(!AREAS[e.a])e.a="dinge";if(e.src==null||(e.src!==""&&!SRCS[e.src]))e.src=defSrc(e.a);
     if(e.g){e.g=1;e.y=cl(num(e.y,0),0,KMAX_Y);delete e.k}else{e.k=cl(num(e.k,0),0,KMAX_S);delete e.y}if((e.k||e.y)>0)e.est=1});
   S.checks.forEach(c=>{c.ts=cl(c.ts,st,t);if(c.ans){CHECK.forEach(q=>{const v=c.ans[q.id];c.ans[q.id]=Number.isInteger(v)&&v>=0&&v<q.o.length?v:0});if(!WOHNOK.includes(c.ans.wohn))delete c.ans.wohn;if(!hhOk(c.ans.hh))delete c.ans.hh;if(!hhOk(c.ans.hhr))delete c.ans.hhr;if(c.ans.wg!==0&&c.ans.wg!==1)delete c.ans.wg;const ts=c.ts;Object.assign(c,calcCheck(c.ans),{ts})}});
@@ -3074,7 +3185,9 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.ringm){monthSheet(+d.ringm);return}
   if(t.id==="home"){tab="home";anim=true;render();window.scrollTo({top:0,behavior:calm()?"auto":"smooth"});return}
   if(d.gotab){tab=d.gotab;anim=true;render();window.scrollTo(0,0);return}
-  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t,d.v);return}
+  if(d.log){if(d.close)closeSheet();logAct(d.log,e,t,d.v,d.q);return}
+  if(d.qopen){qOpen(t,e);return}
+  if(d.qs){qStep(+d.qs);return}
   if(d.actmenu){actMenu(d.actmenu);return}
   if(d.setbase){S.base[d.setbase]=now();save();momentFor("base");closeSheet();render();toast("Ist jetzt schon Alltag und wächst mit, ohne neue kg: Die stecken schon in deinem bisherigen Fußabdruck.",()=>{delete S.base[d.setbase];save();render()},true);checkMoments();return}
   if(d.unbase){delete S.base[d.unbase];save();closeSheet();render();toast("Wird wieder als Schritt angezeigt.");return}
@@ -3096,7 +3209,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button,a,[data-g
   if(d.carea){document.querySelectorAll("[data-carea]").forEach(b=>b.setAttribute("aria-pressed",b===t));if(!csrcTouched)csrcSet(defSrc(d.carea));return}
   if(d.csrc!=null){csrcTouched=true;csrcSet(d.csrc);return}
   if(d.ckind){document.querySelectorAll("[data-ckind]").forEach(b=>b.setAttribute("aria-pressed",b===t));return}
-  if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=Math.max(0,parseFloat(String($("#ckg").value).replace(",","."))||0);
+  if(t.id==="csave"){const tx=$("#ctext").value.trim();if(!tx){$("#ctext").focus();return}const a=(document.querySelector('[data-carea][aria-pressed="true"]')||{}).dataset?.carea||S.area,big=(document.querySelector('[data-ckind][aria-pressed="true"]')||{}).dataset?.ckind==="1",kg=qNum($("#ckg").value)||0;
     const sb=document.querySelector('[data-csrc][aria-pressed="true"]'),src=sb?sb.dataset.csrc:defSrc(a);
     const mx=big?KMAX_Y:KMAX_S,v=Math.min(kg,mx),cut=kg>mx;
     const en={id:uid(),act:"custom",a,t:tx,src,ts:now()};if(big){en.g=1;en.y=v;en.lt=en.ts}else en.k=v;if(v>0)en.est=1;if(a==="wir")en.w=1;S.log.push(en);save();momentFor(big?"big":"small");closeSheet();render();
